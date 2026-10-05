@@ -1,3 +1,4 @@
+import { avisar, confirmar } from '../components/Dialogs'
 import { useRef } from 'react'
 import { Icon } from '../components/Icon'
 import { PageHead } from '../components/ui'
@@ -40,9 +41,9 @@ export function Configuracoes() {
                   const j = JSON.parse(await f.text())
                   const data = (j.data ?? j) as DB
                   if (typeof data !== 'object' || Array.isArray(data)) throw new Error('formato')
-                  if (confirm('Substituir TODOS os dados atuais pelo backup?')) replaceAll(data)
+                  if (await confirmar('Substituir TODOS os dados atuais pelo backup?', { ok: 'Restaurar', danger: true })) replaceAll(data)
                 } catch {
-                  alert('Arquivo de backup inválido.')
+                  avisar('Arquivo de backup inválido.')
                 }
               }}
             />
@@ -54,16 +55,16 @@ export function Configuracoes() {
           <div className="row">
             <button
               className="btn danger"
-              onClick={() => {
-                if (confirm('Apagar TODOS os dados? Exporte um backup antes, se precisar.')) replaceAll({})
+              onClick={async () => {
+                if (await confirmar('Apagar TODOS os dados? Exporte um backup antes, se precisar.', { ok: 'Apagar tudo', danger: true })) replaceAll({})
               }}
             >
               <Icon name="trash" size={15} /> Apagar todos os dados
             </button>
             <button
               className="btn"
-              onClick={() => {
-                if (confirm('Substituir os dados atuais pelos dados de exemplo?')) replaceAll(buildSeed())
+              onClick={async () => {
+                if (await confirmar('Substituir os dados atuais pelos dados de exemplo?', { ok: 'Recarregar', danger: true })) replaceAll(buildSeed())
               }}
             >
               Recarregar exemplo

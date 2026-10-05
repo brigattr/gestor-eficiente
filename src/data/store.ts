@@ -1,3 +1,4 @@
+import { avisar } from '../components/Dialogs'
 import { useSyncExternalStore } from 'react'
 
 // Persistência local (navegador). Nada sai da máquina do usuário:
@@ -26,7 +27,7 @@ function persist() {
     localStorage.setItem(KEY, JSON.stringify(db))
   } catch (e) {
     console.error('Falha ao salvar dados locais', e)
-    alert('Não foi possível salvar no navegador (armazenamento cheio ou bloqueado). Exporte um backup.')
+    avisar('Não foi possível salvar no navegador (armazenamento cheio ou bloqueado). Exporte um backup.')
   }
   listeners.forEach((l) => l())
 }

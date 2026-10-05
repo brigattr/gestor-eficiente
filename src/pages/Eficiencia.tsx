@@ -1,3 +1,4 @@
+import { confirmar } from '../components/Dialogs'
 import { useMemo, useRef, useState } from 'react'
 import { Icon } from '../components/Icon'
 import { Bar, Chip, Kpi, PageHead } from '../components/ui'
@@ -104,10 +105,12 @@ export function Eficiencia() {
           type="file"
           accept=".csv,.txt"
           hidden
-          onChange={(e) => {
+          onChange={async (e) => {
             const f = e.target.files?.[0]
-            if (f) importar(f, tickets.length && confirm('Substituir os tickets atuais?\nOK = substituir · Cancelar = somar/atualizar pelo ticket_id') ? 'substituir' : 'somar')
             e.target.value = ''
+            if (!f) return
+            const subst = tickets.length > 0 && (await confirmar('Já existem tickets importados. O que fazer com o novo arquivo?', { ok: 'Substituir tudo', cancel: 'Somar / atualizar pelo ticket_id' }))
+            importar(f, subst ? 'substituir' : 'somar')
           }}
         />
       </PageHead>
@@ -151,8 +154,8 @@ export function Eficiencia() {
             <span className="grow" />
             <button
               className="btn sm danger"
-              onClick={() => {
-                if (confirm('Apagar todos os tickets importados?')) replaceAll({ ...getDB(), tickets: [] })
+              onClick={async () => {
+                if (await confirmar('Apagar todos os tickets importados?', { ok: 'Apagar', danger: true })) replaceAll({ ...getDB(), tickets: [] })
               }}
             >
               Limpar importação

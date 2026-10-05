@@ -1,3 +1,4 @@
+import { avisar } from '../components/Dialogs'
 import { useState } from 'react'
 import { Icon } from '../components/Icon'
 import { openEditor } from '../components/ItemForm'
@@ -29,7 +30,7 @@ export function OneOnOne() {
     setResp({})
     setAcordos('')
     setProxima('')
-    alert('Conversa registrada no histórico de ' + label('pessoas', get('pessoas', pessoa)))
+    avisar('Conversa registrada no histórico de ' + label('pessoas', get('pessoas', pessoa)))
   }
 
   return (

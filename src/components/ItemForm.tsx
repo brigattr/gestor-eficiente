@@ -1,3 +1,4 @@
+import { confirmar } from './Dialogs'
 import { useState, useSyncExternalStore } from 'react'
 import { MOD, type Field } from '../data/schema'
 import { get, list, remove, upsert, type Item } from '../data/store'
@@ -64,8 +65,8 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
           {existing && (
             <button
               className="btn danger"
-              onClick={() => {
-                if (confirm('Excluir este registro?')) {
+              onClick={async () => {
+                if (await confirmar('Excluir este registro?', { ok: 'Excluir', danger: true })) {
                   remove(col, existing.id)
                   onClose()
                 }

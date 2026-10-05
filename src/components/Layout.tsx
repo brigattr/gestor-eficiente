@@ -1,3 +1,4 @@
+import { DialogHost } from './Dialogs'
 import { useEffect, useState, type ReactNode } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { NAV } from '../nav'
@@ -69,6 +70,7 @@ export function Layout({ children }: { children: ReactNode }) {
       </div>
       {open && <div className="overlay" style={{ zIndex: 30, background: 'rgb(0 0 0 / .3)' }} onClick={() => setOpen(false)} />}
       <EditorHost />
+      <DialogHost />
     </div>
   )
 }

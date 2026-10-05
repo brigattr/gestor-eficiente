@@ -207,3 +207,4 @@ td.neg { color: var(--bad); } td.pos { color: var(--ok); }
 }
 label.field input, label.field select, label.field textarea { font-weight: 400; color: var(--text); }
 @media (max-width: 600px) { .hide-sm { display: none; } }
+.toast { position: fixed; z-index: 70; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); background: var(--brand); color: var(--brand-ink); padding: 10px 16px; border-radius: 10px; box-shadow: 0 8px 30px rgb(0 0 0 / .25); max-width: calc(100% - 32px); }
