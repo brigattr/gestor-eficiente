@@ -11,7 +11,7 @@ export function isDone(col: string, it: Item) {
   return sf ? DONE.test(String(it[sf] ?? '')) : false
 }
 
-export type CalEvent = { date: string; col: string; id: string; title: string; kind: string; done: boolean; path: string }
+export type CalEvent = { date: string; col: string; id: string; title: string; nome: string; kind: string; done: boolean; path: string; hora?: string; fim?: string; cancelada?: boolean }
 
 /** Todos os itens com prazo de todos os módulos, para o Calendário e a agenda. */
 export function allEvents(db: DB): CalEvent[] {
@@ -25,7 +25,21 @@ export function allEvents(db: DB): CalEvent[] {
         let title = label(m.col, it)
         if (m.personField && m.titleField !== m.personField) title = `${label('pessoas', get('pessoas', it[m.personField] as string))} – ${title}`
         if (m.col === 'reunioes' && it.hora) title = `${it.hora} ${title}`
-        out.push({ date: v.slice(0, 10), col: m.col, id: it.id, title, kind: d.label, done: isDone(m.col, it), path: m.path })
+        const reuniao = m.col === 'reunioes' && d.field === 'data'
+        out.push({
+          date: v.slice(0, 10),
+          col: m.col,
+          id: it.id,
+          title,
+          nome: reuniao ? String(it.titulo ?? '') : title,
+          kind: d.label,
+          // reunião "preparada" não é concluída: continua aparecendo no calendário
+          done: m.col === 'reunioes' ? false : isDone(m.col, it),
+          path: m.path,
+          hora: reuniao && typeof it.hora === 'string' && it.hora ? it.hora : undefined,
+          fim: reuniao && typeof it.horaFim === 'string' && it.horaFim ? it.horaFim : undefined,
+          cancelada: !!it.canceladaOutlook,
+        })
       }
     }
   }

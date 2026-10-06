@@ -102,7 +102,8 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
       }
     >
       <div className="modal-body">
-        {m.fields.map((f) => (
+        {col === 'reunioes' && <ReuniaoTopo v={v} />}
+        {camposVisiveis(col, m.fields, v).map((f) => (
           <label key={f.key} className={`field ${f.wide || f.type === 'textarea' || f.type === 'multiref' ? 'wide' : ''}`}>
             <span>
               {f.label}
@@ -116,6 +117,56 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
         <Attachments col={col} itemId={itemId} />
       </div>
     </Modal>
+  )
+}
+
+// ── Reuniões: dados do Outlook (somente leitura) separados das suas anotações
+const ANOTACOES = ['tipo', 'roteiro', 'pauta', 'materiais', 'preparado', 'decisoes']
+
+function camposVisiveis(col: string, fields: Field[], v: Record<string, unknown>) {
+  if (col !== 'reunioes') return fields
+  const porKey = (ks: string[]) => ks.map((k) => fields.find((f) => f.key === k)).filter(Boolean) as Field[]
+  if (v.origem === 'Outlook') return porKey(ANOTACOES)
+  // reunião criada aqui: dados básicos editáveis + anotações (sem os campos internos do Outlook)
+  return porKey(['titulo', 'data', 'hora', 'horaFim', 'local', 'participantes', ...ANOTACOES])
+}
+
+function ReuniaoTopo({ v }: { v: Record<string, unknown> }) {
+  if (v.origem !== 'Outlook') return null
+  const t = (k: string) => (v[k] == null || v[k] === '' ? null : String(v[k]))
+  const data = t('data')
+  return (
+    <>
+      <div className="wide card" style={{ background: 'var(--info-soft)', boxShadow: 'none', display: 'grid', gap: 6 }}>
+        <div className="row">
+          <Icon name="calendar" />
+          <b className="grow">Do Outlook</b>
+          {Boolean(v.canceladaOutlook) && <span className="chip bad">cancelada no Outlook</span>}
+          <span className="small muted">atualizado automaticamente</span>
+        </div>
+        <div style={{ fontWeight: 700, fontSize: 15 }}>{t('titulo')}</div>
+        <div className="small">
+          {data ? new Date(data + 'T12:00').toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' }) : ''}
+          {t('hora') ? ` · ${t('hora')}${t('horaFim') ? `–${t('horaFim')}` : ''}` : ' · dia inteiro'}
+          {t('local') ? ` · ${t('local')}` : ''}
+        </div>
+        {t('organizador') && <div className="small muted">Organizador: {t('organizador')}</div>}
+        {t('participantes') && <div className="small muted">Participantes: {t('participantes')}</div>}
+        {t('descricaoOutlook') && (
+          <details>
+            <summary className="small" style={{ cursor: 'pointer' }}>
+              Ver convite
+            </summary>
+            <div className="small pre" style={{ maxHeight: 200, overflow: 'auto', marginTop: 4 }}>
+              {t('descricaoOutlook')}
+            </div>
+          </details>
+        )}
+      </div>
+      <h3 className="wide" style={{ margin: '4px 0 -4px' }}>
+        Minhas anotações
+      </h3>
+    </>
   )
 }
 
