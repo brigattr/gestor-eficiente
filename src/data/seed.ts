@@ -221,7 +221,26 @@ export function buildSeed(): DB {
     }
   })
 
+  // Etiquetas de exemplo e alguns itens marcados
+  const etiquetas: Item[] = [
+    { id: 'tg1', nome: 'Reforma Tributária', cor: 'Laranja', descricao: 'Tudo da transição CBS/IBS' },
+    { id: 'tg2', nome: 'Matriz', cor: 'Azul', descricao: 'Pedidos e reportes para o grupo' },
+    { id: 'tg3', nome: 'Auditoria 2026', cor: 'Roxo', descricao: 'Pendências com a auditoria externa' },
+  ]
+  const marcar = (rows: Item[], ids: string[], tag: string) => rows.filter((r) => ids.includes(r.id)).forEach((r) => (r.etiquetas = [...((r.etiquetas as string[]) ?? []), tag]))
+  marcar(projetos, ['pr3'], 'tg1')
+  marcar(tarefas, ['t3'], 'tg1')
+  marcar(krs, ['k4'], 'tg1')
+  marcar(treinoInterno, ['ti1'], 'tg1')
+  marcar(incentivos, ['in8'], 'tg1')
+  marcar(tarefas, ['t1'], 'tg2')
+  marcar(reunioes, ['r2'], 'tg2')
+  marcar(incentivos, ['in1', 'in2'], 'tg2')
+  marcar(tarefas, ['t5'], 'tg3')
+  marcar(projetos, ['pr4'], 'tg3')
+
   return {
+    etiquetas,
     tickets,
     cargos, centrosCusto: cc, pessoas, competencias, mapaCompetencias: mapa, incentivos, objetivos, krs, projetos, tarefas, reunioes,
     budget, despesas, ferias, exames, certificacoes, ocorrencias, avaliacoes, pdis, onboarding, feedbacks, ponto, vagas, candidatos,

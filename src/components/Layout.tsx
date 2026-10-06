@@ -7,6 +7,9 @@ import { useAlerts } from '../lib/alerts'
 import { Icon } from './Icon'
 import { EditorHost } from './ItemForm'
 import { Logo } from './Logo'
+import { corEtiqueta } from './Tags'
+import { itensDaEtiqueta } from '../pages/Etiquetas'
+import { useDB } from '../data/store'
 import { logout } from '../lib/auth'
 import { useUser } from '../pages/Login'
 
@@ -25,7 +28,7 @@ export function Layout({ children }: { children: ReactNode }) {
     setPref('theme', theme)
   }, [theme])
 
-  const title = NAV.flatMap((g) => g.items).find((i) => '/' + i.path === loc.pathname || (i.path && loc.pathname.startsWith('/' + i.path + '/')))?.label ?? 'Visão geral'
+  const title = NAV.flatMap((g) => g.items).find((i) => '/' + i.path === loc.pathname || (i.path && loc.pathname.startsWith('/' + i.path + '/')))?.label ?? (loc.pathname.startsWith('/etiquetas') ? 'Etiquetas' : 'Visão geral')
 
   return (
     <div className="app">
@@ -41,6 +44,7 @@ export function Layout({ children }: { children: ReactNode }) {
                 {i.path === '' && alerts.length > 0 && <span className="nav-badge">{alerts.length}</span>}
               </NavLink>
             ))}
+            {g.group === 'Visão' && <MenuEtiquetas fechar={() => setOpen(false)} />}
           </div>
         ))}
       </aside>
@@ -80,5 +84,30 @@ export function Layout({ children }: { children: ReactNode }) {
       <EditorHost />
       <DialogHost />
     </div>
+  )
+}
+
+/** Grupo "Etiquetas" do menu: cada etiqueta ativa com a contagem de itens em aberto. */
+function MenuEtiquetas({ fechar }: { fechar: () => void }) {
+  const db = useDB()
+  const tags = (db.etiquetas ?? []).filter((t) => !t.arquivada).sort((a, b) => String(a.nome).localeCompare(String(b.nome)))
+  return (
+    <>
+      <div className="nav-group">Etiquetas</div>
+      {tags.map((t) => {
+        const n = itensDaEtiqueta(db, t.id).filter((x) => !x.done).length
+        return (
+          <NavLink key={t.id} to={`/etiquetas/${t.id}`} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={fechar}>
+            <span className="nav-tag-dot" style={{ background: corEtiqueta(t.id) }} />
+            {String(t.nome)}
+            {n > 0 && <span className="nav-count">{n}</span>}
+          </NavLink>
+        )
+      })}
+      <NavLink to="/etiquetas" end className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={fechar}>
+        <Icon name="tag" size={17} />
+        {tags.length ? 'Configurar etiquetas' : 'Criar etiquetas'}
+      </NavLink>
+    </>
   )
 }

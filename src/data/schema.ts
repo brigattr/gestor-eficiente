@@ -718,6 +718,32 @@ export const MODULES: ModuleDef[] = [
   },
 ]
 
+// ───────── Etiquetas: cadastro + campo disponível em todos os módulos
+export const CORES_ETIQUETA: Record<string, string> = {
+  Azul: '#2a5caa', Marinho: '#1d3f86', Amarelo: '#d9a400', Laranja: '#d9731a', Vermelho: '#c93c3c', Rosa: '#c2457a',
+  Roxo: '#7b5fc4', Verde: '#17885c', Turquesa: '#16897f', Cinza: '#6b7a99',
+}
+MODULES.push({
+  col: 'etiquetas',
+  path: 'etiquetas',
+  title: 'Etiquetas',
+  singular: 'Etiqueta',
+  group: 'Sistema',
+  icon: 'tag',
+  description: 'Temas que atravessam os módulos (ex.: Auditoria 2026, Reforma Tributária, Matriz). Marque tarefas, reuniões, projetos e o que mais quiser, e veja tudo do tema no menu Etiquetas.',
+  titleField: 'nome',
+  fields: [
+    { key: 'nome', label: 'Nome', type: 'text', required: true },
+    { key: 'cor', label: 'Cor', type: 'select', options: Object.keys(CORES_ETIQUETA), default: 'Azul' },
+    { key: 'descricao', label: 'Para que serve', type: 'textarea', wide: true },
+    { key: 'arquivada', label: 'Arquivada (some do menu)', type: 'bool' },
+  ],
+  columns: ['nome', 'cor', 'descricao', 'arquivada'],
+  hidden: true,
+})
+const CAMPO_ETIQUETAS: Field = { key: 'etiquetas', label: 'Etiquetas', type: 'multiref', ref: 'etiquetas', wide: true }
+for (const m of MODULES) if (m.col !== 'etiquetas') m.fields.push(CAMPO_ETIQUETAS)
+
 export const MOD: Record<string, ModuleDef> = Object.fromEntries(MODULES.map((m) => [m.col, m]))
 
 export function field(col: string, key: string): Field | undefined {

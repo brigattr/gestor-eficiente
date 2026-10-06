@@ -39,7 +39,12 @@ export function ModulePage({ col, extraViews = [], defaultView, above, actions, 
     const s = q.trim().toLowerCase()
     return all.filter((it) => {
       if (where && !where(it)) return false
-      for (const [k, val] of Object.entries(flt)) if (val && String(it[k] ?? '') !== val) return false
+      for (const [k, val] of Object.entries(flt)) {
+        if (!val) continue
+        if (k === 'etiquetas') {
+          if (!(Array.isArray(it.etiquetas) && it.etiquetas.includes(val))) return false
+        } else if (String(it[k] ?? '') !== val) return false
+      }
       if (!s) return true
       return m.fields.some((f) => cellText(col, f.key, it).toLowerCase().includes(s))
     })
@@ -82,6 +87,18 @@ export function ModulePage({ col, extraViews = [], defaultView, above, actions, 
               </select>
             )
           })}
+          {col !== 'etiquetas' && list('etiquetas').length > 0 && (
+            <select style={{ maxWidth: 190 }} value={flt.etiquetas ?? ''} onChange={(e) => setFlt({ ...flt, etiquetas: e.target.value })}>
+              <option value="">Etiqueta: todas</option>
+              {list('etiquetas')
+                .filter((t) => !t.arquivada)
+                .map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {String(t.nome)}
+                  </option>
+                ))}
+            </select>
+          )}
           <span className="grow" />
           <span className="muted small">{rows.length} registro(s)</span>
           {embedded && (

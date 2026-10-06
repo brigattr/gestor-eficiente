@@ -457,7 +457,7 @@ async function statusCalendario(env: Env) {
   return { configurado: !!link, host, ultima: st ? (JSON.parse(st) as StatusCal) : null }
 }
 
-const CAMPOS_USUARIO = ['preparado', 'pauta', 'materiais', 'decisoes', 'roteiro']
+const CAMPOS_USUARIO = ['preparado', 'pauta', 'materiais', 'decisoes', 'roteiro', 'etiquetas']
 
 async function sincronizarCalendario(env: Env, link: string) {
   const salvarStatus = (st: StatusCal) =>
@@ -511,7 +511,7 @@ async function sincronizarCalendario(env: Env, link: string) {
     if (vistos.has(id)) continue
     const dia = String(ant.data ?? '')
     if (dia < deDia || dia > ateDia) continue
-    const anotada = CAMPOS_USUARIO.some((k) => ant[k] && ant[k] !== '')
+    const anotada = CAMPOS_USUARIO.some((k) => (Array.isArray(ant[k]) ? (ant[k] as unknown[]).length > 0 : !!ant[k] && ant[k] !== ''))
     if (anotada) {
       if (!ant.canceladaOutlook) put(id, { ...ant, canceladaOutlook: true, _updated: t, _updatedBy: 'Outlook' })
     } else stmts.push(env.DB.prepare("UPDATE items SET deleted = 1, updated_at = ? WHERE col = 'reunioes' AND id = ?").bind(t, id))

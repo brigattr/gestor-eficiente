@@ -58,6 +58,8 @@ Para levar dados de um uso anterior em modo local: exporte o backup `.zip` lá e
 
 - **Anexos** em qualquer registro: arraste arquivos ou e-mails salvos do Outlook (`.msg`/`.eml`). O sistema lê assunto, remetente, data e um resumo. Em **Tarefas**, soltar um e-mail cria a tarefa de follow-up com o e-mail anexado.
 - **Anexos e e-mails** (menu Sistema) busca em todos os anexos.
+- **Etiquetas**: crie temas (ex.: Auditoria 2026) e marque qualquer registro; o menu *Etiquetas* mostra tudo de cada tema, por origem, com pendências e lembretes por data.
+- **Calendário do Outlook**: em *Reuniões*, cole o link ICS publicado; o calendário tem visões Dia, Semana de trabalho, Semana, Mês e Agenda.
 - **Backup completo** (.zip com dados e anexos) em Configurações. O D1 também mantém recuperação automática de 30 dias (*Time Travel*).
 
 ## Rodar localmente

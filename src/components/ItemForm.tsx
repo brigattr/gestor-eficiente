@@ -1,10 +1,11 @@
 import { confirmar } from './Dialogs'
 import { useState, useSyncExternalStore } from 'react'
-import { MOD, type Field } from '../data/schema'
+import { CORES_ETIQUETA, MOD, type Field } from '../data/schema'
 import { get, getDB, list, remove, uid, upsert, type Item } from '../data/store'
 import { bonus } from '../lib/incentive'
 import { deleteFilesOf } from '../lib/files'
 import { Attachments } from './Attachments'
+import { corEtiqueta } from './Tags'
 import { label, pct } from '../lib/format'
 import { Icon } from './Icon'
 import { Modal } from './ui'
@@ -121,7 +122,7 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
 }
 
 // ── Reuniões: dados do Outlook (somente leitura) separados das suas anotações
-const ANOTACOES = ['tipo', 'roteiro', 'pauta', 'materiais', 'preparado', 'decisoes']
+const ANOTACOES = ['tipo', 'roteiro', 'pauta', 'materiais', 'preparado', 'decisoes', 'etiquetas']
 
 function camposVisiveis(col: string, fields: Field[], v: Record<string, unknown>) {
   if (col !== 'reunioes') return fields
@@ -276,6 +277,7 @@ function Input({ f, value, onChange, selfId }: { f: Field; value: unknown; onCha
       )
     }
     case 'multiref': {
+      if (f.ref === 'etiquetas') return <SeletorEtiquetas value={(value as string[]) ?? []} onChange={onChange} />
       const sel = new Set((value as string[]) ?? [])
       return (
         <div className="row" style={{ gap: 6 }}>
@@ -303,3 +305,53 @@ function Input({ f, value, onChange, selfId }: { f: Field; value: unknown; onCha
   }
 }
 
+
+/** Escolha de etiquetas, com criação rápida de uma nova. */
+function SeletorEtiquetas({ value, onChange }: { value: string[]; onChange: (v: unknown) => void }) {
+  const [nova, setNova] = useState('')
+  const sel = new Set(value)
+  const todas = list('etiquetas').filter((t) => !t.arquivada || sel.has(t.id))
+  function alternar(id: string) {
+    const n = new Set(sel)
+    if (n.has(id)) n.delete(id)
+    else n.add(id)
+    onChange([...n])
+  }
+  function criar() {
+    const nome = nova.trim()
+    if (!nome) return
+    const existe = list('etiquetas').find((t) => String(t.nome).toLowerCase() === nome.toLowerCase())
+    const t = existe ?? upsert('etiquetas', { nome, cor: Object.keys(CORES_ETIQUETA)[list('etiquetas').length % 10] })
+    if (t) onChange([...new Set([...value, t.id])])
+    setNova('')
+  }
+  return (
+    <div className="stack" style={{ gap: 6 }}>
+      <div className="row" style={{ gap: 6 }}>
+        {todas.map((t) => (
+          <span key={t.id} className={`tag ${sel.has(t.id) ? '' : 'off'}`} style={{ ['--tag' as string]: corEtiqueta(t.id), cursor: 'pointer' }} onClick={() => alternar(t.id)}>
+            {sel.has(t.id) ? '✓ ' : ''}
+            {String(t.nome)}
+          </span>
+        ))}
+        {!todas.length && <span className="small muted" style={{ fontWeight: 400 }}>Nenhuma etiqueta criada ainda.</span>}
+      </div>
+      <div className="row" style={{ flexWrap: 'nowrap', maxWidth: 360 }}>
+        <input
+          placeholder="Nova etiqueta…"
+          value={nova}
+          onChange={(e) => setNova(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              criar()
+            }
+          }}
+        />
+        <button type="button" className="btn sm" onClick={criar} disabled={!nova.trim()}>
+          Criar
+        </button>
+      </div>
+    </div>
+  )
+}

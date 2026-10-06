@@ -3,6 +3,7 @@ import { MOD, field } from '../data/schema'
 import { upsert, type Item } from '../data/store'
 import { MES_CURTO, VIRTUALS, addDays, daysUntil, display, label, parseISO, todayISO } from '../lib/format'
 import { openEditor } from './ItemForm'
+import { TagChips } from './Tags'
 import { countFor, useFileIndex } from '../lib/files'
 import { Chip } from './ui'
 
@@ -41,6 +42,7 @@ function dateCls(col: string, key: string, it: Item) {
 export function Cell({ col, k, it }: { col: string; k: string; it: Item }) {
   const f = field(col, k)
   const txt = cellText(col, k, it)
+  if (k === 'etiquetas') return <TagChips ids={it.etiquetas} />
   if (f && (k === MOD[col].statusField || f.key === 'tipo' || f.key === 'status')) return <Chip v={txt === '—' ? null : txt} />
   if (f?.type === 'percent' && typeof it[k] === 'number') return <span className="num">{txt}</span>
   if (f?.type === 'rating') return <span style={{ color: 'var(--accent)' }}>{txt === '—' ? '' : txt}</span>
@@ -55,7 +57,8 @@ export function Cell({ col, k, it }: { col: string; k: string; it: Item }) {
 
 export function Table({ col, rows, columns }: { col: string; rows: Item[]; columns?: string[] }) {
   const m = MOD[col]
-  const cols = columns ?? m.columns
+  const temTag = rows.some((r) => Array.isArray(r.etiquetas) && r.etiquetas.length)
+  const cols = [...(columns ?? m.columns), ...(temTag && !(columns ?? m.columns).includes('etiquetas') ? ['etiquetas'] : [])]
   const [sort, setSort] = useState<{ k: string; dir: 1 | -1 } | null>(null)
   const fidx = useFileIndex()
   const sorted = useMemo(() => {
@@ -140,6 +143,7 @@ export function Kanban({ col, rows, by, preset }: { col: string; rows: Item[]; b
                   {label(col, it)}
                   {countFor(fidx, col, it.id) > 0 && <span className="clip"> 📎{countFor(fidx, col, it.id)}</span>}
                 </span>
+                <TagChips ids={it.etiquetas} />
                 {secondary.map((k) => {
                   const t = cellText(col, k, it)
                   if (t === '—' || t === 'Não') return null
