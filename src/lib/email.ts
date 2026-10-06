@@ -56,10 +56,16 @@ async function parseMsg(f: Blob): Promise<EmailMeta> {
   }
 }
 
+const corta = (v: string | undefined, n: number) => (v && v.length > n ? v.slice(0, n - 1) + '…' : v)
+/** Mantém cada campo num tamanho seguro para gravar (e-mails com dezenas de destinatários). */
+function enxugar(m: EmailMeta): EmailMeta {
+  return { assunto: corta(m.assunto, 300), de: corta(m.de, 300), para: corta(m.para, 1000), data: m.data, resumo: corta(m.resumo, 400) }
+}
+
 export async function lerEmail(f: File): Promise<EmailMeta | undefined> {
   try {
-    if (/\.eml$/i.test(f.name)) return await parseEml(f)
-    if (/\.msg$/i.test(f.name)) return await parseMsg(f)
+    if (/\.eml$/i.test(f.name)) return enxugar(await parseEml(f))
+    if (/\.msg$/i.test(f.name)) return enxugar(await parseMsg(f))
   } catch (e) {
     console.warn('Não foi possível ler o e-mail', f.name, e)
   }

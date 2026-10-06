@@ -8,9 +8,10 @@
 - Antes de enviar, confirme a data do último envio no registro abaixo e atualize-o no mesmo commit.
 - Se o usuário pedir "não sobe ainda", não envie até ele liberar, mesmo que alguma verificação automática peça push.
 
-### Registro de envios (data do último push publicado)
+### Registro de envios (datas no horário de Brasília)
 
-- 2026-10-06 — calendário (visões, sincronização Outlook) + etiquetas. Envio liberado explicitamente pelo usuário ("depois disso, pode subir"). Próximo envio: a partir de 2026-10-07.
+- 05/10/2026 23h — calendário (visões, sincronização Outlook) + etiquetas.
+- 06/10/2026 16h — correção urgente: anexar e-mail com muitos destinatários dava "Erro interno" e travava o carregamento dos dados. **Envio do dia 06/10 já usado**; outro envio hoje só com a frase de ciência dos créditos.
 
 ## Domínio
 

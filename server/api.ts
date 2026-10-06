@@ -291,7 +291,7 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
       const id = (req.headers.get('x-file-id') ?? '').match(/^[a-z0-9]{6,40}$/i)?.[0] ?? rand(12)
       const name = decodeURIComponent(req.headers.get('x-file-name') ?? 'arquivo').slice(0, 250)
       const type = req.headers.get('content-type') ?? 'application/octet-stream'
-      const meta = req.headers.get('x-file-meta') ? decodeURIComponent(req.headers.get('x-file-meta')!).slice(0, 4000) : null
+      const meta = limparMeta(req.headers.get('x-file-meta'))
       const added = req.headers.get('x-file-added') ?? now()
       const by = req.headers.get('x-file-by') ? decodeURIComponent(req.headers.get('x-file-by')!) : u.nome
       const obj = await env.FILES.put(id, req.body, { httpMetadata: { contentType: type } })
@@ -345,7 +345,38 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
 }
 
 type FileRow = { id: string; col: string; item_id: string; name: string; type: string | null; size: number; added: string; by: string | null; meta: string | null }
-const fileOut = (f: FileRow) => ({ id: f.id, col: f.col, itemId: f.item_id, name: f.name, type: f.type ?? '', size: f.size, added: f.added, by: f.by ?? undefined, meta: f.meta ? JSON.parse(f.meta) : undefined })
+const fileOut = (f: FileRow) => ({ id: f.id, col: f.col, itemId: f.item_id, name: f.name, type: f.type ?? '', size: f.size, added: f.added, by: f.by ?? undefined, meta: lerMeta(f.meta) })
+
+/** Lê metadados gravados; um registro antigo corrompido não pode derrubar o carregamento. */
+function lerMeta(m: string | null): Record<string, string> | undefined {
+  if (!m) return undefined
+  try {
+    const o = JSON.parse(m)
+    return o && typeof o === 'object' ? o : undefined
+  } catch {
+    return undefined
+  }
+}
+
+// Limites por campo dos dados de e-mail (assunto, remetente, destinatários, resumo)
+const LIM_META: Record<string, number> = { assunto: 300, de: 300, para: 1000, data: 40, resumo: 400 }
+/** Valida e encurta campo a campo (nunca corta o JSON no meio). */
+function limparMeta(h: string | null): string | null {
+  if (!h) return null
+  let o: unknown
+  try {
+    o = JSON.parse(decodeURIComponent(h))
+  } catch {
+    return null
+  }
+  if (!o || typeof o !== 'object') return null
+  const out: Record<string, string> = {}
+  for (const [k, lim] of Object.entries(LIM_META)) {
+    const v = (o as Record<string, unknown>)[k]
+    if (typeof v === 'string' && v) out[k] = v.length > lim ? v.slice(0, lim - 1) + '…' : v
+  }
+  return Object.keys(out).length ? JSON.stringify(out) : null
+}
 
 // ───────── autenticação
 async function setup(req: Request, env: Env) {
