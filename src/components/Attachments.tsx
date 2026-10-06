@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { addFiles, deleteFile, filesFor, fmtSize, openFile, useFileIndex, type FileMeta } from '../lib/files'
+import { limparResumo } from '../lib/email'
 import { confirmar } from './Dialogs'
 import { Icon } from './Icon'
 
@@ -7,6 +8,7 @@ const ext = (n: string) => (n.split('.').pop() ?? '').toUpperCase().slice(0, 4)
 
 export function FileRow({ f, onRemove, context }: { f: FileMeta; onRemove?: () => void; context?: React.ReactNode }) {
   const email = f.meta?.assunto || f.meta?.de
+  const resumo = limparResumo(f.meta?.resumo)
   return (
     <div className="file">
       <span className={`file-ext ${email ? 'mail' : ''}`}>{email ? '✉' : ext(f.name)}</span>
@@ -28,7 +30,7 @@ export function FileRow({ f, onRemove, context }: { f: FileMeta; onRemove?: () =
           )}
           {context}
         </div>
-        {f.meta?.resumo && <div className="small muted file-resumo">{f.meta.resumo}</div>}
+        {resumo && <div className="small muted file-resumo">{resumo}</div>}
       </div>
       <button className="btn ghost sm" onClick={() => openFile(f.id)} title="Abrir">
         <Icon name="link" size={14} />
