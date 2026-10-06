@@ -3,7 +3,7 @@ import { avisar, confirmar } from '../components/Dialogs'
 import { Icon } from '../components/Icon'
 import { openEditor } from '../components/ItemForm'
 import { Bar, Chip, Kpi, Modal, PageHead, useLocalState } from '../components/ui'
-import { getDB, getPref, replaceAll, setPref, uid, upsert, useList, type Item } from '../data/store'
+import { bulk, getPref, setPref, uid, upsert, useList, type Item } from '../data/store'
 import { MES_CURTO, downloadFile, parseCSV, pct, toCSV, toNumber } from '../lib/format'
 import { CAMPOS, SLA_PADRAO, autoMap, dataConclusao, detectFmt, diasUteis, isCancel, isClosed, norm, slaDe, toDateTime, type FmtData } from '../lib/tickets'
 import { canWrite } from '../lib/session'
@@ -273,7 +273,7 @@ export function Eficiencia() {
               <button
                 className="btn sm danger"
                 onClick={async () => {
-                  if (await confirmar('Apagar todos os tickets importados?', { ok: 'Apagar', danger: true })) replaceAll({ ...getDB(), tickets: [] })
+                  if (await confirmar('Apagar todos os tickets importados?', { ok: 'Apagar', danger: true })) void bulk('tickets', [], true)
                 }}
               >
                 Limpar importação
@@ -453,10 +453,7 @@ function Mapeamento({ raw, onClose }: { raw: Raw; onClose: () => void }) {
 
   function importar() {
     const novos = converter().map((t) => ({ ...t, id: String(t.id) }))
-    const atual = modo === 'substituir' ? [] : (getDB().tickets ?? [])
-    const m = new Map(atual.map((t) => [t.id, t]))
-    novos.forEach((t) => m.set(t.id, t))
-    replaceAll({ ...getDB(), tickets: [...m.values()] })
+    void bulk('tickets', novos, modo === 'substituir')
     const maps = getPref<Record<string, Record<string, number>>>('tk:maps', {})
     setPref('tk:maps', { ...maps, [sig]: map })
     avisar(`${novos.length} ticket(s) importado(s) de ${raw.nome}.`)

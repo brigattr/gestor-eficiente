@@ -4,7 +4,7 @@ import { Icon } from '../components/Icon'
 import { ModulePage } from '../components/ModulePage'
 import { Kpi, Modal, PageHead, useLocalState } from '../components/ui'
 import { CONTAS } from '../data/schema'
-import { getDB, replaceAll, uid, useDB, type Item } from '../data/store'
+import { bulk, getDB, remove, uid, useDB, type Item } from '../data/store'
 import { budgetVsReal, ytd, type BvR } from '../lib/calc'
 import { MES_CURTO, downloadFile, label, money, parseCSV, pct, toCSV, toNumber } from '../lib/format'
 
@@ -197,10 +197,10 @@ function Distribuir({ ano, onClose }: { ano: number; onClose: () => void }) {
   const [subst, setSubst] = useState(true)
   function aplicar() {
     const mensal = modo === 'anual' ? valor / 12 : valor
-    let budget = db.budget ?? []
-    if (subst) budget = budget.filter((b) => !(b.centroCusto === cc && Number(b.ano) === ano && b.conta === conta))
+    const velhas = subst ? (db.budget ?? []).filter((b) => b.centroCusto === cc && Number(b.ano) === ano && b.conta === conta) : []
     const novas = Array.from({ length: 12 }, (_, i) => ({ id: uid(), centroCusto: cc, ano, mes: String(i + 1), conta, valor: Math.round(mensal * 100) / 100 }))
-    replaceAll({ ...db, budget: [...budget, ...novas] })
+    velhas.forEach((v) => remove('budget', v.id))
+    void bulk('budget', novas)
     onClose()
   }
   return (
@@ -279,7 +279,8 @@ function ImportCSV() {
       const it: Item = { id: uid(), centroCusto: cc.id, ano: Number(g('ano')), mes: String(Number(g('mes'))), conta: CONTAS.includes(g('conta')) ? g('conta') : 'Outros', descricao: g('descricao') || 'Importado', fornecedor: g('fornecedor'), valor: toNumber(g('valor')) ?? 0, documento: g('documento'), po: g('po') }
       add[/^b/i.test(g('tipo')) ? 'budget' : 'despesas'].push(it)
     })
-    replaceAll({ ...db, budget: [...(db.budget ?? []), ...add.budget], despesas: [...(db.despesas ?? []), ...add.despesas] })
+    if (add.budget.length) await bulk('budget', add.budget)
+    if (add.despesas.length) await bulk('despesas', add.despesas)
     setMsg(`Importado: ${add.despesas.length} realizado(s), ${add.budget.length} linha(s) de budget.${erros.length ? ' Ignoradas: ' + erros.slice(0, 5).join('; ') + (erros.length > 5 ? '…' : '') : ''}`)
   }
   return (

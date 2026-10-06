@@ -39,6 +39,6 @@ export async function lerBackup(f: File): Promise<{ data: DB; files: StoredFile[
 }
 
 export async function restaurar(b: { data: DB; files: StoredFile[] | null }) {
-  replaceAll(b.data, !b.data.usuarios?.length)
+  await replaceAll(b.data, !b.data.usuarios?.length)
   if (b.files) await restoreFiles(b.files)
 }

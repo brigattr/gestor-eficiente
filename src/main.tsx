@@ -13,16 +13,24 @@ import { getPref, initStore, isEmpty, replaceAll, setPref } from './data/store'
 import { restoreSession } from './lib/auth'
 import { initFiles } from './lib/files'
 import { persistir } from './lib/idb'
+import { detectarModo } from './lib/api'
+import { configurarServidor } from './lib/sync'
 
 async function boot() {
-  await Promise.all([initStore(), initFiles()])
-  // Primeiro acesso: carrega dados de exemplo para explorar o sistema
-  if (isEmpty() && !getPref('seeded', false)) {
-    replaceAll(buildSeed())
-    setPref('seeded', true)
+  // Com a API do Cloudflare disponível, os dados ficam no servidor; senão, no navegador
+  if ((await detectarModo()) === 'servidor') {
+    configurarServidor()
+    await restoreSession()
+  } else {
+    await Promise.all([initStore(), initFiles()])
+    // Primeiro acesso local: dados de exemplo para explorar o sistema
+    if (isEmpty() && !getPref('seeded', false)) {
+      void replaceAll(buildSeed())
+      setPref('seeded', true)
+    }
+    await restoreSession()
+    void persistir()
   }
-  restoreSession()
-  void persistir()
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <HashRouter>

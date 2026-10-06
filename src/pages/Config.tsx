@@ -4,6 +4,7 @@ import { exportarZip, lerBackup, restaurar } from '../lib/backup'
 import { fmtSize, restoreFiles, useFileIndex } from '../lib/files'
 import { uso } from '../lib/idb'
 import { isAdmin } from '../lib/session'
+import { servidor } from '../lib/api'
 import { Icon } from '../components/Icon'
 import { PageHead } from '../components/ui'
 import { buildSeed } from '../data/seed'
@@ -22,7 +23,7 @@ export function Configuracoes() {
 
   return (
     <>
-      <PageHead title="Configurações e dados" desc="Os dados ficam salvos apenas neste navegador, neste computador. Faça backups regulares e guarde no OneDrive/SharePoint da empresa." />
+      <PageHead title="Configurações e dados" desc="Backup completo (dados e anexos), restauração e dados de exemplo." />
       <div className="grid g2">
         <div className="card stack">
           <h2>Backup</h2>
@@ -75,15 +76,15 @@ export function Configuracoes() {
           </div>
           <span className="small muted">O .zip contém os dados e todos os anexos. Guarde no OneDrive/SharePoint corporativo, não em e-mail pessoal.</span>
         </div>
-        <div className="card stack">
+        {isAdmin() && <div className="card stack">
           <h2>Dados de exemplo</h2>
-          <span className="muted small">O sistema começou com dados fictícios para você explorar. Quando for usar de verdade, apague tudo e comece seu cadastro (centros de custo → cargos → time).</span>
+          <span className="muted small">Dados fictícios para explorar o sistema. Antes do uso real, apague tudo e comece o cadastro (centros de custo → cargos → time).</span>
           <div className="row">
             <button
               className="btn danger"
               onClick={async () => {
                 if (await confirmar('Apagar TODOS os dados e anexos? Os usuários são mantidos. Exporte um backup antes, se precisar.', { ok: 'Apagar tudo', danger: true })) {
-                  replaceAll({})
+                  await replaceAll({})
                   await restoreFiles([])
                 }
               }}
@@ -96,14 +97,16 @@ export function Configuracoes() {
                 if (await confirmar('Substituir os dados atuais pelos dados de exemplo?', { ok: 'Recarregar', danger: true })) replaceAll(buildSeed())
               }}
             >
-              Recarregar exemplo
+              Carregar dados de exemplo
             </button>
           </div>
-        </div>
+        </div>}
         <div className="card stack">
           <h2>Privacidade</h2>
           <span className="small">
-            Nenhum dado é enviado para servidores: salários, avaliações, ocorrências e anexos ficam no armazenamento local (IndexedDB) deste navegador, mesmo com o site hospedado no seu domínio. Limpar os dados de navegação ou trocar de computador/perfil apaga esta base, por isso o backup .zip é importante.
+            {servidor()
+              ? 'Dados no banco D1 e anexos no R2, na sua conta Cloudflare, acessados só por HTTPS e com login. O Cloudflare mantém cópias de recuperação do banco (Time Travel, 30 dias); mesmo assim exporte o backup .zip periodicamente.'
+              : 'Modo local: dados e anexos ficam no armazenamento deste navegador (IndexedDB). Limpar os dados de navegação ou trocar de computador apaga esta base, por isso o backup .zip é importante.'}
           </span>
         </div>
         <div className="card stack">

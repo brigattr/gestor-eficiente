@@ -14,39 +14,60 @@ Sistema de gestão de time, atividades, projetos e controles para a liderança d
 | Controles | Despesas × budget por centro de custo/conta/mês/ano (forecast, importação CSV do ERP, distribuição anual) · Centros de custo · Checklist de fechamento mensal |
 | Conhecimento | Tabela periódica da gestão · Gestão ágil (6 peças) · Liderando um time novo · Gestão × microgestão |
 
-## Acesso, usuários e anexos
+## Arquitetura
 
-- **Login**: no primeiro acesso você cria o administrador e recebe um **código de recuperação** (guarde). Perfis: Administrador, Gestor e Leitura. Senhas guardadas só como hash PBKDF2. Bloqueio automático por inatividade (padrão 30 min).
-- **Anexos** em qualquer registro (tarefa, projeto, reunião, ocorrência…): arraste arquivos ou e-mails salvos do Outlook (`.msg`/`.eml`). O sistema lê assunto, remetente, data e um resumo. Em **Tarefas**, soltar um e-mail cria a tarefa de follow-up com o e-mail anexado.
+| Parte | Onde roda | O que guarda |
+| --- | --- | --- |
+| Interface (React) | Cloudflare Pages | — |
+| API `/api/*` (`server/api.ts`, via `functions/api/[[path]].ts`) | Cloudflare Pages Functions | login, permissões, sincronização |
+| Banco **D1** (binding `DB`) | Cloudflare | registros de todos os módulos, usuários, sessões, metadados dos anexos |
+| Bucket **R2** (binding `FILES`) | Cloudflare | conteúdo dos anexos e e-mails |
+
+Os dados ficam no servidor e você acessa de qualquer computador com usuário e senha. As tabelas do D1 são criadas automaticamente no primeiro acesso. Sem a API (por exemplo, abrindo só o `dist/` num servidor estático), o sistema funciona em **modo local**, guardando tudo no navegador.
+
+## Segurança
+
+- Login com sessão em cookie `HttpOnly`/`Secure`/`SameSite=Strict`; senhas em PBKDF2-SHA256 com salt; 5 senhas erradas bloqueiam o usuário por 15 min.
+- Primeiro administrador só é criado com a **chave de instalação** (`SETUP_TOKEN`), e só enquanto não houver usuário.
+- Perfis conferidos no servidor: Administrador (tudo + usuários + restaurar backup), Gestor (cria/edita) e Leitura (consulta).
+- Toda gravação exige um cabeçalho próprio (proteção contra CSRF). Cada registro guarda quem criou e quem alterou.
+- Recomendado: deixar este repositório **privado** e, para uma camada extra, ativar o **Cloudflare Access** (Zero Trust, grátis até 50 usuários) pedindo um código por e-mail antes da tela de login.
+
+## Publicar no Cloudflare (chiefdeck.com.br)
+
+1. **Domínio no Cloudflare**: *Add a site* → `chiefdeck.com.br` (plano Free). No Registro.br, troque os servidores DNS pelos dois nameservers que o Cloudflare indicar. A ativação leva de minutos a algumas horas.
+2. **Banco D1**: *Storage & Databases → D1 → Create* → nome `chiefdeck-db`.
+3. **Bucket R2**: *R2 → Create bucket* → nome `chiefdeck-anexos` (o R2 pede um cartão cadastrado, mas os primeiros 10 GB são gratuitos).
+4. **Projeto Pages**: *Workers & Pages → Create → Pages → Connect to Git* → repositório `gestor-eficiente`.
+   - Production branch: a branch com este código
+   - Framework preset: *None* · Build command: `npm run build` · Build output directory: `dist`
+   - Variável de ambiente: `NODE_VERSION` = `22`
+5. **Bindings** (*projeto → Settings → Bindings*, para Production e Preview):
+   - D1 database → nome da variável **`DB`** → `chiefdeck-db`
+   - R2 bucket → nome da variável **`FILES`** → `chiefdeck-anexos`
+6. **Chave de instalação** (*Settings → Variables and Secrets*): adicione **`SETUP_TOKEN`** do tipo *Secret*, com um valor longo e aleatório. Guarde: ele é pedido só na criação do primeiro administrador.
+7. *Deployments → Retry deployment*, para o deploy já sair com os bindings.
+8. **Domínio**: *projeto → Custom domains → Set up a custom domain* → `chiefdeck.com.br` (e, se quiser, `www.chiefdeck.com.br`).
+9. Abra `https://chiefdeck.com.br`, informe a chave, crie o administrador e **guarde o código de recuperação**. Depois cadastre os outros usuários em *Sistema → Usuários*.
+
+Para levar dados de um uso anterior em modo local: exporte o backup `.zip` lá e restaure em *Configurações* já logado no servidor.
+
+## Funcionalidades de acesso e anexos
+
+- **Anexos** em qualquer registro: arraste arquivos ou e-mails salvos do Outlook (`.msg`/`.eml`). O sistema lê assunto, remetente, data e um resumo. Em **Tarefas**, soltar um e-mail cria a tarefa de follow-up com o e-mail anexado.
 - **Anexos e e-mails** (menu Sistema) busca em todos os anexos.
-
-## Dados e privacidade
-
-Dados e anexos ficam **apenas no navegador** (IndexedDB), mesmo com o site no seu domínio: o servidor só entrega os arquivos do sistema, nada é enviado de volta. Consequências:
-
-- Trocar de computador/perfil ou limpar os dados de navegação apaga a base → faça **Configurações → Exportar backup completo (.zip)** com frequência e guarde no OneDrive/SharePoint corporativo.
-- No primeiro acesso há dados **fictícios** de exemplo; apague em Configurações antes do uso real.
-- Este repositório é público: nunca coloque dados reais em `src/data/seed.ts`.
+- **Backup completo** (.zip com dados e anexos) em Configurações. O D1 também mantém recuperação automática de 30 dias (*Time Travel*).
 
 ## Rodar localmente
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
-npm run build    # gera dist/ (site estático)
+npm run dev      # só interface (modo local), http://localhost:5173
+npm run dev:cf   # interface + API + D1/R2 simulados, http://localhost:8788 (chave: dev-local-123)
+npm run build    # gera dist/
 ```
 
-## Publicar no seu domínio
-
-O `dist/` é um site estático (sem servidor). **Use HTTPS** — o login depende da Web Crypto API, que o navegador só libera em HTTPS.
-
-| Opção | Como |
-| --- | --- |
-| **Cloudflare Pages** (recomendado, grátis) | Conecte o repositório, build `npm run build`, saída `dist`. Em *Custom domains* adicione `gestor.seudominio.com.br`. O arquivo `public/_headers` aplica os cabeçalhos de segurança. |
-| **GitHub Pages** | Já configurado em `.github/workflows/deploy.yml` (push na `main`). *Settings → Pages → Source: GitHub Actions* e *Custom domain*. Em repositório privado exige plano pago do GitHub. |
-| **Hospedagem tradicional** (Hostinger, Locaweb…) | `npm run build` e envie o conteúdo de `dist/` para `public_html/` (ou subpasta). O `.htaccess` incluso força HTTPS. |
-
-No DNS do domínio, crie um `CNAME` de `gestor` para o endereço indicado pelo provedor. Domínios recém-criados podem ser barrados por filtros corporativos (categoria "novo/não classificado"); se acontecer, peça a liberação à TI.
+Nunca coloque dados reais em `src/data/seed.ts` (dados de exemplo fictícios).
 
 ## Personalizar
 

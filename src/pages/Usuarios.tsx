@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { confirmar, avisar } from '../components/Dialogs'
 import { Icon } from '../components/Icon'
 import { Chip, Modal, PageHead } from '../components/ui'
-import { get, remove, useDB, type Item } from '../data/store'
-import { minutosBloqueio, salvarUsuario, setMinutosBloqueio } from '../lib/auth'
+import { get, useDB, type Item } from '../data/store'
+import { minutosBloqueio, removerUsuario, salvarUsuario, setMinutosBloqueio } from '../lib/auth'
+import { servidor } from '../lib/api'
 import { getUser, isAdmin, type Papel } from '../lib/session'
 import { label } from '../lib/format'
 
@@ -22,7 +23,7 @@ export function Usuarios() {
   const users = db.usuarios ?? []
   return (
     <>
-      <PageHead title="Usuários e acesso" desc="Cadastro de quem pode entrar no sistema neste computador, com perfis de acesso. Cada registro guarda quem criou e quem alterou por último.">
+      <PageHead title="Usuários e acesso" desc="Cadastro de quem pode entrar no sistema, com perfis de acesso. Cada registro guarda quem criou e quem alterou por último.">
         {admin && (
           <button className="btn primary" onClick={() => setEdit({ papel: 'Gestor', ativo: true })}>
             <Icon name="plus" size={16} /> Novo usuário
@@ -100,7 +101,9 @@ export function Usuarios() {
         </div>
       </div>
       <div className="card small muted">
-        Hoje os usuários e os dados ficam neste navegador. Quando o sistema ganhar um servidor (para acessar de outros computadores ou compartilhar com o time), este cadastro passa a valer para todos os acessos.
+        {servidor()
+          ? 'Usuários, senhas e sessões ficam no servidor (Cloudflare). Cada pessoa entra de qualquer computador com o próprio login; após 5 senhas erradas o acesso fica bloqueado por 15 minutos.'
+          : 'Modo local: usuários e dados ficam neste navegador. Publicado no Cloudflare com o banco configurado, o cadastro passa a valer em qualquer computador.'}
       </div>
       {edit && <UserForm u={edit} admin={admin} onClose={() => setEdit(null)} />}
     </>
@@ -126,7 +129,12 @@ function UserForm({ u, admin, onClose }: { u: Partial<Item>; admin: boolean; onC
     const tirandoUltimoAdmin = u.papel === 'Administrador' && (v.papel !== 'Administrador' || v.ativo === false) && admins.length <= 1
     if (tirandoUltimoAdmin) return setErro('Precisa existir pelo menos um administrador ativo.')
     const dados: Partial<Item> & { senha?: string } = admin ? { ...v, senha: senha || undefined } : { id: v.id, nome: v.nome, email: v.email, senha: senha || undefined }
-    const r = await salvarUsuario(dados)
+    let r: Item | undefined
+    try {
+      r = await salvarUsuario(dados)
+    } catch (e) {
+      return setErro((e as Error).message)
+    }
     if (r) {
       avisar(novo ? 'Usuário criado.' : 'Usuário atualizado.')
       onClose()
@@ -144,8 +152,12 @@ function UserForm({ u, admin, onClose }: { u: Partial<Item>; admin: boolean; onC
               className="btn danger"
               onClick={async () => {
                 if (await confirmar(`Excluir o usuário ${String(u.nome)}? Os registros criados por ele continuam no sistema.`, { ok: 'Excluir', danger: true })) {
-                  remove('usuarios', String(u.id))
-                  onClose()
+                  try {
+                    await removerUsuario(String(u.id))
+                    onClose()
+                  } catch (e) {
+                    setErro((e as Error).message)
+                  }
                 }
               }}
             >

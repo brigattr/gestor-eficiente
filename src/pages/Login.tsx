@@ -2,6 +2,7 @@ import { useEffect, useState, useSyncExternalStore, type FormEvent, type ReactNo
 import { Logo } from '../components/Logo'
 import { useDB, type Item } from '../data/store'
 import { criarAdmin, cryptoOk, entrar, login, logout, minutosBloqueio, recuperar } from '../lib/auth'
+import { getHealth, servidor } from '../lib/api'
 import { getUser, subscribeUser } from '../lib/session'
 
 
@@ -34,7 +35,9 @@ export function AuthGate({ children }: { children: ReactNode }) {
 
 function Login() {
   const db = useDB()
-  const primeiro = !(db.usuarios ?? []).length
+  const srv = servidor()
+  const primeiro = srv ? !getHealth()?.temUsuarios : !(db.usuarios ?? []).length
+  const [chave, setChave] = useState('')
   const [modo, setModo] = useState<'login' | 'recuperar'>('login')
   const [nome, setNome] = useState('')
   const [user, setUserName] = useState('')
@@ -56,19 +59,22 @@ function Login() {
     try {
       if (primeiro) {
         if (!nome.trim() || !user.trim()) return setErro('Informe nome e usuário.')
-        const r = await criarAdmin(nome.trim(), user.trim(), senha)
+        if (srv && !chave.trim()) return setErro('Informe a chave de instalação (SETUP_TOKEN).')
+        const r = await criarAdmin(nome.trim(), user.trim(), senha, chave.trim(), lembrar)
         if (r.u) setNovo({ codigo: r.codigo, u: r.u })
       } else if (modo === 'recuperar') {
         setErro(await recuperar(user, codigo, senha))
       } else {
         setErro(await login(user, senha, lembrar))
       }
+    } catch (e) {
+      setErro((e as Error).message)
     } finally {
       setBusy(false)
     }
   }
 
-  if (novo) return <CodigoRecuperacao codigo={novo.codigo} onOk={() => entrar(novo.u, lembrar)} />
+  if (novo) return <CodigoRecuperacao codigo={novo.codigo} onOk={() => void entrar(novo.u, lembrar)} />
 
   return (
     <div className="login">
@@ -82,6 +88,13 @@ function Login() {
               ? 'Use o código de recuperação gerado na criação do administrador.'
               : 'Gestão de time, projetos e controles da Controladoria.'}
         </p>
+        {primeiro && srv && (
+          <label className="field">
+            <span>Chave de instalação</span>
+            <input id="lg-chave" type="password" value={chave} onChange={(e) => setChave(e.target.value)} autoComplete="off" />
+            <span className="help">O valor da variável SETUP_TOKEN que você definiu no Cloudflare. Só é pedida na criação do primeiro administrador.</span>
+          </label>
+        )}
         {primeiro && (
           <label className="field">
             <span>Seu nome</span>
@@ -108,9 +121,9 @@ function Login() {
             <input id="lg-pass2" type="password" value={senha2} onChange={(e) => setSenha2(e.target.value)} autoComplete="new-password" />
           </label>
         )}
-        {modo === 'login' && (
+        {(modo === 'login' || primeiro) && (
           <label className="row small" style={{ cursor: 'pointer' }}>
-            <input type="checkbox" checked={lembrar} onChange={(e) => setLembrar(e.target.checked)} /> Manter conectado neste computador por 12 h
+            <input type="checkbox" checked={lembrar} onChange={(e) => setLembrar(e.target.checked)} /> Manter conectado neste computador{srv ? ' por 30 dias' : ' por 12 h'}
           </label>
         )}
         {erro && <div className="small" style={{ color: 'var(--bad)' }}>{erro}</div>}
@@ -123,7 +136,9 @@ function Login() {
           </button>
         )}
         <p className="small muted" style={{ margin: 0 }}>
-          Os dados ficam armazenados somente neste navegador. Esqueceu a senha de um usuário comum? O administrador redefine em Configurações.
+          {srv
+            ? 'Acesso protegido de qualquer computador. Esqueceu a senha de um usuário comum? O administrador redefine em Usuários.'
+            : 'Modo local: os dados ficam somente neste navegador. Esqueceu a senha de um usuário comum? O administrador redefine em Usuários.'}
         </p>
       </form>
     </div>

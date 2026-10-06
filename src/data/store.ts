@@ -1,10 +1,12 @@
 import { useSyncExternalStore } from 'react'
 import { avisar } from '../components/Dialogs'
+import { api, servidor } from '../lib/api'
 import { kvGet, kvSet } from '../lib/idb'
 import { canWrite, getUser, isAdmin } from '../lib/session'
 
-// Base local no IndexedDB do navegador. Nada sai da máquina do usuário:
-// backup/restauração (com anexos) é feito em Configurações.
+// Base em memória, persistida de duas formas:
+//  • modo servidor (Cloudflare D1): cada gravação vai para a API; acesso de qualquer computador
+//  • modo local (IndexedDB): quando não há API (ex.: prévia estática)
 
 export type Item = { id: string; [field: string]: unknown }
 export type DB = Record<string, Item[]>
@@ -16,8 +18,9 @@ let db: DB = {}
 let timer: ReturnType<typeof setTimeout> | undefined
 let pending = false
 
-/** Carrega a base antes de renderizar o app (migra do localStorage se preciso). */
+/** Modo local: carrega a base do IndexedDB (migra do localStorage se preciso). */
 export async function initStore() {
+  if (servidor()) return
   try {
     const saved = await kvGet<DB>(KEY)
     if (saved) db = saved
@@ -46,6 +49,10 @@ async function flush() {
 }
 
 function persist() {
+  if (servidor()) {
+    listeners.forEach((l) => l())
+    return
+  }
   pending = true
   clearTimeout(timer)
   timer = setTimeout(flush, 120)
@@ -99,13 +106,58 @@ export function upsert(col: string, item: Partial<Item>): Item | undefined {
   }
   db = { ...db, [col]: rows }
   persist()
+  if (servidor()) void enviar(col, saved)
   return saved
+}
+
+// ── modo servidor: grava na API e aplica a versão confirmada pelo servidor
+let erroAvisado = 0
+function falhaServidor(msg: string) {
+  if (Date.now() - erroAvisado > 4000) avisar(`Não foi possível salvar no servidor: ${msg}`)
+  erroAvisado = Date.now()
+  onFalha?.()
+}
+let onFalha: (() => void) | null = null
+export const setOnFalha = (f: () => void) => (onFalha = f)
+
+async function enviar(col: string, item: Item) {
+  try {
+    const { _updated, _updatedBy, _created, _createdBy, ...data } = item
+    void _updated, void _updatedBy, void _created, void _createdBy
+    const r = await api<{ item: Item }>(`/items/${encodeURIComponent(col)}/${encodeURIComponent(item.id)}`, { method: 'PUT', body: data })
+    aplicar(col, r.item)
+  } catch (e) {
+    falhaServidor((e as Error).message)
+  }
+}
+
+/** Aplica um registro vindo do servidor (null = removido) sem disparar nova gravação. */
+export function aplicar(col: string, item: Item | null, id?: string) {
+  const rows = list(col)
+  const key = item?.id ?? id
+  const i = rows.findIndex((r) => r.id === key)
+  if (item == null) {
+    if (i < 0) return
+    db = { ...db, [col]: rows.filter((r) => r.id !== key) }
+  } else if (i >= 0) {
+    const copy = [...rows]
+    copy[i] = item
+    db = { ...db, [col]: copy }
+  } else db = { ...db, [col]: [...rows, item] }
+  listeners.forEach((l) => l())
+}
+
+/** Substitui a base em memória pela carregada do servidor. */
+export function setDB(next: DB) {
+  db = next
+  listeners.forEach((l) => l())
 }
 
 export function remove(col: string, id: string) {
   if (!allowed(col)) return
   db = { ...db, [col]: list(col).filter((r) => r.id !== id) }
   persist()
+  if (servidor()) api(`/items/${encodeURIComponent(col)}/${encodeURIComponent(id)}`, { method: 'DELETE' }).catch((e) => falhaServidor((e as Error).message))
 }
 
 /** Substitui a base inteira (backup, importações). Mantém os usuários se o novo conteúdo não tiver. */
@@ -114,8 +166,34 @@ export function replaceAll(next: DB, keepUsers = true) {
     avisar('Seu perfil é somente leitura.')
     return
   }
+  if (servidor()) {
+    // usuários são geridos pelo servidor; o restante substitui a base inteira
+    const { usuarios: _u, ...dados } = next
+    void _u
+    db = { ...dados, usuarios: db.usuarios ?? [] }
+    listeners.forEach((l) => l())
+    return api('/import', { body: { db: dados } })
+      .then(() => onFalha?.()) // recarrega do servidor para alinhar datas e autoria
+      .catch((e) => falhaServidor((e as Error).message))
+  }
   db = keepUsers && !next.usuarios?.length && db.usuarios ? { ...next, usuarios: db.usuarios } : next
   persist()
+  return Promise.resolve()
+}
+
+/** Grava vários registros de um módulo de uma vez (substituir = apaga os demais do módulo). */
+export function bulk(col: string, items: Item[], substituir = false): Promise<void> {
+  if (!allowed(col)) return Promise.resolve()
+  const t = new Date().toISOString()
+  const by = getUser()?.nome
+  const map = new Map((substituir ? [] : list(col)).map((r) => [r.id, r]))
+  for (const it of items) map.set(it.id, { ...map.get(it.id), ...it, _updated: t, _updatedBy: by })
+  db = { ...db, [col]: [...map.values()] }
+  persist()
+  if (!servidor()) return Promise.resolve()
+  return api('/bulk', { body: { col, items, substituir } })
+    .then(() => undefined)
+    .catch((e) => falhaServidor((e as Error).message))
 }
 
 export function subscribe(l: () => void) {
