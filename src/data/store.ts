@@ -122,8 +122,8 @@ export const setOnFalha = (f: () => void) => (onFalha = f)
 
 async function enviar(col: string, item: Item) {
   try {
-    const { _updated, _updatedBy, _created, _createdBy, ...data } = item
-    void _updated, void _updatedBy, void _created, void _createdBy
+    // autoria e datas são definidas pelo servidor
+    const data = Object.fromEntries(Object.entries(item).filter(([k]) => !k.startsWith('_')))
     const r = await api<{ item: Item }>(`/items/${encodeURIComponent(col)}/${encodeURIComponent(item.id)}`, { method: 'PUT', body: data })
     aplicar(col, r.item)
   } catch (e) {
