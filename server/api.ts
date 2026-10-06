@@ -1,4 +1,5 @@
 /// <reference types="@cloudflare/workers-types" />
+import { camposOutlook, lerIcs } from '../src/shared/ics'
 // API do Gestor Eficiente (Cloudflare Pages Functions + D1 + R2).
 // Rotas em /api/*. Sessão por cookie HttpOnly; senhas em PBKDF2-SHA256.
 
@@ -39,6 +40,7 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, user_id TEXT NOT NULL, expires TEXT NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS files (id TEXT PRIMARY KEY, col TEXT NOT NULL, item_id TEXT NOT NULL, name TEXT NOT NULL, type TEXT, size INTEGER, added TEXT, by TEXT, meta TEXT, deleted INTEGER NOT NULL DEFAULT 0, updated_at TEXT NOT NULL)`,
   `CREATE INDEX IF NOT EXISTS files_upd ON files (updated_at)`,
+  `CREATE TABLE IF NOT EXISTS config (key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at TEXT NOT NULL)`,
 ]
 let migrated = false
 async function migrate(db: D1Database) {
@@ -212,6 +214,34 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
       }
       for (let i = 0; i < stmts.length; i += 200) await env.DB.batch(stmts.slice(i, i + 200))
       return json({ ok: true, gravados: b.items.length })
+    }
+
+    // ── calendário do Outlook (link ICS publicado)
+    if (path === '/calendar' && method === 'GET') return json(await statusCalendario(env))
+    if (path === '/calendar' && method === 'PUT') {
+      if (!admin) throw new HttpError(403, 'Somente administradores configuram o calendário.')
+      const b = await body<{ url: string }>(req)
+      const link = String(b.url ?? '').trim().replace(/^webcal:/i, 'https:')
+      if (!/^https:\/\/[^\s]+$/i.test(link) && !/^http:\/\/(127\.0\.0\.1|localhost)[:/]/i.test(link)) throw new HttpError(400, 'Cole o link ICS completo (começa com https:// ou webcal://).')
+      const r = await sincronizarCalendario(env, link) // valida o link antes de salvar
+      await env.DB.prepare('INSERT INTO config (key, value, updated_at) VALUES (?, ?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at').bind('ics_url', link, now()).run()
+      return json({ ...(await statusCalendario(env)), resultado: r })
+    }
+    if (path === '/calendar' && method === 'DELETE') {
+      if (!admin) throw new HttpError(403, 'Somente administradores.')
+      await env.DB.prepare("DELETE FROM config WHERE key IN ('ics_url', 'ics_status')").run()
+      if (url.searchParams.has('eventos')) await env.DB.prepare("UPDATE items SET deleted = 1, updated_at = ? WHERE col = 'reunioes' AND deleted = 0 AND json_extract(data, '$.origem') = 'Outlook'").bind(now()).run()
+      return json(await statusCalendario(env))
+    }
+    if (path === '/calendar/sync' && method === 'POST') {
+      if (!escreve) throw new HttpError(403, 'Seu perfil é somente leitura.')
+      const link = (await env.DB.prepare("SELECT value FROM config WHERE key = 'ics_url'").first<{ value: string }>())?.value
+      if (!link) throw new HttpError(400, 'Calendário do Outlook não configurado.')
+      const se = url.searchParams.has('seAntigo')
+      const st = await statusCalendario(env)
+      if (se && st.ultima?.em && Date.now() - new Date(st.ultima.em).getTime() < 60 * 60000) return json({ ...st, pulado: true })
+      const r = await sincronizarCalendario(env, link)
+      return json({ ...(await statusCalendario(env)), resultado: r })
     }
 
     if (path === '/import' && method === 'POST') {
@@ -408,4 +438,87 @@ async function salvarUsuario(env: Env, b: UserIn, id: string | null, quem: User)
   if (!ativo || (b.senha && id && id !== quem.id)) await env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(uid).run()
   const u = (await env.DB.prepare('SELECT * FROM users WHERE id = ?').bind(uid).first<User>())!
   return json({ user: publicUser(u) })
+}
+
+// ───────── sincronização do calendário
+type StatusCal = { em: string; eventos: number; novos: number; alterados: number; removidos: number; erro?: string }
+
+async function statusCalendario(env: Env) {
+  const rows = (await env.DB.prepare("SELECT key, value FROM config WHERE key IN ('ics_url', 'ics_status')").all<{ key: string; value: string }>()).results
+  const link = rows.find((r) => r.key === 'ics_url')?.value
+  const st = rows.find((r) => r.key === 'ics_status')?.value
+  let host: string | null = null
+  try {
+    host = link ? new URL(link).host : null
+  } catch {
+    host = null
+  }
+  // o link é tratado como senha: nunca volta para a tela, só o domínio
+  return { configurado: !!link, host, ultima: st ? (JSON.parse(st) as StatusCal) : null }
+}
+
+const CAMPOS_USUARIO = ['preparado', 'pauta', 'materiais', 'decisoes', 'roteiro']
+
+async function sincronizarCalendario(env: Env, link: string) {
+  const salvarStatus = (st: StatusCal) =>
+    env.DB.prepare('INSERT INTO config (key, value, updated_at) VALUES (?, ?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at').bind('ics_status', JSON.stringify(st), now()).run()
+  let txt: string
+  try {
+    const r = await fetch(link, { headers: { accept: 'text/calendar, */*' }, redirect: 'follow', cf: { cacheTtl: 0 } } as RequestInit)
+    if (!r.ok) throw new Error(`o Outlook respondeu ${r.status}`)
+    txt = await r.text()
+    if (txt.length > 15_000_000) throw new Error('calendário grande demais')
+    if (!/BEGIN:VCALENDAR/i.test(txt)) throw new Error('o link não devolveu um calendário (.ics)')
+  } catch (e) {
+    const erro = `Não foi possível ler o calendário: ${(e as Error).message}.`
+    await salvarStatus({ em: now(), eventos: 0, novos: 0, alterados: 0, removidos: 0, erro })
+    throw new HttpError(502, erro)
+  }
+  const de = Date.now() - 30 * 86400000
+  const ate = Date.now() + 120 * 86400000
+  const ocs = lerIcs(txt, de, ate)
+  const t = now()
+  const atuais = (await env.DB.prepare("SELECT id, data FROM items WHERE col = 'reunioes' AND deleted = 0 AND json_extract(data, '$.origem') = 'Outlook'").all<{ id: string; data: string }>()).results
+  const mapa = new Map(atuais.map((r) => [r.id, JSON.parse(r.data) as Record<string, unknown>]))
+  const stmts: D1PreparedStatement[] = []
+  const put = (id: string, item: Record<string, unknown>) =>
+    stmts.push(env.DB.prepare("INSERT INTO items (col, id, data, updated_at, deleted) VALUES ('reunioes', ?, ?, ?, 0) ON CONFLICT (col, id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at, deleted = 0").bind(id, JSON.stringify(item), t))
+  let novos = 0
+  let alterados = 0
+  let removidos = 0
+  const vistos = new Set<string>()
+  for (const o of ocs) {
+    vistos.add(o.id)
+    const campos = camposOutlook(o)
+    const sugerido = campos.tipoSugerido
+    delete campos.tipoSugerido
+    const ant = mapa.get(o.id)
+    if (!ant) {
+      put(o.id, { id: o.id, ...campos, tipo: sugerido ?? null, preparado: false, _created: t, _createdBy: 'Outlook', _updated: t, _updatedBy: 'Outlook' })
+      novos++
+      continue
+    }
+    const mudou = Object.entries(campos).some(([k, v]) => JSON.stringify(ant[k] ?? null) !== JSON.stringify(v ?? null)) || ant.canceladaOutlook
+    if (mudou) {
+      put(o.id, { ...ant, ...campos, canceladaOutlook: false, _updated: t, _updatedBy: 'Outlook' })
+      alterados++
+    }
+  }
+  // reuniões que saíram do Outlook dentro da janela: apaga, ou marca como cancelada se você já anotou algo nela
+  const deDia = new Date(de).toISOString().slice(0, 10)
+  const ateDia = new Date(ate).toISOString().slice(0, 10)
+  for (const [id, ant] of mapa) {
+    if (vistos.has(id)) continue
+    const dia = String(ant.data ?? '')
+    if (dia < deDia || dia > ateDia) continue
+    const anotada = CAMPOS_USUARIO.some((k) => ant[k] && ant[k] !== '')
+    if (anotada) {
+      if (!ant.canceladaOutlook) put(id, { ...ant, canceladaOutlook: true, _updated: t, _updatedBy: 'Outlook' })
+    } else stmts.push(env.DB.prepare("UPDATE items SET deleted = 1, updated_at = ? WHERE col = 'reunioes' AND id = ?").bind(t, id))
+    removidos++
+  }
+  for (let i = 0; i < stmts.length; i += 100) await env.DB.batch(stmts.slice(i, i + 100))
+  const st: StatusCal = { em: now(), eventos: ocs.length, novos, alterados, removidos }
+  await salvarStatus(st)
+  return st
 }

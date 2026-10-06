@@ -18,6 +18,7 @@ import { Cargos, Ferias, PessoaPerfil, Pessoas, Vagas } from './pages/Pessoas'
 import { Semana } from './pages/Semana'
 import { AuthGate } from './pages/Login'
 import { Anexos } from './pages/Anexos'
+import { Reunioes } from './pages/Reunioes'
 import { Usuarios } from './pages/Usuarios'
 
 // Módulos que usam apenas a tela genérica (lista/kanban/gantt + formulário)
@@ -28,7 +29,6 @@ const GENERIC: [string, string][] = [
   ['feedbacks', 'feedbacks'],
   ['onboarding', 'onboarding'],
   ['pdis', 'pdis'],
-  ['reunioes', 'reunioes'],
   ['centros-custo', 'centrosCusto'],
 ]
 
@@ -61,6 +61,7 @@ export default function App() {
         <Route path="/biblioteca" element={<Biblioteca />} />
         <Route path="/configuracoes" element={<Configuracoes />} />
         <Route path="/anexos" element={<Anexos />} />
+        <Route path="/reunioes" element={<Reunioes />} />
         <Route path="/usuarios" element={<Usuarios />} />
         {GENERIC.map(([p, col]) => (
           <Route key={p} path={'/' + p} element={<ModulePage key={col} col={col} />} />

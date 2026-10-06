@@ -97,8 +97,15 @@ function Prep({ r, db }: { r: Item; db: DB }) {
   return (
     <div className="card" style={{ borderLeft: `4px solid ${r.preparado ? 'var(--ok)' : 'var(--accent)'}` }}>
       <div className="row">
-        <b>{String(r.hora ?? '')}</b>
-        <h3 className="grow">{String(r.titulo)}</h3>
+        <b>
+          {String(r.hora ?? '')}
+          {r.horaFim ? `–${String(r.horaFim)}` : ''}
+        </b>
+        <h3 className="grow" style={r.canceladaOutlook ? { textDecoration: 'line-through' } : undefined}>
+          {String(r.titulo)}
+        </h3>
+        {Boolean(r.canceladaOutlook) && <Chip t="bad">cancelada no Outlook</Chip>}
+        {r.origem === 'Outlook' && <Chip t="info">Outlook</Chip>}
         {r.tipo != null && <Chip t="muted">{String(r.tipo)}</Chip>}
         <label className="row small" style={{ cursor: 'pointer' }}>
           <input type="checkbox" checked={!!r.preparado} onChange={(e) => upsert('reunioes', { id: r.id, preparado: e.target.checked })} /> preparado
@@ -111,7 +118,15 @@ function Prep({ r, db }: { r: Item; db: DB }) {
         <div className="small">
           <div className="muted">Pauta / o que preciso entender</div>
           <div className="pre">{String(r.pauta ?? '—')}</div>
+          {r.local != null && r.local !== '' && <div className="muted" style={{ marginTop: 6 }}>Local: {String(r.local)}</div>}
+          {r.organizador != null && <div className="muted">Organizador: {String(r.organizador)}</div>}
           {r.participantes != null && <div className="muted" style={{ marginTop: 6 }}>Participantes: {String(r.participantes)}</div>}
+          {r.descricaoOutlook != null && r.descricaoOutlook !== '' && (
+            <details style={{ marginTop: 6 }}>
+              <summary className="muted" style={{ cursor: 'pointer' }}>Convite do Outlook</summary>
+              <div className="pre" style={{ maxHeight: 180, overflow: 'auto' }}>{String(r.descricaoOutlook)}</div>
+            </details>
+          )}
         </div>
         <div className="small">
           <div className="muted">Arquivos e materiais</div>

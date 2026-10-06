@@ -19,6 +19,7 @@ export async function carregarServidor() {
       setUser(r.user)
       desde = r.now
       iniciarSync()
+      void sincronizarOutlook()
     } finally {
       carregando = null
     }
@@ -38,6 +39,23 @@ async function buscarMudancas() {
     desde = r.now
   } catch {
     /* sem conexão: tenta de novo no próximo ciclo */
+  }
+}
+
+/** Busca agora as alterações do servidor (ex.: depois de sincronizar o Outlook). */
+export async function sincronizarAgora() {
+  await buscarMudancas()
+}
+
+/** Ao abrir o sistema: atualiza o calendário do Outlook se a última sincronização tem mais de 1 h. */
+async function sincronizarOutlook() {
+  try {
+    const st = await api<{ configurado: boolean }>('/calendar')
+    if (!st.configurado || getUser()?.papel === 'Leitura') return
+    const r = await api<{ pulado?: boolean }>('/calendar/sync?seAntigo=1', { method: 'POST' })
+    if (!r.pulado) await buscarMudancas()
+  } catch {
+    /* erro fica registrado no status do calendário */
   }
 }
 
