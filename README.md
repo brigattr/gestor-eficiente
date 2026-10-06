@@ -33,9 +33,9 @@ Os dados ficam no servidor e você acessa de qualquer computador com usuário e 
 - Toda gravação exige um cabeçalho próprio (proteção contra CSRF). Cada registro guarda quem criou e quem alterou.
 - Recomendado: deixar este repositório **privado** e, para uma camada extra, ativar o **Cloudflare Access** (Zero Trust, grátis até 50 usuários) pedindo um código por e-mail antes da tela de login.
 
-## Publicar no Cloudflare (chiefdeck.com.br)
+## Publicar no Cloudflare (chiefdesk.com.br)
 
-1. **Domínio no Cloudflare**: *Add a site* → `chiefdeck.com.br` (plano Free). No Registro.br, troque os servidores DNS pelos dois nameservers que o Cloudflare indicar. A ativação leva de minutos a algumas horas.
+1. **Domínio no Cloudflare**: *Add a site* → `chiefdesk.com.br` (plano Free). No Registro.br, troque os servidores DNS pelos dois nameservers que o Cloudflare indicar. A ativação leva de minutos a algumas horas.
 2. **Banco D1**: *Storage & Databases → D1 → Create* → nome `chiefdeck-db`.
 3. **Bucket R2**: *R2 → Create bucket* → nome `chiefdeck-anexos` (o R2 pede um cartão cadastrado, mas os primeiros 10 GB são gratuitos).
 4. **Projeto Pages**: *Workers & Pages → Create → Pages → Connect to Git* → repositório `gestor-eficiente`.
@@ -47,8 +47,8 @@ Os dados ficam no servidor e você acessa de qualquer computador com usuário e 
    - R2 bucket → nome da variável **`FILES`** → `chiefdeck-anexos`
 6. **Chave de instalação** (*Settings → Variables and Secrets*): adicione **`SETUP_TOKEN`** do tipo *Secret*, com um valor longo e aleatório. Guarde: ele é pedido só na criação do primeiro administrador.
 7. *Deployments → Retry deployment*, para o deploy já sair com os bindings.
-8. **Domínio**: *projeto → Custom domains → Set up a custom domain* → `chiefdeck.com.br` (e, se quiser, `www.chiefdeck.com.br`).
-9. Abra `https://chiefdeck.com.br`, informe a chave, crie o administrador e **guarde o código de recuperação**. Depois cadastre os outros usuários em *Sistema → Usuários*.
+8. **Domínio**: *projeto → Custom domains → Set up a custom domain* → `chiefdesk.com.br` (e, se quiser, `www.chiefdesk.com.br`).
+9. Abra `https://chiefdesk.com.br`, informe a chave, crie o administrador e **guarde o código de recuperação**. Depois cadastre os outros usuários em *Sistema → Usuários*.
 
 **Alerta de custo**: configurado em *Notifications → Add → Usage Based Billing* (o alerta avisa por e-mail; não bloqueia a cobrança). O uso previsto fica dentro do plano gratuito.
 

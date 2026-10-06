@@ -12,6 +12,10 @@
 
 - 2026-10-06 — calendário (visões, sincronização Outlook) + etiquetas. Envio liberado explicitamente pelo usuário ("depois disso, pode subir"). Próximo envio: a partir de 2026-10-07.
 
+## Domínio
+
+- Domínio de produção: **chiefdesk.com.br** (com *s*), DNS no Cloudflare (marlowe/rocco.ns.cloudflare.com). Projeto Pages: `chiefdeck` (`chiefdeck.pages.dev`). A zona `chiefdeck.com.br` (com *c*) no Cloudflare foi criada por engano e pode ser removida.
+
 ## Stack
 
 - Front: React + TypeScript (Vite), `src/`. Módulos declarativos em `src/data/schema.ts`.
