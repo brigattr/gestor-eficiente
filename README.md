@@ -50,6 +50,8 @@ Os dados ficam no servidor e você acessa de qualquer computador com usuário e 
 8. **Domínio**: *projeto → Custom domains → Set up a custom domain* → `chiefdeck.com.br` (e, se quiser, `www.chiefdeck.com.br`).
 9. Abra `https://chiefdeck.com.br`, informe a chave, crie o administrador e **guarde o código de recuperação**. Depois cadastre os outros usuários em *Sistema → Usuários*.
 
+**Alerta de custo**: configurado em *Notifications → Add → Usage Based Billing* (o alerta avisa por e-mail; não bloqueia a cobrança). O uso previsto fica dentro do plano gratuito.
+
 Para levar dados de um uso anterior em modo local: exporte o backup `.zip` lá e restaure em *Configurações* já logado no servidor.
 
 ## Funcionalidades de acesso e anexos
