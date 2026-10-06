@@ -6,6 +6,9 @@ import { getPref, setPref } from '../data/store'
 import { useAlerts } from '../lib/alerts'
 import { Icon } from './Icon'
 import { EditorHost } from './ItemForm'
+import { Logo } from './Logo'
+import { logout } from '../lib/auth'
+import { useUser } from '../pages/Login'
 
 type Theme = 'auto' | 'light' | 'dark'
 
@@ -14,6 +17,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => getPref<Theme>('theme', 'auto'))
   const loc = useLocation()
   const alerts = useAlerts()
+  const user = useUser()
 
   useEffect(() => {
     if (theme === 'auto') document.documentElement.removeAttribute('data-theme')
@@ -26,17 +30,7 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="app">
       <aside className={`sidebar ${open ? 'open' : ''}`}>
-        <div className="brand">
-          <div className="brand-mark">
-            <svg width="20" height="20" viewBox="0 0 32 32">
-              <path d="M7 22l6-7 4 3 8-9" stroke="#d4a72c" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-          <div>
-            <b>Gestor Eficiente</b>
-            <span>Controladoria</span>
-          </div>
-        </div>
+        <Logo light />
         {NAV.map((g) => (
           <div key={g.group}>
             <div className="nav-group">{g.group}</div>
@@ -65,6 +59,20 @@ export function Layout({ children }: { children: ReactNode }) {
             <Icon name={theme === 'dark' ? 'moon' : 'sun'} size={16} />
             {theme === 'auto' ? 'Auto' : theme === 'light' ? 'Claro' : 'Escuro'}
           </button>
+          {user && (
+            <span className="user">
+              <span className="avatar" title={`${user.nome} · ${user.papel}`}>
+                {user.nome.split(' ').map((x) => x[0]).slice(0, 2).join('').toUpperCase()}
+              </span>
+              <span className="small hide-sm">
+                <b>{user.nome.split(' ')[0]}</b>
+                <span className="muted"> · {user.papel}</span>
+              </span>
+              <button className="btn ghost sm" onClick={logout} title="Sair / bloquear">
+                Sair
+              </button>
+            </span>
+          )}
         </header>
         <main className="content">{children}</main>
       </div>

@@ -1,7 +1,10 @@
 import { confirmar } from './Dialogs'
 import { useState, useSyncExternalStore } from 'react'
 import { MOD, type Field } from '../data/schema'
-import { get, list, remove, upsert, type Item } from '../data/store'
+import { get, getDB, list, remove, uid, upsert, type Item } from '../data/store'
+import { bonus } from '../lib/incentive'
+import { deleteFilesOf } from '../lib/files'
+import { Attachments } from './Attachments'
 import { label, pct } from '../lib/format'
 import { Icon } from './Icon'
 import { Modal } from './ui'
@@ -42,7 +45,13 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
   const existing = get(col, id)
   const [v, setV] = useState<Record<string, unknown>>(() => initial(m.fields, existing, preset))
   const [err, setErr] = useState<string | null>(null)
+  // id definido já na abertura: anexos de um registro novo ficam vinculados a ele
+  const [itemId] = useState(() => existing?.id ?? uid())
   const set = (k: string, val: unknown) => setV((s) => ({ ...s, [k]: val }))
+  const cancel = () => {
+    if (!existing) void deleteFilesOf(col, itemId) // descarta anexos de um registro não salvo
+    onClose()
+  }
 
   function save() {
     const data = { ...v }
@@ -52,14 +61,13 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
       setErr('Preencha: ' + missing.join(', '))
       return
     }
-    upsert(col, { ...data, id: existing?.id })
-    onClose()
+    if (upsert(col, { ...data, id: itemId })) onClose()
   }
 
   return (
     <Modal
       title={existing ? `${m.singular}: ${label(col, existing)}` : `Novo(a) ${m.singular.toLowerCase()}`}
-      onClose={onClose}
+      onClose={cancel}
       foot={
         <>
           {existing && (
@@ -68,6 +76,7 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
               onClick={async () => {
                 if (await confirmar('Excluir este registro?', { ok: 'Excluir', danger: true })) {
                   remove(col, existing.id)
+                  void deleteFilesOf(col, existing.id)
                   onClose()
                 }
               }}
@@ -78,7 +87,12 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
           <span className="grow small" style={{ color: 'var(--bad)' }}>
             {err}
           </span>
-          <button className="btn" onClick={onClose}>
+          {existing?._updated != null && (
+            <span className="small muted hide-sm" title={`Criado ${existing._createdBy ? 'por ' + String(existing._createdBy) + ' ' : ''}em ${new Date(String(existing._created)).toLocaleString('pt-BR')}`}>
+              Alterado {existing._updatedBy ? `por ${String(existing._updatedBy)} ` : ''}em {new Date(String(existing._updated)).toLocaleDateString('pt-BR')}
+            </span>
+          )}
+          <button className="btn" onClick={cancel}>
             Cancelar
           </button>
           <button className="btn primary" onClick={save}>
@@ -99,6 +113,7 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
           </label>
         ))}
         {col === 'projetos' && <IncentiveLink v={v} />}
+        <Attachments col={col} itemId={itemId} />
       </div>
     </Modal>
   )
@@ -116,11 +131,12 @@ function IncentiveLink({ v }: { v: Record<string, unknown> }) {
       </div>
       {meta ? (
         <div className="small" style={{ marginTop: 6 }}>
-          <b>{String(meta.meta)}</b> — {label('pessoas', get('pessoas', meta.colaborador as string))} · {String(meta.ano)}
+          <b>{String(meta.meta)}</b> — {meta.colaborador ? label('pessoas', get('pessoas', meta.colaborador as string)) : 'minhas metas'} · {String(meta.ano)}
+          {meta.pai ? ` · sub-KPI de "${label('incentivos', get('incentivos', meta.pai as string))}"` : ''}
           <br />
-          Peso {pct(meta.peso)} · Atingimento atual {pct(meta.atingimento)} · Target: {String(meta.alvo ?? '—')}
+          Peso {pct(meta.peso)} · Target {meta.v100 != null ? `${String(meta.v100)} ${String(meta.metrica ?? '')}` : '—'} · Realizado {meta.real != null ? String(meta.real) : '—'}
           <br />
-          Impacto ponderado no incentivo: <b>{pct((Number(meta.peso) * Number(meta.atingimento || 0)) / 100)}</b>
+          Bônus pela régua: <b>{pct(Math.round(bonus(getDB(), meta) ?? 0))}</b>
         </div>
       ) : (
         <div className="small" style={{ marginTop: 6 }}>
@@ -198,7 +214,7 @@ function Input({ f, value, onChange, selfId }: { f: Field; value: unknown; onCha
         <select value={s} onChange={(e) => onChange(e.target.value || null)}>
           <option value="">—</option>
           {opts
-            .map((i) => ({ id: i.id, l: label(f.ref!, i) + (f.ref === 'incentivos' ? ` (${label('pessoas', get('pessoas', i.colaborador as string))}, peso ${pct(i.peso)})` : '') }))
+            .map((i) => ({ id: i.id, l: label(f.ref!, i) + (f.ref === 'incentivos' ? ` (${i.colaborador ? label('pessoas', get('pessoas', i.colaborador as string)) : 'minhas'}, peso ${pct(i.peso)})` : '') }))
             .sort((a, b) => a.l.localeCompare(b.l))
             .map((o) => (
               <option key={o.id} value={o.id}>

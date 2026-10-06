@@ -4,7 +4,7 @@ import { openEditor } from '../components/ItemForm'
 import { ModulePage } from '../components/ModulePage'
 import { Bar, Chip, Kpi } from '../components/ui'
 import { get, useDB, type Item } from '../data/store'
-import { daysUntil, fmtDate, label, pct } from '../lib/format'
+import { daysUntil, fmtDate, label } from '../lib/format'
 
 const norm = (s: unknown) =>
   String(s ?? '')
@@ -217,69 +217,5 @@ function Certificados({ t, onClose }: { t: Item; onClose: () => void }) {
         </div>
       </div>
     </div>
-  )
-}
-
-export function Incentive() {
-  const db = useDB()
-  return (
-    <ModulePage
-      col="incentivos"
-      defaultView="resumo"
-      extraViews={[
-        {
-          key: 'resumo',
-          label: 'Por colaborador',
-          render: (rows) => {
-            const g = new Map<string, Item[]>()
-            rows.forEach((r) => {
-              const k = `${r.colaborador}|${r.ano}`
-              g.set(k, [...(g.get(k) ?? []), r])
-            })
-            if (!g.size) return <div className="empty">Nenhuma meta cadastrada.</div>
-            return (
-              <div className="grid g2">
-                {[...g.entries()].map(([k, metas]) => {
-                  const [pid, ano] = k.split('|')
-                  const soma = metas.reduce((a, m) => a + Number(m.peso || 0), 0)
-                  const pond = metas.reduce((a, m) => a + (Number(m.peso || 0) * Number(m.atingimento || 0)) / 100, 0)
-                  return (
-                    <div key={k} className="card">
-                      <div className="row">
-                        <h3 className="grow">
-                          {label('pessoas', get('pessoas', pid))} · {ano}
-                        </h3>
-                        <Chip t={Math.abs(soma - 100) < 0.01 ? 'ok' : 'warn'}>pesos {soma}%</Chip>
-                        <Chip t="gold">atingimento {pct(Math.round(pond * 10) / 10)}</Chip>
-                      </div>
-                      <table style={{ marginTop: 8 }}>
-                        <tbody>
-                          {metas.map((m) => {
-                            const projs = (db.projetos ?? []).filter((p) => p.incentivo === m.id)
-                            return (
-                              <tr key={m.id} className="click" onClick={() => openEditor('incentivos', m.id)}>
-                                <td>
-                                  {String(m.meta)}
-                                  {projs.length > 0 && <div className="small muted">↳ Projeto: {projs.map((p) => String(p.nome)).join(', ')}</div>}
-                                </td>
-                                <td className="num">{pct(m.peso)}</td>
-                                <td style={{ width: 100 }}>
-                                  <Bar value={Number(m.atingimento || 0)} max={100} t={Number(m.atingimento || 0) >= 100 ? 'ok' : m.status === 'Crítico' ? 'bad' : undefined} />
-                                </td>
-                                <td className="num">{pct(m.atingimento)}</td>
-                              </tr>
-                            )
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  )
-                })}
-              </div>
-            )
-          },
-        },
-      ]}
-    />
   )
 }

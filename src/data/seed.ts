@@ -47,13 +47,20 @@ export function buildSeed(): DB {
     ['p2', 'c2', 3, 4], ['p2', 'c4', 4, 4], ['p3', 'c1', 2, 4], ['p3', 'c3', 3, 4], ['p4', 'c1', 2, 3], ['p4', 'c5', 3, 4], ['p6', 'c2', 2, 4], ['p6', 'c4', 4, 4], ['p1', 'c3', 4, 5], ['p5', 'c2', 2, 3],
   ].map(([p, c, a, e], i) => ({ id: 'mc' + i, colaborador: p, competencia: c, atual: a, esperado: e, ciclo: String(Y), avaliador: '90°' }))
 
+  // Estrutura igual ao formulário Incentive/KPI do SuccessFactors (valores fictícios)
   const incentivos: Item[] = [
-    { id: 'in1', colaborador: 'p1', ano: Y, meta: 'Fechamento contábil em D+4', categoria: 'Processo', peso: 30, alvo: 'D+4 em 10 de 12 meses', atingimento: 80, prazo: `${Y}-12-31`, status: 'No prazo', entregavel: 'Calendário de fechamento cumprido' },
-    { id: 'in2', colaborador: 'p1', ano: Y, meta: 'Implantar conciliação automática de bancos', categoria: 'Processo', peso: 30, alvo: '100% das contas', atingimento: 50, prazo: d(70), status: 'Atenção', entregavel: 'Go-live + 2 fechamentos estáveis' },
-    { id: 'in3', colaborador: 'p1', ano: Y, meta: 'EBIT vs budget', categoria: 'Financeira', peso: 40, alvo: '100% do budget', atingimento: 95, prazo: `${Y}-12-31`, status: 'No prazo' },
-    { id: 'in4', colaborador: 'p2', ano: Y, meta: 'Revisão do custo padrão', categoria: 'Financeira', peso: 50, alvo: 'Desvio < 2%', atingimento: 70, prazo: d(40), status: 'No prazo' },
-    { id: 'in5', colaborador: 'p2', ano: Y, meta: 'Dashboard de margem por produto', categoria: 'Processo', peso: 30, alvo: 'Publicado e usado no S&OP', atingimento: 40, prazo: d(55), status: 'Atenção' },
-    { id: 'in6', colaborador: 'p4', ano: Y, meta: 'Preparar apuração CBS/IBS (transição)', categoria: 'Compliance', peso: 60, alvo: 'Parametrização testada', atingimento: 30, prazo: d(25), status: 'Crítico' },
+    { id: 'in1', ano: Y, meta: 'EBITDA AOR', peso: 10, metrica: 'kEUR', sentido: 'Maior é melhor', v50: 4800, v100: 6000, v150: 7200, real: 5750, detalhes: `AOR EBITDA ${Y}\nEntidade A kEUR 1.050\nEntidade B kEUR 3.380\nEntidade C kEUR 1.570\nTTL kEUR 6.000`, descricao: 'Budget do KPI como 100%. 80% do target paga 50% e 120% paga 150% de bônus.', status: 'No prazo', prazo: `${Y}-12-31` },
+    { id: 'in2', ano: Y, meta: 'Working Capital Turn AOR', peso: 10, metrica: 'vezes', sentido: 'Maior é melhor', v100: 5.0, real: 5.2, detalhes: 'Receita líquida ÷ capital de giro médio (AOR)', status: 'No prazo', prazo: `${Y}-12-31` },
+    { id: 'in3', ano: Y, meta: 'Financial Process KPIs (OTC, PTP, BTR) AOR / Projects', peso: 80, descricao: 'Média ponderada dos sub-KPIs de processo e projetos.', status: 'Atenção', prazo: `${Y}-12-31` },
+    { id: 'in31', ano: Y, pai: 'in3', meta: 'OTC – DSO', peso: 30, metrica: 'dias', sentido: 'Menor é melhor', v100: 45, real: 47 },
+    { id: 'in32', ano: Y, pai: 'in3', meta: 'PTP – pagamentos no prazo', peso: 30, metrica: '%', sentido: 'Maior é melhor', v50: 90, v100: 95, v150: 99, real: 96 },
+    { id: 'in33', ano: Y, pai: 'in3', meta: 'BTR – fechamento em D+', peso: 20, metrica: 'dias', sentido: 'Menor é melhor', v50: 6, v100: 4, v150: 3, real: 5 },
+    { id: 'in34', ano: Y, pai: 'in3', meta: 'Projeto: conciliação bancária automática', peso: 20, bonusManual: 100, descricao: 'Go-live + 2 fechamentos estáveis' },
+    { id: 'in4', colaborador: 'p1', ano: Y, meta: 'Fechamento contábil em D+4', peso: 50, metrica: 'dias', sentido: 'Menor é melhor', v50: 6, v100: 4, v150: 3, real: 5, status: 'Atenção', prazo: `${Y}-12-31` },
+    { id: 'in5', colaborador: 'p1', ano: Y, meta: 'Implantar conciliação automática de bancos', peso: 50, bonusManual: 50, status: 'Atenção', prazo: d(70), descricao: '100% das contas conciliadas automaticamente' },
+    { id: 'in6', colaborador: 'p2', ano: Y, meta: 'Revisão do custo padrão – desvio', peso: 60, metrica: '%', sentido: 'Menor é melhor', v50: 3, v100: 2, v150: 1, real: 2.4, prazo: d(40) },
+    { id: 'in7', colaborador: 'p2', ano: Y, meta: 'Dashboard de margem por produto', peso: 20, bonusManual: 50, status: 'Atenção', prazo: d(55) },
+    { id: 'in8', colaborador: 'p4', ano: Y, meta: 'Preparar apuração CBS/IBS (transição)', peso: 100, bonusManual: 30, status: 'Crítico', prazo: d(25) },
   ]
 
   const objetivos: Item[] = [
@@ -69,9 +76,9 @@ export function buildSeed(): DB {
   ]
 
   const projetos: Item[] = [
-    { id: 'pr1', nome: 'Conciliação bancária automática', responsavel: 'p1', sponsor: 'CFO', inicio: d(-60), fim: d(70), status: 'Em andamento', progresso: 55, horasPlan: 320, horasReal: 210, custoPlan: 80000, custoReal: 52000, noIncentive: true, incentivo: 'in2', okr: 'k1', escopo: 'O quê: robô de conciliação de 14 contas bancárias.\nComo: regra no ERP + exceções em lista.' },
-    { id: 'pr2', nome: 'Revisão do custo padrão', responsavel: 'p2', sponsor: 'Diretor Industrial', inicio: d(-30), fim: d(40), status: 'Em andamento', progresso: 60, horasPlan: 160, horasReal: 120, custoPlan: 0, custoReal: 0, noIncentive: true, incentivo: 'in4' },
-    { id: 'pr3', nome: 'Parametrização CBS/IBS', responsavel: 'p4', sponsor: 'CFO', inicio: d(-15), fim: d(25), status: 'Em risco', progresso: 30, horasPlan: 200, horasReal: 90, custoPlan: 45000, custoReal: 38000, noIncentive: true, incentivo: 'in6', okr: 'k4', riscos: 'Dependência do fornecedor do ERP.' },
+    { id: 'pr1', nome: 'Conciliação bancária automática', responsavel: 'p1', sponsor: 'CFO', inicio: d(-60), fim: d(70), status: 'Em andamento', progresso: 55, horasPlan: 320, horasReal: 210, custoPlan: 80000, custoReal: 52000, noIncentive: true, incentivo: 'in34', okr: 'k1', escopo: 'O quê: robô de conciliação de 14 contas bancárias.\nComo: regra no ERP + exceções em lista.' },
+    { id: 'pr2', nome: 'Revisão do custo padrão', responsavel: 'p2', sponsor: 'Diretor Industrial', inicio: d(-30), fim: d(40), status: 'Em andamento', progresso: 60, horasPlan: 160, horasReal: 120, custoPlan: 0, custoReal: 0, noIncentive: true, incentivo: 'in6' },
+    { id: 'pr3', nome: 'Parametrização CBS/IBS', responsavel: 'p4', sponsor: 'CFO', inicio: d(-15), fim: d(25), status: 'Em risco', progresso: 30, horasPlan: 200, horasReal: 90, custoPlan: 45000, custoReal: 38000, noIncentive: true, incentivo: 'in8', okr: 'k4', riscos: 'Dependência do fornecedor do ERP.' },
     { id: 'pr4', nome: 'Manual de fechamento e RACI', responsavel: 'p3', inicio: d(5), fim: d(60), status: 'Planejado', progresso: 0, horasPlan: 60, horasReal: 0, noIncentive: false },
   ]
 
@@ -181,7 +188,41 @@ export function buildSeed(): DB {
   ].map(([q, it, imp], i) => ({ id: 's' + i, tema: 'Controladoria', quadrante: q, item: it, impacto: imp }))
   const umaum: Item[] = [{ id: 'u1', colaborador: 'p2', data: d(-14), roteiro: 'Gestão', humor: 4, acordos: 'Assumir apresentação de margem no S&OP.', proxima: w(1) }]
 
+  // Tickets fictícios no formato da lista Tickets_Header (SharePoint)
+  const tipos = ['[Financeiro] Análise de crédito', '[Contábil] Lançamento manual', '[Fiscal] Dúvida tributária', '[Custos] Revisão de custo', '[Financeiro] Cadastro de fornecedor']
+  const solic = ['Wenzel, A.', 'Secco, J.', 'Rosa, W.', 'Santos, T.', 'Caldeira, S.', 'Mendes, T.']
+  const analistas = ['Camila Duarte', 'Felipe Andrade', 'Diego Nunes', 'Bruno Carvalho']
+  const areas = ['Comercial', 'Compras', 'Supply Chain', 'RH', 'Produção']
+  const prios = ['Baixa', 'Baixa', 'Média', 'Alta']
+  const pad = (x: number) => String(x).padStart(2, '0')
+  const dt = (x: Date) => `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}T${pad(x.getHours())}:${pad(x.getMinutes())}`
+  const tickets: Item[] = Array.from({ length: 64 }, (_, i) => {
+    const r = (k: number) => ((i + 1) * 9301 + k * 49297) % 233280 / 233280
+    const criado = addDays(t, -Math.floor(r(1) * 150))
+    criado.setHours(8 + Math.floor(r(2) * 9), Math.floor(r(3) * 60))
+    const ti = Math.floor(r(4) * tipos.length)
+    const fechado = r(5) < 0.78 ? addDays(criado, Math.ceil(r(6) * (ti === 0 ? 3 : 7))) : null
+    const ok = fechado && fechado < t
+    return {
+      id: String(100 + i),
+      titulo: ti === 0 ? 'New Analise de Credito Request' : `${tipos[ti].replace(/^\[[^\]]+\] /, '')} – solicitação ${100 + i}`,
+      descricao: tipos[ti],
+      empresa: r(7) < 0.7 ? 'N/A' : 'Entidade B',
+      area: areas[Math.floor(r(8) * areas.length)],
+      solicitante: solic[Math.floor(r(9) * solic.length)],
+      prioridade: prios[Math.floor(r(10) * prios.length)],
+      status: ok ? 'Concluído' : r(11) < 0.5 ? 'Novo' : 'Em andamento',
+      tipo: tipos[ti],
+      equipe: ti === 2 ? 'Fiscal' : ti === 1 ? 'Contabilidade' : 'Financeiro',
+      analista: r(12) < 0.85 ? analistas[Math.floor(r(13) * analistas.length)] : null,
+      criado: dt(criado),
+      modificado: dt(ok ? fechado! : t),
+      fechado: ok ? dt(fechado!) : null,
+    }
+  })
+
   return {
+    tickets,
     cargos, centrosCusto: cc, pessoas, competencias, mapaCompetencias: mapa, incentivos, objetivos, krs, projetos, tarefas, reunioes,
     budget, despesas, ferias, exames, certificacoes, ocorrencias, avaliacoes, pdis, onboarding, feedbacks, ponto, vagas, candidatos,
     treinoInterno, swot, umaum,

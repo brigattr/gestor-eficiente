@@ -61,9 +61,14 @@ export const NAV: { group: string; items: NavItem[] }[] = [
   },
   {
     group: 'Conhecimento',
+    items: [{ path: 'biblioteca', label: 'Biblioteca de gestão', icon: 'library' }],
+  },
+  {
+    group: 'Sistema',
     items: [
-      { path: 'biblioteca', label: 'Biblioteca de gestão', icon: 'library' },
-      { path: 'configuracoes', label: 'Configurações', icon: 'settings' },
+      { path: 'anexos', label: 'Anexos e e-mails', icon: 'link' },
+      { path: 'usuarios', label: 'Usuários', icon: 'users' },
+      { path: 'configuracoes', label: 'Configurações e backup', icon: 'settings' },
     ],
   },
 ]

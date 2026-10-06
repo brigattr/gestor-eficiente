@@ -6,6 +6,7 @@ import { Bar, Chip, Kpi, useLocalState } from '../components/ui'
 import { MODULES } from '../data/schema'
 import { get, useDB, type Item } from '../data/store'
 import { isDone } from '../lib/alerts'
+import { scorecard } from '../lib/incentive'
 import { daysUntil, fmtDate, label, money, pct } from '../lib/format'
 
 const initials = (s: unknown) =>
@@ -82,8 +83,7 @@ export function PessoaPerfil() {
   const cargo = get('cargos', p.cargo as string)
   const cr = cargo?.faixaMid && p.salario ? (Number(p.salario) / Number(cargo.faixaMid)) * 100 : null
   const ano = new Date().getFullYear()
-  const metas = (db.incentivos ?? []).filter((i) => i.colaborador === p.id && Number(i.ano) === ano)
-  const ating = metas.reduce((a, m) => a + (Number(m.peso || 0) * Number(m.atingimento || 0)) / 100, 0)
+  const { topo: metas, fator: ating } = scorecard(db, p.id, ano)
   const ocorr = (db.ocorrencias ?? []).filter((o) => o.colaborador === p.id)
   const count = (col: string, key: string) => (db[col] ?? []).filter((x) => x[key] === p.id).length
   const atual = ABAS.find((a) => a.col === aba) ?? ABAS[0]
@@ -111,7 +111,7 @@ export function PessoaPerfil() {
       </div>
       <div className="grid g4">
         <Kpi l="Compa-ratio" v={cr ? pct(Math.round(cr)) : '—'} t={cr && (cr < 90 || cr > 110) ? 'warn' : undefined} d={cargo ? `faixa ${money(cargo.faixaMin)} – ${money(cargo.faixaMax)}` : 'sem cargo'} />
-        <Kpi l={`Incentive ${ano}`} v={pct(Math.round(ating))} d={`${metas.length} meta(s) · pesos ${metas.reduce((a, m) => a + Number(m.peso || 0), 0)}%`} />
+        <Kpi l={`Bônus projetado ${ano}`} v={pct(Math.round(ating))} d={`${metas.length} meta(s) · pesos ${metas.reduce((a, m) => a + Number(m.peso || 0), 0)}%`} />
         <Kpi l="Ocorrências" v={ocorr.length} d={`${ocorr.filter((o) => o.tipo === 'Positiva').length} positivas · ${ocorr.filter((o) => o.tipo === 'Negativa').length} negativas`} />
         <Kpi l="Tarefas abertas" v={(db.tarefas ?? []).filter((t) => t.responsavel === p.id && !isDone('tarefas', t)).length} d={`${(db.pdis ?? []).filter((x) => x.colaborador === p.id && !isDone('pdis', x)).length} ações de PDI abertas`} />
       </div>

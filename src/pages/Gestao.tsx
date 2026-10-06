@@ -4,14 +4,88 @@ import { Bar, Chip, Kpi } from '../components/ui'
 import { cellText } from '../components/Views'
 import { get, type Item } from '../data/store'
 import { isDone } from '../lib/alerts'
-import { daysUntil, fmtDate, money, pct } from '../lib/format'
+import { useRef, useState } from 'react'
+import { avisar } from '../components/Dialogs'
+import { getDB, uid, upsert } from '../data/store'
+import { bonus } from '../lib/incentive'
+import { addFiles } from '../lib/files'
+import { addDays, daysUntil, fmtDate, iso, money, pct } from '../lib/format'
 
 const gut = (t: Item) => Number(t.g || 0) * Number(t.u || 0) * Number(t.t || 0)
+
+/** Arraste e-mails salvos (.msg/.eml): cada um vira uma tarefa de follow-up com o e-mail anexado. */
+function EmailParaTarefa() {
+  const [over, setOver] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const input = useRef<HTMLInputElement>(null)
+  async function criar(list: FileList | null) {
+    if (!list?.length) return
+    setBusy(true)
+    let n = 0
+    let ultima: string | undefined
+    for (const f of Array.from(list)) {
+      const id = uid()
+      const [anx] = await addFiles('tarefas', id, [f])
+      if (!anx) continue
+      const m = anx.meta ?? {}
+      const quando = m.data ? new Date(m.data).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : ''
+      const t = upsert('tarefas', {
+        id,
+        titulo: `Follow-up: ${m.assunto || f.name.replace(/\.(msg|eml)$/i, '')}`,
+        status: 'Aguardando terceiros',
+        lista: 'Rotina',
+        followup: iso(diasUteis(new Date(), 2)),
+        aguardando: m.de?.replace(/<.*>/, '').replace(/["']/g, '').trim(),
+        comentarios: [m.de && `De: ${m.de}`, quando && `Recebido: ${quando}`, m.resumo && `\n${m.resumo}`].filter(Boolean).join('\n'),
+        g: 3,
+        u: 3,
+        t: 3,
+      })
+      if (t) {
+        n++
+        ultima = t.id
+      }
+    }
+    setBusy(false)
+    if (n) avisar(`${n} tarefa(s) de follow-up criada(s), com o e-mail anexado. Follow-up em 2 dias úteis.`)
+    if (n === 1 && ultima) openEditor('tarefas', ultima)
+  }
+  return (
+    <div
+      className={`dropzone big ${over ? 'over' : ''}`}
+      onDragOver={(e) => {
+        e.preventDefault()
+        setOver(true)
+      }}
+      onDragLeave={() => setOver(false)}
+      onDrop={(e) => {
+        e.preventDefault()
+        setOver(false)
+        void criar(e.dataTransfer.files)
+      }}
+      onClick={() => input.current?.click()}
+    >
+      <span style={{ fontSize: 20 }}>✉</span>
+      {busy ? 'Criando tarefas…' : 'Solte aqui e-mails salvos (.msg / .eml) para criar tarefas de follow-up. O e-mail fica anexado à tarefa.'}
+      <input ref={input} type="file" multiple accept=".msg,.eml" hidden onChange={(e) => (void criar(e.target.files), (e.target.value = ''))} />
+    </div>
+  )
+}
+
+function diasUteis(d: Date, n: number) {
+  let x = new Date(d)
+  while (n > 0) {
+    x = addDays(x, 1)
+    if (x.getDay() !== 0 && x.getDay() !== 6) n--
+  }
+  return x
+}
 
 export function Tarefas() {
   return (
     <ModulePage
       col="tarefas"
+      above={() => <EmailParaTarefa />}
       defaultView="kanban"
       extraViews={[
         {
@@ -122,7 +196,7 @@ export function Projetos() {
                         <td className="num">{money(p.custoPlan)}</td>
                         <td className="num">{money(p.custoReal)}</td>
                         <td className={`num ${dc > 0 ? 'neg' : 'pos'}`}>{money(dc)}</td>
-                        <td className="small">{meta ? `${String(meta.meta)} · peso ${pct(meta.peso)} · ating. ${pct(meta.atingimento)}` : p.noIncentive ? <Chip t="warn">vincular meta</Chip> : '—'}</td>
+                        <td className="small">{meta ? `${String(meta.meta)} · peso ${pct(meta.peso)} · bônus ${pct(Math.round(bonus(getDB(), meta) ?? 0))}` : p.noIncentive ? <Chip t="warn">vincular meta</Chip> : '—'}</td>
                       </tr>
                     )
                   })}

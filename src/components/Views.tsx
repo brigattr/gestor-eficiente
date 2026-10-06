@@ -3,6 +3,7 @@ import { MOD, field } from '../data/schema'
 import { upsert, type Item } from '../data/store'
 import { MES_CURTO, VIRTUALS, addDays, daysUntil, display, label, parseISO, todayISO } from '../lib/format'
 import { openEditor } from './ItemForm'
+import { countFor, useFileIndex } from '../lib/files'
 import { Chip } from './ui'
 
 export function cellText(col: string, key: string, it: Item): string {
@@ -56,6 +57,7 @@ export function Table({ col, rows, columns }: { col: string; rows: Item[]; colum
   const m = MOD[col]
   const cols = columns ?? m.columns
   const [sort, setSort] = useState<{ k: string; dir: 1 | -1 } | null>(null)
+  const fidx = useFileIndex()
   const sorted = useMemo(() => {
     if (!sort) return rows
     return [...rows].sort((a, b) => {
@@ -77,6 +79,7 @@ export function Table({ col, rows, columns }: { col: string; rows: Item[]; colum
                 {sort?.k === k ? (sort.dir === 1 ? ' ↑' : ' ↓') : ''}
               </th>
             ))}
+            <th style={{ width: 40 }} title="Anexos">📎</th>
           </tr>
         </thead>
         <tbody>
@@ -87,6 +90,7 @@ export function Table({ col, rows, columns }: { col: string; rows: Item[]; colum
                   <Cell col={col} k={k} it={it} />
                 </td>
               ))}
+              <td className="clip">{countFor(fidx, col, it.id) || ''}</td>
             </tr>
           ))}
         </tbody>
@@ -101,6 +105,7 @@ export function Kanban({ col, rows, by, preset }: { col: string; rows: Item[]; b
   const f = field(col, key)!
   const lanes = f.options ?? []
   const [over, setOver] = useState<string | null>(null)
+  const fidx = useFileIndex()
   const secondary = m.columns.filter((c) => c !== m.titleField && c !== key).slice(0, 3)
   return (
     <div className="kanban">
@@ -131,7 +136,10 @@ export function Kanban({ col, rows, by, preset }: { col: string; rows: Item[]; b
             </div>
             {items.map((it) => (
               <div key={it.id} className="kcard" draggable onDragStart={(e) => e.dataTransfer.setData('text/plain', it.id)} onClick={() => openEditor(col, it.id)}>
-                <span className="t">{label(col, it)}</span>
+                <span className="t">
+                  {label(col, it)}
+                  {countFor(fidx, col, it.id) > 0 && <span className="clip"> 📎{countFor(fidx, col, it.id)}</span>}
+                </span>
                 {secondary.map((k) => {
                   const t = cellText(col, k, it)
                   if (t === '—' || t === 'Não') return null

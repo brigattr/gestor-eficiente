@@ -40,6 +40,8 @@ export function computeAlerts(db: DB): Alert[] {
   for (const t of db.tarefas ?? []) {
     const d = daysUntil(t.prazo)
     if (d != null && d < 0 && !isDone('tarefas', t)) a.push({ level: 'bad', text: `Tarefa atrasada ${-d}d: ${t.titulo}`, col: 'tarefas', id: t.id, path: 'tarefas' })
+    const fu = daysUntil(t.followup)
+    if (fu != null && fu <= 0 && !isDone('tarefas', t)) a.push({ level: 'warn', text: `Follow-up ${fu < 0 ? `atrasado ${-fu}d` : 'hoje'}: ${t.titulo}${t.aguardando ? ` (${t.aguardando})` : ''}`, col: 'tarefas', id: t.id, path: 'tarefas' })
   }
   for (const c of db.certificacoes ?? []) {
     const d = daysUntil(c.validade)
@@ -76,13 +78,14 @@ export function computeAlerts(db: DB): Alert[] {
   }
   const soma: Record<string, number> = {}
   for (const i of db.incentivos ?? []) {
-    const k = `${i.colaborador}|${i.ano}`
+    if (i.pai) continue
+    const k = `${i.colaborador ?? ''}|${i.ano}`
     soma[k] = (soma[k] ?? 0) + Number(i.peso || 0)
   }
   for (const [k, s] of Object.entries(soma)) {
     if (Math.abs(s - 100) > 0.01) {
       const [p, ano] = k.split('|')
-      a.push({ level: 'warn', text: `Incentive ${ano}: pesos de ${P(p)} somam ${s}% (devem somar 100%)`, col: 'incentivos', path: 'incentive' })
+      a.push({ level: 'warn', text: `Incentive ${ano}: pesos ${p ? `de ${P(p)}` : 'das suas metas'} somam ${s}% (devem somar 100%)`, col: 'incentivos', path: 'incentive' })
     }
   }
   return a.sort((x, y) => (x.level === y.level ? 0 : x.level === 'bad' ? -1 : 1))
