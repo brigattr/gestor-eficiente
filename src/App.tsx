@@ -19,7 +19,7 @@ import { Semana } from './pages/Semana'
 import { AuthGate } from './pages/Login'
 import { Anexos } from './pages/Anexos'
 import { Reunioes } from './pages/Reunioes'
-import { EtiquetaDetalhe, Etiquetas } from './pages/Etiquetas'
+import { ConfigurarEtiquetas, EtiquetaDetalhe, Etiquetas } from './pages/Etiquetas'
 import { Usuarios } from './pages/Usuarios'
 
 // Módulos que usam apenas a tela genérica (lista/kanban/gantt + formulário)
@@ -64,6 +64,7 @@ export default function App() {
         <Route path="/anexos" element={<Anexos />} />
         <Route path="/reunioes" element={<Reunioes />} />
         <Route path="/etiquetas" element={<Etiquetas />} />
+        <Route path="/etiquetas/configurar" element={<ConfigurarEtiquetas />} />
         <Route path="/etiquetas/:id" element={<EtiquetaDetalhe />} />
         <Route path="/usuarios" element={<Usuarios />} />
         {GENERIC.map(([p, col]) => (

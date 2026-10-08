@@ -260,22 +260,8 @@ function Input({ f, value, onChange, selfId }: { f: Field; value: unknown; onCha
           ))}
         </select>
       )
-    case 'ref': {
-      const opts = list(f.ref!).filter((i) => i.id !== selfId)
-      return (
-        <select value={s} onChange={(e) => onChange(e.target.value || null)}>
-          <option value="">—</option>
-          {opts
-            .map((i) => ({ id: i.id, l: label(f.ref!, i) + (f.ref === 'incentivos' ? ` (${i.colaborador ? label('pessoas', get('pessoas', i.colaborador as string)) : 'minhas'}, peso ${pct(i.peso)})` : '') }))
-            .sort((a, b) => a.l.localeCompare(b.l))
-            .map((o) => (
-              <option key={o.id} value={o.id}>
-                {o.l}
-              </option>
-            ))}
-        </select>
-      )
-    }
+    case 'ref':
+      return <CampoRef f={f} value={s} selfId={selfId} onChange={onChange} />
     case 'multiref': {
       if (f.ref === 'etiquetas') return <SeletorEtiquetas value={(value as string[]) ?? []} onChange={onChange} />
       const sel = new Set((value as string[]) ?? [])
@@ -307,6 +293,85 @@ function Input({ f, value, onChange, selfId }: { f: Field; value: unknown; onCha
 
 
 /** Escolha de etiquetas, com criação rápida de uma nova. */
+/** Pode cadastrar direto da lista quando o único campo obrigatório do módulo é o nome. */
+function cadastroRapido(ref: string) {
+  const m = MOD[ref]
+  return !!m?.titleField && m.fields.every((x) => !x.required || x.key === m.titleField)
+}
+
+const NOVO = '__novo__'
+
+/** Lista de referência (Responsável, Projeto…), com "+ Cadastrar novo…" sem sair do formulário. */
+function CampoRef({ f, value, selfId, onChange }: { f: Field; value: string; selfId?: string; onChange: (v: unknown) => void }) {
+  const [criando, setCriando] = useState(false)
+  const [nome, setNome] = useState('')
+  const ref = f.ref!
+  const m = MOD[ref]
+  const rapido = cadastroRapido(ref)
+  const opts = list(ref)
+    .filter((i) => i.id !== selfId)
+    .map((i) => ({ id: i.id, l: label(ref, i) + (ref === 'incentivos' ? ` (${i.colaborador ? label('pessoas', get('pessoas', i.colaborador as string)) : 'minhas'}, peso ${pct(i.peso)})` : '') }))
+    .sort((a, b) => a.l.localeCompare(b.l))
+  function criar() {
+    const n = nome.trim()
+    if (!n || !m?.titleField) return
+    const existe = list(ref).find((i) => String(i[m.titleField!] ?? '').toLowerCase() === n.toLowerCase())
+    const base: Record<string, unknown> = {}
+    for (const x of m.fields) if (x.default !== undefined) base[x.key] = x.default
+    const it = existe ?? upsert(ref, { ...base, [m.titleField]: n })
+    if (it) onChange(it.id)
+    setNome('')
+    setCriando(false)
+  }
+  if (criando)
+    return (
+      <span className="row" style={{ flexWrap: 'nowrap' }}>
+        <input
+          autoFocus
+          placeholder={`Nome do novo ${m?.singular?.toLowerCase() ?? 'item'}…`}
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              criar()
+            }
+            if (e.key === 'Escape') {
+              e.preventDefault()
+              setCriando(false)
+            }
+          }}
+        />
+        <button type="button" className="btn sm primary" onClick={criar} disabled={!nome.trim()}>
+          Criar
+        </button>
+        <button type="button" className="btn sm ghost" onClick={() => setCriando(false)}>
+          Cancelar
+        </button>
+      </span>
+    )
+  return (
+    <>
+      <select
+        value={value}
+        onChange={(e) => {
+          if (e.target.value === NOVO) return setCriando(true)
+          onChange(e.target.value || null)
+        }}
+      >
+        <option value="">{opts.length || !m ? '—' : `— nenhum ${m.singular.toLowerCase()} cadastrado —`}</option>
+        {opts.map((o) => (
+          <option key={o.id} value={o.id}>
+            {o.l}
+          </option>
+        ))}
+        {rapido && <option value={NOVO}>+ Cadastrar novo {m.singular.toLowerCase()}…</option>}
+      </select>
+      {!opts.length && m && !rapido && <span className="small muted" style={{ fontWeight: 400 }}>Cadastre em “{m.title}” no menu.</span>}
+    </>
+  )
+}
+
 function SeletorEtiquetas({ value, onChange }: { value: string[]; onChange: (v: unknown) => void }) {
   const [nova, setNova] = useState('')
   const sel = new Set(value)

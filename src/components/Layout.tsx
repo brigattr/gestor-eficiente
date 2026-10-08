@@ -7,8 +7,7 @@ import { useAlerts } from '../lib/alerts'
 import { Icon } from './Icon'
 import { EditorHost } from './ItemForm'
 import { Logo } from './Logo'
-import { corEtiqueta } from './Tags'
-import { itensDaEtiqueta } from '../pages/Etiquetas'
+import { itensEtiquetados } from '../pages/Etiquetas'
 import { useDB } from '../data/store'
 import { logout } from '../lib/auth'
 import { useUser } from '../pages/Login'
@@ -87,26 +86,17 @@ export function Layout({ children }: { children: ReactNode }) {
   )
 }
 
-/** Grupo "Etiquetas" do menu: cada etiqueta ativa com a contagem de itens em aberto. */
+/** Menu "Etiquetas": uma linha só, com o total de itens etiquetados em aberto. O filtro por etiqueta fica no painel. */
 function MenuEtiquetas({ fechar }: { fechar: () => void }) {
   const db = useDB()
-  const tags = (db.etiquetas ?? []).filter((t) => !t.arquivada).sort((a, b) => String(a.nome).localeCompare(String(b.nome)))
+  const n = itensEtiquetados(db).filter((x) => !x.done).length
   return (
     <>
       <div className="nav-group">Etiquetas</div>
-      {tags.map((t) => {
-        const n = itensDaEtiqueta(db, t.id).filter((x) => !x.done).length
-        return (
-          <NavLink key={t.id} to={`/etiquetas/${t.id}`} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={fechar}>
-            <span className="nav-tag-dot" style={{ background: corEtiqueta(t.id) }} />
-            {String(t.nome)}
-            {n > 0 && <span className="nav-count">{n}</span>}
-          </NavLink>
-        )
-      })}
-      <NavLink to="/etiquetas" end className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={fechar}>
+      <NavLink to="/etiquetas" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={fechar}>
         <Icon name="tag" size={17} />
-        {tags.length ? 'Configurar etiquetas' : 'Criar etiquetas'}
+        Etiquetas
+        {n > 0 && <span className="nav-count">{n}</span>}
       </NavLink>
     </>
   )
