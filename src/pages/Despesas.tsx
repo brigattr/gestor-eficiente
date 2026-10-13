@@ -4,6 +4,7 @@ import { Icon } from '../components/Icon'
 import { ModulePage } from '../components/ModulePage'
 import { Kpi, Modal, PageHead, useLocalState } from '../components/ui'
 import { CONTAS } from '../data/schema'
+import { opcoesDe } from '../lib/opcoes'
 import { bulk, getDB, remove, uid, useDB, type Item } from '../data/store'
 import { budgetVsReal, ytd, type BvR } from '../lib/calc'
 import { MES_CURTO, downloadFile, label, money, parseCSV, pct, toCSV, toNumber } from '../lib/format'
@@ -191,7 +192,8 @@ export function Despesas() {
 function Distribuir({ ano, onClose }: { ano: number; onClose: () => void }) {
   const db = getDB()
   const [cc, setCc] = useState(db.centrosCusto?.[0]?.id ?? '')
-  const [conta, setConta] = useState(CONTAS[0])
+  const contas = opcoesDe('contas', CONTAS)
+  const [conta, setConta] = useState(contas[0])
   const [valor, setValor] = useState<number>(0)
   const [modo, setModo] = useState<'anual' | 'mensal'>('anual')
   const [subst, setSubst] = useState(true)
@@ -233,7 +235,7 @@ function Distribuir({ ano, onClose }: { ano: number; onClose: () => void }) {
         <label className="field">
           <span>Conta</span>
           <select value={conta} onChange={(e) => setConta(e.target.value)}>
-            {CONTAS.map((c) => (
+            {contas.map((c) => (
               <option key={c}>{c}</option>
             ))}
           </select>
@@ -276,7 +278,7 @@ function ImportCSV() {
       const g = (k: string) => (ix(k) >= 0 ? r[ix(k)]?.trim() : '')
       const cc = ccs.find((c) => String(c.codigo) === g('centro_custo') || String(c.nome) === g('centro_custo'))
       if (!cc) return erros.push(`linha ${n + 2}: centro de custo "${g('centro_custo')}" não cadastrado`)
-      const it: Item = { id: uid(), centroCusto: cc.id, ano: Number(g('ano')), mes: String(Number(g('mes'))), conta: CONTAS.includes(g('conta')) ? g('conta') : 'Outros', descricao: g('descricao') || 'Importado', fornecedor: g('fornecedor'), valor: toNumber(g('valor')) ?? 0, documento: g('documento'), po: g('po') }
+      const it: Item = { id: uid(), centroCusto: cc.id, ano: Number(g('ano')), mes: String(Number(g('mes'))), conta: opcoesDe('contas', CONTAS).includes(g('conta')) ? g('conta') : 'Outros', descricao: g('descricao') || 'Importado', fornecedor: g('fornecedor'), valor: toNumber(g('valor')) ?? 0, documento: g('documento'), po: g('po') }
       add[/^b/i.test(g('tipo')) ? 'budget' : 'despesas'].push(it)
     })
     if (add.budget.length) await bulk('budget', add.budget)

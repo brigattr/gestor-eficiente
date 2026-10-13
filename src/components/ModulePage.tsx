@@ -1,4 +1,5 @@
 import { useMemo, type ReactNode } from 'react'
+import { opcoesCampo } from '../lib/opcoes'
 import { MOD } from '../data/schema'
 import { list, useDB, type Item } from '../data/store'
 import { downloadFile, label, toCSV } from '../lib/format'
@@ -75,7 +76,7 @@ export function ModulePage({ col, extraViews = [], defaultView, above, actions, 
           {views.length > 1 && <Seg value={current} options={views} onChange={setView} />}
           <input style={{ maxWidth: 240 }} placeholder="Buscar…" value={q} onChange={(e) => setQ(e.target.value)} />
           {filterFields.map((f) => {
-            const opts = f.type === 'select' ? f.options!.map((o) => ({ v: o, l: o })) : list(f.ref!).map((i) => ({ v: i.id, l: label(f.ref!, i) }))
+            const opts = f.type === 'select' ? opcoesCampo(f).map((o) => ({ v: o, l: o })) : list(f.ref!).map((i) => ({ v: i.id, l: label(f.ref!, i) }))
             return (
               <select key={f.key} style={{ maxWidth: 190 }} value={flt[f.key] ?? ''} onChange={(e) => setFlt({ ...flt, [f.key]: e.target.value })}>
                 <option value="">{f.label}: todos</option>

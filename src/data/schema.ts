@@ -31,6 +31,7 @@ export type Field = {
   max?: number
   wide?: boolean // ocupa a linha inteira no formulário
   default?: unknown
+  lista?: string // opções editáveis pelo usuário (id da lista; módulos podem compartilhar, ex.: 'contas')
 }
 
 export type ModuleDef = {
@@ -71,7 +72,7 @@ export const MODULES: ModuleDef[] = [
     fields: [
       { key: 'nome', label: 'Nome', type: 'text', required: true },
       { key: 'cargo', label: 'Cargo', type: 'ref', ref: 'cargos' },
-      { key: 'area', label: 'Área', type: 'select', options: ['Controladoria', 'Contabilidade', 'Fiscal', 'FP&A', 'Custos', 'Tesouraria', 'Contas a Pagar', 'Contas a Receber', 'Outra'] },
+      { key: 'area', label: 'Área', type: 'select', options: ['Controladoria', 'Contabilidade', 'Fiscal', 'FP&A', 'Custos', 'Tesouraria', 'Contas a Pagar', 'Contas a Receber', 'Outra'], lista: 'pessoas.area' },
       { key: 'centroCusto', label: 'Centro de custo', type: 'ref', ref: 'centrosCusto' },
       { key: 'email', label: 'E-mail', type: 'text' },
       { key: 'admissao', label: 'Admissão', type: 'date' },
@@ -94,7 +95,7 @@ export const MODULES: ModuleDef[] = [
     fields: [
       { key: 'titulo', label: 'Vaga', type: 'text', required: true },
       { key: 'cargo', label: 'Cargo', type: 'ref', ref: 'cargos' },
-      { key: 'motivo', label: 'Motivo', type: 'select', options: ['Aumento de quadro', 'Substituição', 'Temporária', 'Estágio'] },
+      { key: 'motivo', label: 'Motivo', type: 'select', options: ['Aumento de quadro', 'Substituição', 'Temporária', 'Estágio'], lista: 'vagas.motivo' },
       { key: 'status', label: 'Status', type: 'select', options: ['Aprovação', 'Aberta', 'Triagem', 'Entrevistas', 'Proposta', 'Fechada', 'Cancelada'], default: 'Aberta' },
       { key: 'abertura', label: 'Abertura', type: 'date' },
       { key: 'prazo', label: 'Prazo para fechar', type: 'date' },
@@ -194,7 +195,7 @@ export const MODULES: ModuleDef[] = [
       pessoa(),
       { key: 'data', label: 'Data', type: 'date', required: true },
       { key: 'tipo', label: 'Tipo', type: 'select', options: ['Positiva', 'Neutra', 'Negativa'], default: 'Neutra' },
-      { key: 'motivo', label: 'Motivo', type: 'select', options: ['Entrega acima do esperado', 'Reconhecimento', 'Prazo', 'Qualidade', 'Comportamento', 'Pontualidade', 'Compliance', 'Segurança', 'Outro'] },
+      { key: 'motivo', label: 'Motivo', type: 'select', options: ['Entrega acima do esperado', 'Reconhecimento', 'Prazo', 'Qualidade', 'Comportamento', 'Pontualidade', 'Compliance', 'Segurança', 'Outro'], lista: 'ocorrencias.motivo' },
       { key: 'descricao', label: 'Descrição do fato', type: 'textarea', wide: true },
       { key: 'evidencia', label: 'Evidência (link)', type: 'url' },
       { key: 'autor', label: 'Registrado por', type: 'text' },
@@ -398,7 +399,7 @@ export const MODULES: ModuleDef[] = [
     fields: [
       pessoa(),
       { key: 'nome', label: 'Treinamento / certificação', type: 'text', required: true },
-      { key: 'tipo', label: 'Tipo', type: 'select', options: ['Curso', 'Certificação', 'Obrigatório/Compliance', 'Idioma', 'Formação acadêmica'] },
+      { key: 'tipo', label: 'Tipo', type: 'select', options: ['Curso', 'Certificação', 'Obrigatório/Compliance', 'Idioma', 'Formação acadêmica'], lista: 'treinamentos.tipo' },
       { key: 'realizado', label: 'Data de conclusão', type: 'date' },
       { key: 'validade', label: 'Validade', type: 'date' },
       { key: 'custo', label: 'Custo', type: 'money' },
@@ -485,7 +486,7 @@ export const MODULES: ModuleDef[] = [
       { key: 'titulo', label: 'Tarefa', type: 'text', required: true, wide: true },
       { key: 'responsavel', label: 'Responsável', type: 'ref', ref: 'pessoas' },
       { key: 'projeto', label: 'Projeto', type: 'ref', ref: 'projetos' },
-      { key: 'lista', label: 'Lista', type: 'select', options: ['Rotina', 'Fechamento', 'Reporting matriz', 'Auditoria', 'Fiscal', 'Pessoas', 'Pessoal'] },
+      { key: 'lista', label: 'Lista', type: 'select', options: ['Rotina', 'Fechamento', 'Reporting matriz', 'Auditoria', 'Fiscal', 'Pessoas', 'Pessoal'], lista: 'tarefas.lista' },
       { key: 'prazo', label: 'Prazo', type: 'date' },
       { key: 'followup', label: 'Próximo follow-up', type: 'date', help: 'Quando cobrar / retomar o assunto' },
       { key: 'status', label: 'Status', type: 'select', options: ['A fazer', 'Em andamento', 'Aguardando terceiros', 'Concluída'], default: 'A fazer' },
@@ -594,7 +595,7 @@ export const MODULES: ModuleDef[] = [
       { key: 'hora', label: 'Hora', type: 'time' },
       { key: 'horaFim', label: 'Até', type: 'time' },
       { key: 'local', label: 'Local / link', type: 'text' },
-      { key: 'tipo', label: 'Tipo', type: 'select', options: ['1:1', 'Status do time', 'Fechamento', 'Comitê / Diretoria', 'Matriz (Alemanha)', 'Auditoria', 'Projeto', 'Externa'] },
+      { key: 'tipo', label: 'Tipo', type: 'select', options: ['1:1', 'Status do time', 'Fechamento', 'Comitê / Diretoria', 'Matriz (Alemanha)', 'Auditoria', 'Projeto', 'Externa'], lista: 'reunioes.tipo' },
       { key: 'participantes', label: 'Participantes', type: 'text', wide: true },
       { key: 'roteiro', label: 'Roteiro de perguntas', type: 'select', options: ['Gestão', 'Reunião de Status', 'Feedback', 'Avaliação de Time', 'Delegação', 'Tomada de Decisão'] },
       { key: 'pauta', label: 'Pauta / o que preciso entender', type: 'textarea', wide: true },
@@ -684,7 +685,7 @@ export const MODULES: ModuleDef[] = [
       { key: 'centroCusto', label: 'Centro de custo', type: 'ref', ref: 'centrosCusto', required: true },
       { key: 'ano', label: 'Ano', type: 'number', required: true, default: new Date().getFullYear() },
       { key: 'mes', label: 'Mês', type: 'select', options: MESES, required: true },
-      { key: 'conta', label: 'Conta / natureza', type: 'select', options: CONTAS, required: true },
+      { key: 'conta', label: 'Conta / natureza', type: 'select', options: CONTAS, required: true, lista: 'contas' },
       { key: 'valor', label: 'Valor orçado', type: 'money', required: true },
       { key: 'premissa', label: 'Premissa', type: 'text', wide: true },
     ],
@@ -704,7 +705,7 @@ export const MODULES: ModuleDef[] = [
       { key: 'centroCusto', label: 'Centro de custo', type: 'ref', ref: 'centrosCusto', required: true },
       { key: 'ano', label: 'Ano', type: 'number', required: true, default: new Date().getFullYear() },
       { key: 'mes', label: 'Mês', type: 'select', options: MESES, required: true },
-      { key: 'conta', label: 'Conta / natureza', type: 'select', options: CONTAS, required: true },
+      { key: 'conta', label: 'Conta / natureza', type: 'select', options: CONTAS, required: true, lista: 'contas' },
       { key: 'descricao', label: 'Produto / serviço', type: 'text', required: true },
       { key: 'fornecedor', label: 'Fornecedor', type: 'text' },
       { key: 'quantidade', label: 'Quantidade', type: 'number' },
@@ -723,6 +724,22 @@ export const CORES_ETIQUETA: Record<string, string> = {
   Azul: '#2a5caa', Marinho: '#1d3f86', Amarelo: '#d9a400', Laranja: '#d9731a', Vermelho: '#c93c3c', Rosa: '#c2457a',
   Roxo: '#7b5fc4', Verde: '#17885c', Turquesa: '#16897f', Cinza: '#6b7a99',
 }
+MODULES.push({
+  col: 'opcoes',
+  path: 'opcoes',
+  title: 'Listas de opções',
+  singular: 'Lista de opções',
+  group: 'Sistema',
+  icon: 'check',
+  description: 'Opções editáveis dos campos de lista (ex.: “Lista” das tarefas, contas de despesa).',
+  titleField: 'lista',
+  fields: [
+    { key: 'lista', label: 'Lista', type: 'text', required: true },
+    { key: 'valores', label: 'Opções', type: 'textarea', wide: true },
+  ],
+  columns: ['lista'],
+  hidden: true,
+})
 MODULES.push({
   col: 'etiquetas',
   path: 'etiquetas',

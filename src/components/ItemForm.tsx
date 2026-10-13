@@ -3,6 +3,7 @@ import { useState, useSyncExternalStore } from 'react'
 import { CORES_ETIQUETA, MOD, type Field } from '../data/schema'
 import { get, getDB, list, remove, uid, upsert, type Item } from '../data/store'
 import { bonus } from '../lib/incentive'
+import { opcoesCampo, salvarOpcoes } from '../lib/opcoes'
 import { deleteFilesOf } from '../lib/files'
 import { Attachments } from './Attachments'
 import { corEtiqueta } from './Tags'
@@ -250,6 +251,7 @@ function Input({ f, value, onChange, selfId }: { f: Field; value: unknown; onCha
         </span>
       )
     case 'select':
+      if (f.lista) return <CampoLista f={f} value={s} onChange={onChange} />
       return (
         <select value={s} onChange={(e) => onChange(e.target.value || null)}>
           <option value="">—</option>
@@ -300,6 +302,98 @@ function cadastroRapido(ref: string) {
 }
 
 const NOVO = '__novo__'
+const EDITAR = '__editar__'
+
+/** Lista de opções editável: "+ Nova opção…" e "Editar lista…" sem sair do formulário. */
+function CampoLista({ f, value, onChange }: { f: Field; value: string; onChange: (v: unknown) => void }) {
+  const [modo, setModo] = useState<'' | 'nova' | 'editar'>('')
+  const [txt, setTxt] = useState('')
+  const opts = opcoesCampo(f)
+  // valor antigo que saiu da lista continua aparecendo neste registro
+  const todas = value && !opts.includes(value) ? [...opts, value] : opts
+  function criar() {
+    const n = txt.trim()
+    if (!n) return
+    const existe = opts.find((o) => o.toLowerCase() === n.toLowerCase())
+    if (!existe && !salvarOpcoes(f.lista!, [...opts, n])) return
+    onChange(existe ?? n)
+    setModo('')
+  }
+  function salvarLista() {
+    if (salvarOpcoes(f.lista!, txt.split('\n'))) setModo('')
+  }
+  if (modo === 'nova')
+    return (
+      <span className="row" style={{ flexWrap: 'nowrap' }}>
+        <input
+          autoFocus
+          placeholder="Nova opção…"
+          value={txt}
+          onChange={(e) => setTxt(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              criar()
+            }
+            if (e.key === 'Escape') {
+              e.preventDefault()
+              setModo('')
+            }
+          }}
+        />
+        <button type="button" className="btn sm primary" onClick={criar} disabled={!txt.trim()}>
+          Criar
+        </button>
+        <button type="button" className="btn sm ghost" onClick={() => setModo('')}>
+          Cancelar
+        </button>
+      </span>
+    )
+  if (modo === 'editar')
+    return (
+      <span className="stack" style={{ gap: 6 }}>
+        <textarea autoFocus rows={Math.min(12, Math.max(4, opts.length + 1))} value={txt} onChange={(e) => setTxt(e.target.value)} />
+        <span className="small muted" style={{ fontWeight: 400 }}>
+          Uma opção por linha, na ordem em que devem aparecer. Vale para todos os registros; quem já usa uma opção removida continua com ela.
+        </span>
+        <span className="row">
+          <button type="button" className="btn sm primary" onClick={salvarLista}>
+            Salvar lista
+          </button>
+          <button type="button" className="btn sm ghost" onClick={() => setModo('')}>
+            Cancelar
+          </button>
+          <span className="grow" />
+          {f.options && (
+            <button type="button" className="btn sm ghost" onClick={() => setTxt(f.options!.join('\n'))} title="Volta às opções originais">
+              Restaurar padrão
+            </button>
+          )}
+        </span>
+      </span>
+    )
+  return (
+    <select
+      value={value}
+      onChange={(e) => {
+        const v = e.target.value
+        if (v === NOVO) return (setTxt(''), setModo('nova'))
+        if (v === EDITAR) return (setTxt(opts.join('\n')), setModo('editar'))
+        onChange(v || null)
+      }}
+    >
+      <option value="">—</option>
+      {todas.map((o) => (
+        <option key={o} value={o}>
+          {o}
+        </option>
+      ))}
+      <option disabled>──────────</option>
+      <option value={NOVO}>+ Nova opção…</option>
+      <option value={EDITAR}>✎ Editar lista…</option>
+    </select>
+  )
+}
 
 /** Lista de referência (Responsável, Projeto…), com "+ Cadastrar novo…" sem sair do formulário. */
 function CampoRef({ f, value, selfId, onChange }: { f: Field; value: string; selfId?: string; onChange: (v: unknown) => void }) {
