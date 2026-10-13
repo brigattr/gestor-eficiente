@@ -11,7 +11,8 @@
 ### Registro de envios (datas no horário de Brasília)
 
 - 05/10/2026 23h — calendário (visões, sincronização Outlook) + etiquetas.
-- 06/10/2026 16h — correção urgente: anexar e-mail com muitos destinatários dava "Erro interno" e travava o carregamento dos dados. **Envio do dia 06/10 já usado**; outro envio hoje só com a frase de ciência dos créditos.
+- 06/10/2026 16h — correção urgente: anexar e-mail com muitos destinatários dava "Erro interno" e travava o carregamento dos dados.
+- 13/10/2026 11h — anexo de e-mail (visual + leitura MIME), etiquetas num painel único com filtro, cadastro rápido de pessoa/projeto na tarefa. **Envio do dia 13/10 já usado**; outro envio hoje só com a frase de ciência dos créditos.
 
 ## Domínio
 
