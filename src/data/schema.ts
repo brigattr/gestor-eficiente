@@ -724,6 +724,63 @@ export const CORES_ETIQUETA: Record<string, string> = {
   Azul: '#2a5caa', Marinho: '#1d3f86', Amarelo: '#d9a400', Laranja: '#d9731a', Vermelho: '#c93c3c', Rosa: '#c2457a',
   Roxo: '#7b5fc4', Verde: '#17885c', Turquesa: '#16897f', Cinza: '#6b7a99',
 }
+// Bloco de anotações (estilo OneNote): bloco › seção › páginas
+MODULES.push(
+  {
+    col: 'blocos',
+    path: 'anotacoes',
+    title: 'Blocos de anotações',
+    singular: 'Bloco',
+    group: 'Sistema',
+    icon: 'book',
+    description: 'Cadernos do bloco de anotações.',
+    titleField: 'nome',
+    fields: [
+      { key: 'nome', label: 'Nome', type: 'text', required: true },
+      { key: 'cor', label: 'Cor', type: 'select', options: Object.keys(CORES_ETIQUETA), default: 'Azul' },
+      { key: 'ordem', label: 'Ordem', type: 'number' },
+    ],
+    columns: ['nome'],
+    hidden: true,
+  },
+  {
+    col: 'secoes',
+    path: 'anotacoes',
+    title: 'Seções de anotações',
+    singular: 'Seção',
+    group: 'Sistema',
+    icon: 'book',
+    description: 'Seções de um bloco de anotações.',
+    titleField: 'nome',
+    fields: [
+      { key: 'nome', label: 'Nome', type: 'text', required: true },
+      { key: 'bloco', label: 'Bloco', type: 'ref', ref: 'blocos', required: true },
+      { key: 'cor', label: 'Cor', type: 'select', options: Object.keys(CORES_ETIQUETA), default: 'Azul' },
+      { key: 'ordem', label: 'Ordem', type: 'number' },
+    ],
+    columns: ['nome', 'bloco'],
+    hidden: true,
+  },
+  {
+    col: 'paginas',
+    path: 'anotacoes',
+    title: 'Anotações',
+    singular: 'Página de anotação',
+    group: 'Sistema',
+    icon: 'book',
+    description: 'Páginas do bloco de anotações.',
+    titleField: 'titulo',
+    fields: [
+      { key: 'titulo', label: 'Título', type: 'text', required: true },
+      { key: 'secao', label: 'Seção', type: 'ref', ref: 'secoes', required: true },
+      { key: 'texto', label: 'Texto', type: 'textarea', wide: true },
+      { key: 'ordem', label: 'Ordem', type: 'number' },
+      { key: 'nivel', label: 'Nível (subpágina)', type: 'number' },
+    ],
+    columns: ['titulo', 'secao'],
+    hidden: true,
+  },
+)
 MODULES.push({
   col: 'opcoes',
   path: 'opcoes',

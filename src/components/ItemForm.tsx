@@ -16,6 +16,8 @@ type EditorState = { col: string; id?: string; preset?: Record<string, unknown> 
 let editor: EditorState = null
 const subs = new Set<() => void>()
 export function openEditor(col: string, id?: string, preset?: Record<string, unknown>) {
+  // páginas de anotação abrem no próprio bloco de anotações
+  if (col === 'paginas' && id) return void (location.hash = `#/anotacoes?p=${id}`)
   editor = { col, id, preset }
   subs.forEach((s) => s())
 }
@@ -466,7 +468,7 @@ function CampoRef({ f, value, selfId, onChange }: { f: Field; value: string; sel
   )
 }
 
-function SeletorEtiquetas({ value, onChange }: { value: string[]; onChange: (v: unknown) => void }) {
+export function SeletorEtiquetas({ value, onChange }: { value: string[]; onChange: (v: unknown) => void }) {
   const [nova, setNova] = useState('')
   const sel = new Set(value)
   const todas = list('etiquetas').filter((t) => !t.arquivada || sel.has(t.id))

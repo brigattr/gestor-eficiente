@@ -7,6 +7,7 @@ export const NAV: { group: string; items: NavItem[] }[] = [
       { path: '', label: 'Visão geral', icon: 'home' },
       { path: 'calendario', label: 'Calendário', icon: 'calendar' },
       { path: 'semana', label: 'Preparação da semana', icon: 'week' },
+      { path: 'anotacoes', label: 'Anotações', icon: 'book' },
     ],
   },
   {
