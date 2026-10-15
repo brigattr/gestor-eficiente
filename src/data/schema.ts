@@ -782,6 +782,24 @@ MODULES.push(
   },
 )
 MODULES.push({
+  col: 'pastas',
+  path: 'arquivos',
+  title: 'Pastas',
+  singular: 'Pasta',
+  group: 'Sistema',
+  icon: 'folder',
+  description: 'Pastas do repositório de arquivos.',
+  titleField: 'nome',
+  fields: [
+    { key: 'nome', label: 'Nome', type: 'text', required: true },
+    { key: 'pai', label: 'Dentro de', type: 'ref', ref: 'pastas' },
+    { key: 'cor', label: 'Cor', type: 'select', options: Object.keys(CORES_ETIQUETA), default: 'Azul' },
+    { key: 'descricao', label: 'Descrição', type: 'textarea', wide: true },
+  ],
+  columns: ['nome', 'pai'],
+  hidden: true,
+})
+MODULES.push({
   col: 'opcoes',
   path: 'opcoes',
   title: 'Listas de opções',

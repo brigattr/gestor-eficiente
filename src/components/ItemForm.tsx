@@ -18,6 +18,7 @@ const subs = new Set<() => void>()
 export function openEditor(col: string, id?: string, preset?: Record<string, unknown>) {
   // páginas de anotação abrem no próprio bloco de anotações
   if (col === 'paginas' && id) return void (location.hash = `#/anotacoes?p=${id}`)
+  if (col === 'pastas' && id) return void (location.hash = `#/arquivos?pasta=${id}`)
   editor = { col, id, preset }
   subs.forEach((s) => s())
 }

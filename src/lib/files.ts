@@ -96,6 +96,26 @@ export async function deleteFile(id: string) {
   emit()
 }
 
+/** Move (outra pasta/registro) ou renomeia um arquivo. */
+export async function updateFile(id: string, mud: { col?: string; itemId?: string; name?: string }) {
+  if (!canWrite()) return avisar('Seu perfil é somente leitura.')
+  try {
+    if (servidor()) {
+      const r = await api<{ file: FileMeta }>(`/files/${id}`, { method: 'PATCH', body: mud })
+      index = index.map((f) => (f.id === id ? r.file : f))
+    } else {
+      const f = await fileGet(id)
+      if (!f) return avisar('Arquivo não encontrado.')
+      const novo = { ...f, ...Object.fromEntries(Object.entries(mud).filter(([, v]) => v !== undefined)) } as StoredFile
+      await filePut(novo)
+      index = index.map((x) => (x.id === id ? strip(novo) : x))
+    }
+    emit()
+  } catch (e) {
+    avisar(`Não foi possível alterar o arquivo: ${(e as Error).message}`)
+  }
+}
+
 export async function deleteFilesOf(col: string, itemId: string) {
   for (const f of filesFor(index, col, itemId)) {
     if (servidor()) await api(`/files/${f.id}`, { method: 'DELETE' }).catch(() => undefined)

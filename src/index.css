@@ -343,3 +343,38 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
   .nb-col { max-height: none; }
   .nb-blocos, .nb-paginas { border-right: 0; border-bottom: 1px solid var(--border); max-height: 260px; }
 }
+
+/* ── Arquivos (estilo OneDrive) */
+.arq { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 18px; align-items: start; }
+.arq-arvore { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 10px 6px; position: sticky; top: 12px; max-height: calc(100vh - 110px); overflow-y: auto; }
+.arq-no { display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 8px; cursor: pointer; font-size: 13.5px; min-width: 0; }
+.arq-no:hover { background: var(--surface-2); }
+.arq-no.on { background: var(--accent-soft); font-weight: 700; }
+.arq-no.sobre, .arq-pasta.sobre { outline: 2px dashed var(--accent); outline-offset: -2px; background: var(--accent-soft); }
+.arq-no.sistema { margin-top: 10px; border-top: 1px solid var(--border); border-radius: 0; padding-top: 10px; color: var(--muted); }
+.arq-seta { width: 14px; flex: none; color: var(--muted); font-size: 11px; text-align: center; }
+.arq-nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-left: 3px solid var(--pasta); padding-left: 6px; }
+.arq-ico { flex: none; color: var(--muted); }
+.arq-n { margin-left: auto; font-size: 11px; }
+.arq-uso { padding: 10px 10px 2px; }
+.arq-main { display: grid; gap: 14px; min-width: 0; min-height: 60vh; align-content: start; }
+.arq-topo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.arq-trilha { font-size: 18px; font-weight: 800; display: flex; flex-wrap: wrap; align-items: center; gap: 2px; }
+.arq-trilha a { cursor: pointer; padding: 2px 4px; border-radius: 6px; }
+.arq-trilha a:hover { background: var(--surface-2); }
+.arq-busca { max-width: 240px; }
+.arq-topo select { width: auto; }
+.nb-cor { appearance: none; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--border); }
+.arq-pastas { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+.arq-pasta { display: grid; gap: 4px; padding: 12px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); cursor: pointer; min-width: 0; }
+.arq-pasta:hover { border-color: var(--pasta); box-shadow: 0 2px 10px rgb(0 0 0 / .06); }
+.arq-pasta-nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.arq-ext { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; color: #fff; font-size: 10px; font-weight: 800; }
+.arq-tabela tr[draggable='true'] { cursor: grab; }
+.arq-cel-nome { min-width: 0; max-width: 1px; width: 100%; }
+.arq-link { font-weight: 700; cursor: pointer; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.arq-sub { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.arq-sub a { cursor: pointer; }
+.arq-mover { width: 92px; padding: 3px 4px; font-size: 12px; }
+.arq-drop { min-height: 160px; }
+@media (max-width: 800px) { .arq { grid-template-columns: 1fr; } .arq-arvore { position: static; max-height: 240px; } .arq-busca { max-width: none; flex: 1; } }

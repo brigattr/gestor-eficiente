@@ -328,6 +328,17 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
           },
         })
       }
+      if (method === 'PATCH') {
+        // mover para outra pasta/registro ou renomear
+        if (!escreve) throw new HttpError(403, 'Seu perfil é somente leitura.')
+        const b = (await body(req)) as { col?: string; itemId?: string; name?: string }
+        const col = b.col ?? f.col
+        const itemId = b.itemId ?? f.item_id
+        const name = typeof b.name === 'string' && b.name.trim() ? b.name.trim().slice(0, 250) : f.name
+        if (!COL.test(col) || !itemId || itemId.length > 80) throw new HttpError(400, 'Destino inválido.')
+        await env.DB.prepare('UPDATE files SET col = ?, item_id = ?, name = ?, updated_at = ? WHERE id = ?').bind(col, itemId, name, now(), id).run()
+        return json({ file: fileOut({ ...f, col, item_id: itemId, name }) })
+      }
       if (method === 'DELETE') {
         if (!escreve) throw new HttpError(403, 'Seu perfil é somente leitura.')
         await env.FILES.delete(id)

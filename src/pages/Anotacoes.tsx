@@ -209,7 +209,7 @@ export function Anotacoes() {
                 <NomeEditavel valor={String(b.nome ?? '')} editando={renomear === b.id} setEditando={(v) => setRenomear(v ? b.id : '')} onSalvar={(nome) => upsert('blocos', { id: b.id, nome })} />
                 <span className="grow" />
                 <span className="nb-acoes">
-                  <select className="nb-cor" value={String(b.cor ?? 'Azul')} onClick={(e) => e.stopPropagation()} onChange={(e) => upsert('blocos', { id: b.id, cor: e.target.value })} title="Cor do bloco">
+                  <select className="nb-cor" style={{ background: cor(b) }} value={String(b.cor ?? 'Azul')} onClick={(e) => e.stopPropagation()} onChange={(e) => upsert('blocos', { id: b.id, cor: e.target.value })} title="Cor do bloco">
                     {CORES.map((c) => (
                       <option key={c}>{c}</option>
                     ))}
@@ -245,7 +245,7 @@ export function Anotacoes() {
                       <span className="grow" />
                       <span className="nb-n">{paginas.filter((p) => p.secao === s.id).length}</span>
                       <span className="nb-acoes">
-                        <select className="nb-cor" value={String(s.cor ?? 'Azul')} onClick={(e) => e.stopPropagation()} onChange={(e) => upsert('secoes', { id: s.id, cor: e.target.value })} title="Cor da seção">
+                        <select className="nb-cor" style={{ background: cor(s) }} value={String(s.cor ?? 'Azul')} onClick={(e) => e.stopPropagation()} onChange={(e) => upsert('secoes', { id: s.id, cor: e.target.value })} title="Cor da seção">
                           {CORES.map((c) => (
                             <option key={c}>{c}</option>
                           ))}

@@ -3,6 +3,7 @@ import { Layout } from './components/Layout'
 import { ModulePage } from './components/ModulePage'
 import { Biblioteca } from './pages/Biblioteca'
 import { Anotacoes } from './pages/Anotacoes'
+import { Arquivos } from './pages/Arquivos'
 import { Calendario } from './pages/Calendario'
 import { Configuracoes } from './pages/Config'
 import { Dashboard } from './pages/Dashboard'
@@ -43,6 +44,7 @@ export default function App() {
         <Route path="/calendario" element={<Calendario />} />
         <Route path="/semana" element={<Semana />} />
         <Route path="/anotacoes" element={<Anotacoes />} />
+        <Route path="/arquivos" element={<Arquivos />} />
         <Route path="/tarefas" element={<Tarefas />} />
         <Route path="/projetos" element={<Projetos />} />
         <Route path="/okr" element={<Okr />} />
