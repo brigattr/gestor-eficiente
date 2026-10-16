@@ -4,11 +4,13 @@ import { Attachments } from '../components/Attachments'
 import { Desenho } from '../components/Desenho'
 import { confirmar } from '../components/Dialogs'
 import { Icon } from '../components/Icon'
-import { SeletorEtiquetas } from '../components/ItemForm'
+import { SeletorEtiquetas, openEditor } from '../components/ItemForm'
 import { TagChips } from '../components/Tags'
 import { CORES_ETIQUETA } from '../data/schema'
-import { get, getPref, list, remove, setPref, upsert, useDB, type Item } from '../data/store'
-import { deleteFilesOf } from '../lib/files'
+import { get, getPref, list, remove, setPref, uid, upsert, useDB, type Item } from '../data/store'
+import { addFiles, deleteFilesOf } from '../lib/files'
+import { isDone } from '../lib/alerts'
+import { fmtDate } from '../lib/format'
 import { limparHtml, textoDoHtml } from '../lib/sanitize'
 
 // Bloco de anotações no estilo OneNote: blocos › seções › páginas (com subpáginas).
@@ -375,6 +377,55 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
     upsert('desenhos', { id: b.id, ordem: a.ordem })
   }
   const ed = useRef<HTMLDivElement>(null)
+  const folha = useRef<HTMLDivElement>(null)
+  const [selecao, setSelecao] = useState<{ texto: string; x: number; y: number } | null>(null)
+  const tarefasDaPagina = (db.tarefas ?? []).filter((t) => t.paginaOrigem === p.id)
+
+  // botão "Criar tarefa" flutuando sobre o texto selecionado
+  useEffect(() => {
+    const ver = () => {
+      const s = window.getSelection()
+      if (!s || s.isCollapsed || !ed.current || !s.anchorNode || !ed.current.contains(s.anchorNode)) return setSelecao(null)
+      const texto = s.toString().trim()
+      if (!texto) return setSelecao(null)
+      const r = s.getRangeAt(0).getBoundingClientRect()
+      const base = folha.current?.getBoundingClientRect()
+      if (!base) return
+      setSelecao({ texto, x: Math.min(Math.max(r.left - base.left + r.width / 2, 70), base.width - 70), y: r.top - base.top })
+    }
+    document.addEventListener('selectionchange', ver)
+    return () => document.removeEventListener('selectionchange', ver)
+  }, [])
+
+  function presetTarefa(texto: string) {
+    const linhas = texto.split(/\n+/).map((x) => x.trim()).filter(Boolean)
+    const titulo = (linhas[0] ?? '').slice(0, 150)
+    const origem = `Da anotação “${String(p.titulo || 'Sem título')}” (${caminho})`
+    return {
+      titulo,
+      comentarios: linhas.length > 1 || (linhas[0] ?? '').length > 150 ? `${origem}\n\n${texto}` : origem,
+      paginaOrigem: p.id,
+      etiquetas: Array.isArray(p.etiquetas) ? p.etiquetas : [],
+    }
+  }
+  function tarefaDoTexto(texto?: string) {
+    let t = texto ?? window.getSelection()?.toString().trim() ?? ''
+    if (!t && ed.current) {
+      // sem seleção: usa a linha (bloco) onde está o cursor
+      const n = window.getSelection()?.anchorNode
+      const el = n instanceof Element ? n : n?.parentElement
+      const bloco = el?.closest('li, p, div, h2, h3, blockquote')
+      if (bloco && ed.current.contains(bloco) && bloco !== ed.current) t = (bloco.textContent ?? '').trim()
+    }
+    salvar()
+    setSelecao(null)
+    openEditor('tarefas', undefined, presetTarefa(t))
+  }
+  async function tarefaDoDesenho(png: Blob) {
+    const id = uid()
+    await addFiles('tarefas', id, [new File([png], `desenho-${String(p.titulo || 'anotacao').slice(0, 40)}.png`, { type: 'image/png' })])
+    openEditor('tarefas', undefined, { id, ...presetTarefa(''), titulo: '' })
+  }
   const sujo = useRef(false)
   const timer = useRef<number | undefined>(undefined)
   const [titulo, setTituloRaw] = useState(String(p.titulo ?? ''))
@@ -481,10 +532,16 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
     { i: '⌫', t: 'Limpar formatação', run: () => exec('removeFormat') },
     '|',
     { i: '✍️ Desenho', t: 'Inserir área de desenho à mão (Apple Pencil, caneta ou mouse)', run: novoDesenho },
+    { i: '✓ Tarefa', t: 'Transformar o texto selecionado (ou a linha do cursor) em tarefa', run: () => tarefaDoTexto() },
   ]
 
   return (
-    <div className="nb-pagina">
+    <div className="nb-pagina" ref={folha}>
+      {selecao && (
+        <button type="button" className="nb-flutua" style={{ left: selecao.x, top: Math.max(0, selecao.y - 40) }} onMouseDown={(e) => e.preventDefault()} onClick={() => tarefaDoTexto(selecao.texto)}>
+          ✓ Criar tarefa
+        </button>
+      )}
       <div className="nb-meta">
         <span className="small muted grow">{caminho}</span>
         <span className={`small ${estado === 'grande' ? 'neg' : 'muted'}`}>
@@ -581,12 +638,24 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
       />
       {desenhos.map((d, i) => (
         <div key={d.id} id={'ds-' + d.id}>
-          <Desenho d={d} podeSubir={i > 0} podeDescer={i < desenhos.length - 1} onMover={(dir) => moverDesenho(i, dir)} />
+          <Desenho d={d} podeSubir={i > 0} podeDescer={i < desenhos.length - 1} onMover={(dir) => moverDesenho(i, dir)} onTarefa={(png) => void tarefaDoDesenho(png)} />
         </div>
       ))}
       <button type="button" className="nb-add" onClick={novoDesenho}>
         <Icon name="plus" size={13} /> Área de desenho (Apple Pencil, caneta ou mouse)
       </button>
+      {tarefasDaPagina.length > 0 && (
+        <div className="card nb-tarefas">
+          <b className="small">Tarefas criadas desta página</b>
+          {tarefasDaPagina.map((t) => (
+            <div key={t.id} className={`nb-tarefa ${isDone('tarefas', t) ? 'feita' : ''}`} onClick={() => openEditor('tarefas', t.id)}>
+              <span>{isDone('tarefas', t) ? '☑' : '☐'}</span>
+              <span className="grow">{String(t.titulo || '(sem título)')}</span>
+              <span className="small muted">{[t.status, t.prazo ? fmtDate(t.prazo) : ''].filter(Boolean).join(' · ')}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

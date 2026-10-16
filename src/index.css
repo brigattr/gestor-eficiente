@@ -478,3 +478,15 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 .busca-tipo { font-size: 10.5px; font-weight: 700; text-transform: uppercase; color: var(--muted); width: 92px; flex: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .busca-titulo, .busca-sub { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 .busca-sub { max-width: 40%; }
+
+/* ── Anotação → tarefa */
+.nb-pagina { position: relative; }
+.nb-flutua { position: absolute; z-index: 5; transform: translateX(-50%); border: 0; border-radius: 99px; padding: 6px 12px; background: var(--navy, #14254a); color: #fff; font-weight: 700; font-size: 13px; box-shadow: 0 6px 18px rgb(0 0 0 / .2); cursor: pointer; white-space: nowrap; }
+.nb-flutua:hover { filter: brightness(1.15); }
+.ds-tarefa { padding: 0 8px; font-weight: 700; font-size: 12.5px; }
+.nb-tarefas { display: grid; gap: 4px; margin-top: 8px; }
+.nb-tarefa { display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 8px; cursor: pointer; }
+.nb-tarefa:hover { background: var(--surface-2); }
+.nb-tarefa.feita .grow { text-decoration: line-through; color: var(--muted); }
+.origem-nota { padding: 6px 10px; border-radius: 8px; background: var(--accent-soft); }
+.origem-nota a { cursor: pointer; font-weight: 700; }

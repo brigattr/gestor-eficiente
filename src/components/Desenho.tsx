@@ -86,7 +86,7 @@ function tocaTraco(t: Traco, x: number, y: number, raio: number) {
   return false
 }
 
-export function Desenho({ d, podeSubir, podeDescer, onMover }: { d: Item; podeSubir: boolean; podeDescer: boolean; onMover: (dir: -1 | 1) => void }) {
+export function Desenho({ d, podeSubir, podeDescer, onMover, onTarefa }: { d: Item; podeSubir: boolean; podeDescer: boolean; onMover: (dir: -1 | 1) => void; onTarefa?: (png: Blob) => void }) {
   const wrap = useRef<HTMLDivElement>(null)
   const cv = useRef<HTMLCanvasElement>(null)
   const tracos = useRef<Traco[]>(Array.isArray(d.tracos) ? (d.tracos as Traco[]) : [])
@@ -260,6 +260,37 @@ export function Desenho({ d, podeSubir, podeDescer, onMover }: { d: Item; podeSu
     sujo.current = false
     remove('desenhos', d.id)
   }
+  /** Imagem PNG só da parte desenhada (recorte com margem), fundo branco. */
+  function exportarPng(): Promise<Blob | null> {
+    const ts = tracos.current
+    if (!ts.length) return Promise.resolve(null)
+    let x0 = Infinity,
+      y0 = Infinity,
+      x1 = -Infinity,
+      y1 = -Infinity
+    for (const t of ts)
+      for (let i = 0; i < t.p.length; i += 3) {
+        x0 = Math.min(x0, t.p[i])
+        y0 = Math.min(y0, t.p[i + 1])
+        x1 = Math.max(x1, t.p[i])
+        y1 = Math.max(y1, t.p[i + 1])
+      }
+    const m = 24,
+      k = 2
+    x0 = Math.max(0, x0 - m)
+    y0 = Math.max(0, y0 - m)
+    x1 = Math.min(LARGURA, x1 + m)
+    y1 = y1 + m
+    const c = document.createElement('canvas')
+    c.width = Math.round((x1 - x0) * k)
+    c.height = Math.round((y1 - y0) * k)
+    const ctx = c.getContext('2d')!
+    ctx.fillStyle = '#fff'
+    ctx.fillRect(0, 0, c.width, c.height)
+    ctx.translate(-x0 * k, -y0 * k)
+    for (const t of ts) desenharTraco(ctx, t, k)
+    return new Promise((r) => c.toBlob((b) => r(b), 'image/png'))
+  }
   function maisAltura() {
     const h = altura + 300
     setAltura(h)
@@ -316,6 +347,21 @@ export function Desenho({ d, podeSubir, podeDescer, onMover }: { d: Item; podeSu
         </button>
         <span className="grow" />
         {aviso && <span className="small neg">{aviso}</span>}
+        {onTarefa && (
+          <button
+            type="button"
+            className="ds-btn ds-tarefa"
+            title="Criar tarefa com este desenho anexado"
+            disabled={!tracos.current.length}
+            onClick={async () => {
+              salvar()
+              const png = await exportarPng()
+              if (png) onTarefa(png)
+            }}
+          >
+            ✓ Tarefa
+          </button>
+        )}
         {podeSubir && (
           <button type="button" className="ds-btn" onClick={() => onMover(-1)} title="Mover para cima">
             ↑

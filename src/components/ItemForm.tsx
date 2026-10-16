@@ -51,7 +51,7 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
   const [v, setV] = useState<Record<string, unknown>>(() => initial(m.fields, existing, preset))
   const [err, setErr] = useState<string | null>(null)
   // id definido já na abertura: anexos de um registro novo ficam vinculados a ele
-  const [itemId] = useState(() => existing?.id ?? uid())
+  const [itemId] = useState(() => existing?.id ?? (typeof preset?.id === 'string' ? preset.id : uid()))
   const set = (k: string, val: unknown) => setV((s) => ({ ...s, [k]: val }))
   const cancel = () => {
     if (!existing) void deleteFilesOf(col, itemId) // descarta anexos de um registro não salvo
@@ -119,6 +119,19 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
           </label>
         ))}
         {col === 'projetos' && <IncentiveLink v={v} />}
+        {typeof v.paginaOrigem === 'string' && get('paginas', v.paginaOrigem) && (
+          <div className="wide small origem-nota">
+            📝 Criada a partir da anotação{' '}
+            <a
+              onClick={() => {
+                onClose()
+                location.hash = `#/anotacoes?p=${v.paginaOrigem}`
+              }}
+            >
+              “{String(get('paginas', v.paginaOrigem)?.titulo || 'Sem título')}”
+            </a>
+          </div>
+        )}
         <Attachments col={col} itemId={itemId} />
       </div>
     </Modal>
