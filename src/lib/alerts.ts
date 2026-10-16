@@ -3,7 +3,7 @@ import { MODULES, MOD } from '../data/schema'
 import { get, useDB, type DB, type Item } from '../data/store'
 import { addDays, daysUntil, iso, label, startOfWeek } from './format'
 
-export const DONE = /conclu|realizad|aprovad|fechad|atingida|contratad|cancelad|recusad|reprovad|comunicada|lançada|em gozo/i
+export const DONE = /conclu|realizad|aprovad|fechad|atingida|contratad|cancelad|recusad|reprovad|comunicada|lançada|em gozo|controlad|encerrad/i
 
 export function isDone(col: string, it: Item) {
   const sf = MOD[col]?.statusField

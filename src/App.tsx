@@ -3,6 +3,7 @@ import { Layout } from './components/Layout'
 import { ModulePage } from './components/ModulePage'
 import { Biblioteca } from './pages/Biblioteca'
 import { Anotacoes } from './pages/Anotacoes'
+import { ChecklistNr1, GuiaNr1, IndicadoresNr1, InventarioNr1, PainelNr1, PesquisaNr1 } from './pages/Nr1'
 import { Arquivos } from './pages/Arquivos'
 import { Calendario } from './pages/Calendario'
 import { Configuracoes } from './pages/Config'
@@ -33,6 +34,9 @@ const GENERIC: [string, string][] = [
   ['onboarding', 'onboarding'],
   ['pdis', 'pdis'],
   ['centros-custo', 'centrosCusto'],
+  ['nr1-plano', 'acoesPsico'],
+  ['nr1-bem-estar', 'checkinsBemEstar'],
+  ['nr1-relatos', 'relatosPsico'],
 ]
 
 export default function App() {
@@ -45,6 +49,12 @@ export default function App() {
         <Route path="/semana" element={<Semana />} />
         <Route path="/anotacoes" element={<Anotacoes />} />
         <Route path="/arquivos" element={<Arquivos />} />
+        <Route path="/nr1" element={<PainelNr1 />} />
+        <Route path="/nr1-inventario" element={<InventarioNr1 />} />
+        <Route path="/nr1-pesquisa" element={<PesquisaNr1 />} />
+        <Route path="/nr1-indicadores" element={<IndicadoresNr1 />} />
+        <Route path="/nr1-checklist" element={<ChecklistNr1 />} />
+        <Route path="/nr1-guia" element={<GuiaNr1 />} />
         <Route path="/tarefas" element={<Tarefas />} />
         <Route path="/projetos" element={<Projetos />} />
         <Route path="/okr" element={<Okr />} />

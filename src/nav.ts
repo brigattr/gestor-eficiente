@@ -36,6 +36,20 @@ export const NAV: { group: string; items: NavItem[] }[] = [
     ],
   },
   {
+    group: 'Saúde mental e NR-1',
+    items: [
+      { path: 'nr1', label: 'Painel NR-1', icon: 'heart' },
+      { path: 'nr1-inventario', label: 'Inventário de riscos', icon: 'alert' },
+      { path: 'nr1-plano', label: 'Plano de ação', icon: 'checklist' },
+      { path: 'nr1-pesquisa', label: 'Pesquisa anônima', icon: 'search' },
+      { path: 'nr1-bem-estar', label: 'Check-ins de bem-estar', icon: 'chat' },
+      { path: 'nr1-relatos', label: 'Relatos e encaminhamentos', icon: 'flag' },
+      { path: 'nr1-indicadores', label: 'Indicadores', icon: 'trending' },
+      { path: 'nr1-checklist', label: 'Checklist de conformidade', icon: 'check' },
+      { path: 'nr1-guia', label: 'Guia e legislação', icon: 'book' },
+    ],
+  },
+  {
     group: 'Desempenho',
     items: [
       { path: 'avaliacoes', label: 'Avaliação e 9-Box', icon: 'award' },

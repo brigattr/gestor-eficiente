@@ -118,6 +118,7 @@ tbody tr:hover { background: var(--surface-2); }
 tbody tr.click { cursor: pointer; }
 tfoot td { font-weight: 700; background: var(--surface-2); }
 td.neg { color: var(--bad); } td.pos { color: var(--ok); }
+.small.pos, span.pos { color: var(--ok); } span.neg { color: var(--bad); }
 
 /* ───────── Modal */
 .overlay { position: fixed; inset: 0; background: rgb(8 14 30 / .45); z-index: 50; display: grid; place-items: start center; padding: 5vh 16px; overflow-y: auto; }
@@ -395,3 +396,19 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 .ds-canvas { display: block; touch-action: none; cursor: crosshair; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .ds-canvas.borracha { cursor: cell; }
 .ds-mais { justify-self: center; }
+
+/* ── Saúde mental e NR-1 */
+.nr1-juridico { display: grid; gap: 4px; border-left: 4px solid var(--warn); }
+.nr1-kpi { color: inherit; text-decoration: none; }
+.nr1-kpi:hover { border-color: var(--accent); }
+.nr1-kpi .d { display: flex; flex-wrap: wrap; gap: 4px; }
+.nr1-matriz { display: grid; grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; gap: 6px; align-items: center; }
+.nr1-eixo-y { writing-mode: vertical-rl; transform: rotate(180deg); }
+.nr1-eixo-x { grid-column: 2; text-align: center; }
+.nr1-grade { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.nr1-cel { aspect-ratio: 1.6; border-radius: 8px; background: color-mix(in srgb, var(--c) 22%, var(--surface)); border: 1px solid color-mix(in srgb, var(--c) 45%, transparent); display: grid; place-items: center; font-weight: 800; font-size: 16px; cursor: default; }
+.nr1-cel:not(:empty) { cursor: pointer; background: color-mix(in srgb, var(--c) 55%, var(--surface)); }
+.nr1-item { display: grid; gap: 6px; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+.nr1-item:last-child { border-bottom: 0; }
+.nr1-perguntas { margin: 0; padding-left: 22px; display: grid; gap: 4px; }
+.nr1-ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }

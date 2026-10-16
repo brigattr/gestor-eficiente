@@ -1,4 +1,5 @@
 import { get, type Item } from '../data/store'
+import { nivelRisco } from '../data/nr1'
 import { MOD, type Field } from '../data/schema'
 
 const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 })
@@ -67,6 +68,9 @@ export const VIRTUALS: Record<string, Record<string, { label: string; value: (i:
   tarefas: {
     gut: { label: 'GUT', value: (i) => (i.g && i.u && i.t ? Number(i.g) * Number(i.u) * Number(i.t) : null) },
   },
+  riscosPsico: {
+    nivel: { label: 'Nível (P×S)', value: (i) => nivelRisco(i.probabilidade, i.severidade) },
+  },
 }
 
 export function display(col: string, f: Field | undefined, v: unknown): string {
@@ -102,9 +106,9 @@ export function display(col: string, f: Field | undefined, v: unknown): string {
 /** Tom semântico para chips de status. */
 export function tone(v: unknown): 'ok' | 'warn' | 'bad' | 'info' | 'muted' {
   const s = String(v ?? '').toLowerCase()
-  if (/(conclu|aprovad|realizad|fechad|atingida$|contratad|válido|lançada|comunicada|calibrada|positiva|^ativo|alta$)/.test(s)) return 'ok'
+  if (/(conclu|aprovad|realizad|fechad|atingida$|contratad|válido|lançada|comunicada|calibrada|positiva|^ativo|alta$|controlad|encerrad)/.test(s)) return 'ok'
   if (/(risco|crític|vencid|recusad|reprovad|negativa|cancelad|não atingida|desligad|baixa$|atrasad)/.test(s)) return 'bad'
-  if (/(atenção|pendente|aguardando|ajuste|a agendar|pausad|vencendo|média$|aprovação|solicitad)/.test(s)) return 'warn'
+  if (/(atenção|pendente|aguardando|ajuste|a agendar|pausad|vencendo|média$|aprovação|solicitad|identificad|^aberto$)/.test(s)) return 'warn'
   if (/(andamento|em gozo|agendad|aberta|triagem|entrevist|proposta|revis|prepara|no prazo)/.test(s)) return 'info'
   return 'muted'
 }
