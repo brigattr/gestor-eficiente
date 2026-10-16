@@ -14,7 +14,15 @@
 - 06/10/2026 16h — correção urgente: anexar e-mail com muitos destinatários dava "Erro interno" e travava o carregamento dos dados.
 - 13/10/2026 11h — anexo de e-mail (visual + leitura MIME), etiquetas num painel único com filtro, cadastro rápido de pessoa/projeto na tarefa.
 - 15/10/2026 14h — listas de opções editáveis, bloco de anotações (estilo OneNote), repositório de arquivos por pastas (estilo OneDrive).
-- 16/10/2026 17h — desenho com Apple Pencil nas anotações, menu Saúde mental e NR-1, ferramentas visíveis no menu (configurável), pacote plataforma (cultura e clima, comunicação, processos, DP, tarefas recorrentes, busca global, app instalável). **Envio do dia 16/10 já usado**; outro envio hoje só com a frase de ciência dos créditos.
+- 16/10/2026 17h — desenho com Apple Pencil nas anotações, menu Saúde mental e NR-1, ferramentas visíveis no menu (configurável), pacote plataforma (cultura e clima, comunicação, processos, DP, tarefas recorrentes, busca global, app instalável).
+- 16/10/2026 (2º envio, com ciência do usuário) — anotações: transformar texto ou desenho em tarefa. **Envios do dia 16/10 já usados**; outro envio hoje só com a frase de ciência dos créditos.
+
+## Próximos passos comerciais (anotado em 16/10/2026)
+
+- O sistema será comercializado como SaaS. Existem dois materiais de vendas (PowerPoint): o portfólio completo (estudo da equipe de vendas) e o pitch curto (para conseguir reunião). Eles **não ficam no repositório** (público); foram entregues ao usuário.
+- **A fazer:** com base no portfólio, selecionar os tópicos mais importantes para montar o **site comercial** (landing page) e colocar no ar para comercializar.
+- **Mais à frente:** migrar do Cloudflare Pages/D1/R2 para uma **VPS** (servidor próprio), para suportar muitos clientes, usuários e banco de dados maiores. Isso exige planejar: separação por cliente (multi-tenant), banco (ex.: PostgreSQL), armazenamento de arquivos, backup automático, monitoramento, e-mail transacional e planos/assinatura. O usuário não é técnico nessa parte — explicar passo a passo, como foi feito no Cloudflare.
+- O menu configurável (Configurações → Ferramentas no menu) é a base dos planos/pacotes de venda.
 
 ## Domínio
 

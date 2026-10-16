@@ -28,12 +28,12 @@ export function buildSeed(): DB {
     { id: 'cc3', codigo: 'BR10-4120', nome: 'Custos & FP&A', gestor: 'Eu', empresa: 'BR10', ativo: true },
   ]
   const pessoas: Item[] = [
-    { id: 'p1', nome: 'Ana Ribeiro', cargo: 'cg4', area: 'Controladoria', centroCusto: 'cc1', admissao: '2019-03-11', salario: 17200, status: 'Ativo', email: 'ana.ribeiro@empresa.com' },
-    { id: 'p2', nome: 'Bruno Carvalho', cargo: 'cg2', area: 'Custos', centroCusto: 'cc3', admissao: '2021-08-02', salario: 10100, status: 'Ativo' },
-    { id: 'p3', nome: 'Camila Duarte', cargo: 'cg1', area: 'Contabilidade', centroCusto: 'cc2', admissao: '2022-01-17', salario: 8300, status: 'Ativo' },
-    { id: 'p4', nome: 'Diego Nunes', cargo: 'cg3', area: 'Fiscal', centroCusto: 'cc2', admissao: '2023-05-08', salario: 6900, status: 'Ativo' },
-    { id: 'p5', nome: 'Elisa Moraes', cargo: 'cg5', area: 'FP&A', centroCusto: 'cc3', admissao: d(-20), salario: 5400, status: 'Ativo' },
-    { id: 'p6', nome: 'Felipe Andrade', cargo: 'cg1', area: 'Contabilidade', centroCusto: 'cc2', admissao: '2020-10-05', salario: 9300, status: 'Ativo' },
+    { id: 'p1', genero: 'Feminino', perfilDisc: 'DC', nascimento: `1984-${String(M).padStart(2, '0')}-22`, nome: 'Ana Ribeiro', cargo: 'cg4', area: 'Controladoria', centroCusto: 'cc1', admissao: '2019-03-11', salario: 17200, status: 'Ativo', email: 'ana.ribeiro@empresa.com' },
+    { id: 'p2', gestor: 'p1', genero: 'Masculino', perfilDisc: 'C – Conformidade', nascimento: '1990-03-14', nome: 'Bruno Carvalho', cargo: 'cg2', area: 'Custos', centroCusto: 'cc3', admissao: '2021-08-02', salario: 10100, status: 'Ativo' },
+    { id: 'p3', gestor: 'p1', genero: 'Feminino', perfilDisc: 'SC', nascimento: `1993-${String(M).padStart(2, '0')}-05`, nome: 'Camila Duarte', cargo: 'cg1', area: 'Contabilidade', centroCusto: 'cc2', admissao: '2022-01-17', salario: 8300, status: 'Ativo' },
+    { id: 'p4', gestor: 'p1', genero: 'Masculino', perfilDisc: 'DI', nascimento: '1996-11-30', nome: 'Diego Nunes', cargo: 'cg3', area: 'Fiscal', centroCusto: 'cc2', admissao: '2023-05-08', salario: 6900, status: 'Ativo' },
+    { id: 'p5', gestor: 'p2', genero: 'Feminino', perfilDisc: 'IS', nascimento: '2000-07-19', nome: 'Elisa Moraes', cargo: 'cg5', area: 'FP&A', centroCusto: 'cc3', admissao: d(-20), salario: 5400, status: 'Ativo' },
+    { id: 'p6', gestor: 'p3', genero: 'Masculino', perfilDisc: 'S – Estabilidade', nascimento: '1988-01-09', nome: 'Felipe Andrade', cargo: 'cg1', area: 'Contabilidade', centroCusto: 'cc2', admissao: '2020-10-05', salario: 9300, status: 'Ativo' },
   ]
 
   const competencias: Item[] = [
@@ -239,11 +239,168 @@ export function buildSeed(): DB {
   marcar(tarefas, ['t5'], 'tg3')
   marcar(projetos, ['pr4'], 'tg3')
 
+  const demo = demoPlataforma(d, ym, Y, M)
+
   return {
+    ...demo,
     etiquetas,
     tickets,
     cargos, centrosCusto: cc, pessoas, competencias, mapaCompetencias: mapa, incentivos, objetivos, krs, projetos, tarefas, reunioes,
     budget, despesas, ferias, exames, certificacoes, ocorrencias, avaliacoes, pdis, onboarding, feedbacks, ponto, vagas, candidatos,
     treinoInterno, swot, umaum,
+  }
+}
+
+/** Exemplos dos módulos da plataforma (cultura, comunicação, processos, NR-1, anotações) — tudo fictício. */
+function demoPlataforma(d: (k: number) => string, ym: (o: number) => string, Y: number, M: number): DB {
+  const semana = (k: number) => {
+    const x = new Date()
+    x.setDate(x.getDate() + k * 7)
+    const t = new Date(Date.UTC(x.getFullYear(), x.getMonth(), x.getDate()))
+    const dia = t.getUTCDay() || 7
+    t.setUTCDate(t.getUTCDate() + 4 - dia)
+    const ano = t.getUTCFullYear()
+    return `${ano}-W${String(Math.ceil(((t.getTime() - Date.UTC(ano, 0, 1)) / 86400000 + 1) / 7)).padStart(2, '0')}`
+  }
+  const humor: Item[] = []
+  const notas = [[4, 4, 3, 5, 4, 3], [3, 4, 3, 4, 2, 3], [4, 5, 4, 4, 3, 4], [3, 3, 2, 4, 3, 3], [4, 4, 4, 5, 4, 3], [5, 4, 4, 4, 3, 4]]
+  notas.forEach((ns, i) => ns.forEach((n, k) => humor.push({ id: `hm${i}${k}`, semana: semana(i - notas.length + 1), nota: n, _created: d(-7 * (notas.length - 1 - i)) })))
+
+  const avisos: Item[] = [
+    { id: 'av1', titulo: `Calendário de fechamento de ${['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'][M - 1]}: D+3 para a matriz`, tipo: 'Meta do mês', texto: 'Lançamentos manuais até D+1 às 18h.\nConciliações críticas até D+2.\nPacote de reporting no D+3 às 12h.', publicadoEm: d(-3), validoAte: d(20), fixado: true },
+    { id: 'av2', titulo: 'Treinamento: Reforma Tributária na prática', tipo: 'Evento', texto: 'Quinta-feira, 14h, sala 3 e online. Traga dúvidas sobre CBS/IBS nas compras.', publicadoEm: d(-1), validoAte: d(6) },
+    { id: 'av3', titulo: 'Auditoria externa concluída sem ajustes relevantes 🎉', tipo: 'Conquista', texto: 'Obrigado a todos pelo cuidado com as conciliações e a documentação.', publicadoEm: d(-5), validoAte: d(10) },
+  ]
+  const reconhecimentos: Item[] = [
+    { id: 'rc1', para: 'p3', de: 'Ana Ribeiro', valor: 'Qualidade e precisão', mensagem: 'Conciliação intercompany impecável, zero pendências com a matriz este mês.', data: d(-2), publico: true },
+    { id: 'rc2', para: 'p4', de: 'Bruno Carvalho', valor: 'Colaboração', mensagem: 'Ajudou o time de compras a entender a nova regra de crédito de CBS.', data: d(-6), publico: true },
+    { id: 'rc3', para: 'p5', de: 'Ana Ribeiro', valor: 'Aprendizado', mensagem: 'Primeiro forecast entregue no prazo e com ótima análise de variações.', data: d(-9), publico: true },
+    { id: 'rc4', para: 'p3', de: 'Felipe Andrade', valor: 'Colaboração', mensagem: 'Cobriu minhas férias sem deixar nada atrasar.', data: d(-20), publico: true },
+  ]
+  const gruposTrabalho: Item[] = [
+    { id: 'gt1', nome: 'Comitê Reforma Tributária', lider: 'p4', membros: ['p4', 'p3', 'p2'], objetivo: 'Preparar sistemas, cadastros e processos para CBS/IBS.', cadencia: 'Quinzenal', canal: 'Teams', status: 'Ativo', fim: d(120) },
+    { id: 'gt2', nome: 'Squad automação do fechamento', lider: 'p2', membros: ['p2', 'p5', 'p6'], objetivo: 'Reduzir o fechamento de D+5 para D+3 com automações.', cadencia: 'Semanal', canal: 'Teams', status: 'Ativo', fim: d(60) },
+  ]
+  const ouvidoria: Item[] = [{ id: 'ov1', assunto: 'Sugestão: biblioteca de modelos de conciliação', protocolo: 'OUV-0007', tipo: 'Sugestão', anonimo: true, recebidoEm: d(-4), relato: 'Ter modelos prontos ajudaria quem está chegando.', prazo: d(10), status: 'Em análise' }]
+  const obrigacoes: Item[] = [
+    { id: 'ob1', nome: 'EFD-Contribuições', tipo: 'Fiscal', periodicidade: 'Mensal', dia: 10, responsavel: 'p4', backup: 'p3', destino: 'RFB (SPED)' },
+    { id: 'ob2', nome: 'DCTFWeb', tipo: 'Fiscal', periodicidade: 'Mensal', dia: 15, responsavel: 'p4', backup: 'p6', destino: 'RFB' },
+    { id: 'ob3', nome: 'Reporting mensal à matriz (pacote HFM)', tipo: 'Reporting à matriz', periodicidade: 'Mensal', dia: 4, responsavel: 'p1', backup: 'p2', destino: 'Matriz' },
+    { id: 'ob4', nome: 'Revisão trimestral da auditoria', tipo: 'Auditoria', periodicidade: 'Trimestral', dia: 20, responsavel: 'p1', backup: 'p3', destino: 'Auditoria externa' },
+    { id: 'ob5', nome: 'ECD', tipo: 'Contábil', periodicidade: 'Anual', dia: 31, mesAnual: '5', responsavel: 'p3', backup: 'p6', destino: 'RFB (SPED)' },
+    { id: 'ob6', nome: 'Folha: conferência de provisões', tipo: 'Trabalhista', periodicidade: 'Mensal', dia: 3, responsavel: 'p6', backup: 'p3', destino: 'Interno' },
+  ]
+  const modelosChecklist: Item[] = [
+    { id: 'mc1', nome: 'Abertura do período contábil', area: 'Contabilidade', periodicidade: 'Mensal', responsavel: 'p3', itens: 'Abrir período no SAP\nAtualizar taxas de câmbio\nRodar depreciação\nConferir provisões recorrentes\nAvisar áreas do calendário' },
+    { id: 'mc2', nome: 'Desligamento de colaborador', area: 'Pessoas', periodicidade: 'Sob demanda', itens: 'Recolher notebook e token\nBloquear acessos (SAP, e-mail, BI)\nTransferir pastas e responsabilidades\nEntrevista de desligamento\nAtualizar organograma' },
+  ]
+  const execucoesChecklist: Item[] = [{ id: 'ec1', modelo: 'mc1', nome: 'Abertura do período contábil', referencia: `${['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'][M - 1]}/${Y}`, responsavel: 'p3', itens: ['Abrir período no SAP', 'Atualizar taxas de câmbio', 'Rodar depreciação', 'Conferir provisões recorrentes', 'Avisar áreas do calendário'], marcas: { 0: { ok: true, por: 'Camila Duarte', data: d(-2) }, 1: { ok: true, por: 'Camila Duarte', data: d(-2) }, 2: { ok: true, por: 'Felipe Andrade', data: d(-1) } } }]
+  const patrimonio: Item[] = [
+    { id: 'pt1', item: 'Notebook Dell Latitude', tipo: 'Notebook', plaqueta: 'TI-00412', colaborador: 'p3', entregue: '2022-01-17', status: 'Em uso', valor: 7200 },
+    { id: 'pt2', item: 'Certificado digital e-CNPJ (token)', tipo: 'Token / certificado digital', plaqueta: 'CD-0003', colaborador: 'p4', entregue: d(-300), devolverAte: d(25), status: 'Em uso', obs: 'Renovar antes do vencimento — usado nas obrigações fiscais.' },
+    { id: 'pt3', item: 'Monitor 27"', tipo: 'Monitor', plaqueta: 'TI-00577', colaborador: 'p5', entregue: d(-20), status: 'Em uso', valor: 1900 },
+    { id: 'pt4', item: 'Licença Power BI Pro', tipo: 'Licença de software', colaborador: 'p2', entregue: d(-200), devolverAte: d(165), status: 'Em uso' },
+  ]
+  const reembolsos: Item[] = [
+    { id: 're1', colaborador: 'p4', descricao: 'Táxi — reunião na SEFAZ', data: d(-5), categoria: 'Transporte', valor: 86.4, centroCusto: 'cc2', status: 'Enviado', aprovador: 'p1' },
+    { id: 're2', colaborador: 'p2', descricao: 'Almoço com auditoria', data: d(-12), categoria: 'Alimentação', valor: 212, centroCusto: 'cc3', status: 'Aprovado', aprovador: 'p1' },
+    { id: 're3', colaborador: 'p6', descricao: 'Quilometragem visita à fábrica', data: d(-18), categoria: 'Quilometragem', valor: 154.3, centroCusto: 'cc2', status: 'Pago', aprovador: 'p1', pagoEm: d(-3) },
+  ]
+  const solicitacoes: Item[] = [
+    { id: 'so1', titulo: 'Acesso ao módulo SAP CO-PA', tipo: 'Acesso a sistema', solicitante: 'p5', aprovador: 'p1', prazo: d(3), status: 'Aguardando aprovação', justificativa: 'Necessário para análises de rentabilidade do forecast.' },
+    { id: 'so2', titulo: 'Horas extras — fechamento trimestral', tipo: 'Horas extras', solicitante: 'p3', aprovador: 'p1', prazo: d(8), status: 'Aprovada', decisao: 'Aprovado com limite de 8h e folga compensatória na semana seguinte.' },
+    { id: 'so3', titulo: 'Curso de Power BI avançado', tipo: 'Treinamento', solicitante: 'p2', aprovador: 'p1', valor: 1490, prazo: d(30), status: 'Aguardando aprovação' },
+  ]
+  const npsInterno: Item[] = []
+  const notasNps: [string, number[]][] = [['Compras', [9, 10, 8, 9]], ['Comercial', [7, 9, 6, 8]], ['Matriz', [10, 9, 9]], ['Diretoria', [9, 8]]]
+  let k = 0
+  for (const [area, ns] of notasNps) for (const n of ns) npsInterno.push({ id: `np${k++}`, ciclo: `${Y}-S${M <= 6 ? 1 : 2}`, area, nota: n, data: d(-k) })
+  for (const [area, ns] of [['Compras', [8, 7, 9]], ['Comercial', [6, 7, 5]], ['Matriz', [9, 8]]] as [string, number[]][]) for (const n of ns) npsInterno.push({ id: `np${k++}`, ciclo: `${M <= 6 ? Y - 1 : Y}-S${M <= 6 ? 2 : 1}`, area, nota: n, data: d(-180) })
+  const atividadesArea: Item[] = [
+    { id: 'aa1', atividade: 'Conciliação intercompany', frequencia: 'Mensal', criticidade: 'Alta', titular: 'p3', backup: 'p6', documentado: true, niveis: { p3: 4, p6: 3, p1: 2 } },
+    { id: 'aa2', atividade: 'Apuração de PIS/COFINS', frequencia: 'Mensal', criticidade: 'Alta', titular: 'p4', backup: 'p4', documentado: false, niveis: { p4: 4, p3: 1 } },
+    { id: 'aa3', atividade: 'Rateio de custos e CO-PA', frequencia: 'Mensal', criticidade: 'Alta', titular: 'p2', backup: 'p5', documentado: true, niveis: { p2: 4, p5: 2 } },
+    { id: 'aa4', atividade: 'Pacote de reporting (HFM)', frequencia: 'Mensal', criticidade: 'Alta', titular: 'p1', backup: 'p2', documentado: true, niveis: { p1: 4, p2: 3, p3: 2 } },
+    { id: 'aa5', atividade: 'Forecast trimestral', frequencia: 'Trimestral', criticidade: 'Média', titular: 'p5', backup: 'p2', documentado: false, niveis: { p5: 3, p2: 4 } },
+    { id: 'aa6', atividade: 'Ativo imobilizado', frequencia: 'Mensal', criticidade: 'Média', titular: 'p6', backup: 'p3', documentado: true, niveis: { p6: 4, p3: 3 } },
+  ]
+  const beneficios: Item[] = [
+    { id: 'bn1', colaborador: 'p3', beneficio: 'Assistência médica', plano: 'Plano Nacional Apartamento', dependentes: 2, custoEmpresa: 1450, desconto: 120, inicio: '2022-01-17' },
+    { id: 'bn2', colaborador: 'p5', beneficio: 'Vale-refeição', plano: 'Cartão refeição', custoEmpresa: 980, desconto: 49, inicio: d(-20) },
+  ]
+  const admissoes: Item[] = [{ id: 'ad1', nome: 'Gabriel Teixeira', cargo: 'cg3', gestor: 'p1', inicio: d(14), status: 'Exame admissional', checklist: '[x] RG, CPF e comprovante de residência\n[x] CTPS digital e PIS\n[x] Dados bancários\n[ ] Exame admissional (ASO)\n[ ] Contrato assinado\n[ ] Envio ao eSocial (S-2200)\n[ ] Notebook, e-mail e acessos (SAP, BI…)\n[ ] Onboarding agendado' }]
+  const politicas: Item[] = [
+    { id: 'po1', titulo: 'Política de alçadas e aprovações', codigo: 'FIN-002', versao: '3.1', categoria: 'Compliance / SOX', responsavel: 'p1', vigencia: d(-90), revisarEm: d(275), status: 'Vigente', exigeCiencia: true, resumo: 'Limites de aprovação por valor e tipo de despesa.' },
+    { id: 'po2', titulo: 'Procedimento de fechamento contábil', codigo: 'CTB-010', versao: '2.0', categoria: 'Contábil', responsavel: 'p3', vigencia: d(-40), revisarEm: d(20), status: 'Vigente', exigeCiencia: true },
+    { id: 'po3', titulo: 'Código de conduta e prevenção ao assédio', codigo: 'RH-001', versao: '4.0', categoria: 'Conduta e ética', vigencia: d(-200), revisarEm: d(160), status: 'Vigente', exigeCiencia: true },
+  ]
+  const ciencias: Item[] = []
+  for (const [pol, v, quem] of [['po1', '3.1', ['p1', 'p2', 'p3', 'p4']], ['po2', '2.0', ['p1', 'p3', 'p6']], ['po3', '4.0', ['p1', 'p2', 'p3', 'p4', 'p5', 'p6']]] as [string, string, string[]][]) for (const q of quem) ciencias.push({ id: `ci-${pol}-${q}`, politica: pol, colaborador: q, versao: v, data: d(-10) })
+
+  // pesquisas: só o AGREGADO (como fica no sistema real)
+  const ag = (somas: Record<number, [number, number]>, n: number, nps?: number[]) => ({
+    n,
+    q: Object.fromEntries(Object.entries(somas).map(([q, [m, c]]) => [q, { soma: m * c, cont: c }])),
+    sim: {},
+    nps: nps ? { 1: nps } : {},
+  })
+  const pesquisasClima: Item[] = [
+    { id: 'pc1', nome: `Clima ${Y}/2`, data: d(-15), tipo: 'clima', grupo: 'Controladoria', agregado: ag({ 2: [3.2, 6], 3: [3.0, 6], 4: [2.6, 6], 5: [2.8, 6], 6: [2.4, 6], 7: [2.5, 6], 8: [3.1, 6], 9: [2.3, 6], 10: [3.5, 6], 11: [2.4, 6], 12: [2.9, 6], 13: [2.8, 6], 14: [2.2, 6], 15: [3.4, 6], 16: [3.0, 6] }, 6, [0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 1]) },
+    { id: 'pc2', nome: `Clima ${Y}/1`, data: d(-200), tipo: 'clima', grupo: 'Controladoria', agregado: ag({ 2: [3.0, 6], 3: [2.8, 6], 4: [2.3, 6], 5: [2.6, 6], 6: [2.0, 6], 7: [2.4, 6], 8: [2.9, 6], 9: [2.1, 6], 10: [3.3, 6], 11: [2.2, 6], 12: [2.7, 6], 13: [3.0, 6], 14: [1.9, 6], 15: [3.2, 6], 16: [2.8, 6] }, 6, [0, 0, 0, 0, 0, 1, 1, 1, 2, 1, 0]) },
+  ]
+  const pesquisasPsico: Item[] = [
+    { id: 'pp1', nome: `Pesquisa ${Y}/2`, data: d(-30), grupo: 'Controladoria', agregado: { ...ag({ 1: [3.1, 6], 2: [2.9, 6], 3: [3.0, 6], 4: [2.0, 6], 5: [2.6, 6], 6: [2.2, 6], 7: [3.0, 6], 8: [2.7, 6], 9: [0.8, 6], 10: [2.4, 6], 11: [2.1, 6], 12: [3.0, 6], 13: [2.5, 6], 14: [3.2, 6], 15: [1.2, 6], 16: [2.6, 6], 17: [2.4, 6], 18: [1.9, 6], 19: [2.3, 6], 20: [1.1, 6], 21: [2.6, 6], 22: [2.7, 6] }, 6), sim: { 23: 0, 24: 0 } } },
+  ]
+  const riscosPsico: Item[] = [
+    { id: 'rp1', perigo: 'Sobrecarga no fechamento (D+3) com auditoria na mesma semana', fator: 'Excesso de demandas (sobrecarga)', grupo: 'Contabilidade e Fiscal', expostos: 4, origem: 'Pesquisa anônima', probabilidade: '4 – Provável', severidade: '3 – Moderada', status: 'Em tratamento', avaliadoEm: d(-25), revisarEm: d(705) },
+    { id: 'rp2', perigo: 'Mudança de ERP sem treinamento suficiente', fator: 'Má gestão de mudanças organizacionais', grupo: 'Toda a Controladoria', expostos: 6, origem: 'Conversas 1:1 / check-in', probabilidade: '3 – Possível', severidade: '3 – Moderada', status: 'Identificado', avaliadoEm: d(-25), revisarEm: d(705) },
+    { id: 'rp3', perigo: 'Demandas conflitantes entre matriz e diretoria local', fator: 'Baixa clareza de papel ou função', grupo: 'FP&A', expostos: 2, origem: 'Pesquisa anônima', probabilidade: '3 – Possível', severidade: '2 – Menor', status: 'Em tratamento', avaliadoEm: d(-25), revisarEm: d(705) },
+  ]
+  const acoesPsico: Item[] = [
+    { id: 'ap1', acao: 'Escalonar entregas da auditoria fora da semana de fechamento', risco: 'rp1', tipo: 'Carga e prazos', responsavel: 'p1', prazo: d(12), status: 'Em andamento', indicador: 'Horas extras na semana de fechamento < 6h por pessoa' },
+    { id: 'ap2', acao: 'Trilha de treinamento do novo ERP antes do go-live', risco: 'rp2', tipo: 'Treinamento', responsavel: 'p2', prazo: d(35), status: 'Planejada', indicador: '100% da equipe treinada antes do go-live' },
+    { id: 'ap3', acao: 'Matriz RACI de demandas da matriz × diretoria', risco: 'rp3', tipo: 'Liderança e comunicação', responsavel: 'p1', prazo: d(-3), status: 'Concluída', indicador: 'Sem retrabalho por prioridade conflitante no trimestre' },
+  ]
+  const checkinsBemEstar: Item[] = [
+    { id: 'cb1', colaborador: 'p3', data: d(-6), carga: 4, energia: 3, sinais: 'Muitas horas na semana do fechamento.', encaminhamento: 'Folga compensatória', proximo: d(8) },
+    { id: 'cb2', colaborador: 'p5', data: d(-4), carga: 3, energia: 4, encaminhamento: 'Acompanhar no próximo 1:1', proximo: d(10) },
+  ]
+  const indicadoresPsico: Item[] = [
+    { id: 'ip1', competencia: ym(-3), headcount: 6, absenteismo: 2.4, atestados: 3, afastamentosF: 0, horasExtras: 14, feriasVencidas: 2, turnover: 0, umAum: 70 },
+    { id: 'ip2', competencia: ym(-2), headcount: 6, absenteismo: 1.9, atestados: 2, afastamentosF: 0, horasExtras: 11, feriasVencidas: 1, turnover: 0, umAum: 85 },
+    { id: 'ip3', competencia: ym(-1), headcount: 6, absenteismo: 1.2, atestados: 1, afastamentosF: 0, horasExtras: 7, feriasVencidas: 0, turnover: 0, umAum: 100 },
+  ]
+  const nr1checklist: Item[] = [{ id: String(Y), ciclo: String(Y), checks: Object.fromEntries(['0.0', '0.1', '0.2', '1.0', '1.1', '1.2', '2.0', '2.1', '3.0', '3.1', '3.2', '4.1', '5.1', '5.2'].map((k) => [k, { ok: true, data: d(-10), resp: 'p1' }])) }]
+
+  // anotações
+  const blocos: Item[] = [{ id: 'bl1', nome: 'Controladoria', cor: 'Azul', ordem: 1 }, { id: 'bl2', nome: 'Pessoal', cor: 'Verde', ordem: 2 }]
+  const secoes: Item[] = [
+    { id: 'sc1', nome: 'Reuniões', bloco: 'bl1', cor: 'Laranja', ordem: 1 },
+    { id: 'sc2', nome: 'Reforma Tributária', bloco: 'bl1', cor: 'Roxo', ordem: 2 },
+    { id: 'sc3', nome: 'Ideias', bloco: 'bl2', cor: 'Verde', ordem: 1 },
+  ]
+  const paginas: Item[] = [
+    { id: 'pg1', secao: 'sc1', ordem: 1, nivel: 0, titulo: 'Comitê com a matriz — revisão do forecast', html: '<h2>Pontos discutidos</h2><ul><li>Variação de custo de frete acima do budget (+8%)</li><li>Câmbio: premissa revisada para o 4º tri</li></ul><h3>Próximos passos</h3><ul class="check"><li data-check="1">Enviar bridge de EBITDA atualizada</li><li>Revisar premissas de volume com Comercial</li><li>Agendar follow-up em 15 dias</li></ul><blockquote>Decisão: manter o guidance anual e reforçar o plano de redução de frete.</blockquote>', texto: 'Pontos discutidos Variação de custo de frete acima do budget Câmbio premissa revisada Próximos passos Enviar bridge de EBITDA atualizada Revisar premissas de volume Agendar follow-up' },
+    { id: 'pg2', secao: 'sc1', ordem: 2, nivel: 0, titulo: '1:1 com a Camila', html: '<p>Carga alta no fechamento — combinar folga compensatória.</p><p>Interesse em liderar o projeto de automação.</p>', texto: 'Carga alta no fechamento combinar folga compensatória Interesse em liderar o projeto de automação' },
+    { id: 'pg3', secao: 'sc2', ordem: 1, nivel: 0, titulo: 'Mapa de impactos CBS/IBS', html: '<h2>Compras</h2><p>Revisar cadastro de NCM e regras de crédito.</p><h2>Vendas</h2><p>Simular preço com split payment.</p>', texto: 'Compras Revisar cadastro de NCM e regras de crédito Vendas Simular preço com split payment' },
+  ]
+  // um rascunho à mão (fluxo simples: caixa → seta → caixa)
+  const linha = (pts: [number, number][], pr = 55) => pts.flatMap(([x, y], i) => [x, y, Math.min(95, pr + (i % 3) * 8)])
+  const desenhos: Item[] = [
+    {
+      id: 'ds1', pagina: 'pg1', ordem: 1, altura: 360,
+      tracos: [
+        { c: '#1d4ed8', w: 3, t: 'p', p: linha([[80, 80], [300, 80], [300, 180], [80, 180], [80, 80]]) },
+        { c: '#1f2937', w: 3, t: 'p', p: linha([[320, 130], [420, 130], [400, 115], [420, 130], [400, 145]]) },
+        { c: '#15803d', w: 3, t: 'p', p: linha([[440, 80], [680, 80], [680, 180], [440, 180], [440, 80]]) },
+        { c: '#fde047', w: 18, t: 'm', p: linha([[470, 130], [650, 130]]) },
+        { c: '#c0392b', w: 3, t: 'p', p: linha([[720, 60], [760, 200], [800, 60]]) },
+      ],
+    },
+  ]
+  return {
+    humor, avisos, reconhecimentos, gruposTrabalho, ouvidoria, obrigacoes, modelosChecklist, execucoesChecklist, patrimonio, reembolsos, solicitacoes,
+    npsInterno, atividadesArea, beneficios, admissoes, politicas, ciencias, pesquisasClima, pesquisasPsico, riscosPsico, acoesPsico, checkinsBemEstar,
+    indicadoresPsico, nr1checklist, blocos, secoes, paginas, desenhos,
   }
 }
