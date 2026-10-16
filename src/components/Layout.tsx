@@ -7,6 +7,7 @@ import { getPref, setPref } from '../data/store'
 import { useAlerts } from '../lib/alerts'
 import { Icon } from './Icon'
 import { EditorHost } from './ItemForm'
+import { BuscaGlobal } from './BuscaGlobal'
 import { Logo } from './Logo'
 import { itensEtiquetados } from '../pages/Etiquetas'
 import { useDB } from '../data/store'
@@ -54,7 +55,9 @@ export function Layout({ children }: { children: ReactNode }) {
           <button className="btn ghost menu-btn" onClick={() => setOpen(!open)} aria-label="Menu">
             <Icon name="menu" />
           </button>
-          <span className="muted small grow">{title}</span>
+          <span className="muted small hide-sm">{title}</span>
+          <BuscaGlobal />
+          <span className="grow" />
           <span className="muted small hide-sm">{new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' })}</span>
           <button
             className="btn ghost sm"

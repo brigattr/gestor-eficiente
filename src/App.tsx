@@ -3,6 +3,10 @@ import { Layout } from './components/Layout'
 import { ModulePage } from './components/ModulePage'
 import { Biblioteca } from './pages/Biblioteca'
 import { Anotacoes } from './pages/Anotacoes'
+import { Diversidade, PesquisaClima, Politicas, Termometro } from './pages/Cultura'
+import { ModoTV, Mural, Reconhecimentos } from './pages/Comunicacao'
+import { Checklists, NpsInterno, ObrigacoesPage } from './pages/Processos'
+import { Cobertura, Organograma } from './pages/PessoasExtra'
 import { ChecklistNr1, GuiaNr1, IndicadoresNr1, InventarioNr1, PainelNr1, PesquisaNr1 } from './pages/Nr1'
 import { Arquivos } from './pages/Arquivos'
 import { Calendario } from './pages/Calendario'
@@ -35,6 +39,14 @@ const GENERIC: [string, string][] = [
   ['pdis', 'pdis'],
   ['centros-custo', 'centrosCusto'],
   ['nr1-plano', 'acoesPsico'],
+  ['grupos', 'gruposTrabalho'],
+  ['ouvidoria', 'ouvidoria'],
+  ['solicitacoes', 'solicitacoes'],
+  ['reembolsos', 'reembolsos'],
+  ['patrimonio', 'patrimonio'],
+  ['beneficios', 'beneficios'],
+  ['holerites', 'holerites'],
+  ['admissoes', 'admissoes'],
   ['nr1-bem-estar', 'checkinsBemEstar'],
   ['nr1-relatos', 'relatosPsico'],
 ]
@@ -49,6 +61,19 @@ export default function App() {
         <Route path="/semana" element={<Semana />} />
         <Route path="/anotacoes" element={<Anotacoes />} />
         <Route path="/arquivos" element={<Arquivos />} />
+        <Route path="/clima" element={<PesquisaClima key="clima" tipo="clima" />} />
+        <Route path="/cultura" element={<PesquisaClima key="cultura" tipo="cultura" />} />
+        <Route path="/humor" element={<Termometro />} />
+        <Route path="/politicas" element={<Politicas />} />
+        <Route path="/diversidade" element={<Diversidade />} />
+        <Route path="/mural" element={<Mural />} />
+        <Route path="/reconhecimentos" element={<Reconhecimentos />} />
+        <Route path="/tv" element={<ModoTV />} />
+        <Route path="/obrigacoes" element={<ObrigacoesPage />} />
+        <Route path="/checklists" element={<Checklists />} />
+        <Route path="/nps-interno" element={<NpsInterno />} />
+        <Route path="/organograma" element={<Organograma />} />
+        <Route path="/cobertura" element={<Cobertura />} />
         <Route path="/nr1" element={<PainelNr1 />} />
         <Route path="/nr1-inventario" element={<InventarioNr1 />} />
         <Route path="/nr1-pesquisa" element={<PesquisaNr1 />} />

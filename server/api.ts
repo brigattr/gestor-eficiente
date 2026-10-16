@@ -182,8 +182,20 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
     if (m) {
       const [col, id] = [decodeURIComponent(m[1]), decodeURIComponent(m[2])]
       if (!COL.test(col) || col === 'usuarios' || id.length > 80) throw new HttpError(400, 'Coleção ou id inválido.')
-      if (!escreve) throw new HttpError(403, 'Seu perfil é somente leitura.')
       const t = now()
+      if (col === 'humor') {
+        // termômetro de humor: voto anônimo de qualquer usuário — não grava autoria, só semana e nota
+        if (method !== 'PUT') throw new HttpError(403, 'Votos não podem ser alterados.')
+        const v = await body<Record<string, unknown>>(req)
+        const semana = String(v.semana ?? '')
+        const nota = Number(v.nota)
+        if (!/^\d{4}-W\d{2}$/.test(semana) || !(nota >= 1 && nota <= 5)) throw new HttpError(400, 'Voto inválido.')
+        if (await env.DB.prepare('SELECT 1 FROM items WHERE col = ? AND id = ?').bind(col, id).first()) throw new HttpError(409, 'Voto já registrado.')
+        const saved = { id, semana, nota: Math.round(nota), _created: t.slice(0, 10) }
+        await env.DB.prepare('INSERT INTO items (col, id, data, updated_at, deleted) VALUES (?, ?, ?, ?, 0)').bind(col, id, JSON.stringify(saved), t).run()
+        return json({ item: saved })
+      }
+      if (!escreve) throw new HttpError(403, 'Seu perfil é somente leitura.')
       if (method === 'PUT') {
         const item = await body<Record<string, unknown>>(req)
         const prev = await env.DB.prepare('SELECT data FROM items WHERE col = ? AND id = ? AND deleted = 0').bind(col, id).first<{ data: string }>()

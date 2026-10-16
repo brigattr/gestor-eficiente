@@ -65,6 +65,7 @@ window.addEventListener('beforeunload', () => {
 function allowed(col: string, item?: Partial<Item>) {
   // usuários: admin gerencia todos; cada um pode alterar o próprio cadastro (exceto o perfil)
   if (col === 'usuarios') return isAdmin() || !(db.usuarios ?? []).length || (!!item?.id && item.id === getUser()?.id && item.papel === undefined)
+  if (col === 'humor') return true // voto anônimo: qualquer usuário
   if (!canWrite()) {
     avisar('Seu perfil é somente leitura.')
     return false
@@ -90,6 +91,11 @@ export function get(col: string, id: string | undefined | null): Item | undefine
   return list(col).find((i) => i.id === id)
 }
 
+// Ganchos chamados depois de gravar pelo usuário (ex.: gerar a próxima tarefa recorrente)
+type Gancho = (col: string, antes: Item | undefined, depois: Item) => void
+const ganchos: Gancho[] = []
+export const aoSalvar = (g: Gancho) => void ganchos.push(g)
+
 export function upsert(col: string, item: Partial<Item>): Item | undefined {
   if (!allowed(col, item)) return undefined
   const now = new Date().toISOString()
@@ -97,6 +103,7 @@ export function upsert(col: string, item: Partial<Item>): Item | undefined {
   const rows = [...list(col)]
   const idx = item.id ? rows.findIndex((r) => r.id === item.id) : -1
   let saved: Item
+  const antes = idx >= 0 ? rows[idx] : undefined
   if (idx >= 0) {
     saved = { ...rows[idx], ...item, id: rows[idx].id, _updated: now, _updatedBy: by }
     rows[idx] = saved
@@ -107,6 +114,13 @@ export function upsert(col: string, item: Partial<Item>): Item | undefined {
   db = { ...db, [col]: rows }
   persist()
   if (servidor()) void enviar(col, saved)
+  for (const g of ganchos) {
+    try {
+      g(col, antes, saved)
+    } catch (e) {
+      console.error(e)
+    }
+  }
   return saved
 }
 

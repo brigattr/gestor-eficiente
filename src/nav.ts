@@ -33,6 +33,11 @@ export const NAV: { group: string; items: NavItem[] }[] = [
       { path: 'ocorrencias', label: 'Ocorrências', icon: 'flag' },
       { path: 'exames', label: 'Exames (ASO)', icon: 'heart' },
       { path: 'cargos', label: 'Cargos e salários', icon: 'layers' },
+      { path: 'organograma', label: 'Organograma', icon: 'grid' },
+      { path: 'cobertura', label: 'Matriz de cobertura', icon: 'grid' },
+      { path: 'admissoes', label: 'Admissões', icon: 'user-plus' },
+      { path: 'beneficios', label: 'Benefícios', icon: 'heart' },
+      { path: 'holerites', label: 'Holerites e informes', icon: 'receipt' },
     ],
   },
   {
@@ -47,6 +52,26 @@ export const NAV: { group: string; items: NavItem[] }[] = [
       { path: 'nr1-indicadores', label: 'Indicadores', icon: 'trending' },
       { path: 'nr1-checklist', label: 'Checklist de conformidade', icon: 'check' },
       { path: 'nr1-guia', label: 'Guia e legislação', icon: 'book' },
+    ],
+  },
+  {
+    group: 'Cultura e clima',
+    items: [
+      { path: 'clima', label: 'Pesquisa de clima e eNPS', icon: 'gauge' },
+      { path: 'humor', label: 'Termômetro de humor', icon: 'sun' },
+      { path: 'cultura', label: 'Diagnóstico de cultura', icon: 'target' },
+      { path: 'politicas', label: 'Políticas e procedimentos', icon: 'book' },
+      { path: 'diversidade', label: 'Diversidade', icon: 'users' },
+    ],
+  },
+  {
+    group: 'Comunicação',
+    items: [
+      { path: 'mural', label: 'Mural', icon: 'message' },
+      { path: 'reconhecimentos', label: 'Reconhecimentos', icon: 'trophy' },
+      { path: 'grupos', label: 'Grupos de trabalho', icon: 'users' },
+      { path: 'ouvidoria', label: 'Ouvidoria', icon: 'chat' },
+      { path: 'tv', label: 'Modo TV', icon: 'presentation' },
     ],
   },
   {
@@ -73,6 +98,17 @@ export const NAV: { group: string; items: NavItem[] }[] = [
       { path: 'despesas', label: 'Despesas × budget', icon: 'wallet' },
       { path: 'centros-custo', label: 'Centros de custo', icon: 'building' },
       { path: 'fechamento', label: 'Fechamento mensal', icon: 'checklist' },
+    ],
+  },
+  {
+    group: 'Processos',
+    items: [
+      { path: 'obrigacoes', label: 'Agenda de obrigações', icon: 'calendar' },
+      { path: 'checklists', label: 'Checklists recorrentes', icon: 'checklist' },
+      { path: 'solicitacoes', label: 'Solicitações e aprovações', icon: 'check' },
+      { path: 'reembolsos', label: 'Reembolsos', icon: 'receipt' },
+      { path: 'patrimonio', label: 'Patrimônio', icon: 'briefcase' },
+      { path: 'nps-interno', label: 'NPS clientes internos', icon: 'gauge' },
     ],
   },
   {

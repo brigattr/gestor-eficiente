@@ -4,7 +4,7 @@ import { get, useDB, type DB, type Item } from '../data/store'
 import { addDays, daysUntil, iso, label, startOfWeek } from './format'
 import { visivel } from './menu'
 
-export const DONE = /conclu|realizad|aprovad|fechad|atingida|contratad|cancelad|recusad|reprovad|comunicada|lançada|em gozo|controlad|encerrad/i
+export const DONE = /conclu|realizad|aprovad|fechad|atingida|contratad|cancelad|recusad|reprovad|comunicada|lançada|em gozo|controlad|encerrad|pago$|respondida|devolvido|baixado|obsoleta/i
 
 export function isDone(col: string, it: Item) {
   const sf = MOD[col]?.statusField

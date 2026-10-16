@@ -106,9 +106,9 @@ export function display(col: string, f: Field | undefined, v: unknown): string {
 /** Tom semântico para chips de status. */
 export function tone(v: unknown): 'ok' | 'warn' | 'bad' | 'info' | 'muted' {
   const s = String(v ?? '').toLowerCase()
-  if (/(conclu|aprovad|realizad|fechad|atingida$|contratad|válido|lançada|comunicada|calibrada|positiva|^ativo|alta$|controlad|encerrad)/.test(s)) return 'ok'
-  if (/(risco|crític|vencid|recusad|reprovad|negativa|cancelad|não atingida|desligad|baixa$|atrasad)/.test(s)) return 'bad'
-  if (/(atenção|pendente|aguardando|ajuste|a agendar|pausad|vencendo|média$|aprovação|solicitad|identificad|^aberto$)/.test(s)) return 'warn'
+  if (/(conclu|aprovad|realizad|fechad|atingida$|contratad|válido|lançada|comunicada|calibrada|positiva|^ativo|alta$|controlad|encerrad|vigente|pago$|respondida|^em uso$)/.test(s)) return 'ok'
+  if (/(risco|crític|vencid|recusad|reprovad|negativa|cancelad|não atingida|desligad|baixa$|atrasad|obsoleta|baixado)/.test(s)) return 'bad'
+  if (/(atenção|pendente|aguardando|ajuste|a agendar|pausad|vencendo|média$|aprovação|solicitad|identificad|^aberto$|recebida|rascunho|em aprovação|documentação)/.test(s)) return 'warn'
   if (/(andamento|em gozo|agendad|aberta|triagem|entrevist|proposta|revis|prepara|no prazo)/.test(s)) return 'info'
   return 'muted'
 }
