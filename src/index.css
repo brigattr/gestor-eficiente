@@ -321,6 +321,7 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 .nb-btn:hover { background: var(--surface); box-shadow: 0 0 0 1px var(--border); }
 .nb-sep { width: 1px; height: 18px; background: var(--border); margin: 0 4px; }
 .nb-texto { min-height: 55vh; padding: 10px 2px 40px; outline: none; line-height: 1.6; font-size: 15px; overflow-wrap: anywhere; }
+.nb-texto.curto { min-height: 120px; padding-bottom: 16px; }
 .nb-texto:empty::before { content: attr(data-vazio); color: var(--muted); }
 .nb-texto h2 { font-size: 21px; margin: 14px 0 4px; }
 .nb-texto h3 { font-size: 17px; margin: 12px 0 2px; }
@@ -378,3 +379,19 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 .arq-mover { width: 92px; padding: 3px 4px; font-size: 12px; }
 .arq-drop { min-height: 160px; }
 @media (max-width: 800px) { .arq { grid-template-columns: 1fr; } .arq-arvore { position: static; max-height: 240px; } .arq-busca { max-width: none; flex: 1; } }
+
+/* ── Área de desenho (Apple Pencil / caneta / mouse) */
+.ds { display: grid; gap: 4px; margin-top: 6px; }
+.ds-barra { display: flex; flex-wrap: wrap; align-items: center; gap: 3px; padding: 4px 6px; border: 1px solid var(--border); border-radius: 10px 10px 0 0; background: var(--surface-2); }
+.ds-btn { min-width: 30px; height: 28px; border: 0; border-radius: 6px; background: none; color: var(--text); cursor: pointer; font-size: 14px; display: inline-grid; place-items: center; }
+.ds-btn:hover { background: var(--surface); }
+.ds-btn.on { background: var(--surface); box-shadow: 0 0 0 2px var(--accent); }
+.ds-btn:disabled { opacity: .35; cursor: default; }
+.ds-btn.danger { color: var(--bad); }
+.ds-cor { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--border); cursor: pointer; padding: 0; }
+.ds-cor.on { box-shadow: 0 0 0 2px var(--accent); }
+.ds-esp { display: block; border-radius: 50%; background: var(--text); }
+.ds-folha { border: 1px solid var(--border); border-top: 0; border-radius: 0 0 10px 10px; overflow: hidden; background: #fff; background-image: radial-gradient(circle, #d6dbe4 1px, transparent 1.2px); background-size: 24px 24px; }
+.ds-canvas { display: block; touch-action: none; cursor: crosshair; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.ds-canvas.borracha { cursor: cell; }
+.ds-mais { justify-self: center; }

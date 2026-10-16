@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Attachments } from '../components/Attachments'
+import { Desenho } from '../components/Desenho'
 import { confirmar } from '../components/Dialogs'
 import { Icon } from '../components/Icon'
 import { SeletorEtiquetas } from '../components/ItemForm'
 import { TagChips } from '../components/Tags'
 import { CORES_ETIQUETA } from '../data/schema'
-import { get, getPref, remove, setPref, upsert, useDB, type Item } from '../data/store'
+import { get, getPref, list, remove, setPref, upsert, useDB, type Item } from '../data/store'
 import { deleteFilesOf } from '../lib/files'
 import { limparHtml, textoDoHtml } from '../lib/sanitize'
 
@@ -16,7 +17,14 @@ const CORES = Object.keys(CORES_ETIQUETA)
 const cor = (it?: Item) => CORES_ETIQUETA[String(it?.cor ?? 'Azul')] ?? CORES_ETIQUETA.Azul
 const porOrdem = (a: Item, b: Item) => Number(a.ordem ?? 0) - Number(b.ordem ?? 0) || String(a._created ?? '').localeCompare(String(b._created ?? ''))
 const proxOrdem = (xs: Item[]) => xs.reduce((m, x) => Math.max(m, Number(x.ordem ?? 0)), 0) + 1
-const LIMITE = 800_000 // o servidor aceita até ~900 KB por registro
+const LIMITE = 800_000
+
+/** Apaga a página com seus desenhos e anexos. */
+function apagarPagina(id: string) {
+  for (const d of list('desenhos').filter((x) => x.pagina === id)) remove('desenhos', d.id)
+  remove('paginas', id)
+  void deleteFilesOf('paginas', id)
+} // o servidor aceita até ~900 KB por registro
 
 function fmtQuando(iso: unknown) {
   if (typeof iso !== 'string') return ''
@@ -129,8 +137,7 @@ export function Anotacoes() {
     const ps = paginas.filter((p) => ss.some((s) => s.id === p.secao))
     if (!(await confirmar(`Excluir o bloco "${b.nome}"${ps.length ? ` com ${ss.length} seção(ões) e ${ps.length} página(s)` : ''}? Não dá para desfazer.`, { ok: 'Excluir', danger: true }))) return
     for (const p of ps) {
-      remove('paginas', p.id)
-      void deleteFilesOf('paginas', p.id)
+      apagarPagina(p.id)
     }
     for (const s of ss) remove('secoes', s.id)
     remove('blocos', b.id)
@@ -139,15 +146,13 @@ export function Anotacoes() {
     const ps = paginas.filter((p) => p.secao === s.id)
     if (!(await confirmar(`Excluir a seção "${s.nome}"${ps.length ? ` e suas ${ps.length} página(s)` : ''}? Não dá para desfazer.`, { ok: 'Excluir', danger: true }))) return
     for (const p of ps) {
-      remove('paginas', p.id)
-      void deleteFilesOf('paginas', p.id)
+      apagarPagina(p.id)
     }
     remove('secoes', s.id)
   }
   async function excluirPagina(p: Item) {
     if (!(await confirmar(`Excluir a página "${p.titulo || 'Sem título'}"?`, { ok: 'Excluir', danger: true }))) return
-    remove('paginas', p.id)
-    void deleteFilesOf('paginas', p.id)
+    apagarPagina(p.id)
   }
   function moverPagina(id: string, alvo: { secao?: string; antesDe?: Item }) {
     const p = get('paginas', id)
@@ -356,6 +361,19 @@ export function Anotacoes() {
 type Cmd = { i: string; t: string; run: () => void }
 
 function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: string; onSubpagina: () => void; onExcluir: () => void }) {
+  const db = useDB()
+  const desenhos = (db.desenhos ?? []).filter((d) => d.pagina === p.id).sort(porOrdem)
+  function novoDesenho() {
+    const d = upsert('desenhos', { pagina: p.id, ordem: proxOrdem(desenhos), tracos: [], altura: 420 })
+    if (d) setTimeout(() => document.getElementById('ds-' + d.id)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 50)
+  }
+  function moverDesenho(i: number, dir: -1 | 1) {
+    const a = desenhos[i],
+      b = desenhos[i + dir]
+    if (!a || !b) return
+    upsert('desenhos', { id: a.id, ordem: b.ordem })
+    upsert('desenhos', { id: b.id, ordem: a.ordem })
+  }
   const ed = useRef<HTMLDivElement>(null)
   const sujo = useRef(false)
   const timer = useRef<number | undefined>(undefined)
@@ -461,6 +479,8 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
     { i: '🕑', t: 'Inserir data e hora', run: dataHora },
     { i: '―', t: 'Linha divisória', run: () => exec('insertHorizontalRule') },
     { i: '⌫', t: 'Limpar formatação', run: () => exec('removeFormat') },
+    '|',
+    { i: '✍️ Desenho', t: 'Inserir área de desenho à mão (Apple Pencil, caneta ou mouse)', run: novoDesenho },
   ]
 
   return (
@@ -529,7 +549,7 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
       </div>
       <div
         ref={ed}
-        className="nb-texto"
+        className={`nb-texto ${desenhos.length ? 'curto' : ''}`}
         contentEditable
         suppressContentEditableWarning
         data-vazio="Comece a escrever… (cole tabelas do Excel, listas, links)"
@@ -559,6 +579,14 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
           }
         }}
       />
+      {desenhos.map((d, i) => (
+        <div key={d.id} id={'ds-' + d.id}>
+          <Desenho d={d} podeSubir={i > 0} podeDescer={i < desenhos.length - 1} onMover={(dir) => moverDesenho(i, dir)} />
+        </div>
+      ))}
+      <button type="button" className="nb-add" onClick={novoDesenho}>
+        <Icon name="plus" size={13} /> Área de desenho (Apple Pencil, caneta ou mouse)
+      </button>
     </div>
   )
 }

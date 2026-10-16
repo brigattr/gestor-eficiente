@@ -780,6 +780,23 @@ MODULES.push(
     columns: ['titulo', 'secao'],
     hidden: true,
   },
+  {
+    col: 'desenhos',
+    path: 'anotacoes',
+    title: 'Desenhos das anotações',
+    singular: 'Desenho',
+    group: 'Sistema',
+    icon: 'edit',
+    description: 'Áreas de desenho à mão (Apple Pencil, caneta ou mouse) dentro das páginas.',
+    titleField: 'pagina',
+    fields: [
+      { key: 'pagina', label: 'Página', type: 'ref', ref: 'paginas', required: true },
+      { key: 'ordem', label: 'Ordem', type: 'number' },
+      { key: 'altura', label: 'Altura', type: 'number' },
+    ],
+    columns: ['pagina'],
+    hidden: true,
+  },
 )
 MODULES.push({
   col: 'pastas',
