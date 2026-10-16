@@ -978,6 +978,19 @@ MODULES.push({
   hidden: true,
 })
 MODULES.push({
+  col: 'sistema',
+  path: 'configuracoes',
+  title: 'Configurações do sistema',
+  singular: 'Configuração',
+  group: 'Sistema',
+  icon: 'settings',
+  description: 'Preferências da instalação (ex.: ferramentas visíveis no menu).',
+  titleField: 'id',
+  fields: [],
+  columns: [],
+  hidden: true,
+})
+MODULES.push({
   col: 'opcoes',
   path: 'opcoes',
   title: 'Listas de opções',

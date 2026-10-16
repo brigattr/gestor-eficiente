@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { MODULES, MOD } from '../data/schema'
 import { get, useDB, type DB, type Item } from '../data/store'
 import { addDays, daysUntil, iso, label, startOfWeek } from './format'
+import { visivel } from './menu'
 
 export const DONE = /conclu|realizad|aprovad|fechad|atingida|contratad|cancelad|recusad|reprovad|comunicada|lançada|em gozo|controlad|encerrad/i
 
@@ -17,7 +18,7 @@ export type CalEvent = { date: string; col: string; id: string; title: string; n
 export function allEvents(db: DB): CalEvent[] {
   const out: CalEvent[] = []
   for (const m of MODULES) {
-    if (!m.dates) continue
+    if (!m.dates || !visivel(db, m.path)) continue
     for (const it of db[m.col] ?? []) {
       for (const d of m.dates) {
         const v = it[d.field]
@@ -107,5 +108,6 @@ export function computeAlerts(db: DB): Alert[] {
 
 export function useAlerts() {
   const db = useDB()
-  return useMemo(() => computeAlerts(db), [db])
+  // ferramentas desligadas no menu não geram alertas
+  return useMemo(() => computeAlerts(db).filter((a) => visivel(db, a.path)), [db])
 }

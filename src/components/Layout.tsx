@@ -2,6 +2,7 @@ import { DialogHost } from './Dialogs'
 import { useEffect, useState, type ReactNode } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { NAV } from '../nav'
+import { navVisivel, visivel, ETIQUETAS } from '../lib/menu'
 import { getPref, setPref } from '../data/store'
 import { useAlerts } from '../lib/alerts'
 import { Icon } from './Icon'
@@ -20,6 +21,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const loc = useLocation()
   const alerts = useAlerts()
   const user = useUser()
+  const db = useDB()
 
   useEffect(() => {
     if (theme === 'auto') document.documentElement.removeAttribute('data-theme')
@@ -33,7 +35,7 @@ export function Layout({ children }: { children: ReactNode }) {
     <div className="app">
       <aside className={`sidebar ${open ? 'open' : ''}`}>
         <Logo light />
-        {NAV.map((g) => (
+        {navVisivel(db).map((g) => (
           <div key={g.group}>
             <div className="nav-group">{g.group}</div>
             {g.items.map((i) => (
@@ -43,7 +45,7 @@ export function Layout({ children }: { children: ReactNode }) {
                 {i.path === '' && alerts.length > 0 && <span className="nav-badge">{alerts.length}</span>}
               </NavLink>
             ))}
-            {g.group === 'Visão' && <MenuEtiquetas fechar={() => setOpen(false)} />}
+            {g.group === 'Visão' && visivel(db, ETIQUETAS) && <MenuEtiquetas fechar={() => setOpen(false)} />}
           </div>
         ))}
       </aside>

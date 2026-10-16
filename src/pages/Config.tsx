@@ -7,6 +7,9 @@ import { isAdmin } from '../lib/session'
 import { servidor } from '../lib/api'
 import { Icon } from '../components/Icon'
 import { PageHead } from '../components/ui'
+import { NAV } from '../nav'
+import { ETIQUETAS, FIXOS, menuOcultos } from '../lib/menu'
+import { upsert } from '../data/store'
 import { buildSeed } from '../data/seed'
 import { replaceAll, useDB } from '../data/store'
 
@@ -116,6 +119,90 @@ export function Configuracoes() {
           </span>
         </div>
       </div>
+      <MenuConfig />
     </>
+  )
+}
+
+/** Ferramentas visíveis no menu lateral (para cada instalação usar só o que precisa). */
+function MenuConfig() {
+  const db = useDB()
+  const ocultos = menuOcultos(db)
+  const admin = isAdmin()
+  const grupos = NAV.map((g) => ({
+    group: g.group,
+    items: [...g.items, ...(g.group === 'Visão' ? [{ path: ETIQUETAS, label: 'Etiquetas', icon: 'tag' }] : [])],
+  }))
+  const total = grupos.reduce((a, g) => a + g.items.filter((i) => !FIXOS.has(i.path)).length, 0)
+  function salvar(novo: Set<string>) {
+    upsert('sistema', { id: 'menu', ocultos: [...novo].filter((p) => !FIXOS.has(p)).sort() })
+  }
+  function alternar(path: string, mostrar: boolean) {
+    const n = new Set(ocultos)
+    if (mostrar) n.delete(path)
+    else n.add(path)
+    salvar(n)
+  }
+  function alternarGrupo(paths: string[], mostrar: boolean) {
+    const n = new Set(ocultos)
+    for (const p of paths) {
+      if (FIXOS.has(p)) continue
+      if (mostrar) n.delete(p)
+      else n.add(p)
+    }
+    salvar(n)
+  }
+  return (
+    <div className="card stack">
+      <div className="row">
+        <h2 className="grow">Ferramentas no menu</h2>
+        <span className="small muted">
+          {total - ocultos.size} de {total} ativas
+        </span>
+        <button className="btn sm" disabled={!admin || !ocultos.size} onClick={() => salvar(new Set())}>
+          Mostrar todas
+        </button>
+      </div>
+      <span className="small muted">
+        Desmarque o que esta instalação não usa: o item some do menu lateral de todos os usuários, e seus alertas e datas deixam de aparecer no painel e no calendário. Nada é apagado — ao marcar de novo, tudo volta como estava.
+        {!admin && ' Somente administradores alteram esta configuração.'}
+      </span>
+      <div className="menu-cfg">
+        {grupos.map((g) => {
+          const alteraveis = g.items.filter((i) => !FIXOS.has(i.path)).map((i) => i.path)
+          const ativos = alteraveis.filter((p) => !ocultos.has(p)).length
+          return (
+            <div key={g.group} className="menu-cfg-grupo">
+              <label className="row menu-cfg-titulo">
+                <input
+                  type="checkbox"
+                  disabled={!admin || !alteraveis.length}
+                  checked={ativos > 0}
+                  ref={(el) => {
+                    if (el) el.indeterminate = ativos > 0 && ativos < alteraveis.length
+                  }}
+                  onChange={(e) => alternarGrupo(alteraveis, e.target.checked)}
+                />
+                <b className="grow">{g.group}</b>
+                <span className="small muted">
+                  {ativos}/{alteraveis.length}
+                </span>
+              </label>
+              {g.items.map((i) => {
+                const fixo = FIXOS.has(i.path)
+                return (
+                  <label key={i.path} className={`row menu-cfg-item ${fixo ? 'fixo' : ''}`} title={fixo ? 'Item essencial: sempre visível' : undefined}>
+                    <input type="checkbox" disabled={!admin || fixo} checked={fixo || !ocultos.has(i.path)} onChange={(e) => alternar(i.path, e.target.checked)} />
+                    <Icon name={i.icon} size={15} />
+                    <span className="grow">{i.label}</span>
+                    {fixo && <span className="small muted">sempre</span>}
+                  </label>
+                )
+              })}
+            </div>
+          )
+        })}
+      </div>
+    </div>
   )
 }
