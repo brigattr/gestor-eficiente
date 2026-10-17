@@ -24,6 +24,15 @@
 - **Mais à frente:** migrar do Cloudflare Pages/D1/R2 para uma **VPS** (servidor próprio), para suportar muitos clientes, usuários e banco de dados maiores. Isso exige planejar: separação por cliente (multi-tenant), banco (ex.: PostgreSQL), armazenamento de arquivos, backup automático, monitoramento, e-mail transacional e planos/assinatura. O usuário não é técnico nessa parte — explicar passo a passo, como foi feito no Cloudflare.
 - O menu configurável (Configurações → Ferramentas no menu) é a base dos planos/pacotes de venda.
 
+## Melhorias pendentes (backlog)
+
+- **Tickets de atendimento com SLA configurável** (pedido em 17/10/2026). O usuário vai trazer o modelo que usa na Controladoria como exemplo — **aguardar o modelo antes de implementar**.
+  - Abrir tickets de atendimento para os "clientes" do usuário (áreas internas ou clientes externos).
+  - Tela de configuração de **SLA padrão**: o gestor preenche os prazos que quer acordar com quem atende/é atendido (ex.: por prioridade, por tipo).
+  - **Tipos de ticket** escolhidos/criados pelo usuário.
+  - **Totalmente dinâmico**: o gestor cria as etapas (fluxo/status) de cada tipo de ticket; nada fixo no código.
+  - Integrar com o Painel de eficiência existente (hoje ele importa tickets do SharePoint) e com o Calendário/alertas (prazos de SLA vencendo).
+
 ## Domínio
 
 - Domínio de produção: **chiefdesk.com.br** (com *s*), DNS no Cloudflare (marlowe/rocco.ns.cloudflare.com). Projeto Pages: `chiefdeck` (`chiefdeck.pages.dev`). A zona `chiefdeck.com.br` (com *c*) no Cloudflare foi criada por engano e pode ser removida.
