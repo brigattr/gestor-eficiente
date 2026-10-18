@@ -1,5 +1,5 @@
 /// <reference types="@cloudflare/workers-types" />
-import { camposOutlook, lerIcs } from '../src/shared/ics'
+import { camposOutlook, lerIcs, origemIcs, type OrigemCal } from '../src/shared/ics'
 // API do Gestor Eficiente (Cloudflare Pages Functions + D1 + R2).
 // Rotas em /api/*. Sessão por cookie HttpOnly; senhas em PBKDF2-SHA256.
 
@@ -228,32 +228,69 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
       return json({ ok: true, gravados: b.items.length })
     }
 
-    // ── calendário do Outlook (link ICS publicado)
-    if (path === '/calendar' && method === 'GET') return json(await statusCalendario(env))
-    if (path === '/calendar' && method === 'PUT') {
-      if (!admin) throw new HttpError(403, 'Somente administradores configuram o calendário.')
-      const b = await body<{ url: string }>(req)
-      const link = String(b.url ?? '').trim().replace(/^webcal:/i, 'https:')
-      if (!/^https:\/\/[^\s]+$/i.test(link) && !/^http:\/\/(127\.0\.0\.1|localhost)[:/]/i.test(link)) throw new HttpError(400, 'Cole o link ICS completo (começa com https:// ou webcal://).')
-      const r = await sincronizarCalendario(env, link) // valida o link antes de salvar
-      await env.DB.prepare('INSERT INTO config (key, value, updated_at) VALUES (?, ?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at').bind('ics_url', link, now()).run()
-      return json({ ...(await statusCalendario(env)), resultado: r })
+    // ── calendários externos (links ICS publicados: Outlook, Google, iCloud…)
+    if (path === '/calendar' && method === 'GET') return json(await statusCalendarios(env))
+    if (path === '/calendar' && method === 'POST') {
+      if (!admin) throw new HttpError(403, 'Somente administradores configuram calendários.')
+      const b = await body<{ url: string; nome?: string }>(req)
+      const link = linkIcs(b.url)
+      const cals = await lerCalendarios(env)
+      if (cals.length >= 10) throw new HttpError(400, 'Limite de 10 calendários conectados.')
+      if (cals.some((c) => c.url === link)) throw new HttpError(400, 'Este calendário já está conectado.')
+      const cal: Cal = { id: crypto.randomUUID().slice(0, 8), nome: '', origem: 'Outro calendário', url: link }
+      const r = await sincronizarCalendario(env, cal) // valida o link antes de salvar
+      cal.nome = String(b.nome ?? '').trim().slice(0, 60) || cal.origem
+      await gravarCalendarios(env, [...cals, cal])
+      return json({ ...(await statusCalendarios(env)), resultado: r })
     }
-    if (path === '/calendar' && method === 'DELETE') {
-      if (!admin) throw new HttpError(403, 'Somente administradores.')
-      await env.DB.prepare("DELETE FROM config WHERE key IN ('ics_url', 'ics_status')").run()
-      if (url.searchParams.has('eventos')) await env.DB.prepare("UPDATE items SET deleted = 1, updated_at = ? WHERE col = 'reunioes' AND deleted = 0 AND json_extract(data, '$.origem') = 'Outlook'").bind(now()).run()
-      return json(await statusCalendario(env))
+    const mCal = /^\/calendar\/([\w-]{1,20})$/.exec(path)
+    if (mCal && (method === 'PUT' || method === 'DELETE')) {
+      if (!admin) throw new HttpError(403, 'Somente administradores configuram calendários.')
+      const cals = await lerCalendarios(env)
+      const cal = cals.find((c) => c.id === mCal[1])
+      if (!cal) throw new HttpError(404, 'Calendário não encontrado.')
+      if (method === 'PUT') {
+        const b = await body<{ url?: string; nome?: string }>(req)
+        if (b.nome != null) cal.nome = String(b.nome).trim().slice(0, 60) || cal.origem
+        let r: StatusCal | undefined
+        if (b.url) {
+          cal.url = linkIcs(b.url)
+          r = await sincronizarCalendario(env, cal)
+        }
+        await gravarCalendarios(env, cals)
+        return json({ ...(await statusCalendarios(env)), resultado: r })
+      }
+      await gravarCalendarios(env, cals.filter((c) => c.id !== cal.id))
+      await env.DB.prepare('DELETE FROM config WHERE key = ?').bind('ics_status_' + cal.id).run()
+      if (url.searchParams.has('eventos')) await env.DB.prepare(`UPDATE items SET deleted = 1, updated_at = ? WHERE col = 'reunioes' AND deleted = 0 AND ${DO_CAL}`).bind(now(), cal.id, cal.id).run()
+      return json(await statusCalendarios(env))
     }
     if (path === '/calendar/sync' && method === 'POST') {
       if (!escreve) throw new HttpError(403, 'Seu perfil é somente leitura.')
-      const link = (await env.DB.prepare("SELECT value FROM config WHERE key = 'ics_url'").first<{ value: string }>())?.value
-      if (!link) throw new HttpError(400, 'Calendário do Outlook não configurado.')
+      const cals = await lerCalendarios(env)
+      if (!cals.length) throw new HttpError(400, 'Nenhum calendário conectado.')
       const se = url.searchParams.has('seAntigo')
-      const st = await statusCalendario(env)
-      if (se && st.ultima?.em && Date.now() - new Date(st.ultima.em).getTime() < 60 * 60000) return json({ ...st, pulado: true })
-      const r = await sincronizarCalendario(env, link)
-      return json({ ...(await statusCalendario(env)), resultado: r })
+      const so = url.searchParams.get('id')
+      const st = await statusCalendarios(env)
+      const total: StatusCal = { em: now(), eventos: 0, novos: 0, alterados: 0, removidos: 0 }
+      const erros: string[] = []
+      let feitos = 0
+      for (const cal of cals) {
+        if (so && cal.id !== so) continue
+        const ult = st.calendarios.find((c) => c.id === cal.id)?.ultima
+        if (se && ult?.em && Date.now() - new Date(ult.em).getTime() < 60 * 60000) continue
+        try {
+          const r = await sincronizarCalendario(env, cal)
+          for (const k of ['eventos', 'novos', 'alterados', 'removidos'] as const) total[k] += r[k]
+        } catch (e) {
+          erros.push(`${cal.nome}: ${(e as Error).message}`)
+        }
+        feitos++
+      }
+      if (!feitos) return json({ ...st, pulado: true })
+      if (erros.length && erros.length === feitos) throw new HttpError(502, erros.join(' '))
+      if (erros.length) total.erro = erros.join(' ')
+      return json({ ...(await statusCalendarios(env)), resultado: total })
     }
 
     if (path === '/import' && method === 'POST') {
@@ -494,45 +531,85 @@ async function salvarUsuario(env: Env, b: UserIn, id: string | null, quem: User)
   return json({ user: publicUser(u) })
 }
 
-// ───────── sincronização do calendário
+// ───────── sincronização dos calendários (links ICS publicados)
 type StatusCal = { em: string; eventos: number; novos: number; alterados: number; removidos: number; erro?: string }
+type Cal = { id: string; nome: string; origem: OrigemCal; url: string }
 
-async function statusCalendario(env: Env) {
-  const rows = (await env.DB.prepare("SELECT key, value FROM config WHERE key IN ('ics_url', 'ics_status')").all<{ key: string; value: string }>()).results
-  const link = rows.find((r) => r.key === 'ics_url')?.value
-  const st = rows.find((r) => r.key === 'ics_status')?.value
-  let host: string | null = null
-  try {
-    host = link ? new URL(link).host : null
-  } catch {
-    host = null
+// Reuniões de um calendário. As antigas do Outlook (antes de existir mais de um) não têm "calendario".
+const DO_CAL = "(json_extract(data, '$.calendario') = ? OR (? = 'outlook' AND json_extract(data, '$.calendario') IS NULL AND json_extract(data, '$.origem') = 'Outlook'))"
+
+function linkIcs(u: unknown) {
+  const link = String(u ?? '').trim().replace(/^webcal:/i, 'https:')
+  if (!/^https:\/\/[^\s]+$/i.test(link) && !/^http:\/\/(127\.0\.0\.1|localhost)[:/]/i.test(link)) throw new HttpError(400, 'Cole o link ICS completo (começa com https:// ou webcal://).')
+  return link
+}
+
+async function setConfig(env: Env, key: string, value: string) {
+  await env.DB.prepare('INSERT INTO config (key, value, updated_at) VALUES (?, ?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at').bind(key, value, now()).run()
+}
+
+/** Lista de calendários conectados. Converte a configuração antiga (um único link do Outlook). */
+async function lerCalendarios(env: Env): Promise<Cal[]> {
+  const rows = (await env.DB.prepare("SELECT key, value FROM config WHERE key IN ('ics_cals', 'ics_url', 'ics_status')").all<{ key: string; value: string }>()).results
+  const v = (k: string) => rows.find((r) => r.key === k)?.value
+  const cals = JSON.parse(v('ics_cals') ?? '[]') as Cal[]
+  const antigo = v('ics_url')
+  if (antigo) {
+    if (!cals.some((c) => c.id === 'outlook')) cals.unshift({ id: 'outlook', nome: 'Outlook', origem: 'Outlook', url: antigo })
+    await gravarCalendarios(env, cals)
+    const st = v('ics_status')
+    if (st) await setConfig(env, 'ics_status_outlook', st)
+    await env.DB.prepare("DELETE FROM config WHERE key IN ('ics_url', 'ics_status')").run()
   }
-  // o link é tratado como senha: nunca volta para a tela, só o domínio
-  return { configurado: !!link, host, ultima: st ? (JSON.parse(st) as StatusCal) : null }
+  return cals
+}
+
+async function gravarCalendarios(env: Env, cals: Cal[]) {
+  await setConfig(env, 'ics_cals', JSON.stringify(cals))
+}
+
+async function statusCalendarios(env: Env) {
+  const cals = await lerCalendarios(env)
+  const sts = (await env.DB.prepare("SELECT key, value FROM config WHERE key LIKE 'ics_status_%'").all<{ key: string; value: string }>()).results
+  const calendarios = cals.map((c) => {
+    let host: string | null = null
+    try {
+      host = new URL(c.url).host
+    } catch {
+      host = null
+    }
+    const st = sts.find((s) => s.key === 'ics_status_' + c.id)?.value
+    // o link é tratado como senha: nunca volta para a tela, só o domínio
+    return { id: c.id, nome: c.nome, origem: c.origem, host, ultima: st ? (JSON.parse(st) as StatusCal) : null }
+  })
+  return { configurado: cals.length > 0, calendarios }
 }
 
 const CAMPOS_USUARIO = ['preparado', 'pauta', 'materiais', 'decisoes', 'roteiro', 'etiquetas']
 
-async function sincronizarCalendario(env: Env, link: string) {
-  const salvarStatus = (st: StatusCal) =>
-    env.DB.prepare('INSERT INTO config (key, value, updated_at) VALUES (?, ?, ?) ON CONFLICT (key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at').bind('ics_status', JSON.stringify(st), now()).run()
+async function sincronizarCalendario(env: Env, cal: Cal) {
+  const salvarStatus = (st: StatusCal) => setConfig(env, 'ics_status_' + cal.id, JSON.stringify(st))
   let txt: string
   try {
-    const r = await fetch(link, { headers: { accept: 'text/calendar, */*' }, redirect: 'follow', cf: { cacheTtl: 0 } } as RequestInit)
-    if (!r.ok) throw new Error(`o Outlook respondeu ${r.status}`)
+    const r = await fetch(cal.url, { headers: { accept: 'text/calendar, */*' }, redirect: 'follow', cf: { cacheTtl: 0 } } as RequestInit)
+    if (!r.ok) throw new Error(`o servidor do calendário respondeu ${r.status}`)
     txt = await r.text()
     if (txt.length > 15_000_000) throw new Error('calendário grande demais')
     if (!/BEGIN:VCALENDAR/i.test(txt)) throw new Error('o link não devolveu um calendário (.ics)')
   } catch (e) {
     const erro = `Não foi possível ler o calendário: ${(e as Error).message}.`
-    await salvarStatus({ em: now(), eventos: 0, novos: 0, alterados: 0, removidos: 0, erro })
+    if (cal.nome) await salvarStatus({ em: now(), eventos: 0, novos: 0, alterados: 0, removidos: 0, erro })
     throw new HttpError(502, erro)
   }
+  if (cal.id !== 'outlook') cal.origem = origemIcs(txt, cal.url)
+  const quem = cal.origem
+  // ids das reuniões: o calendário antigo do Outlook mantém os ids de antes (preserva as anotações)
+  const idDe = (id: string) => (cal.id === 'outlook' ? id : `${id}_${cal.id}`)
   const de = Date.now() - 30 * 86400000
   const ate = Date.now() + 120 * 86400000
   const ocs = lerIcs(txt, de, ate)
   const t = now()
-  const atuais = (await env.DB.prepare("SELECT id, data FROM items WHERE col = 'reunioes' AND deleted = 0 AND json_extract(data, '$.origem') = 'Outlook'").all<{ id: string; data: string }>()).results
+  const atuais = (await env.DB.prepare(`SELECT id, data FROM items WHERE col = 'reunioes' AND deleted = 0 AND ${DO_CAL}`).bind(cal.id, cal.id).all<{ id: string; data: string }>()).results
   const mapa = new Map(atuais.map((r) => [r.id, JSON.parse(r.data) as Record<string, unknown>]))
   const stmts: D1PreparedStatement[] = []
   const put = (id: string, item: Record<string, unknown>) =>
@@ -542,23 +619,24 @@ async function sincronizarCalendario(env: Env, link: string) {
   let removidos = 0
   const vistos = new Set<string>()
   for (const o of ocs) {
-    vistos.add(o.id)
-    const campos = camposOutlook(o)
+    const id = idDe(o.id)
+    vistos.add(id)
+    const campos: Record<string, unknown> = { ...camposOutlook(o, quem), calendario: cal.id }
     const sugerido = campos.tipoSugerido
     delete campos.tipoSugerido
-    const ant = mapa.get(o.id)
+    const ant = mapa.get(id)
     if (!ant) {
-      put(o.id, { id: o.id, ...campos, tipo: sugerido ?? null, preparado: false, _created: t, _createdBy: 'Outlook', _updated: t, _updatedBy: 'Outlook' })
+      put(id, { id, ...campos, tipo: sugerido ?? null, preparado: false, _created: t, _createdBy: quem, _updated: t, _updatedBy: quem })
       novos++
       continue
     }
     const mudou = Object.entries(campos).some(([k, v]) => JSON.stringify(ant[k] ?? null) !== JSON.stringify(v ?? null)) || ant.canceladaOutlook
     if (mudou) {
-      put(o.id, { ...ant, ...campos, canceladaOutlook: false, _updated: t, _updatedBy: 'Outlook' })
+      put(id, { ...ant, ...campos, canceladaOutlook: false, _updated: t, _updatedBy: quem })
       alterados++
     }
   }
-  // reuniões que saíram do Outlook dentro da janela: apaga, ou marca como cancelada se você já anotou algo nela
+  // reuniões que saíram do calendário dentro da janela: apaga, ou marca como cancelada se você já anotou algo nela
   const deDia = new Date(de).toISOString().slice(0, 10)
   const ateDia = new Date(ate).toISOString().slice(0, 10)
   for (const [id, ant] of mapa) {
@@ -567,7 +645,7 @@ async function sincronizarCalendario(env: Env, link: string) {
     if (dia < deDia || dia > ateDia) continue
     const anotada = CAMPOS_USUARIO.some((k) => (Array.isArray(ant[k]) ? (ant[k] as unknown[]).length > 0 : !!ant[k] && ant[k] !== ''))
     if (anotada) {
-      if (!ant.canceladaOutlook) put(id, { ...ant, canceladaOutlook: true, _updated: t, _updatedBy: 'Outlook' })
+      if (!ant.canceladaOutlook) put(id, { ...ant, canceladaOutlook: true, _updated: t, _updatedBy: quem })
     } else stmts.push(env.DB.prepare("UPDATE items SET deleted = 1, updated_at = ? WHERE col = 'reunioes' AND id = ?").bind(t, id))
     removidos++
   }

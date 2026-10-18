@@ -6,6 +6,7 @@ import { ROTEIROS } from '../data/content'
 import { upsert, useDB, type DB, type Item } from '../data/store'
 import { allEvents, isDone } from '../lib/alerts'
 import { addDays, fmtDate, iso, startOfWeek } from '../lib/format'
+import { ehExterna } from '../shared/ics'
 
 const DIAS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo']
 
@@ -104,8 +105,8 @@ function Prep({ r, db }: { r: Item; db: DB }) {
         <h3 className="grow" style={r.canceladaOutlook ? { textDecoration: 'line-through' } : undefined}>
           {String(r.titulo)}
         </h3>
-        {Boolean(r.canceladaOutlook) && <Chip t="bad">cancelada no Outlook</Chip>}
-        {r.origem === 'Outlook' && <Chip t="info">Outlook</Chip>}
+        {Boolean(r.canceladaOutlook) && <Chip t="bad">cancelada no {String(r.origem)}</Chip>}
+        {ehExterna(r.origem) && <Chip t="info">{String(r.origem)}</Chip>}
         {r.tipo != null && <Chip t="muted">{String(r.tipo)}</Chip>}
         <label className="row small" style={{ cursor: 'pointer' }}>
           <input type="checkbox" checked={!!r.preparado} onChange={(e) => upsert('reunioes', { id: r.id, preparado: e.target.checked })} /> preparado
@@ -123,7 +124,7 @@ function Prep({ r, db }: { r: Item; db: DB }) {
           {r.participantes != null && <div className="muted" style={{ marginTop: 6 }}>Participantes: {String(r.participantes)}</div>}
           {r.descricaoOutlook != null && r.descricaoOutlook !== '' && (
             <details style={{ marginTop: 6 }}>
-              <summary className="muted" style={{ cursor: 'pointer' }}>Convite do Outlook</summary>
+              <summary className="muted" style={{ cursor: 'pointer' }}>Convite</summary>
               <div className="pre" style={{ maxHeight: 180, overflow: 'auto' }}>{String(r.descricaoOutlook)}</div>
             </details>
           )}

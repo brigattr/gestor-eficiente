@@ -397,7 +397,7 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 .ds-canvas.borracha { cursor: cell; }
 .ds-mais { justify-self: center; }
 
-/* ── Saúde mental e NR-1 */
+/* ── Clima e bem-estar (NR-1) */
 .nr1-juridico { display: grid; gap: 4px; border-left: 4px solid var(--warn); }
 .nr1-kpi { color: inherit; text-decoration: none; }
 .nr1-kpi:hover { border-color: var(--accent); }

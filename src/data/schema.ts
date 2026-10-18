@@ -610,10 +610,10 @@ export const MODULES: ModuleDef[] = [
       { key: 'materiais', label: 'Arquivos e materiais (links, um por linha)', type: 'textarea', wide: true },
       { key: 'preparado', label: 'Estou preparado', type: 'bool' },
       { key: 'decisoes', label: 'Decisões e próximos passos', type: 'textarea', wide: true },
-      { key: 'descricaoOutlook', label: 'Convite do Outlook (descrição)', type: 'textarea', wide: true, help: 'Atualizado automaticamente pelo Outlook' },
+      { key: 'descricaoOutlook', label: 'Convite (descrição)', type: 'textarea', wide: true, help: 'Atualizado automaticamente pelo calendário sincronizado' },
       { key: 'organizador', label: 'Organizador', type: 'text' },
-      { key: 'origem', label: 'Origem', type: 'select', options: ['Manual', 'Outlook'], help: 'Reuniões do Outlook são atualizadas na sincronização; pauta, preparo e decisões continuam suas' },
-      { key: 'canceladaOutlook', label: 'Cancelada no Outlook', type: 'bool' },
+      { key: 'origem', label: 'Origem', type: 'select', options: ['Manual', 'Outlook', 'Google', 'iCloud', 'Outro calendário'], help: 'Reuniões de calendários sincronizados são atualizadas na sincronização; pauta, preparo e decisões continuam suas' },
+      { key: 'canceladaOutlook', label: 'Cancelada no calendário', type: 'bool' },
     ],
     columns: ['data', 'hora', 'titulo', 'tipo', 'origem', 'preparado'],
     dates: [{ field: 'data', label: 'Reunião' }],
@@ -732,8 +732,8 @@ export const CORES_ETIQUETA: Record<string, string> = {
   Azul: '#2a5caa', Marinho: '#1d3f86', Amarelo: '#d9a400', Laranja: '#d9731a', Vermelho: '#c93c3c', Rosa: '#c2457a',
   Roxo: '#7b5fc4', Verde: '#17885c', Turquesa: '#16897f', Cinza: '#6b7a99',
 }
-// Saúde mental e NR-1 (riscos psicossociais no PGR)
-const G_NR1 = 'Saúde mental e NR-1'
+// Clima e bem-estar, incluindo a NR-1 (riscos psicossociais no PGR)
+const G_NR1 = 'Clima e bem-estar'
 MODULES.push(
   {
     col: 'riscosPsico',
@@ -893,7 +893,7 @@ MODULES.push(
 )
 
 // ───────────── Pacote "plataforma completa" (cada instalação liga/desliga no menu)
-const G_CULT = 'Cultura e clima'
+const G_CULT = 'Cultura'
 const G_COM = 'Comunicação'
 const G_PROC = 'Processos'
 const G_DP = 'Pessoas & DP'

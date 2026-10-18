@@ -1,4 +1,4 @@
-// Conteúdo de referência do menu "Saúde mental e NR-1".
+// Conteúdo de referência do menu "Clima e bem-estar (NR-1)".
 // Base: NR-1 cap. 1.5 (Portaria MTE 1.419/2024), Guia de Fatores de Riscos Psicossociais do MTE (abr/2025),
 // Lei 14.457/2022, Lei 14.831/2024, COPSOQ II-Br e HSE Management Standards. Situação jurídica pesquisada em 16/10/2026.
 

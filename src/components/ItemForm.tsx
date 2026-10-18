@@ -10,6 +10,7 @@ import { corEtiqueta } from './Tags'
 import { label, pct } from '../lib/format'
 import { Icon } from './Icon'
 import { Modal } from './ui'
+import { ehExterna } from '../shared/ics'
 
 // ── Editor global: qualquer tela pode abrir um registro de qualquer módulo
 type EditorState = { col: string; id?: string; preset?: Record<string, unknown> } | null
@@ -138,19 +139,19 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
   )
 }
 
-// ── Reuniões: dados do Outlook (somente leitura) separados das suas anotações
+// ── Reuniões: dados do calendário sincronizado (somente leitura) separados das suas anotações
 const ANOTACOES = ['tipo', 'roteiro', 'pauta', 'materiais', 'preparado', 'decisoes', 'etiquetas']
 
 function camposVisiveis(col: string, fields: Field[], v: Record<string, unknown>) {
   if (col !== 'reunioes') return fields
   const porKey = (ks: string[]) => ks.map((k) => fields.find((f) => f.key === k)).filter(Boolean) as Field[]
-  if (v.origem === 'Outlook') return porKey(ANOTACOES)
-  // reunião criada aqui: dados básicos editáveis + anotações (sem os campos internos do Outlook)
+  if (ehExterna(v.origem)) return porKey(ANOTACOES)
+  // reunião criada aqui: dados básicos editáveis + anotações (sem os campos internos do calendário)
   return porKey(['titulo', 'data', 'hora', 'horaFim', 'local', 'participantes', ...ANOTACOES])
 }
 
 function ReuniaoTopo({ v }: { v: Record<string, unknown> }) {
-  if (v.origem !== 'Outlook') return null
+  if (!ehExterna(v.origem)) return null
   const t = (k: string) => (v[k] == null || v[k] === '' ? null : String(v[k]))
   const data = t('data')
   return (
@@ -158,8 +159,8 @@ function ReuniaoTopo({ v }: { v: Record<string, unknown> }) {
       <div className="wide card" style={{ background: 'var(--info-soft)', boxShadow: 'none', display: 'grid', gap: 6 }}>
         <div className="row">
           <Icon name="calendar" />
-          <b className="grow">Do Outlook</b>
-          {Boolean(v.canceladaOutlook) && <span className="chip bad">cancelada no Outlook</span>}
+          <b className="grow">Do {String(v.origem)}</b>
+          {Boolean(v.canceladaOutlook) && <span className="chip bad">cancelada no {String(v.origem)}</span>}
           <span className="small muted">atualizado automaticamente</span>
         </div>
         <div style={{ fontWeight: 700, fontSize: 15 }}>{t('titulo')}</div>

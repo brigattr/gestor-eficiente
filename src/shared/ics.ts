@@ -1,4 +1,4 @@
-// Leitor de calendários iCalendar (.ics) — usado no servidor (link publicado do Outlook)
+// Leitor de calendários iCalendar (.ics) — usado no servidor (links publicados do Outlook, Google, iCloud…)
 // e no navegador (importação de arquivo). Expande recorrências (RRULE/EXDATE/RECURRENCE-ID)
 // e converte os horários para o fuso de exibição (padrão: America/Sao_Paulo).
 
@@ -333,7 +333,25 @@ export function lerIcs(txt: string, de: number, ate: number, fuso = 'America/Sao
 }
 
 /** Campos que vêm do Outlook (o restante da reunião — pauta, preparo, decisões — é do usuário). */
-export function camposOutlook(o: Ocorrencia): Record<string, unknown> {
+/** Origens de calendário sincronizado (o resto é reunião criada no sistema). */
+export const ORIGENS_CAL = ['Outlook', 'Google', 'iCloud', 'Outro calendário'] as const
+export type OrigemCal = (typeof ORIGENS_CAL)[number]
+
+/** Reunião que veio de um calendário sincronizado (dados do convite somente leitura). */
+export function ehExterna(origem: unknown) {
+  return typeof origem === 'string' && (ORIGENS_CAL as readonly string[]).includes(origem)
+}
+
+/** Descobre de onde veio o calendário pelo link ou pelo cabeçalho do .ics. */
+export function origemIcs(txt: string, link = ''): OrigemCal {
+  const prod = /^PRODID:(.*)$/im.exec(txt.slice(0, 4000))?.[1] ?? ''
+  if (/google/i.test(link) || /google/i.test(prod)) return 'Google'
+  if (/icloud|apple/i.test(link) || /apple/i.test(prod)) return 'iCloud'
+  if (/outlook|office365|live\.com|microsoft/i.test(link) || /microsoft/i.test(prod)) return 'Outlook'
+  return 'Outro calendário'
+}
+
+export function camposOutlook(o: Ocorrencia, origem: OrigemCal = 'Outlook'): Record<string, unknown> {
   const c: Record<string, unknown> = {
     titulo: o.titulo,
     data: o.data,
@@ -343,7 +361,7 @@ export function camposOutlook(o: Ocorrencia): Record<string, unknown> {
     participantes: o.participantes,
     descricaoOutlook: o.descricao,
     organizador: o.organizador,
-    origem: 'Outlook',
+    origem,
   }
   if (/\b1[:x]1\b|one.?on.?one/i.test(o.titulo)) c.tipoSugerido = '1:1'
   return c

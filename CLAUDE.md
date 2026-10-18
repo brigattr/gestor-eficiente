@@ -33,6 +33,11 @@
   - **Totalmente dinâmico**: o gestor cria as etapas (fluxo/status) de cada tipo de ticket; nada fixo no código.
   - Integrar com o Painel de eficiência existente (hoje ele importa tickets do SharePoint) e com o Calendário/alertas (prazos de SLA vencendo).
 
+## Marca (decidido em 18/10/2026)
+
+- **ChiefDesk** é a marca-mãe (empresa/plataforma), que no futuro terá outros produtos. **Gestor Eficiente** é o produto atual: "Gestor Eficiente · uma plataforma ChiefDesk". Não renomear o sistema para ChiefDesk.
+- O grupo de menu "Saúde mental e NR-1" virou **"Clima e bem-estar"** (clima/eNPS e termômetro de humor foram para ele; o antigo "Cultura e clima" virou "Cultura"). NR-1 continua coberta, mas sem ser o foco da comunicação.
+
 ## Domínio
 
 - Domínio de produção: **chiefdesk.com.br** (com *s*), DNS no Cloudflare (marlowe/rocco.ns.cloudflare.com). Projeto Pages: `chiefdeck` (`chiefdeck.pages.dev`). A zona `chiefdeck.com.br` (com *c*) no Cloudflare foi criada por engano e pode ser removida.

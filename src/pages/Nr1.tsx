@@ -72,7 +72,7 @@ export function PainelNr1() {
 
   return (
     <>
-      <PageHead title="Saúde mental e NR-1" desc="Gestão dos riscos psicossociais da área, como exige a NR-1 (PGR): inventário, plano de ação, pesquisa anônima, indicadores, rituais de bem-estar e evidências.">
+      <PageHead title="Painel NR-1" desc="Gestão dos riscos psicossociais da área, como exige a NR-1 (PGR): inventário, plano de ação, pesquisa anônima, indicadores, rituais de bem-estar e evidências.">
         <Link className="btn" to="/nr1-guia">
           <Icon name="book" size={15} /> Guia e legislação
         </Link>

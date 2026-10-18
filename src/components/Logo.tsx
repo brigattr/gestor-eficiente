@@ -1,4 +1,4 @@
-/** Marca: barras de sinal (como no BP.CONN) + nome do sistema. */
+/** Marca: barras de sinal (como no BP.CONN) + nome do sistema e da plataforma (ChiefDesk). */
 export function Bars({ size = 26, color = '#ffffff', accent = '#f5c542' }: { size?: number; color?: string; accent?: string }) {
   return (
     <svg width={size} height={size} viewBox="0 0 26 26" aria-hidden>
@@ -16,7 +16,7 @@ export function Logo({ light }: { light?: boolean }) {
       <Bars color={light ? '#ffffff' : 'currentColor'} />
       <div>
         <b>Gestor Eficiente</b>
-        <span>por BP.CONN</span>
+        <span>ChiefDesk</span>
       </div>
     </div>
   )
