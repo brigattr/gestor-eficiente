@@ -16,7 +16,7 @@
 - 15/10/2026 14h — listas de opções editáveis, bloco de anotações (estilo OneNote), repositório de arquivos por pastas (estilo OneDrive).
 - 16/10/2026 17h — desenho com Apple Pencil nas anotações, menu Saúde mental e NR-1, ferramentas visíveis no menu (configurável), pacote plataforma (cultura e clima, comunicação, processos, DP, tarefas recorrentes, busca global, app instalável).
 - 16/10/2026 (2º envio, com ciência do usuário) — anotações: transformar texto ou desenho em tarefa. **Envios do dia 16/10 já usados**.
-- 18/10/2026 23h — vários calendários (Outlook, Google, iCloud), menu Clima e bem-estar, marca Gestor Eficiente · ChiefDesk, backlog de tickets com SLA. **Envio do dia 18/10 já usado**; outro envio no mesmo dia só com a frase de ciência dos créditos.
+- 19/10/2026 00h — vários calendários (Outlook, Google, iCloud), menu Clima e bem-estar, marca Gestor Eficiente · ChiefDesk, backlog de tickets com SLA. **Envio do dia 19/10 já usado**; outro envio no mesmo dia só com a frase de ciência dos créditos.
 
 ## Próximos passos comerciais (anotado em 16/10/2026)
 
