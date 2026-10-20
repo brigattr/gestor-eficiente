@@ -1,6 +1,7 @@
 import { useMemo, type ReactNode } from 'react'
 import { opcoesCampo } from '../lib/opcoes'
 import { MOD } from '../data/schema'
+import { DONE } from '../lib/alerts'
 import { list, useDB, type Item } from '../data/store'
 import { downloadFile, label, toCSV } from '../lib/format'
 import { Icon } from './Icon'
@@ -21,6 +22,9 @@ type Props = {
   preset?: Record<string, unknown>
 }
 
+const ABERTOS = '__abertos'
+const CONCLUIDAS = '__concluidas'
+
 export function ModulePage({ col, extraViews = [], defaultView, above, actions, embedded, where, preset }: Props) {
   useDB()
   const m = MOD[col]
@@ -30,26 +34,32 @@ export function ModulePage({ col, extraViews = [], defaultView, above, actions, 
   extraViews.forEach((e) => views.push({ v: e.key, l: e.label }))
   const [view, setView] = useLocalState(`view:${col}:${embedded ? 'e' : 'p'}`, defaultView ?? 'tabela')
   const [q, setQ] = useLocalState(`q:${col}`, '')
-  const [flt, setFlt] = useLocalState<Record<string, string>>(`f:${col}`, {})
+  const [flt, setFlt] = useLocalState<Record<string, string>>(`f2:${col}`, {}) // f2: filtros com o padrão "em aberto"
 
   // filtros automáticos: pessoa, status e selects/refs exibidos na lista
   const filterFields = m.fields.filter((f) => m.columns.includes(f.key) && (f.type === 'select' || f.type === 'ref') && f.key !== m.titleField).slice(0, 4)
+  // status: por padrão mostra só o que está em aberto (concluídas ficam no filtro "Concluídas")
+  const sf = m.statusField && filterFields.some((f) => f.key === m.statusField) ? m.statusField : null
+  const filtros = sf && flt[sf] === undefined ? { ...flt, [sf]: ABERTOS } : flt
 
   const all = list(col)
   const rows = useMemo(() => {
     const s = q.trim().toLowerCase()
     return all.filter((it) => {
       if (where && !where(it)) return false
-      for (const [k, val] of Object.entries(flt)) {
+      for (const [k, val] of Object.entries(filtros)) {
         if (!val) continue
-        if (k === 'etiquetas') {
+        if (k === sf && (val === ABERTOS || val === CONCLUIDAS)) {
+          if (DONE.test(String(it[k] ?? '')) !== (val === CONCLUIDAS)) return false
+        } else if (k === 'etiquetas') {
           if (!(Array.isArray(it.etiquetas) && it.etiquetas.includes(val))) return false
         } else if (String(it[k] ?? '') !== val) return false
       }
       if (!s) return true
       return m.fields.some((f) => cellText(col, f.key, it).toLowerCase().includes(s))
     })
-  }, [all, q, flt, where, col, m.fields])
+  }, [all, q, filtros, sf, where, col, m.fields])
+  const ocultas = sf && filtros[sf] === ABERTOS ? all.filter((it) => (!where || where(it)) && DONE.test(String(it[sf] ?? ''))).length : 0
 
   function exportCSV() {
     const fs = m.fields
@@ -78,8 +88,10 @@ export function ModulePage({ col, extraViews = [], defaultView, above, actions, 
           {filterFields.map((f) => {
             const opts = f.type === 'select' ? opcoesCampo(f).map((o) => ({ v: o, l: o })) : list(f.ref!).map((i) => ({ v: i.id, l: label(f.ref!, i) }))
             return (
-              <select key={f.key} style={{ maxWidth: 190 }} value={flt[f.key] ?? ''} onChange={(e) => setFlt({ ...flt, [f.key]: e.target.value })}>
+              <select key={f.key} style={{ maxWidth: 190 }} value={filtros[f.key] ?? ''} onChange={(e) => setFlt({ ...flt, [f.key]: e.target.value })}>
+                {f.key === sf && <option value={ABERTOS}>{f.label}: em aberto</option>}
                 <option value="">{f.label}: todos</option>
+                {f.key === sf && <option value={CONCLUIDAS}>{f.label}: concluídas (histórico)</option>}
                 {opts.map((o) => (
                   <option key={o.v} value={o.v}>
                     {o.l}
@@ -101,7 +113,17 @@ export function ModulePage({ col, extraViews = [], defaultView, above, actions, 
             </select>
           )}
           <span className="grow" />
-          <span className="muted small">{rows.length} registro(s)</span>
+          <span className="muted small">
+            {rows.length} registro(s)
+            {ocultas > 0 && (
+              <>
+                {' · '}
+                <button className="linkbtn" onClick={() => setFlt({ ...flt, [sf!]: CONCLUIDAS })} title="Ver o histórico de concluídas">
+                  {ocultas} concluída(s) oculta(s)
+                </button>
+              </>
+            )}
+          </span>
           {embedded && (
             <button className="btn sm primary" onClick={() => openEditor(col, undefined, preset)}>
               <Icon name="plus" size={14} /> Novo

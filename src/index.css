@@ -490,3 +490,6 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 .nb-tarefa.feita .grow { text-decoration: line-through; color: var(--muted); }
 .origem-nota { padding: 6px 10px; border-radius: 8px; background: var(--accent-soft); }
 .origem-nota a { cursor: pointer; font-weight: 700; }
+
+/* botão com aparência de link (ex.: "3 concluída(s) oculta(s)") */
+.linkbtn{background:none;border:0;padding:0;font:inherit;color:var(--brand-2);text-decoration:underline;cursor:pointer}
