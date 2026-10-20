@@ -34,6 +34,14 @@
   - **Totalmente dinâmico**: o gestor cria as etapas (fluxo/status) de cada tipo de ticket; nada fixo no código.
   - Integrar com o Painel de eficiência existente (hoje ele importa tickets do SharePoint) e com o Calendário/alertas (prazos de SLA vencendo).
 
+- **Notificações de vencimento** (pedido em 20/10/2026): avisar na tela do computador e do celular quando uma tarefa vence no dia. Exige notificações do navegador/app instalável (Web Push no servidor, com permissão do usuário; no iPhone só funciona com o app adicionado à tela de início).
+- **Atalho de tarefa em 1:1 e roteiros** (20/10/2026): junto do histórico, um link "+ Tarefa" que abre o formulário sobreposto de nova tarefa (já preenchendo a pessoa da conversa), sem sair da tela.
+- **Anotações estilo Notas do iPhone** (20/10/2026):
+  - Área de escrita/desenho bem maior; tirar o fundo de pontinhos pretos (fundo liso por padrão, opção de linhas ou quadriculado como no Notas).
+  - Botão para **esconder o menu de blocos/seções** e usar a tela inteira; clicar de novo mostra o menu.
+  - Avaliar recursos do Notas do iPhone: estilos (título, cabeçalho, subtítulo, corpo, monoespaçado), checklist, tabelas, seções recolhíveis, cores de destaque, ferramentas de desenho (caneta, marcador, lápis, borracha, laço, régua, paleta de cores), fixar nota, bloquear nota, anexos/fotos e digitalizar documento, busca, notas recentes.
+- **Atalho "Conectar calendários" na tela Calendário** (19/10/2026): hoje a conexão fica só em Reuniões e o usuário procurou no Calendário.
+
 ## Marca (decidido em 18/10/2026)
 
 - **ChiefDesk** é a marca-mãe (empresa/plataforma), que no futuro terá outros produtos. **Gestor Eficiente** é o produto atual: "Gestor Eficiente · uma plataforma ChiefDesk". Não renomear o sistema para ChiefDesk.
