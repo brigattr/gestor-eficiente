@@ -36,6 +36,7 @@
   - **Totalmente dinâmico**: o gestor cria as etapas (fluxo/status) de cada tipo de ticket; nada fixo no código.
   - Integrar com o Painel de eficiência existente (hoje ele importa tickets do SharePoint) e com o Calendário/alertas (prazos de SLA vencendo).
 
+- **Horário de aviso na tarefa** (pedido em 27/10/2026): além da data (prazo/follow-up), a tarefa ganha um **horário** para notificar — ex.: temas pessoais avisando só no fim do dia. Sem horário, mantém o comportamento atual (avisa ao abrir/durante o dia). O sino deve disparar no horário escolhido (checagem a cada minuto com o sistema aberto); o horário aparece no Calendário (visão dia/semana) e na lista. Avaliar um "horário padrão" por lista (ex.: lista Pessoal → 18h).
 - **Avisos com o sistema fechado** (próximo passo das notificações, 26/10/2026): hoje os avisos do sino aparecem com o sistema aberto (mesmo em outra aba/minimizado). Para avisar com tudo fechado é preciso Web Push com agendador no servidor (Worker com cron + chaves VAPID) — fazer junto com a migração para VPS ou antes, se o usuário pedir.
 - **Anotações — o que ficou de fora do pacote Notas do iPhone**: laço (selecionar e mover parte do desenho), bloquear nota com senha, seções recolhíveis, imagem dentro do texto.
 
