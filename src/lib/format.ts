@@ -68,6 +68,9 @@ export const VIRTUALS: Record<string, Record<string, { label: string; value: (i:
   tarefas: {
     gut: { label: 'GUT', value: (i) => (i.g && i.u && i.t ? Number(i.g) * Number(i.u) * Number(i.t) : null) },
   },
+  contratos: {
+    faltam: { label: 'Faltam (dias)', value: (i) => (/encerrad|cancelad/i.test(String(i.status ?? '')) ? null : daysUntil(i.vencimento)) },
+  },
   riscosPsico: {
     nivel: { label: 'Nível (P×S)', value: (i) => nivelRisco(i.probabilidade, i.severidade) },
   },

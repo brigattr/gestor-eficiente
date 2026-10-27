@@ -5,16 +5,22 @@ import { upsert, remove, type Item } from '../data/store'
 
 // Área de desenho à mão (Apple Pencil, caneta de Surface, mouse ou dedo).
 // Os traços ficam em vetores (coleção "desenhos"), então o desenho sai nítido em qualquer tela.
-// Formato do traço: { c: cor, w: espessura, t: 'p' caneta | 'm' marca-texto, p: [x, y, pressão×100, ...] }
+// Formato do traço: { c: cor, w: espessura, t: 'p' caneta | 'l' lápis | 'm' marca-texto, p: [x, y, pressão×100, ...] }
 
-export type Traco = { c: string; w: number; t: 'p' | 'm'; p: number[] }
+export type Traco = { c: string; w: number; t: 'p' | 'l' | 'm'; p: number[] }
 const LARGURA = 1000 // coordenadas lógicas; a tela escala para o tamanho disponível
-const CORES = ['#1f2937', '#1d4ed8', '#c0392b', '#15803d', '#7c3aed', '#ea580c']
+const CORES = ['#1f2937', '#6b7280', '#1d4ed8', '#0891b2', '#c0392b', '#db2777', '#15803d', '#7c3aed', '#ea580c', '#ca8a04']
 const CORES_MT = ['#fde047', '#86efac', '#93c5fd', '#f9a8d4']
 const ESPESSURAS = [1.6, 3, 5.5]
 const MAX_TRACOS_BYTES = 750_000
 
-type Ferramenta = 'caneta' | 'marca' | 'borracha'
+type Ferramenta = 'caneta' | 'lapis' | 'marca' | 'regua' | 'borracha'
+// papel como no Notas do iPhone: liso, com linhas ou quadriculado
+const PAPEIS = [
+  ['liso', 'Liso'],
+  ['linhas', 'Linhas'],
+  ['grade', 'Quadriculado'],
+] as const
 
 function desenharTraco(ctx: CanvasRenderingContext2D, t: Traco, k: number) {
   const p = t.p
@@ -37,7 +43,10 @@ function desenharTraco(ctx: CanvasRenderingContext2D, t: Traco, k: number) {
     return
   }
   // caneta: cada segmento com a espessura da pressão naquele ponto, suavizado por curvas
-  const largura = (pr: number) => Math.max(0.6, t.w * (0.35 + 1.1 * (pr / 100))) * k
+  // lápis: mais fino e um pouco translúcido, mais escuro quanto mais pressão
+  const lapis = t.t === 'l'
+  if (lapis) ctx.globalAlpha = 0.72
+  const largura = (pr: number) => Math.max(lapis ? 0.5 : 0.6, t.w * (lapis ? 0.7 : 1) * (0.35 + 1.1 * (pr / 100))) * k
   if (p.length === 3) {
     ctx.fillStyle = t.c
     ctx.beginPath()
@@ -91,12 +100,14 @@ export function Desenho({ d, podeSubir, podeDescer, onMover, onTarefa }: { d: It
   const cv = useRef<HTMLCanvasElement>(null)
   const tracos = useRef<Traco[]>(Array.isArray(d.tracos) ? (d.tracos as Traco[]) : [])
   const desfeitos = useRef<Traco[][]>([])
+  const refeitos = useRef<Traco[][]>([])
   const atual = useRef<Traco | null>(null)
   const ponteiro = useRef<number | null>(null)
   const viuCaneta = useRef(false)
   const sujo = useRef(false)
   const timer = useRef<number | undefined>(undefined)
   const [altura, setAltura] = useState(Number(d.altura) || 420)
+  const papel = String(d.papel ?? 'liso')
   const [ferr, setFerr] = useState<Ferramenta>('caneta')
   const [cor, setCor] = useState(CORES[0])
   const [corMT, setCorMT] = useState(CORES_MT[0])
@@ -206,7 +217,8 @@ export function Desenho({ d, podeSubir, podeDescer, onMover, onTarefa }: { d: It
     }
     desfeitos.current.push(tracos.current)
     if (desfeitos.current.length > 50) desfeitos.current.shift()
-    atual.current = ferr === 'marca' ? { c: corMT, w: 18, t: 'm', p: [x, y, pr] } : { c: cor, w: esp, t: 'p', p: [x, y, pr] }
+    refeitos.current = []
+    atual.current = ferr === 'marca' ? { c: corMT, w: 18, t: 'm', p: [x, y, pr] } : { c: cor, w: esp, t: ferr === 'lapis' ? 'l' : 'p', p: [x, y, pr] }
     redesenhar()
   }
   function move(e: React.PointerEvent<HTMLCanvasElement>) {
@@ -220,6 +232,12 @@ export function Desenho({ d, podeSubir, podeDescer, onMover, onTarefa }: { d: It
         continue
       }
       const p = atual.current.p
+      if (ferr === 'regua') {
+        // régua: só o ponto inicial e o atual (linha reta)
+        p.length = 3
+        p.push(x, y, p[2])
+        continue
+      }
       const dx = x - p[p.length - 3],
         dy = y - p[p.length - 2]
       if (dx * dx + dy * dy < 0.8) continue // ignora micro-movimentos
@@ -231,10 +249,15 @@ export function Desenho({ d, podeSubir, podeDescer, onMover, onTarefa }: { d: It
     if (e.pointerId !== ponteiro.current) return
     ponteiro.current = null
     if (atual.current) {
-      tracos.current = [...tracos.current, atual.current]
+      const novo = atual.current
+      tracos.current = [...tracos.current, novo]
       atual.current = null
       redesenhar()
       mudou()
+      // escreveu perto do fim da folha: a folha cresce sozinha
+      let maxY = 0
+      for (let i = 1; i < novo.p.length; i += 3) maxY = Math.max(maxY, novo.p[i])
+      if (maxY > altura - 140) maisAltura()
     } else if (desfeitos.current.length && desfeitos.current[desfeitos.current.length - 1] === tracos.current) {
       desfeitos.current.pop() // borracha sem apagar nada
     }
@@ -243,7 +266,16 @@ export function Desenho({ d, podeSubir, podeDescer, onMover, onTarefa }: { d: It
   function desfazer() {
     const ant = desfeitos.current.pop()
     if (!ant) return
+    refeitos.current.push(tracos.current)
     tracos.current = ant
+    redesenhar()
+    mudou()
+  }
+  function refazer() {
+    const prox = refeitos.current.pop()
+    if (!prox) return
+    desfeitos.current.push(tracos.current)
+    tracos.current = prox
     redesenhar()
     mudou()
   }
@@ -291,8 +323,12 @@ export function Desenho({ d, podeSubir, podeDescer, onMover, onTarefa }: { d: It
     for (const t of ts) desenharTraco(ctx, t, k)
     return new Promise((r) => c.toBlob((b) => r(b), 'image/png'))
   }
+  function trocarPapel() {
+    const i = PAPEIS.findIndex(([v]) => v === papel)
+    upsert('desenhos', { id: d.id, papel: PAPEIS[(i + 1) % PAPEIS.length][0] })
+  }
   function maisAltura() {
-    const h = altura + 300
+    const h = altura + 400
     setAltura(h)
     sujo.current = true
     window.clearTimeout(timer.current)
@@ -305,8 +341,14 @@ export function Desenho({ d, podeSubir, podeDescer, onMover, onTarefa }: { d: It
         <button type="button" className={`ds-btn ${ferr === 'caneta' ? 'on' : ''}`} onClick={() => setFerr('caneta')} title="Caneta">
           ✒️
         </button>
+        <button type="button" className={`ds-btn ${ferr === 'lapis' ? 'on' : ''}`} onClick={() => setFerr('lapis')} title="Lápis">
+          ✏️
+        </button>
         <button type="button" className={`ds-btn ${ferr === 'marca' ? 'on' : ''}`} onClick={() => setFerr('marca')} title="Marca-texto">
           🖍
+        </button>
+        <button type="button" className={`ds-btn ${ferr === 'regua' ? 'on' : ''}`} onClick={() => setFerr('regua')} title="Régua (linha reta)">
+          📏
         </button>
         <button type="button" className={`ds-btn ${ferr === 'borracha' ? 'on' : ''}`} onClick={() => setFerr('borracha')} title="Borracha (apaga o traço inteiro)">
           🧽
@@ -329,6 +371,15 @@ export function Desenho({ d, podeSubir, podeDescer, onMover, onTarefa }: { d: It
           />
         ))}
         {ferr !== 'marca' && (
+          <input
+            type="color"
+            className="ds-cor ds-cor-livre"
+            value={cor}
+            onChange={(e) => (setCor(e.target.value), ferr === 'borracha' && setFerr('caneta'))}
+            title="Outra cor"
+          />
+        )}
+        {ferr !== 'marca' && (
           <>
             <span className="nb-sep" />
             {ESPESSURAS.map((w) => (
@@ -341,6 +392,12 @@ export function Desenho({ d, podeSubir, podeDescer, onMover, onTarefa }: { d: It
         <span className="nb-sep" />
         <button type="button" className="ds-btn" onClick={desfazer} title="Desfazer" disabled={!desfeitos.current.length}>
           ↶
+        </button>
+        <button type="button" className="ds-btn" onClick={refazer} title="Refazer" disabled={!refeitos.current.length}>
+          ↷
+        </button>
+        <button type="button" className="ds-btn ds-papel" onClick={trocarPapel} title="Tipo de papel: liso, linhas ou quadriculado">
+          {PAPEIS.find(([v]) => v === papel)?.[1] ?? 'Liso'}
         </button>
         <button type="button" className="ds-btn" onClick={() => void limpar()} title="Apagar tudo">
           ⌫
@@ -376,7 +433,7 @@ export function Desenho({ d, podeSubir, podeDescer, onMover, onTarefa }: { d: It
           <Icon name="trash" size={14} />
         </button>
       </div>
-      <div ref={wrap} className="ds-folha">
+      <div ref={wrap} className={`ds-folha papel-${papel}`}>
         <canvas
           ref={cv}
           className={`ds-canvas ${ferr === 'borracha' ? 'borracha' : ''}`}

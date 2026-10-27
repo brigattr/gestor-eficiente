@@ -301,6 +301,13 @@ function demoPlataforma(d: (k: number) => string, ym: (o: number) => string, Y: 
     { id: 'pt3', item: 'Monitor 27"', tipo: 'Monitor', plaqueta: 'TI-00577', colaborador: 'p5', entregue: d(-20), status: 'Em uso', valor: 1900 },
     { id: 'pt4', item: 'Licença Power BI Pro', tipo: 'Licença de software', colaborador: 'p2', entregue: d(-200), devolverAte: d(165), status: 'Em uso' },
   ]
+  const contratos: Item[] = [
+    { id: 'ct1', item: 'Domínio exemplo-empresa.com.br', tipo: 'Domínio', fornecedor: 'Registro.br', vencimento: d(21), avisoDias: 30, periodicidade: 'Anual', renovacaoAuto: false, valor: 40, status: 'Vigente', obs: 'Dados fictícios de exemplo.' },
+    { id: 'ct2', item: 'Certificado digital e-CNPJ A1', tipo: 'Certificado digital', fornecedor: 'Autoridade certificadora (exemplo)', responsavel: 'p4', vencimento: d(9), avisoDias: 30, periodicidade: 'Anual', valor: 260, status: 'Em renovação' },
+    { id: 'ct3', item: 'Licenças de e-mail e escritório (10 usuários)', tipo: 'Assinatura / SaaS', fornecedor: 'Fornecedor de software (exemplo)', responsavel: 'p2', vencimento: d(140), avisoDias: 45, periodicidade: 'Mensal', renovacaoAuto: true, valor: 650, status: 'Vigente' },
+    { id: 'ct4', item: 'Contrato de auditoria externa', tipo: 'Contrato', fornecedor: 'Auditoria Exemplo S/S', numero: 'CT-2025-014', responsavel: 'p1', inicio: d(-300), vencimento: d(65), avisoDias: 90, periodicidade: 'Anual', valor: 98000, centroCusto: 'cc3', status: 'Vigente' },
+    { id: 'ct5', item: 'Seguro empresarial do escritório', tipo: 'Seguro', fornecedor: 'Seguradora Exemplo', vencimento: d(-4), avisoDias: 30, periodicidade: 'Anual', valor: 3800, status: 'Vigente' },
+  ]
   const reembolsos: Item[] = [
     { id: 're1', colaborador: 'p4', descricao: 'Táxi — reunião na SEFAZ', data: d(-5), categoria: 'Transporte', valor: 86.4, centroCusto: 'cc2', status: 'Enviado', aprovador: 'p1' },
     { id: 're2', colaborador: 'p2', descricao: 'Almoço com auditoria', data: d(-12), categoria: 'Alimentação', valor: 212, centroCusto: 'cc3', status: 'Aprovado', aprovador: 'p1' },
@@ -399,7 +406,7 @@ function demoPlataforma(d: (k: number) => string, ym: (o: number) => string, Y: 
     },
   ]
   return {
-    humor, avisos, reconhecimentos, gruposTrabalho, ouvidoria, obrigacoes, modelosChecklist, execucoesChecklist, patrimonio, reembolsos, solicitacoes,
+    humor, avisos, reconhecimentos, gruposTrabalho, ouvidoria, obrigacoes, modelosChecklist, execucoesChecklist, patrimonio, contratos, reembolsos, solicitacoes,
     npsInterno, atividadesArea, beneficios, admissoes, politicas, ciencias, pesquisasClima, pesquisasPsico, riscosPsico, acoesPsico, checkinsBemEstar,
     indicadoresPsico, nr1checklist, blocos, secoes, paginas, desenhos,
   }

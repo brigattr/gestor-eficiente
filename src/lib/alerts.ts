@@ -64,6 +64,14 @@ export function computeAlerts(db: DB): Alert[] {
     if (d < 0) a.push({ level: 'bad', text: `Certificação vencida: ${c.nome} (${P(c.colaborador)})`, col: 'certificacoes', id: c.id, path: 'treinamentos' })
     else if (d <= 45) a.push({ level: 'warn', text: `Certificação vence em ${d}d: ${c.nome} (${P(c.colaborador)})`, col: 'certificacoes', id: c.id, path: 'treinamentos' })
   }
+  for (const c of db.contratos ?? []) {
+    const d = daysUntil(c.vencimento)
+    if (d == null || isDone('contratos', c)) continue
+    const aviso = Number(c.avisoDias ?? 30) || 30
+    const nome = `${c.tipo ? c.tipo + ': ' : ''}${c.item}`
+    if (d < 0) a.push({ level: 'bad', text: `Vencido há ${-d}d: ${nome}`, col: 'contratos', id: c.id, path: 'contratos' })
+    else if (d <= aviso) a.push({ level: d <= 7 ? 'bad' : 'warn', text: `${d === 0 ? 'Vence hoje' : `Vence em ${d}d`}: ${nome}${c.renovacaoAuto ? ' (renovação automática)' : ''}`, col: 'contratos', id: c.id, path: 'contratos' })
+  }
   for (const x of db.exames ?? []) {
     const d = daysUntil(x.proximo)
     if (d == null || x.status === 'Realizado') continue

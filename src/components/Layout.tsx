@@ -10,9 +10,11 @@ import { EditorHost } from './ItemForm'
 import { BuscaGlobal } from './BuscaGlobal'
 import { Logo } from './Logo'
 import { itensEtiquetados } from '../pages/Etiquetas'
-import { useDB } from '../data/store'
+import { useDB, type DB } from '../data/store'
 import { logout } from '../lib/auth'
 import { useUser } from '../pages/Login'
+import { ativar, desativar, estado, verificar } from '../lib/notificacoes'
+import { avisar } from './Dialogs'
 
 type Theme = 'auto' | 'light' | 'dark'
 
@@ -23,6 +25,16 @@ export function Layout({ children }: { children: ReactNode }) {
   const alerts = useAlerts()
   const user = useUser()
   const db = useDB()
+
+  // avisos do dia (tarefas e vencimentos): confere ao abrir, quando os dados mudam e a cada 10 min
+  useEffect(() => {
+    const t = setTimeout(() => void verificar(db), 2000)
+    return () => clearTimeout(t)
+  }, [db])
+  useEffect(() => {
+    const i = setInterval(() => void verificar(db), 10 * 60000)
+    return () => clearInterval(i)
+  }, [db])
 
   useEffect(() => {
     if (theme === 'auto') document.documentElement.removeAttribute('data-theme')
@@ -59,6 +71,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <BuscaGlobal />
           <span className="grow" />
           <span className="muted small hide-sm">{new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' })}</span>
+          <SinoAvisos db={db} />
           <button
             className="btn ghost sm"
             title="Tema: automático / claro / escuro"
@@ -104,5 +117,33 @@ function MenuEtiquetas({ fechar }: { fechar: () => void }) {
         {n > 0 && <span className="nav-count">{n}</span>}
       </NavLink>
     </>
+  )
+}
+
+/** Liga/desliga os avisos de vencimento neste aparelho. */
+function SinoAvisos({ db }: { db: DB }) {
+  const [st, setSt] = useState(estado)
+  if (st === 'sem-suporte') return null
+  async function clicar() {
+    if (st === 'ativo') {
+      desativar()
+      setSt(estado())
+      avisar('Avisos desligados neste aparelho.')
+      return
+    }
+    if (st === 'negado') {
+      avisar('Os avisos estão bloqueados no navegador. Clique no cadeado ao lado do endereço do site → Notificações → Permitir, e depois clique no sino de novo.')
+      return
+    }
+    const r = await ativar()
+    setSt(r)
+    if (r === 'ativo') void verificar(db)
+    if (r !== 'ativo') avisar('Os avisos não foram permitidos. Para ativar depois, libere as notificações do site no navegador e clique no sino.')
+  }
+  return (
+    <button className={'btn ghost sm' + (st === 'ativo' ? '' : ' sino-off')} onClick={clicar} title={st === 'ativo' ? 'Avisos de vencimento ativos neste aparelho (clique para desligar)' : 'Ativar avisos de tarefas e vencimentos do dia neste aparelho'}>
+      <Icon name="bell" size={16} />
+      <span className="hide-sm">{st === 'ativo' ? 'Avisos' : 'Ativar avisos'}</span>
+    </button>
   )
 }

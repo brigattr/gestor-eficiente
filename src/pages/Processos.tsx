@@ -6,7 +6,7 @@ import { ModulePage } from '../components/ModulePage'
 import { Bar, Chip, Kpi, PageHead, useLocalState } from '../components/ui'
 import { get, remove, upsert, useDB, type Item } from '../data/store'
 import { getUser } from '../lib/session'
-import { MES_CURTO, daysUntil, fmtDate, iso, label, todayISO } from '../lib/format'
+import { MES_CURTO, daysUntil, fmtDate, iso, label, money, todayISO } from '../lib/format'
 import { calcNps } from '../lib/pesquisa'
 
 // ───────────────────────── Agenda de obrigações
@@ -360,3 +360,89 @@ export function NpsInterno() {
   )
 }
 
+
+// ───────────────────────── Contratos e vencimentos
+const MESES_POR: Record<string, number> = { Mensal: 1, Trimestral: 3, Semestral: 6, Anual: 12, '2 anos': 24, '3 anos': 36 }
+const ativo = (c: Item) => !/encerrad|cancelad/i.test(String(c.status ?? ''))
+
+/** Soma meses mantendo o dia (31/01 + 1 mês = 28 ou 29/02). */
+function somarMeses(isoData: string, meses: number) {
+  const [y, m, d] = isoData.split('-').map(Number)
+  const alvo = new Date(Date.UTC(y, m - 1 + meses, 1))
+  const ultimo = new Date(Date.UTC(alvo.getUTCFullYear(), alvo.getUTCMonth() + 1, 0)).getUTCDate()
+  alvo.setUTCDate(Math.min(d, ultimo))
+  return alvo.toISOString().slice(0, 10)
+}
+
+function Contratos() {
+  const db = useDB()
+  const lista = (db.contratos ?? []).filter(ativo)
+  const comPrazo = lista.map((c) => ({ c, d: daysUntil(c.vencimento) })).filter((x): x is { c: Item; d: number } => x.d != null)
+  const vencidos = comPrazo.filter((x) => x.d < 0)
+  const ate = (n: number) => comPrazo.filter((x) => x.d >= 0 && x.d <= n).length
+  const anual = lista.reduce((s, c) => {
+    const m = MESES_POR[String(c.periodicidade ?? '')]
+    return s + (m ? (Number(c.valor) || 0) * (12 / m) : 0)
+  }, 0)
+  const proximos = comPrazo.filter((x) => x.d <= Math.max(Number(x.c.avisoDias ?? 30) || 30, 0)).sort((a, b) => a.d - b.d)
+
+  async function renovar(c: Item) {
+    const meses = MESES_POR[String(c.periodicidade ?? '')]
+    const atual = String(c.vencimento ?? '')
+    if (!meses || !atual) return openEditor('contratos', c.id)
+    const novo = somarMeses(atual, meses)
+    const ok = await confirmar(`Renovar "${c.item}"?\n\nVencimento atual: ${fmtDate(atual)}\nNovo vencimento: ${fmtDate(novo)}\n\nO vencimento anterior fica registrado no histórico. Se a data ou o valor mudaram, ajuste depois no cadastro.`, { ok: 'Renovar' })
+    if (!ok) return
+    const linha = `${fmtDate(todayISO())}: renovado por ${getUser()?.nome ?? '—'} — vencia em ${fmtDate(atual)}, novo vencimento ${fmtDate(novo)}${c.valor ? ` (valor ${money(c.valor, true)})` : ''}`
+    upsert('contratos', { id: c.id, vencimento: novo, status: 'Vigente', historico: [linha, String(c.historico ?? '').trim()].filter(Boolean).join('\n') })
+  }
+
+  return (
+    <>
+      <div className="grid g4">
+        <Kpi l="Vencidos" v={vencidos.length} t={vencidos.length ? 'bad' : undefined} />
+        <Kpi l="Vencem em 30 dias" v={ate(30)} t={ate(30) ? 'warn' : undefined} d={`60 dias: ${ate(60)} · 90 dias: ${ate(90)}`} />
+        <Kpi l="Custo anual (ativos)" v={money(anual)} d="Valor por período convertido para 12 meses" />
+        <Kpi l="Itens ativos" v={lista.length} />
+      </div>
+      {proximos.length > 0 && (
+        <div className="card flush">
+          <div className="row" style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
+            <h2 className="grow">Precisam de atenção</h2>
+            <span className="small muted">Dentro do prazo de aviso de cada item</span>
+          </div>
+          <div className="table-wrap">
+            <table>
+              <tbody>
+                {proximos.map(({ c, d }) => (
+                  <tr key={c.id}>
+                    <td className="click" onClick={() => openEditor('contratos', c.id)}>
+                      <b>{String(c.item)}</b>
+                      <div className="small muted">
+                        {[c.tipo, c.fornecedor, c.responsavel ? label('pessoas', get('pessoas', String(c.responsavel))) : null].filter(Boolean).join(' · ')}
+                      </div>
+                    </td>
+                    <td>{fmtDate(c.vencimento)}</td>
+                    <td>
+                      <Chip t={d < 0 ? 'bad' : d <= 7 ? 'bad' : 'warn'}>{d < 0 ? `vencido há ${-d}d` : d === 0 ? 'vence hoje' : `faltam ${d}d`}</Chip>
+                      {Boolean(c.renovacaoAuto) && <span className="small muted"> renovação automática</span>}
+                    </td>
+                    <td className="num">
+                      <button className="btn sm" onClick={() => renovar(c)} title="Registra a renovação e calcula o próximo vencimento">
+                        <Icon name="check" size={14} /> Renovar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
+export function ContratosPage() {
+  return <ModulePage col="contratos" above={() => <Contratos />} />
+}

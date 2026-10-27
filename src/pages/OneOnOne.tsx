@@ -33,6 +33,11 @@ export function OneOnOne() {
     avisar('Conversa registrada no histórico de ' + label('pessoas', get('pessoas', pessoa)))
   }
 
+  /** Atalho: abre o formulário de tarefa por cima da tela, já com a pessoa da conversa. */
+  function novaTarefa(titulo?: string) {
+    openEditor('tarefas', undefined, { responsavel: pessoa, ...(titulo ? { titulo: titulo.replace(/^[-•*]\s*/, '').slice(0, 200) } : {}) })
+  }
+
   return (
     <>
       <PageHead title="1:1 e roteiros de conversa" desc="Roteiros da sua base: Gestão, Status, Feedback, Avaliação de time, Delegação e Tomada de decisão. Registre respostas e acordos no histórico da pessoa." />
@@ -64,7 +69,12 @@ export function OneOnOne() {
               </label>
             ))}
             <label className="field">
-              <span>Acordos / próximos passos</span>
+              <span className="row" style={{ justifyContent: 'space-between' }}>
+                Acordos / próximos passos
+                <button type="button" className="linkbtn small" disabled={!pessoa} onClick={(e) => (e.preventDefault(), novaTarefa(acordos.split('\n').find((l) => l.trim())?.trim()))}>
+                  + Criar tarefa
+                </button>
+              </span>
               <textarea value={acordos} onChange={(e) => setAcordos(e.target.value)} />
             </label>
             <div className="row">
@@ -92,7 +102,10 @@ export function OneOnOne() {
         <div className="card">
           <div className="card-head">
             <Icon name="clock" />
-            <h2>Histórico</h2>
+            <h2 className="grow">Histórico</h2>
+            <button className="btn sm" disabled={!pessoa} onClick={() => novaTarefa()} title="Nova tarefa para esta pessoa, sem sair da tela">
+              <Icon name="plus" size={14} /> Tarefa
+            </button>
           </div>
           {hist.length === 0 && <div className="empty">Sem conversas registradas.</div>}
           <div className="list">

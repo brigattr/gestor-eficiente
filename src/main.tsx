@@ -16,6 +16,7 @@ import { initFiles } from './lib/files'
 import { persistir } from './lib/idb'
 import { detectarModo } from './lib/api'
 import { configurarServidor } from './lib/sync'
+import { registrarSW } from './lib/notificacoes'
 
 async function boot() {
   // Com a API do Cloudflare disponível, os dados ficam no servidor; senão, no navegador
@@ -41,3 +42,4 @@ async function boot() {
   )
 }
 void boot()
+void registrarSW()

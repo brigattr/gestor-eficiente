@@ -383,7 +383,7 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 
 /* ── Área de desenho (Apple Pencil / caneta / mouse) */
 .ds { display: grid; gap: 4px; margin-top: 6px; }
-.ds-barra { display: flex; flex-wrap: wrap; align-items: center; gap: 3px; padding: 4px 6px; border: 1px solid var(--border); border-radius: 10px 10px 0 0; background: var(--surface-2); }
+.ds-barra { position: sticky; top: 0; z-index: 3; display: flex; flex-wrap: wrap; align-items: center; gap: 3px; padding: 4px 6px; border: 1px solid var(--border); border-radius: 10px 10px 0 0; background: var(--surface-2); }
 .ds-btn { min-width: 30px; height: 28px; border: 0; border-radius: 6px; background: none; color: var(--text); cursor: pointer; font-size: 14px; display: inline-grid; place-items: center; }
 .ds-btn:hover { background: var(--surface); }
 .ds-btn.on { background: var(--surface); box-shadow: 0 0 0 2px var(--accent); }
@@ -392,7 +392,10 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 .ds-cor { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--border); cursor: pointer; padding: 0; }
 .ds-cor.on { box-shadow: 0 0 0 2px var(--accent); }
 .ds-esp { display: block; border-radius: 50%; background: var(--text); }
-.ds-folha { border: 1px solid var(--border); border-top: 0; border-radius: 0 0 10px 10px; overflow: hidden; background: #fff; background-image: radial-gradient(circle, #d6dbe4 1px, transparent 1.2px); background-size: 24px 24px; }
+.ds-folha { border: 1px solid var(--border); border-top: 0; border-radius: 0 0 10px 10px; overflow: hidden; background: #fff; }
+/* papel: liso (padrão), linhas ou quadriculado, como no Notas do iPhone */
+.ds-folha.papel-linhas { background-image: linear-gradient(to bottom, transparent 31px, #dfe5ee 31px, #dfe5ee 32px); background-size: 100% 32px; }
+.ds-folha.papel-grade { background-image: linear-gradient(to right, #e6ebf2 1px, transparent 1px), linear-gradient(to bottom, #e6ebf2 1px, transparent 1px); background-size: 24px 24px; }
 .ds-canvas { display: block; touch-action: none; cursor: crosshair; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 .ds-canvas.borracha { cursor: cell; }
 .ds-mais { justify-self: center; }
@@ -493,3 +496,21 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 
 /* botão com aparência de link (ex.: "3 concluída(s) oculta(s)") */
 .linkbtn{background:none;border:0;padding:0;font:inherit;color:var(--brand-2);text-decoration:underline;cursor:pointer}
+.sino-off { color: var(--muted); }
+
+.ds-cor-livre { width: 26px; height: 26px; padding: 0; background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red); }
+.ds-cor-livre::-webkit-color-swatch-wrapper { padding: 0; }
+.ds-cor-livre::-webkit-color-swatch { border: 0; border-radius: 50%; opacity: 0; }
+.ds-papel { font-size: 12px; font-weight: 700; padding: 0 8px; border: 1px solid var(--border); }
+
+/* ── Anotações: estilos de texto, menus da barra e tela cheia */
+.nb-texto h1 { font-size: 26px; font-weight: 800; margin: 14px 0 6px; }
+.nb-texto pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13.5px; }
+.nb-menu { width: auto; height: 28px; padding: 0 6px; font-size: 13px; border-radius: 6px; background: var(--surface); }
+.btn.on { box-shadow: 0 0 0 2px var(--accent); }
+.nb.foco { grid-template-columns: minmax(0, 1fr); }
+.nb.foco .nb-blocos, .nb.foco .nb-paginas { display: none; }
+.nb.foco .nb-pagina { max-width: 1280px; margin: 0 auto; }
+body.nb-foco .app { grid-template-columns: minmax(0, 1fr); }
+body.nb-foco .sidebar { display: none; }
+body.nb-foco .content { padding-left: 12px; padding-right: 12px; }

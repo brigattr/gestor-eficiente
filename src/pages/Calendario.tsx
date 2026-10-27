@@ -74,6 +74,9 @@ export function Calendario() {
     <>
       <PageHead title="Calendário" desc="Tudo que tem data, de todos os módulos, num só lugar. Clique em um item para abrir; clique num horário vazio para marcar uma reunião.">
         <Seg value={modo} onChange={setModo} options={MODOS} />
+        <Link className="btn" to="/reunioes" title="Conectar Outlook, Google Agenda ou iCloud">
+          <Icon name="calendar" size={16} /> Conectar calendários
+        </Link>
       </PageHead>
       <div className="card">
         <div className="row" style={{ marginBottom: 12 }}>

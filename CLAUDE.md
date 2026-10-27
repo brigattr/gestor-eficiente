@@ -16,7 +16,8 @@
 - 15/10/2026 14h — listas de opções editáveis, bloco de anotações (estilo OneNote), repositório de arquivos por pastas (estilo OneDrive).
 - 16/10/2026 17h — desenho com Apple Pencil nas anotações, menu Saúde mental e NR-1, ferramentas visíveis no menu (configurável), pacote plataforma (cultura e clima, comunicação, processos, DP, tarefas recorrentes, busca global, app instalável).
 - 16/10/2026 (2º envio, com ciência do usuário) — anotações: transformar texto ou desenho em tarefa. **Envios do dia 16/10 já usados**.
-- 19/10/2026 00h — vários calendários (Outlook, Google, iCloud), menu Clima e bem-estar, marca Gestor Eficiente · ChiefDesk, backlog de tickets com SLA. **Envio do dia 19/10 já usado**; outro envio no mesmo dia só com a frase de ciência dos créditos.
+- 19/10/2026 00h — vários calendários (Outlook, Google, iCloud), menu Clima e bem-estar, marca Gestor Eficiente · ChiefDesk, backlog de tickets com SLA. **Envio do dia 19/10 já usado**.
+- 26/10/2026 22h — listas sem concluídas por padrão, Contratos e vencimentos, avisos de vencimento (sino), anotações estilo Notas do iPhone (tela cheia, papel liso/linhas/quadriculado, lápis, régua, estilos, tabela, fixar), atalhos + Tarefa no 1:1 e Conectar calendários. **Envio do dia 26/10 já usado**; outro envio no mesmo dia só com a frase de ciência dos créditos.
 
 ## Próximos passos comerciais (anotado em 16/10/2026)
 
@@ -34,13 +35,8 @@
   - **Totalmente dinâmico**: o gestor cria as etapas (fluxo/status) de cada tipo de ticket; nada fixo no código.
   - Integrar com o Painel de eficiência existente (hoje ele importa tickets do SharePoint) e com o Calendário/alertas (prazos de SLA vencendo).
 
-- **Notificações de vencimento** (pedido em 20/10/2026): avisar na tela do computador e do celular quando uma tarefa vence no dia. Exige notificações do navegador/app instalável (Web Push no servidor, com permissão do usuário; no iPhone só funciona com o app adicionado à tela de início).
-- **Atalho de tarefa em 1:1 e roteiros** (20/10/2026): junto do histórico, um link "+ Tarefa" que abre o formulário sobreposto de nova tarefa (já preenchendo a pessoa da conversa), sem sair da tela.
-- **Anotações estilo Notas do iPhone** (20/10/2026):
-  - Área de escrita/desenho bem maior; tirar o fundo de pontinhos pretos (fundo liso por padrão, opção de linhas ou quadriculado como no Notas).
-  - Botão para **esconder o menu de blocos/seções** e usar a tela inteira; clicar de novo mostra o menu.
-  - Avaliar recursos do Notas do iPhone: estilos (título, cabeçalho, subtítulo, corpo, monoespaçado), checklist, tabelas, seções recolhíveis, cores de destaque, ferramentas de desenho (caneta, marcador, lápis, borracha, laço, régua, paleta de cores), fixar nota, bloquear nota, anexos/fotos e digitalizar documento, busca, notas recentes.
-- **Atalho "Conectar calendários" na tela Calendário** (19/10/2026): hoje a conexão fica só em Reuniões e o usuário procurou no Calendário.
+- **Avisos com o sistema fechado** (próximo passo das notificações, 26/10/2026): hoje os avisos do sino aparecem com o sistema aberto (mesmo em outra aba/minimizado). Para avisar com tudo fechado é preciso Web Push com agendador no servidor (Worker com cron + chaves VAPID) — fazer junto com a migração para VPS ou antes, se o usuário pedir.
+- **Anotações — o que ficou de fora do pacote Notas do iPhone**: laço (selecionar e mover parte do desenho), bloquear nota com senha, seções recolhíveis, imagem dentro do texto.
 
 ## Marca (decidido em 18/10/2026)
 

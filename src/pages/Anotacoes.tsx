@@ -71,6 +71,13 @@ export function Anotacoes() {
   const [renomear, setRenomear] = useState<string>('')
   const [busca, setBusca] = useState('')
   const [arrastando, setArrastando] = useState<string>('')
+  // tela cheia: esconde blocos, seções, páginas e o menu do sistema
+  const [foco, setFocoRaw] = useState<boolean>(() => getPref('nb:foco', false))
+  const setFoco = (v: boolean) => (setFocoRaw(v), setPref('nb:foco', v))
+  useEffect(() => {
+    document.body.classList.toggle('nb-foco', foco)
+    return () => document.body.classList.remove('nb-foco')
+  }, [foco])
 
   const setSecaoId = (id: string) => (setSecaoIdRaw(id), setPref('nb:secao', id))
   const setPaginaId = (id: string) => {
@@ -95,7 +102,8 @@ export function Anotacoes() {
   }, [params])
 
   const secao = get('secoes', secaoId) ?? secoes[0]
-  const pagsSecao = secao ? paginas.filter((p) => p.secao === secao.id) : []
+  // páginas fixadas sobem para o topo da seção (como no Notas do iPhone)
+  const pagsSecao = secao ? paginas.filter((p) => p.secao === secao.id).sort((a, b) => Number(!!b.fixada) - Number(!!a.fixada)) : []
   const pagina = get('paginas', paginaId)
   const paginaAtual = pagina && pagina.secao === secao?.id ? pagina : pagsSecao[0]
 
@@ -178,7 +186,7 @@ export function Anotacoes() {
   }
 
   return (
-    <div className="nb">
+    <div className={`nb ${foco ? 'foco' : ''}`}>
       {/* ── blocos e seções */}
       <aside className="nb-col nb-blocos">
         <div className="nb-head">
@@ -320,7 +328,10 @@ export function Anotacoes() {
                 style={{ paddingLeft: 12 + Math.min(2, Number(p.nivel ?? 0)) * 16 }}
                 onClick={() => setPaginaId(p.id)}
               >
-                <span className="nb-pag-t">{String(p.titulo || 'Sem título')}</span>
+                <span className="nb-pag-t">
+                  {p.fixada ? '📌 ' : ''}
+                  {String(p.titulo || 'Sem título')}
+                </span>
                 <span className="small muted nb-prev">{String(p.texto ?? '').slice(0, 70) || ' '}</span>
               </div>
             ))}
@@ -339,11 +350,18 @@ export function Anotacoes() {
             key={paginaAtual.id}
             p={paginaAtual}
             caminho={caminho(paginaAtual)}
+            foco={foco}
+            onFoco={() => setFoco(!foco)}
             onSubpagina={() => novaPagina(String(paginaAtual.secao), Math.min(2, Number(paginaAtual.nivel ?? 0) + 1), paginaAtual)}
             onExcluir={() => void excluirPagina(paginaAtual)}
           />
         ) : (
           <div className="nb-vazio grande">
+            {foco && (
+              <button className="btn sm" onClick={() => setFoco(false)}>
+                ☰ Mostrar menu
+              </button>
+            )}
             <Icon name="book" size={32} />
             {secao ? (
               <button className="btn primary" onClick={() => novaPagina()}>
@@ -362,11 +380,37 @@ export function Anotacoes() {
 // ── Página: título + texto formatado, salvando sozinho
 type Cmd = { i: string; t: string; run: () => void }
 
-function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: string; onSubpagina: () => void; onExcluir: () => void }) {
+// estilos como no Notas do iPhone
+const ESTILOS: [string, string][] = [
+  ['h1', 'Título'],
+  ['h2', 'Cabeçalho'],
+  ['h3', 'Subtítulo'],
+  ['p', 'Corpo'],
+  ['pre', 'Monoespaçado'],
+]
+const DESTAQUES: [string, string][] = [
+  ['#fff3a3', 'Amarelo'],
+  ['#c8f2cf', 'Verde'],
+  ['#cfe3ff', 'Azul'],
+  ['#ffd3e6', 'Rosa'],
+  ['#e8dcff', 'Roxo'],
+  ['transparent', 'Sem destaque'],
+]
+const CORES_TEXTO: [string, string][] = [
+  ['#1f2937', 'Preto'],
+  ['#c0392b', 'Vermelho'],
+  ['#1d4ed8', 'Azul'],
+  ['#15803d', 'Verde'],
+  ['#7c3aed', 'Roxo'],
+  ['#ea580c', 'Laranja'],
+  ['#6b7280', 'Cinza'],
+]
+
+function Pagina({ p, caminho, foco, onFoco, onSubpagina, onExcluir }: { p: Item; caminho: string; foco: boolean; onFoco: () => void; onSubpagina: () => void; onExcluir: () => void }) {
   const db = useDB()
   const desenhos = (db.desenhos ?? []).filter((d) => d.pagina === p.id).sort(porOrdem)
   function novoDesenho() {
-    const d = upsert('desenhos', { pagina: p.id, ordem: proxOrdem(desenhos), tracos: [], altura: 420 })
+    const d = upsert('desenhos', { pagina: p.id, ordem: proxOrdem(desenhos), tracos: [], altura: 900, papel: 'liso' })
     if (d) setTimeout(() => document.getElementById('ds-' + d.id)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 50)
   }
   function moverDesenho(i: number, dir: -1 | 1) {
@@ -474,10 +518,26 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
     window.clearTimeout(timer.current)
     timer.current = window.setTimeout(salvar, 800)
   }
+  // seleção guardada antes de abrir um menu da barra (o menu tira o foco do texto)
+  const guardada = useRef<Range | null>(null)
+  function guardar() {
+    const s = window.getSelection()
+    guardada.current = s && s.rangeCount && ed.current?.contains(s.anchorNode) ? s.getRangeAt(0).cloneRange() : null
+  }
   function exec(cmd: string, arg?: string) {
     ed.current?.focus()
+    if (guardada.current) {
+      const s = window.getSelection()
+      s?.removeAllRanges()
+      s?.addRange(guardada.current)
+      guardada.current = null
+    }
     document.execCommand(cmd, false, arg)
     mudou()
+  }
+  function tabela() {
+    const cel = '<td><br></td>'.repeat(3)
+    exec('insertHTML', `<table><tbody>${`<tr>${cel}</tr>`.repeat(3)}</tbody></table><p><br></p>`)
   }
   function ulDaSelecao() {
     const n = window.getSelection()?.anchorNode
@@ -512,12 +572,7 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
     { i: 'I', t: 'Itálico (Ctrl+I)', run: () => exec('italic') },
     { i: 'U', t: 'Sublinhado (Ctrl+U)', run: () => exec('underline') },
     { i: 'S', t: 'Riscado', run: () => exec('strikeThrough') },
-    { i: '🖍', t: 'Marca-texto', run: () => exec('hiliteColor', '#fff3a3') },
-    { i: 'A', t: 'Texto vermelho', run: () => exec('foreColor', '#c0392b') },
     '|',
-    { i: 'T1', t: 'Título', run: () => exec('formatBlock', 'h2') },
-    { i: 'T2', t: 'Subtítulo', run: () => exec('formatBlock', 'h3') },
-    { i: '¶', t: 'Texto normal', run: () => exec('formatBlock', 'p') },
     { i: '❝', t: 'Citação / destaque', run: () => exec('formatBlock', 'blockquote') },
     '|',
     { i: '•', t: 'Lista com marcadores', run: () => lista(false) },
@@ -525,6 +580,7 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
     { i: '☑', t: 'Lista de tarefas (clique na caixinha para marcar)', run: () => lista(true) },
     { i: '⇥', t: 'Aumentar recuo', run: () => exec('indent') },
     { i: '⇤', t: 'Diminuir recuo', run: () => exec('outdent') },
+    { i: '▦', t: 'Inserir tabela (3 × 3)', run: tabela },
     '|',
     { i: '🔗', t: 'Link (selecione o texto antes)', run: link },
     { i: '🕑', t: 'Inserir data e hora', run: dataHora },
@@ -543,6 +599,9 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
         </button>
       )}
       <div className="nb-meta">
+        <button className="btn sm" onClick={onFoco} title={foco ? 'Mostrar blocos, seções e páginas' : 'Esconder os menus e escrever em tela cheia'}>
+          {foco ? '☰ Mostrar menu' : '⤢ Tela cheia'}
+        </button>
         <span className="small muted grow">{caminho}</span>
         <span className={`small ${estado === 'grande' ? 'neg' : 'muted'}`}>
           {estado === 'salvando' ? 'Salvando…' : estado === 'salvo' ? 'Salvo' : estado === 'grande' ? 'Página grande demais — divida em mais páginas ou use anexos' : ''}
@@ -560,6 +619,9 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
             ⇥
           </button>
         )}
+        <button className={`btn ghost sm ${p.fixada ? 'on' : ''}`} onClick={() => upsert('paginas', { id: p.id, fixada: !p.fixada })} title={p.fixada ? 'Desafixar' : 'Fixar no topo da seção'}>
+          📌
+        </button>
         <button className="btn ghost sm" onClick={() => setVerAnexos(!verAnexos)} title="Anexos e etiquetas">
           <Icon name="tag" size={14} />
         </button>
@@ -594,12 +656,55 @@ function Pagina({ p, caminho, onSubpagina, onExcluir }: { p: Item; caminho: stri
         </div>
       )}
       <div className="nb-barra" onMouseDown={(e) => e.preventDefault()}>
+        <select
+          className="nb-menu"
+          value=""
+          title="Estilo do parágrafo"
+          onMouseDown={(e) => (guardar(), e.stopPropagation())}
+          onChange={(e) => e.target.value && exec('formatBlock', e.target.value)}
+        >
+          <option value="">Aa Estilo</option>
+          {ESTILOS.map(([tag, nome]) => (
+            <option key={tag} value={tag}>
+              {nome}
+            </option>
+          ))}
+        </select>
+        <select
+          className="nb-menu"
+          value=""
+          title="Marca-texto"
+          onMouseDown={(e) => (guardar(), e.stopPropagation())}
+          onChange={(e) => e.target.value && exec('hiliteColor', e.target.value)}
+        >
+          <option value="">🖍 Destaque</option>
+          {DESTAQUES.map(([cor, nome]) => (
+            <option key={cor} value={cor}>
+              {nome}
+            </option>
+          ))}
+        </select>
+        <select
+          className="nb-menu"
+          value=""
+          title="Cor do texto"
+          onMouseDown={(e) => (guardar(), e.stopPropagation())}
+          onChange={(e) => e.target.value && exec('foreColor', e.target.value)}
+        >
+          <option value="">A Cor</option>
+          {CORES_TEXTO.map(([cor, nome]) => (
+            <option key={cor} value={cor}>
+              {nome}
+            </option>
+          ))}
+        </select>
+        <span className="nb-sep" />
         {cmds.map((c, i) =>
           c === '|' ? (
             <span key={i} className="nb-sep" />
           ) : (
             <button key={i} type="button" className="nb-btn" title={c.t} onClick={c.run}>
-              {c.i === 'B' ? <b>B</b> : c.i === 'I' ? <i>I</i> : c.i === 'U' ? <u>U</u> : c.i === 'S' ? <s>S</s> : c.i === 'A' ? <span style={{ color: '#c0392b', fontWeight: 800 }}>A</span> : c.i}
+              {c.i === 'B' ? <b>B</b> : c.i === 'I' ? <i>I</i> : c.i === 'U' ? <u>U</u> : c.i === 'S' ? <s>S</s> : c.i}
             </button>
           ),
         )}

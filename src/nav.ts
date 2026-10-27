@@ -107,6 +107,7 @@ export const NAV: { group: string; items: NavItem[] }[] = [
       { path: 'checklists', label: 'Checklists recorrentes', icon: 'checklist' },
       { path: 'solicitacoes', label: 'Solicitações e aprovações', icon: 'check' },
       { path: 'reembolsos', label: 'Reembolsos', icon: 'receipt' },
+      { path: 'contratos', label: 'Contratos e vencimentos', icon: 'receipt' },
       { path: 'patrimonio', label: 'Patrimônio', icon: 'briefcase' },
       { path: 'nps-interno', label: 'NPS clientes internos', icon: 'gauge' },
     ],
