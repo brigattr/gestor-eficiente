@@ -7,7 +7,8 @@ import { opcoesCampo, salvarOpcoes } from '../lib/opcoes'
 import { deleteFilesOf } from '../lib/files'
 import { Attachments } from './Attachments'
 import { corEtiqueta } from './Tags'
-import { label, pct } from '../lib/format'
+import { fmtDate, label, pct, todayISO } from '../lib/format'
+import { DONE } from '../lib/alerts'
 import { Icon } from './Icon'
 import { Modal } from './ui'
 import { ehExterna } from '../shared/ics'
@@ -67,8 +68,30 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
       setErr('Preencha: ' + missing.join(', '))
       return
     }
+    // "Concluída e criar nova tarefa": conclui esta e abre a próxima já preenchida
+    if (col === 'tarefas' && data.status === SEGUIR) {
+      const novoId = uid()
+      const nota = `${fmtDate(todayISO())}: concluída — próximo passo em nova tarefa`
+      data.status = 'Concluída'
+      data.proxima = novoId
+      data.comentarios = [String(data.comentarios ?? '').trim(), nota].filter(Boolean).join('\n')
+      if (!upsert(col, { ...data, id: itemId })) return
+      onClose()
+      openEditor('tarefas', undefined, {
+        id: novoId,
+        titulo: data.titulo,
+        responsavel: data.responsavel ?? null,
+        projeto: data.projeto ?? null,
+        lista: data.lista ?? null,
+        etiquetas: Array.isArray(data.etiquetas) ? data.etiquetas : [],
+        anterior: itemId,
+        comentarios: `Continuação de “${String(data.titulo ?? '')}” (concluída em ${fmtDate(todayISO())})`,
+      })
+      return
+    }
     if (upsert(col, { ...data, id: itemId })) onClose()
   }
+  const podeSeguir = col === 'tarefas' && !!existing && !DONE.test(String(existing.status ?? ''))
 
   return (
     <Modal
@@ -101,6 +124,11 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
           <button className="btn" onClick={cancel}>
             Cancelar
           </button>
+          {podeSeguir && v.status !== SEGUIR && (
+            <button className="btn" onClick={() => set('status', SEGUIR)} title="Conclui esta tarefa e abre uma nova, já preenchida, para o próximo passo">
+              ✓ Concluir e criar próxima
+            </button>
+          )}
           <button className="btn primary" onClick={save}>
             Salvar
           </button>
@@ -115,11 +143,29 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
               {f.label}
               {f.required && ' *'}
             </span>
-            <Input f={f} value={v[f.key]} onChange={(x) => set(f.key, x)} selfId={existing?.id} />
-            {f.help && <span className="help">{f.help}</span>}
+            {col === 'tarefas' && f.key === 'status' ? (
+              <select value={String(v.status ?? '')} onChange={(e) => set('status', e.target.value)}>
+                {opcoesCampo(f).map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+                {(podeSeguir || v.status === SEGUIR) && <option value={SEGUIR}>Concluída e criar nova tarefa</option>}
+              </select>
+            ) : (
+              <Input f={f} value={v[f.key]} onChange={(x) => set(f.key, x)} selfId={existing?.id} />
+            )}
+            {col === 'tarefas' && f.key === 'status' && v.status === SEGUIR ? (
+              <span className="help" style={{ color: 'var(--ok, #2e9e5b)', fontWeight: 700 }}>
+                Ao salvar, esta tarefa é concluída e abre uma nova (mesmo responsável, projeto e etiquetas) para você descrever o próximo passo.
+              </span>
+            ) : (
+              f.help && <span className="help">{f.help}</span>
+            )}
           </label>
         ))}
         {col === 'projetos' && <IncentiveLink v={v} />}
+        {col === 'tarefas' && <CadeiaTarefas v={v} />}
         {typeof v.paginaOrigem === 'string' && get('paginas', v.paginaOrigem) && (
           <div className="wide small origem-nota">
             📝 Criada a partir da anotação{' '}
@@ -316,6 +362,22 @@ function Input({ f, value, onChange, selfId }: { f: Field; value: unknown; onCha
 function cadastroRapido(ref: string) {
   const m = MOD[ref]
   return !!m?.titleField && m.fields.every((x) => !x.required || x.key === m.titleField)
+}
+
+const SEGUIR = '__concluir_e_seguir__'
+
+/** Tarefa anterior / próxima quando uma foi concluída gerando outra. */
+function CadeiaTarefas({ v }: { v: Record<string, unknown> }) {
+  const ant = typeof v.anterior === 'string' ? get('tarefas', v.anterior) : undefined
+  const prox = typeof v.proxima === 'string' ? get('tarefas', v.proxima) : undefined
+  if (!ant && !prox) return null
+  const link = (t: Item) => <a onClick={() => openEditor('tarefas', t.id)}>“{String(t.titulo || 'Sem título')}”</a>
+  return (
+    <div className="wide small origem-nota">
+      {ant && <div>↩ Continuação de {link(ant)}{ant.status ? ` · ${String(ant.status)}` : ''}</div>}
+      {prox && <div>↪ Próximo passo: {link(prox)}{prox.status ? ` · ${String(prox.status)}` : ''}</div>}
+    </div>
+  )
 }
 
 const NOVO = '__novo__'
