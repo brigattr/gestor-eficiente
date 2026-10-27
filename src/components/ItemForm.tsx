@@ -21,6 +21,7 @@ export function openEditor(col: string, id?: string, preset?: Record<string, unk
   // páginas de anotação abrem no próprio bloco de anotações
   if (col === 'paginas' && id) return void (location.hash = `#/anotacoes?p=${id}`)
   if (col === 'pastas' && id) return void (location.hash = `#/arquivos?pasta=${id}`)
+  if (col === 'fluxogramas' && id) return void (location.hash = `#/fluxogramas?f=${id}`)
   editor = { col, id, preset }
   subs.forEach((s) => s())
 }

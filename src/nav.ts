@@ -105,6 +105,7 @@ export const NAV: { group: string; items: NavItem[] }[] = [
     items: [
       { path: 'obrigacoes', label: 'Agenda de obrigações', icon: 'calendar' },
       { path: 'checklists', label: 'Checklists recorrentes', icon: 'checklist' },
+      { path: 'fluxogramas', label: 'Fluxogramas de processo', icon: 'flow' },
       { path: 'solicitacoes', label: 'Solicitações e aprovações', icon: 'check' },
       { path: 'reembolsos', label: 'Reembolsos', icon: 'receipt' },
       { path: 'contratos', label: 'Contratos e vencimentos', icon: 'receipt' },

@@ -308,6 +308,30 @@ function demoPlataforma(d: (k: number) => string, ym: (o: number) => string, Y: 
     { id: 'ct4', item: 'Contrato de auditoria externa', tipo: 'Contrato', fornecedor: 'Auditoria Exemplo S/S', numero: 'CT-2025-014', responsavel: 'p1', inicio: d(-300), vencimento: d(65), avisoDias: 90, periodicidade: 'Anual', valor: 98000, centroCusto: 'cc3', status: 'Vigente' },
     { id: 'ct5', item: 'Seguro empresarial do escritório', tipo: 'Seguro', fornecedor: 'Seguradora Exemplo', vencimento: d(-4), avisoDias: 30, periodicidade: 'Anual', valor: 3800, status: 'Vigente' },
   ]
+  const fluxogramas: Item[] = [
+    {
+      id: 'fx1', nome: 'Pagamento a fornecedor', area: 'Contas a pagar', responsavel: 'p3', status: 'Em uso', revisao: d(120),
+      descricao: 'Da chegada da nota fiscal ao pagamento, com aprovação por alçada. Exemplo fictício.',
+      nos: [
+        { id: 'n1', tipo: 'inicio', x: 360, y: 40, w: 140, h: 52, texto: 'Nota fiscal recebida' },
+        { id: 'n2', tipo: 'etapa', x: 340, y: 150, w: 180, h: 74, texto: 'Conferir nota com pedido e recebimento', resp: 'Analista de contas a pagar', entrada: 'Nota fiscal + pedido de compra', saida: 'Nota conferida', sistema: 'ERP', prazo: 'D+1', detalhes: 'Conferir CNPJ, valores, impostos destacados e se o recebimento foi registrado.' },
+        { id: 'n3', tipo: 'decisao', x: 345, y: 290, w: 170, h: 110, texto: 'Valor acima da alçada?' },
+        { id: 'n4', tipo: 'etapa', x: 620, y: 308, w: 180, h: 74, texto: 'Aprovação do gestor', resp: 'Gestor da área', prazo: 'D+2', sistema: 'Fluxo de aprovação' },
+        { id: 'n5', tipo: 'sistema', x: 350, y: 460, w: 160, h: 78, texto: 'Lançar no ERP', resp: 'Analista de contas a pagar', sistema: 'ERP' },
+        { id: 'n6', tipo: 'documento', x: 345, y: 600, w: 170, h: 74, texto: 'Comprovante de pagamento', saida: 'Comprovante arquivado' },
+        { id: 'n7', tipo: 'fim', x: 360, y: 730, w: 140, h: 52, texto: 'Pago' },
+      ],
+      ligacoes: [
+        { id: 'l1', de: 'n1', para: 'n2' },
+        { id: 'l2', de: 'n2', para: 'n3' },
+        { id: 'l3', de: 'n3', para: 'n4', rotulo: 'Sim' },
+        { id: 'l4', de: 'n3', para: 'n5', rotulo: 'Não' },
+        { id: 'l5', de: 'n4', para: 'n5', rotulo: 'Aprovado' },
+        { id: 'l6', de: 'n5', para: 'n6' },
+        { id: 'l7', de: 'n6', para: 'n7' },
+      ],
+    },
+  ]
   const reembolsos: Item[] = [
     { id: 're1', colaborador: 'p4', descricao: 'Táxi — reunião na SEFAZ', data: d(-5), categoria: 'Transporte', valor: 86.4, centroCusto: 'cc2', status: 'Enviado', aprovador: 'p1' },
     { id: 're2', colaborador: 'p2', descricao: 'Almoço com auditoria', data: d(-12), categoria: 'Alimentação', valor: 212, centroCusto: 'cc3', status: 'Aprovado', aprovador: 'p1' },
@@ -406,7 +430,7 @@ function demoPlataforma(d: (k: number) => string, ym: (o: number) => string, Y: 
     },
   ]
   return {
-    humor, avisos, reconhecimentos, gruposTrabalho, ouvidoria, obrigacoes, modelosChecklist, execucoesChecklist, patrimonio, contratos, reembolsos, solicitacoes,
+    humor, avisos, reconhecimentos, gruposTrabalho, ouvidoria, obrigacoes, modelosChecklist, execucoesChecklist, patrimonio, contratos, fluxogramas, reembolsos, solicitacoes,
     npsInterno, atividadesArea, beneficios, admissoes, politicas, ciencias, pesquisasClima, pesquisasPsico, riscosPsico, acoesPsico, checkinsBemEstar,
     indicadoresPsico, nr1checklist, blocos, secoes, paginas, desenhos,
   }

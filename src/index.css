@@ -514,3 +514,34 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 body.nb-foco .app { grid-template-columns: minmax(0, 1fr); }
 body.nb-foco .sidebar { display: none; }
 body.nb-foco .content { padding-left: 12px; padding-right: 12px; }
+
+/* ── Fluxogramas de processo */
+.fx { display: grid; gap: 12px; }
+.fx-topo { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.fx-nome { font-size: 20px; font-weight: 800; border: 0; border-bottom: 1px solid transparent; border-radius: 0; background: transparent; max-width: 520px; padding: 4px 2px; font-family: var(--font-display); color: var(--brand); }
+.fx-nome:focus { outline: none; border-bottom-color: var(--accent); }
+.fx-corpo { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 12px; align-items: start; }
+.fx-quadro { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--surface); min-width: 0; }
+.fx-barra { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding: 6px 8px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.fx-add { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--border); background: var(--surface); border-radius: 8px; padding: 3px 8px 3px 4px; font-size: 12.5px; font-weight: 700; cursor: pointer; color: var(--text); }
+.fx-add:hover { border-color: var(--accent); }
+.fx-dica { padding: 6px 12px; background: var(--accent-soft); font-size: 13px; font-weight: 700; }
+.fx-area { overflow: auto; height: calc(100vh - 250px); min-height: 420px; background: #fff; background-image: linear-gradient(to right, #eef1f6 1px, transparent 1px), linear-gradient(to bottom, #eef1f6 1px, transparent 1px); background-size: 20px 20px; }
+.fx-svg { display: block; touch-action: none; user-select: none; -webkit-user-select: none; }
+.fx-svg.ligando .fx-no { cursor: crosshair; }
+.fx-no { cursor: grab; }
+.fx-no:active { cursor: grabbing; }
+.fx-rotulo { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; gap: 5px; text-align: center; font: 600 13px/1.25 var(--font-body, Nunito, sans-serif); color: #1f2937; overflow: hidden; overflow-wrap: anywhere; pointer-events: none; }
+.fx-num { display: inline-block; text-align: center; flex: none; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 9px; background: #1f2937; color: #fff; font-size: 11px; line-height: 18px; }
+.fx-alca { fill: #2563eb; stroke: #fff; stroke-width: 2; cursor: crosshair; }
+.fx-painel { position: sticky; top: 12px; max-height: calc(100vh - 150px); overflow-y: auto; }
+.fx-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; padding: 14px; }
+.fx-cartao { display: grid; gap: 4px; text-align: left; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); padding: 10px; cursor: pointer; color: var(--text); font: inherit; }
+.fx-cartao:hover { border-color: var(--accent); box-shadow: 0 2px 10px rgb(0 0 0 / .06); }
+.fx-mini { width: 100%; height: 130px; border-radius: 10px; background: #f8fafc; }
+.fx-texto-proc { display: grid; gap: 8px; max-width: 980px; }
+.fx-passos { display: grid; gap: 12px; padding-left: 22px; margin: 6px 0; }
+.fx-passos li { display: grid; gap: 3px; }
+.fx-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+@media (max-width: 1000px) { .fx-corpo { grid-template-columns: 1fr; } .fx-painel { position: static; max-height: none; } .fx-area { height: 60vh; } }
+@media print { .fx-topo .seg, .fx-texto-proc .btn { display: none; } }

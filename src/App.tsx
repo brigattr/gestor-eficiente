@@ -6,6 +6,7 @@ import { Anotacoes } from './pages/Anotacoes'
 import { Diversidade, PesquisaClima, Politicas, Termometro } from './pages/Cultura'
 import { ModoTV, Mural, Reconhecimentos } from './pages/Comunicacao'
 import { Checklists, ContratosPage, NpsInterno, ObrigacoesPage } from './pages/Processos'
+import { Fluxogramas } from './pages/Fluxogramas'
 import { Cobertura, Organograma } from './pages/PessoasExtra'
 import { ChecklistNr1, GuiaNr1, IndicadoresNr1, InventarioNr1, PainelNr1, PesquisaNr1 } from './pages/Nr1'
 import { Arquivos } from './pages/Arquivos'
@@ -71,6 +72,7 @@ export default function App() {
         <Route path="/tv" element={<ModoTV />} />
         <Route path="/obrigacoes" element={<ObrigacoesPage />} />
         <Route path="/contratos" element={<ContratosPage />} />
+        <Route path="/fluxogramas" element={<Fluxogramas />} />
         <Route path="/checklists" element={<Checklists />} />
         <Route path="/nps-interno" element={<NpsInterno />} />
         <Route path="/organograma" element={<Organograma />} />

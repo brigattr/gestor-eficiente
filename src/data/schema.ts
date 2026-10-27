@@ -1072,6 +1072,22 @@ MODULES.push(
     hidden: true,
   },
   {
+    col: 'fluxogramas', path: 'fluxogramas', title: 'Fluxogramas de processo', singular: 'Fluxograma', group: G_PROC, icon: 'flow',
+    description: 'Desenhe o processo com etapas, decisões e documentos; cada quadro guarda a descrição da etapa (responsável, entrada, saída, sistema, prazo).',
+    titleField: 'nome',
+    fields: [
+      { key: 'nome', label: 'Processo', type: 'text', required: true, wide: true },
+      { key: 'area', label: 'Área', type: 'text' },
+      { key: 'responsavel', label: 'Dono do processo', type: 'ref', ref: 'pessoas' },
+      { key: 'status', label: 'Status', type: 'select', options: ['Rascunho', 'Em uso', 'Em revisão', 'Obsoleto'], default: 'Rascunho' },
+      { key: 'revisao', label: 'Próxima revisão', type: 'date' },
+      { key: 'descricao', label: 'Objetivo / escopo', type: 'textarea', wide: true },
+    ],
+    columns: ['nome', 'area', 'responsavel', 'status', 'revisao'],
+    statusField: 'status',
+    dates: [{ field: 'revisao', label: 'Revisão do fluxograma' }],
+  },
+  {
     col: 'patrimonio', path: 'patrimonio', title: 'Controle de patrimônio', singular: 'Item de patrimônio', group: G_PROC, icon: 'briefcase',
     description: 'Notebooks, celulares, tokens, monitores e licenças com quem está, desde quando e devolução no desligamento.',
     titleField: 'item',
