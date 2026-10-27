@@ -440,7 +440,15 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 .tv-topo { display: flex; align-items: center; gap: 20px; font-size: 20px; opacity: .85; }
 .tv-topo > span:first-child::first-letter { text-transform: uppercase; }
 .tv-hora { margin-left: auto; font-size: 30px; font-weight: 800; }
-.tv-sair { color: #fff; font-size: 22px; opacity: .6; text-decoration: none; }
+.tv-sair { color: #fff; font-size: 16px; font-weight: 700; text-decoration: none; padding: 8px 14px; border-radius: 99px; background: rgb(255 255 255 / .14); border: 1px solid rgb(255 255 255 / .3); white-space: nowrap; }
+.tv-sair:hover { background: rgb(255 255 255 / .24); }
+/* área segura do iPhone: o botão Sair não fica atrás da barra de status */
+.tv { padding: max(28px, calc(env(safe-area-inset-top) + 12px)) max(48px, env(safe-area-inset-right)) max(28px, calc(env(safe-area-inset-bottom) + 12px)) max(48px, env(safe-area-inset-left)); }
+@media (max-width: 600px) {
+  .tv { padding-left: max(18px, env(safe-area-inset-left)); padding-right: max(18px, env(safe-area-inset-right)); }
+  .tv-topo { font-size: 15px; gap: 10px; flex-wrap: wrap; }
+  .tv-hora { font-size: 22px; }
+}
 .tv-slide { align-self: center; max-width: 1200px; animation: tvEntra .6s ease; }
 .tv-slide h1 { font-size: clamp(36px, 6vw, 76px); margin: 10px 0 18px; color: #fff; }
 .tv-corpo { font-size: clamp(20px, 2.6vw, 34px); line-height: 1.4; white-space: pre-wrap; }

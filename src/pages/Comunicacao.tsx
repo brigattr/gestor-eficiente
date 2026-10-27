@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Icon } from '../components/Icon'
 import { openEditor } from '../components/ItemForm'
 import { ModulePage } from '../components/ModulePage'
@@ -199,14 +199,21 @@ export function ModoTV() {
     const r = setInterval(() => tick((x) => x + 1), 60000) // relógio
     return () => (clearInterval(t), clearInterval(r))
   }, [])
+  // Esc (teclado) também sai do modo TV
+  const navigate = useNavigate()
+  useEffect(() => {
+    const k = (e: KeyboardEvent) => e.key === 'Escape' && navigate('/mural')
+    window.addEventListener('keydown', k)
+    return () => window.removeEventListener('keydown', k)
+  }, [navigate])
   const s = slides[i % slides.length]
   return (
     <div className="tv">
       <div className="tv-topo">
         <span>{new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' })}</span>
         <span className="tv-hora">{new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
-        <Link to="/mural" className="tv-sair" title="Sair do modo TV">
-          ✕
+        <Link to="/mural" className="tv-sair" title="Sair do modo TV (Esc)">
+          ✕ Sair
         </Link>
       </div>
       <div className="tv-slide" key={i}>
