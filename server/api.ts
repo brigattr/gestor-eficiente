@@ -46,6 +46,11 @@ let migrated = false
 async function migrate(db: D1Database) {
   if (migrated) return
   await db.batch(SCHEMA.map((s) => db.prepare(s)))
+  // sessões "manter conectado" (renovam a cada uso); bancos antigos ganham a coluna aqui
+  await db
+    .prepare('ALTER TABLE sessions ADD COLUMN longa INTEGER NOT NULL DEFAULT 0')
+    .run()
+    .catch(() => undefined) // já existe
   migrated = true
 }
 
@@ -96,24 +101,35 @@ function cookie(token: string, maxAge: number) {
   return `${COOKIE}=${token}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${maxAge}`
 }
 
+const LONGA = 30 * 86400 // "manter conectado": 30 dias, renovados a cada uso
+
 async function abrirSessao(env: Env, u: User, lembrar: boolean) {
   const token = rand(32)
-  const dur = lembrar ? 30 * 86400 : 12 * 3600
+  const dur = lembrar ? LONGA : 12 * 3600
   const exp = new Date(Date.now() + dur * 1000).toISOString()
   await env.DB.batch([
-    env.DB.prepare('INSERT INTO sessions (token, user_id, expires) VALUES (?, ?, ?)').bind(await sha256(token), u.id, exp),
+    env.DB.prepare('INSERT INTO sessions (token, user_id, expires, longa) VALUES (?, ?, ?, ?)').bind(await sha256(token), u.id, exp, lembrar ? 1 : 0),
     env.DB.prepare('UPDATE users SET ultimo_acesso = ?, falhas = 0, bloqueado_ate = NULL, updated_at = ? WHERE id = ?').bind(now(), now(), u.id),
     env.DB.prepare('DELETE FROM sessions WHERE expires < ?').bind(now()),
   ])
   return cookie(token, dur)
 }
 
-async function usuarioDaSessao(req: Request, env: Env): Promise<{ user: User; token: string } | null> {
+async function usuarioDaSessao(req: Request, env: Env): Promise<{ user: User; token: string; renovar?: string } | null> {
   const m = (req.headers.get('cookie') ?? '').match(new RegExp(`(?:^|;\\s*)${COOKIE}=([a-f0-9]{64})`))
   if (!m) return null
   const t = await sha256(m[1])
-  const u = await env.DB.prepare('SELECT u.* FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token = ? AND s.expires > ? AND u.ativo = 1').bind(t, now()).first<User>()
-  return u ? { user: u, token: t } : null
+  const r = await env.DB.prepare('SELECT u.*, s.expires AS s_expires, s.longa AS s_longa FROM sessions s JOIN users u ON u.id = s.user_id WHERE s.token = ? AND s.expires > ? AND u.ativo = 1')
+    .bind(t, now())
+    .first<User & { s_expires: string; s_longa: number }>()
+  if (!r) return null
+  // "manter conectado": a cada dia de uso, empurra o vencimento para 30 dias à frente (e renova o cookie)
+  let renovar: string | undefined
+  if (r.s_longa && new Date(r.s_expires).getTime() - Date.now() < LONGA * 1000 - 86400_000) {
+    await env.DB.prepare('UPDATE sessions SET expires = ? WHERE token = ?').bind(new Date(Date.now() + LONGA * 1000).toISOString(), t).run()
+    renovar = cookie(m[1], LONGA)
+  }
+  return { user: r, token: t, renovar }
 }
 
 // ───────── roteador
@@ -147,7 +163,7 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
       await env.DB.prepare('DELETE FROM sessions WHERE token = ?').bind(s.token).run()
       return json({ ok: true }, 200, { 'set-cookie': cookie('', 0) })
     }
-    if (path === '/me') return json({ user: sessUser(u) })
+    if (path === '/me') return json({ user: sessUser(u) }, 200, s.renovar ? { 'set-cookie': s.renovar } : undefined)
 
     if (path === '/data' && method === 'GET') {
       const [items, files, users] = await env.DB.batch([
@@ -158,7 +174,7 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
       const db: Record<string, unknown[]> = {}
       for (const r of items.results as { col: string; data: string }[]) (db[r.col] ??= []).push(JSON.parse(r.data))
       db.usuarios = (users.results as User[]).map(publicUser)
-      return json({ db, files: (files.results as FileRow[]).map(fileOut), now: now(), user: sessUser(u) })
+      return json({ db, files: (files.results as FileRow[]).map(fileOut), now: now(), user: sessUser(u) }, 200, s.renovar ? { 'set-cookie': s.renovar } : undefined)
     }
 
     if (path === '/changes' && method === 'GET') {
@@ -169,13 +185,17 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
         env.DB.prepare('SELECT id, col, item_id, name, type, size, added, by, meta, deleted FROM files WHERE updated_at > ?').bind(desde),
         env.DB.prepare(admin ? 'SELECT * FROM users WHERE updated_at > ?' : 'SELECT * FROM users WHERE id = ? AND updated_at > ?').bind(...(admin ? [desde] : [u.id, desde])),
       ])
-      return json({
+      return json(
+        {
         items: (items.results as { col: string; id: string; data: string; deleted: number }[]).map((r) => ({ col: r.col, id: r.id, data: r.deleted ? null : JSON.parse(r.data) })),
         files: (files.results as (FileRow & { deleted: number })[]).map((f) => ({ ...fileOut(f), deleted: !!f.deleted })),
         usuarios: (users.results as User[]).map(publicUser),
-        now: now(),
-        user: sessUser(u),
-      })
+          now: now(),
+          user: sessUser(u),
+        },
+        200,
+        s.renovar ? { 'set-cookie': s.renovar } : undefined,
+      )
     }
 
     let m = path.match(/^\/items\/([^/]+)\/([^/]+)$/)

@@ -86,7 +86,11 @@ export function logout() {
   setUser(null)
 }
 
+/** Este aparelho ficou com "manter conectado": o bloqueio por inatividade não derruba a sessão. */
+export const manterConectado = () => getPref<boolean>('manterConectado', false)
+
 export async function login(loginOuEmail: string, senha: string, lembrar: boolean): Promise<string | null> {
+  setPref('manterConectado', lembrar)
   if (servidor()) {
     try {
       await api('/login', { body: { login: loginOuEmail, senha, lembrar } })
@@ -132,6 +136,7 @@ export async function removerUsuario(id: string) {
 
 /** Primeiro acesso: cria o administrador e devolve o código de recuperação (a sessão começa com entrar()). */
 export async function criarAdmin(nome: string, loginName: string, senha: string, chave = '', lembrar = false) {
+  setPref('manterConectado', lembrar)
   if (servidor()) {
     const r = await api<{ user: SessionUser; codigo: string }>('/setup', { body: { chave, nome, login: loginName, senha, lembrar } })
     return { codigo: r.codigo, u: r.user as unknown as Item }

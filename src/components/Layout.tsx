@@ -78,7 +78,7 @@ export function Layout({ children }: { children: ReactNode }) {
             onClick={() => setTheme(theme === 'auto' ? 'light' : theme === 'light' ? 'dark' : 'auto')}
           >
             <Icon name={theme === 'dark' ? 'moon' : 'sun'} size={16} />
-            {theme === 'auto' ? 'Auto' : theme === 'light' ? 'Claro' : 'Escuro'}
+            <span className="hide-sm">{theme === 'auto' ? 'Auto' : theme === 'light' ? 'Claro' : 'Escuro'}</span>
           </button>
           {user && (
             <span className="user">

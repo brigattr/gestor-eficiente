@@ -563,3 +563,41 @@ body.nb-foco .content { padding-left: 12px; padding-right: 12px; }
 .et-corpo { display: grid; gap: 1px; flex: 1; min-width: 0; }
 .et-texto { font-weight: 600; overflow-wrap: anywhere; cursor: text; }
 .et-item.feita .et-texto { text-decoration: line-through; color: var(--muted); }
+
+/* ── Celular e app na tela de início (iPhone/Android) */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { touch-action: manipulation; } /* sem zoom acidental com toque duplo */
+/* o iPhone dá zoom em campos com letra menor que 16px — e não volta sozinho */
+@media (pointer: coarse), (max-width: 860px) {
+  input, select, textarea, .busca-global input, .nb-menu, .et-nova select, .et-nova input { font-size: 16px; }
+}
+/* área segura: barra de status (app instalado) e indicador inferior do iPhone */
+.topbar { padding-top: max(10px, env(safe-area-inset-top)); padding-left: max(24px, env(safe-area-inset-left)); padding-right: max(24px, env(safe-area-inset-right)); }
+.sidebar { padding-top: max(16px, env(safe-area-inset-top)); padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+.content { padding-bottom: max(48px, calc(env(safe-area-inset-bottom) + 24px)); }
+.login { padding-top: max(24px, env(safe-area-inset-top)); padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+@media (max-width: 860px) {
+  .topbar { gap: 6px; padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); }
+  .busca-global { min-width: 0; }
+  .topbar .btn { padding-left: 8px; padding-right: 8px; }
+}
+@media (max-width: 600px) {
+  .page-head { flex-direction: column; align-items: stretch; }
+  .page-head > .row { justify-content: flex-start; }
+  .page-head h1 { font-size: 24px; }
+  .overlay { padding: max(8px, env(safe-area-inset-top)) 8px 8px; }
+}
+/* linhas de listas (próximos dias, etiquetas…) quebram em vez de passar da tela */
+.list > div > .grow { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 600px) { .list > div { flex-wrap: wrap; } }
+.modal-body > * { min-width: 0; }
+@media (max-width: 600px) {
+  .et-nova > * { flex: 1 1 calc(50% - 6px); min-width: 0; }
+  .et-nova .et-oque { flex-basis: 100%; }
+  .et-nova select, .et-nova input[type='date'], .et-nova input[type='time'] { width: 100%; }
+}
+/* janela por cima nunca passa da largura da tela; rodapé quebra em linhas no celular */
+.overlay { grid-template-columns: minmax(0, 1fr); }
+.modal { justify-self: center; min-width: 0; max-width: 100%; }
+.modal-head h2 { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 600px) { .modal-foot { flex-wrap: wrap; } .modal-foot .btn { flex: 1 1 auto; justify-content: center; } }

@@ -80,7 +80,7 @@ export function Usuarios() {
         </div>
         <div className="card stack" style={{ gap: 8 }}>
           <h2>Bloqueio automático</h2>
-          <span className="small muted">Sai do sistema após um período sem uso. Útil no computador do escritório.</span>
+          <span className="small muted">Sai do sistema após um período sem uso. Não vale nos aparelhos em que você marcou “Manter conectado” no login (celular, notebook pessoal).</span>
           <select
             id="lock-min"
             value={lock}

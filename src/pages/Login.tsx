@@ -1,7 +1,7 @@
 import { useEffect, useState, useSyncExternalStore, type FormEvent, type ReactNode } from 'react'
 import { Logo } from '../components/Logo'
 import { useDB, type Item } from '../data/store'
-import { criarAdmin, cryptoOk, entrar, login, logout, minutosBloqueio, recuperar } from '../lib/auth'
+import { criarAdmin, cryptoOk, entrar, login, logout, manterConectado, minutosBloqueio, recuperar } from '../lib/auth'
 import { getHealth, servidor } from '../lib/api'
 import { getUser, subscribeUser } from '../lib/session'
 
@@ -16,7 +16,8 @@ export function AuthGate({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!user) return
     const min = minutosBloqueio()
-    if (!min) return
+    // com "manter conectado" neste aparelho, não desloga por inatividade
+    if (!min || manterConectado()) return
     let t: ReturnType<typeof setTimeout>
     const reset = () => {
       clearTimeout(t)
@@ -44,7 +45,7 @@ function Login() {
   const [senha, setSenha] = useState('')
   const [senha2, setSenha2] = useState('')
   const [codigo, setCodigo] = useState('')
-  const [lembrar, setLembrar] = useState(false)
+  const [lembrar, setLembrar] = useState(true)
   const [erro, setErro] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [novo, setNovo] = useState<{ codigo: string; u: Item } | null>(null)
@@ -123,7 +124,7 @@ function Login() {
         )}
         {(modo === 'login' || primeiro) && (
           <label className="row small" style={{ cursor: 'pointer' }}>
-            <input type="checkbox" checked={lembrar} onChange={(e) => setLembrar(e.target.checked)} /> Manter conectado neste computador{srv ? ' por 30 dias' : ' por 12 h'}
+            <input type="checkbox" checked={lembrar} onChange={(e) => setLembrar(e.target.checked)} /> Manter conectado neste aparelho{srv ? ' (30 dias, renovados a cada uso)' : ' por 12 h'}
           </label>
         )}
         {erro && <div className="small" style={{ color: 'var(--bad)' }}>{erro}</div>}
