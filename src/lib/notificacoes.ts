@@ -5,6 +5,7 @@
 import { MOD } from '../data/schema'
 import type { DB, Item } from '../data/store'
 import { isDone } from './alerts'
+import { etapasDe } from './etapas'
 import { label, todayISO } from './format'
 import { visivel } from './menu'
 
@@ -79,6 +80,8 @@ export function avisosDeHoje(db: DB): Aviso[] {
       if (isDone('tarefas', t)) continue
       const resp = P(t.responsavel)
       if (String(t.prazo ?? '').slice(0, 10) === hoje) out.push({ chave: `tarefas:${t.id}:prazo:${hoje}`, titulo: 'Tarefa vence hoje', corpo: `${t.titulo}${resp ? ` — ${resp}` : ''}`, url: './#/tarefas' })
+      for (const e of etapasDe(t.etapas))
+        if (!e.feita && e.data === hoje) out.push({ chave: `etapa:${t.id}:${e.id}:${hoje}`, titulo: 'Etapa para hoje', corpo: `${e.hora ? e.hora + ' — ' : ''}${e.texto} (${t.titulo})`, url: './#/tarefas' })
       if (String(t.followup ?? '').slice(0, 10) === hoje) out.push({ chave: `tarefas:${t.id}:followup:${hoje}`, titulo: 'Follow-up hoje', corpo: `${t.titulo}${t.aguardando ? ` (aguardando ${t.aguardando})` : ''}`, url: './#/tarefas' })
     }
   }

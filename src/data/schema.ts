@@ -507,7 +507,7 @@ export const MODULES: ModuleDef[] = [
       { key: 'anexo', label: 'Anexo (link)', type: 'url' },
       { key: 'comentarios', label: 'Comentários / histórico', type: 'textarea', wide: true },
     ],
-    columns: ['titulo', 'responsavel', 'projeto', 'prazo', 'followup', 'gut', 'status'],
+    columns: ['titulo', 'responsavel', 'projeto', 'prazo', 'followup', 'gut', 'etapasProg', 'status'],
     statusField: 'status',
     dates: [
       { field: 'prazo', label: 'Tarefa' },

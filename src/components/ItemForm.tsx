@@ -1,5 +1,5 @@
 import { confirmar } from './Dialogs'
-import { useState, useSyncExternalStore } from 'react'
+import { Fragment, useState, useSyncExternalStore } from 'react'
 import { CORES_ETIQUETA, MOD, type Field } from '../data/schema'
 import { get, getDB, list, remove, uid, upsert, type Item } from '../data/store'
 import { bonus } from '../lib/incentive'
@@ -12,6 +12,7 @@ import { DONE } from '../lib/alerts'
 import { Icon } from './Icon'
 import { Modal } from './ui'
 import { ehExterna } from '../shared/ics'
+import { EtapasTarefa, etapasDe, salvarEtapas, type Etapa } from './Etapas'
 
 // ── Editor global: qualquer tela pode abrir um registro de qualquer módulo
 type EditorState = { col: string; id?: string; preset?: Record<string, unknown> } | null
@@ -85,6 +86,7 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
         projeto: data.projeto ?? null,
         lista: data.lista ?? null,
         etiquetas: Array.isArray(data.etiquetas) ? data.etiquetas : [],
+        etapas: etapasDe(data.etapas).filter((e) => !e.feita), // etapas pendentes seguem para a próxima
         anterior: itemId,
         comentarios: `Continuação de “${String(data.titulo ?? '')}” (concluída em ${fmtDate(todayISO())})`,
       })
@@ -138,7 +140,45 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
     >
       <div className="modal-body">
         {col === 'reunioes' && <ReuniaoTopo v={v} />}
-        {camposVisiveis(col, m.fields, v).map((f) => (
+        {camposVisiveis(col, m.fields, v).map((f) =>
+          // tarefas: as etapas ocupam o lugar do checklist (que só aparece se já tiver itens, para converter)
+          col === 'tarefas' && f.key === 'checklist' ? (
+            <Fragment key={f.key}>
+              {String(v.checklist ?? '').trim() !== '' && (
+                <label className="field wide">
+                  <span>{f.label}</span>
+                  <Input f={f} value={v[f.key]} onChange={(x) => set(f.key, x)} selfId={existing?.id} />
+                  <button
+                    type="button"
+                    className="linkbtn small"
+                    style={{ justifySelf: 'start' }}
+                    onClick={() => {
+                      const es: Etapa[] = [
+                        ...etapasDe(v.etapas),
+                        ...String(v.checklist)
+                          .split('\n')
+                          .map((l) => l.trim())
+                          .filter(Boolean)
+                          .map((l) => ({ id: uid(), texto: l.replace(/^\[[ x]?\]\s*/i, '').replace(/^\d+[.)]\s*/, ''), feita: /^\[x\]/i.test(l) || undefined })),
+                      ]
+                      setV((s) => ({ ...s, etapas: es, checklist: '' }))
+                      if (existing) upsert('tarefas', { id: existing.id, etapas: es, checklist: '' })
+                    }}
+                  >
+                    Transformar o checklist em etapas
+                  </button>
+                </label>
+              )}
+              <EtapasTarefa
+                etapas={etapasDe(v.etapas)}
+                respPadrao={typeof v.responsavel === 'string' ? v.responsavel : undefined}
+                onChange={(es) => {
+                  set('etapas', es)
+                  salvarEtapas(existing?.id, es)
+                }}
+              />
+            </Fragment>
+          ) : (
           <label key={f.key} className={`field ${f.wide || f.type === 'textarea' || f.type === 'multiref' ? 'wide' : ''}`}>
             <span>
               {f.label}
@@ -164,7 +204,8 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
               f.help && <span className="help">{f.help}</span>
             )}
           </label>
-        ))}
+          ),
+        )}
         {col === 'projetos' && <IncentiveLink v={v} />}
         {col === 'tarefas' && <CadeiaTarefas v={v} />}
         {typeof v.paginaOrigem === 'string' && get('paginas', v.paginaOrigem) && (

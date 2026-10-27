@@ -64,9 +64,12 @@ export function label(col: string, item: Item | undefined): string {
 }
 
 // Colunas calculadas (não editáveis) que podem aparecer nas tabelas
+import { progressoEtapas } from './etapas'
+
 export const VIRTUALS: Record<string, Record<string, { label: string; value: (i: Item) => number | string | null }>> = {
   tarefas: {
     gut: { label: 'GUT', value: (i) => (i.g && i.u && i.t ? Number(i.g) * Number(i.u) * Number(i.t) : null) },
+    etapasProg: { label: 'Etapas', value: (i) => progressoEtapas(i.etapas) },
   },
   contratos: {
     faltam: { label: 'Faltam (dias)', value: (i) => (/encerrad|cancelad/i.test(String(i.status ?? '')) ? null : daysUntil(i.vencimento)) },

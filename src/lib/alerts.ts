@@ -3,6 +3,7 @@ import { MODULES, MOD } from '../data/schema'
 import { get, useDB, type DB, type Item } from '../data/store'
 import { addDays, daysUntil, iso, label, startOfWeek } from './format'
 import { visivel } from './menu'
+import { etapasDe } from './etapas'
 
 export const DONE = /conclu|realizad|aprovad|fechad|atingida|contratad|cancelad|recusad|reprovad|comunicada|lançada|em gozo|controlad|encerrad|pago$|respondida|devolvido|baixado|obsoleta/i
 
@@ -44,6 +45,15 @@ export function allEvents(db: DB): CalEvent[] {
       }
     }
   }
+  // etapas das tarefas com data também entram na agenda
+  if (visivel(db, MOD.tarefas.path))
+    for (const t of db.tarefas ?? []) {
+      if (isDone('tarefas', t)) continue
+      for (const e of etapasDe(t.etapas)) {
+        if (e.feita || !e.data) continue
+        out.push({ date: e.data, col: 'tarefas', id: t.id, title: `${e.hora ? e.hora + ' ' : ''}${t.titulo} › ${e.texto}`, nome: `${t.titulo} › ${e.texto}`, kind: 'Etapa', done: false, path: 'tarefas' })
+      }
+    }
   return out.sort((a, b) => a.date.localeCompare(b.date))
 }
 
@@ -55,6 +65,11 @@ export function computeAlerts(db: DB): Alert[] {
   for (const t of db.tarefas ?? []) {
     const d = daysUntil(t.prazo)
     if (d != null && d < 0 && !isDone('tarefas', t)) a.push({ level: 'bad', text: `Tarefa atrasada ${-d}d: ${t.titulo}`, col: 'tarefas', id: t.id, path: 'tarefas' })
+    if (!isDone('tarefas', t))
+      for (const e of etapasDe(t.etapas)) {
+        const de = !e.feita && e.data ? daysUntil(e.data) : null
+        if (de != null && de < 0) a.push({ level: 'warn', text: `Etapa atrasada ${-de}d: ${e.texto} (${t.titulo})`, col: 'tarefas', id: t.id, path: 'tarefas' })
+      }
     const fu = daysUntil(t.followup)
     if (fu != null && fu <= 0 && !isDone('tarefas', t)) a.push({ level: 'warn', text: `Follow-up ${fu < 0 ? `atrasado ${-fu}d` : 'hoje'}: ${t.titulo}${t.aguardando ? ` (${t.aguardando})` : ''}`, col: 'tarefas', id: t.id, path: 'tarefas' })
   }
