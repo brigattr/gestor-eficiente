@@ -26,13 +26,13 @@ export function Layout({ children }: { children: ReactNode }) {
   const user = useUser()
   const db = useDB()
 
-  // avisos do dia (tarefas e vencimentos): confere ao abrir, quando os dados mudam e a cada 10 min
+  // avisos do dia (tarefas e vencimentos): confere ao abrir, quando os dados mudam e a cada minuto (horário de aviso)
   useEffect(() => {
     const t = setTimeout(() => void verificar(db), 2000)
     return () => clearTimeout(t)
   }, [db])
   useEffect(() => {
-    const i = setInterval(() => void verificar(db), 10 * 60000)
+    const i = setInterval(() => void verificar(db), 60000)
     return () => clearInterval(i)
   }, [db])
 

@@ -26,7 +26,7 @@ export function allEvents(db: DB): CalEvent[] {
         if (typeof v !== 'string' || !v) continue
         let title = label(m.col, it)
         if (m.personField && m.titleField !== m.personField) title = `${label('pessoas', get('pessoas', it[m.personField] as string))} – ${title}`
-        if (m.col === 'reunioes' && it.hora) title = `${it.hora} ${title}`
+        if ((m.col === 'reunioes' || m.col === 'tarefas') && it.hora) title = `${it.hora} ${title}`
         const reuniao = m.col === 'reunioes' && d.field === 'data'
         out.push({
           date: v.slice(0, 10),
@@ -38,7 +38,8 @@ export function allEvents(db: DB): CalEvent[] {
           // reunião "preparada" não é concluída: continua aparecendo no calendário
           done: m.col === 'reunioes' ? false : isDone(m.col, it),
           path: m.path,
-          hora: reuniao && typeof it.hora === 'string' && it.hora ? it.hora : undefined,
+          // reuniões e tarefas com horário de aviso ocupam o horário no calendário
+          hora: (reuniao || m.col === 'tarefas') && typeof it.hora === 'string' && it.hora ? it.hora : undefined,
           fim: reuniao && typeof it.horaFim === 'string' && it.horaFim ? it.horaFim : undefined,
           cancelada: !!it.canceladaOutlook,
         })
@@ -51,7 +52,7 @@ export function allEvents(db: DB): CalEvent[] {
       if (isDone('tarefas', t)) continue
       for (const e of etapasDe(t.etapas)) {
         if (e.feita || !e.data) continue
-        out.push({ date: e.data, col: 'tarefas', id: t.id, title: `${e.hora ? e.hora + ' ' : ''}${t.titulo} › ${e.texto}`, nome: `${t.titulo} › ${e.texto}`, kind: 'Etapa', done: false, path: 'tarefas' })
+        out.push({ date: e.data, col: 'tarefas', id: t.id, title: `${e.hora ? e.hora + ' ' : ''}${t.titulo} › ${e.texto}`, nome: `${t.titulo} › ${e.texto}`, kind: 'Etapa', done: false, path: 'tarefas', hora: e.hora || undefined })
       }
     }
   return out.sort((a, b) => a.date.localeCompare(b.date))

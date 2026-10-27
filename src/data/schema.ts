@@ -496,6 +496,7 @@ export const MODULES: ModuleDef[] = [
       { key: 'lista', label: 'Lista', type: 'select', options: ['Rotina', 'Fechamento', 'Reporting matriz', 'Auditoria', 'Fiscal', 'Pessoas', 'Pessoal'], lista: 'tarefas.lista' },
       { key: 'prazo', label: 'Prazo', type: 'date' },
       { key: 'followup', label: 'Próximo follow-up', type: 'date', help: 'Quando cobrar / retomar o assunto' },
+      { key: 'hora', label: 'Horário do aviso', type: 'time', help: 'O sino avisa neste horário no dia do prazo/follow-up (ex.: 18:00 para temas pessoais). Vazio: avisa ao abrir o sistema.' },
       { key: 'recorrencia', label: 'Repetir', type: 'select', options: ['Não repete', 'Diária (dias úteis)', 'Semanal', 'Quinzenal', 'Mensal', 'Trimestral', 'Anual'], default: 'Não repete', help: 'Ao concluir, cria a próxima com o prazo seguinte' },
       { key: 'status', label: 'Status', type: 'select', options: ['A fazer', 'Em andamento', 'Aguardando terceiros', 'Concluída'], default: 'A fazer' },
       { key: 'aguardando', label: 'Aguardando quem', type: 'text', help: 'Pessoa/área de quem depende o retorno' },

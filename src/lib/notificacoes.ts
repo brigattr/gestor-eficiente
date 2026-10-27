@@ -73,16 +73,21 @@ type Aviso = { chave: string; titulo: string; corpo: string; url: string }
 /** O que vence hoje: prazos e follow-ups de tarefas e vencimentos de contratos. */
 export function avisosDeHoje(db: DB): Aviso[] {
   const hoje = todayISO()
+  const agora = new Date().toTimeString().slice(0, 5) // HH:mm
+  // com horário de aviso, só a partir daquele horário
+  const naHora = (h: unknown) => typeof h !== 'string' || !h || h <= agora
+  const quando = (h: unknown) => (typeof h === 'string' && h ? `${h} — ` : '')
   const out: Aviso[] = []
   const P = (id: unknown) => (id ? label('pessoas', (db.pessoas ?? []).find((p) => p.id === id) as Item) : '')
   if (visivel(db, MOD.tarefas.path)) {
     for (const t of db.tarefas ?? []) {
       if (isDone('tarefas', t)) continue
       const resp = P(t.responsavel)
-      if (String(t.prazo ?? '').slice(0, 10) === hoje) out.push({ chave: `tarefas:${t.id}:prazo:${hoje}`, titulo: 'Tarefa vence hoje', corpo: `${t.titulo}${resp ? ` — ${resp}` : ''}`, url: './#/tarefas' })
+      const hora = naHora(t.hora) // prazo e follow-up respeitam o horário de aviso da tarefa
+      if (hora && String(t.prazo ?? '').slice(0, 10) === hoje) out.push({ chave: `tarefas:${t.id}:prazo:${hoje}`, titulo: 'Tarefa vence hoje', corpo: `${quando(t.hora)}${t.titulo}${resp ? ` — ${resp}` : ''}`, url: './#/tarefas' })
       for (const e of etapasDe(t.etapas))
-        if (!e.feita && e.data === hoje) out.push({ chave: `etapa:${t.id}:${e.id}:${hoje}`, titulo: 'Etapa para hoje', corpo: `${e.hora ? e.hora + ' — ' : ''}${e.texto} (${t.titulo})`, url: './#/tarefas' })
-      if (String(t.followup ?? '').slice(0, 10) === hoje) out.push({ chave: `tarefas:${t.id}:followup:${hoje}`, titulo: 'Follow-up hoje', corpo: `${t.titulo}${t.aguardando ? ` (aguardando ${t.aguardando})` : ''}`, url: './#/tarefas' })
+        if (!e.feita && e.data === hoje && naHora(e.hora)) out.push({ chave: `etapa:${t.id}:${e.id}:${hoje}`, titulo: 'Etapa para hoje', corpo: `${e.hora ? e.hora + ' — ' : ''}${e.texto} (${t.titulo})`, url: './#/tarefas' })
+      if (hora && String(t.followup ?? '').slice(0, 10) === hoje) out.push({ chave: `tarefas:${t.id}:followup:${hoje}`, titulo: 'Follow-up hoje', corpo: `${quando(t.hora)}${t.titulo}${t.aguardando ? ` (aguardando ${t.aguardando})` : ''}`, url: './#/tarefas' })
     }
   }
   if (visivel(db, 'contratos')) {
