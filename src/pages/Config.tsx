@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { exportarZip, lerBackup, restaurar } from '../lib/backup'
 import { fmtSize, restoreFiles, useFileIndex } from '../lib/files'
 import { uso } from '../lib/idb'
-import { isAdmin } from '../lib/session'
+import { canWrite, isAdmin } from '../lib/session'
 import { servidor } from '../lib/api'
 import { Icon } from '../components/Icon'
 import { PageHead } from '../components/ui'
@@ -12,6 +12,9 @@ import { ETIQUETAS, FIXOS, menuOcultos } from '../lib/menu'
 import { upsert } from '../data/store'
 import { buildSeed } from '../data/seed'
 import { replaceAll, useDB } from '../data/store'
+import { MODULES } from '../data/schema'
+import { baixarModelo } from '../lib/importacao'
+import { ImportarPlanilha } from '../components/Importar'
 
 export function Configuracoes() {
   const db = useDB()
@@ -120,6 +123,7 @@ export function Configuracoes() {
         </div>
       </div>
       <MenuConfig />
+      {canWrite() && <ImportacaoCentral />}
     </>
   )
 }
@@ -203,6 +207,46 @@ function MenuConfig() {
           )
         })}
       </div>
+    </div>
+  )
+}
+
+/** Central de importação: modelo e importação de todas as telas com cadastro, num só lugar. */
+function ImportacaoCentral() {
+  const db = useDB()
+  const [col, setCol] = useState<string | null>(null)
+  const ocultos = menuOcultos(db)
+  const caminhos = new Map(NAV.flatMap((g) => g.items.map((i) => [i.path, g.group])))
+  const mods = MODULES.filter((m) => !m.hidden && m.col !== 'usuarios' && caminhos.has(m.path) && !ocultos.has(m.path))
+  const grupos = NAV.map((g) => g.group).filter((g) => mods.some((m) => caminhos.get(m.path) === g)) // na ordem do menu
+  return (
+    <div className="card stack">
+      <h2>Importação em massa (histórico)</h2>
+      <span className="small muted">
+        Para trazer a base do passado: baixe o modelo da tela, preencha no Excel (uma linha por registro) e importe. Antes de gravar você confere linha a linha, e pode desfazer a importação. O botão “Importar” também fica em cada tela, ao lado do CSV.
+      </span>
+      {grupos.map((g) => (
+        <div key={g} className="stack" style={{ gap: 6 }}>
+          <b className="small muted">{g}</b>
+          <div className="imp-central">
+            {mods
+              .filter((m) => caminhos.get(m.path) === g)
+              .map((m) => (
+                <div key={m.col} className="imp-mod">
+                  <b>{m.title}</b>
+                  <span className="small muted">{(db[m.col] ?? []).length}</span>
+                  <button className="btn ghost sm" onClick={() => baixarModelo(m.col)} title="Baixar modelo (Excel)">
+                    <Icon name="download" size={14} />
+                  </button>
+                  <button className="btn sm" onClick={() => setCol(m.col)} title="Importar planilha">
+                    <Icon name="upload" size={14} /> Importar
+                  </button>
+                </div>
+              ))}
+          </div>
+        </div>
+      ))}
+      {col && <ImportarPlanilha col={col} onClose={() => setCol(null)} />}
     </div>
   )
 }

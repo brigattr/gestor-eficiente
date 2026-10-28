@@ -232,6 +232,16 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
       }
     }
 
+    if (path === '/bulk-delete' && method === 'POST') {
+      // exclusão em lote (desfazer importação)
+      if (!escreve) throw new HttpError(403, 'Seu perfil é somente leitura.')
+      const b = await body<{ col: string; ids: string[] }>(req)
+      if (!COL.test(b.col ?? '') || b.col === 'usuarios' || !Array.isArray(b.ids)) throw new HttpError(400, 'Lote inválido.')
+      const t = now()
+      const stmts = b.ids.filter((id) => typeof id === 'string' && id.length <= 80).map((id) => env.DB.prepare('UPDATE items SET deleted = 1, updated_at = ? WHERE col = ? AND id = ?').bind(t, b.col, id))
+      for (let i = 0; i < stmts.length; i += 200) await env.DB.batch(stmts.slice(i, i + 200))
+      return json({ ok: true, removidos: stmts.length })
+    }
     if (path === '/bulk' && method === 'POST') {
       // gravação em lote de um módulo (importação de tickets, budget, despesas…)
       if (!escreve) throw new HttpError(403, 'Seu perfil é somente leitura.')

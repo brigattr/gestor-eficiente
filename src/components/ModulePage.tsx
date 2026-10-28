@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 import { opcoesCampo } from '../lib/opcoes'
 import { MOD } from '../data/schema'
 import { DONE } from '../lib/alerts'
@@ -8,6 +8,8 @@ import { Icon } from './Icon'
 import { openEditor } from './ItemForm'
 import { PageHead, Seg, useLocalState } from './ui'
 import { Gantt, Kanban, Table, cellText } from './Views'
+import { ImportarPlanilha } from './Importar'
+import { canWrite } from '../lib/session'
 
 export type ExtraView = { key: string; label: string; render: (rows: Item[]) => ReactNode }
 
@@ -34,6 +36,7 @@ export function ModulePage({ col, extraViews = [], defaultView, above, actions, 
   extraViews.forEach((e) => views.push({ v: e.key, l: e.label }))
   const [view, setView] = useLocalState(`view:${col}:${embedded ? 'e' : 'p'}`, defaultView ?? 'tabela')
   const [q, setQ] = useLocalState(`q:${col}`, '')
+  const [importando, setImportando] = useState(false)
   const [flt, setFlt] = useLocalState<Record<string, string>>(`f2:${col}`, {}) // f2: filtros com o padrão "em aberto"
 
   // filtros automáticos: pessoa, status e selects/refs exibidos na lista
@@ -129,6 +132,11 @@ export function ModulePage({ col, extraViews = [], defaultView, above, actions, 
               <Icon name="plus" size={14} /> Novo
             </button>
           )}
+          {canWrite() && (
+            <button className="btn sm" onClick={() => setImportando(true)} title="Importar histórico em massa a partir de uma planilha (modelo disponível)">
+              <Icon name="upload" size={14} /> Importar
+            </button>
+          )}
           <button className="btn sm" onClick={exportCSV} title="Exportar para Excel (CSV)">
             <Icon name="download" size={14} /> CSV
           </button>
@@ -140,6 +148,7 @@ export function ModulePage({ col, extraViews = [], defaultView, above, actions, 
           {extra?.render(rows)}
         </div>
       </div>
+      {importando && <ImportarPlanilha col={col} onClose={() => setImportando(false)} />}
     </div>
   )
 }

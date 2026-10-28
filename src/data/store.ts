@@ -196,6 +196,18 @@ export function replaceAll(next: DB, keepUsers = true) {
 }
 
 /** Grava vários registros de um módulo de uma vez (substituir = apaga os demais do módulo). */
+/** Remove vários registros de uma vez (ex.: desfazer uma importação). */
+export function removeMany(col: string, ids: string[]): Promise<void> {
+  if (!allowed(col) || !ids.length) return Promise.resolve()
+  const fora = new Set(ids)
+  db = { ...db, [col]: list(col).filter((r) => !fora.has(r.id)) }
+  persist()
+  if (!servidor()) return Promise.resolve()
+  return api('/bulk-delete', { body: { col, ids } })
+    .then(() => undefined)
+    .catch((e) => falhaServidor((e as Error).message))
+}
+
 export function bulk(col: string, items: Item[], substituir = false): Promise<void> {
   if (!allowed(col)) return Promise.resolve()
   const t = new Date().toISOString()
