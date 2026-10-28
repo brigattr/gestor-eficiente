@@ -622,3 +622,11 @@ body { touch-action: manipulation; } /* sem zoom acidental com toque duplo */
 .imp-central { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
 .imp-mod { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; }
 .imp-mod b { flex: 1; min-width: 0; font-size: 13.5px; }
+
+/* ── Projetos com tarefas */
+.pt-lista { display: grid; gap: 12px; }
+.pt-proj { border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; display: grid; gap: 4px; background: var(--surface); }
+.pt-cab { cursor: pointer; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.pt-tarefa { display: flex; align-items: center; gap: 10px; padding: 6px 4px; border-radius: 8px; cursor: pointer; }
+.pt-tarefa:hover { background: var(--surface-2); }
+@media (max-width: 600px) { .pt-cab { flex-wrap: wrap; } .pt-tarefa { flex-wrap: wrap; } }

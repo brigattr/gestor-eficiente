@@ -13,21 +13,30 @@ import { Icon } from './Icon'
 import { Modal } from './ui'
 import { ehExterna } from '../shared/ics'
 import { EtapasTarefa, etapasDe, salvarEtapas, type Etapa } from './Etapas'
+import { TarefasDoProjeto } from './TarefasProjeto'
 
 // ── Editor global: qualquer tela pode abrir um registro de qualquer módulo
 type EditorState = { col: string; id?: string; preset?: Record<string, unknown> } | null
 let editor: EditorState = null
+const pilha: EditorState[] = [] // janelas abertas "por cima" (ex.: tarefa aberta de dentro do projeto)
 const subs = new Set<() => void>()
 export function openEditor(col: string, id?: string, preset?: Record<string, unknown>) {
   // páginas de anotação abrem no próprio bloco de anotações
   if (col === 'paginas' && id) return void (location.hash = `#/anotacoes?p=${id}`)
   if (col === 'pastas' && id) return void (location.hash = `#/arquivos?pasta=${id}`)
   if (col === 'fluxogramas' && id) return void (location.hash = `#/fluxogramas?f=${id}`)
+  pilha.length = 0
+  editor = { col, id, preset }
+  subs.forEach((s) => s())
+}
+/** Abre outro registro por cima do atual; ao fechar, volta para o de baixo. */
+export function openEditorPorCima(col: string, id?: string, preset?: Record<string, unknown>) {
+  if (editor) pilha.push(editor)
   editor = { col, id, preset }
   subs.forEach((s) => s())
 }
 function closeEditor() {
-  editor = null
+  editor = pilha.pop() ?? null
   subs.forEach((s) => s())
 }
 export function EditorHost() {
@@ -207,6 +216,7 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
           ),
         )}
         {col === 'projetos' && <IncentiveLink v={v} />}
+        {col === 'projetos' && <TarefasDoProjeto projetoId={existing?.id} respPadrao={typeof v.responsavel === 'string' ? v.responsavel : undefined} />}
         {col === 'tarefas' && <CadeiaTarefas v={v} />}
         {typeof v.paginaOrigem === 'string' && get('paginas', v.paginaOrigem) && (
           <div className="wide small origem-nota">

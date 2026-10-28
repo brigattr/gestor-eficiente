@@ -4,10 +4,11 @@ import { Bar, Chip, Kpi } from '../components/ui'
 import { cellText } from '../components/Views'
 import { get, type Item } from '../data/store'
 import { isDone } from '../lib/alerts'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { avisar } from '../components/Dialogs'
 import { getDB, uid, upsert } from '../data/store'
 import { bonus } from '../lib/incentive'
+import { recalcularProjeto } from '../lib/projetos'
 import { addFiles } from '../lib/files'
 import { addDays, daysUntil, fmtDate, iso, money, pct } from '../lib/format'
 
@@ -140,6 +141,10 @@ export function Tarefas() {
 }
 
 export function Projetos() {
+  // projetos com tarefas e progresso automático: alinha o % ao abrir a tela
+  useEffect(() => {
+    for (const p of getDB().projetos ?? []) recalcularProjeto(p.id)
+  }, [])
   return (
     <ModulePage
       col="projetos"
@@ -157,6 +162,11 @@ export function Projetos() {
         )
       }}
       extraViews={[
+        {
+          key: 'tarefas',
+          label: 'Com tarefas',
+          render: (rows) => <ProjetosComTarefas rows={rows} />,
+        },
         {
           key: 'pxr',
           label: 'Planejado × realizado',
@@ -267,3 +277,42 @@ export function Diagnostico() {
   )
 }
 
+
+/** Cada projeto com as tarefas em aberto embaixo (as subatividades são tarefas do menu Tarefas). */
+function ProjetosComTarefas({ rows }: { rows: Item[] }) {
+  const db = getDB()
+  const hoje = iso(new Date())
+  if (!rows.length) return <div className="empty">Nenhum projeto.</div>
+  return (
+    <div className="pt-lista">
+      {rows.map((p) => {
+        const ts = (db.tarefas ?? []).filter((t) => t.projeto === p.id)
+        const abertas = ts.filter((t) => !isDone('tarefas', t)).sort((a, b) => String(a.prazo || '9999').localeCompare(String(b.prazo || '9999')))
+        const feitas = ts.length - abertas.length
+        return (
+          <div key={p.id} className="pt-proj">
+            <div className="row pt-cab" onClick={() => openEditor('projetos', p.id)}>
+              <b className="grow">{String(p.nome)}</b>
+              <Chip t={p.status === 'Em risco' ? 'bad' : isDone('projetos', p) ? 'ok' : 'info'}>{String(p.status ?? '')}</Chip>
+              <span className="small muted">{ts.length ? `${feitas}/${ts.length} tarefas` : 'sem tarefas'}</span>
+              <span style={{ width: 120 }}>
+                <Bar value={Number(p.progresso || 0)} />
+              </span>
+            </div>
+            {abertas.map((t) => (
+              <div key={t.id} className="pt-tarefa" onClick={() => openEditor('tarefas', t.id)}>
+                <span>○</span>
+                <span className="grow">{String(t.titulo)}</span>
+                <span className="small muted">{t.responsavel ? cellText('tarefas', 'responsavel', t) : ''}</span>
+                <span className={`small ${t.prazo && String(t.prazo) < hoje ? 'neg' : 'muted'}`}>{t.prazo ? fmtDate(t.prazo) : ''}</span>
+              </div>
+            ))}
+            <button className="nb-add" onClick={() => openEditor('tarefas', undefined, { projeto: p.id, responsavel: p.responsavel ?? null })}>
+              + Tarefa neste projeto
+            </button>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
