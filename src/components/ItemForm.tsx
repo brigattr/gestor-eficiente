@@ -14,6 +14,7 @@ import { Modal } from './ui'
 import { ehExterna } from '../shared/ics'
 import { EtapasTarefa, etapasDe, salvarEtapas, type Etapa } from './Etapas'
 import { TarefasDoProjeto } from './TarefasProjeto'
+import { Convite } from './Convite'
 
 // ── Editor global: qualquer tela pode abrir um registro de qualquer módulo
 type EditorState = { col: string; id?: string; preset?: Record<string, unknown> } | null
@@ -267,18 +268,7 @@ function ReuniaoTopo({ v }: { v: Record<string, unknown> }) {
           {t('hora') ? ` · ${t('hora')}${t('horaFim') ? `–${t('horaFim')}` : ''}` : ' · dia inteiro'}
           {t('local') ? ` · ${t('local')}` : ''}
         </div>
-        {t('organizador') && <div className="small muted">Organizador: {t('organizador')}</div>}
-        {t('participantes') && <div className="small muted">Participantes: {t('participantes')}</div>}
-        {t('descricaoOutlook') && (
-          <details>
-            <summary className="small" style={{ cursor: 'pointer' }}>
-              Ver convite
-            </summary>
-            <div className="small pre" style={{ maxHeight: 200, overflow: 'auto', marginTop: 4 }}>
-              {t('descricaoOutlook')}
-            </div>
-          </details>
-        )}
+        <Convite descricao={t('descricaoOutlook')} organizador={t('organizador')} participantes={t('participantes')} />
       </div>
       <h3 className="wide" style={{ margin: '4px 0 -4px' }}>
         Minhas anotações

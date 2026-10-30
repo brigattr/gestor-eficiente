@@ -296,7 +296,7 @@ export function lerIcs(txt: string, de: number, ate: number, fuso = 'America/Sao
       horaFim: fimLoc ? `${pad(fimLoc.hh)}:${pad(fimLoc.mi)}` : null,
       local: texto(e.LOCATION?.[0]?.value),
       participantes: att.length ? att.slice(0, 30).join(', ') + (att.length > 30 ? ` e mais ${att.length - 30}` : '') : null,
-      descricao: texto(e.DESCRIPTION?.[0]?.value)?.slice(0, 4000) ?? null,
+      descricao: texto(e.DESCRIPTION?.[0]?.value)?.slice(0, 12000) ?? null,
       organizador: org,
     })
   }

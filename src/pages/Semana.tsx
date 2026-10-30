@@ -7,6 +7,7 @@ import { upsert, useDB, type DB, type Item } from '../data/store'
 import { allEvents, isDone } from '../lib/alerts'
 import { addDays, fmtDate, iso, startOfWeek } from '../lib/format'
 import { ehExterna } from '../shared/ics'
+import { Convite } from '../components/Convite'
 
 const DIAS = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo']
 
@@ -120,13 +121,10 @@ function Prep({ r, db }: { r: Item; db: DB }) {
           <div className="muted">Pauta / o que preciso entender</div>
           <div className="pre">{String(r.pauta ?? '—')}</div>
           {r.local != null && r.local !== '' && <div className="muted" style={{ marginTop: 6 }}>Local: {String(r.local)}</div>}
-          {r.organizador != null && <div className="muted">Organizador: {String(r.organizador)}</div>}
-          {r.participantes != null && <div className="muted" style={{ marginTop: 6 }}>Participantes: {String(r.participantes)}</div>}
-          {r.descricaoOutlook != null && r.descricaoOutlook !== '' && (
-            <details style={{ marginTop: 6 }}>
-              <summary className="muted" style={{ cursor: 'pointer' }}>Convite</summary>
-              <div className="pre" style={{ maxHeight: 180, overflow: 'auto' }}>{String(r.descricaoOutlook)}</div>
-            </details>
+          {(r.organizador != null || r.participantes != null || (r.descricaoOutlook != null && r.descricaoOutlook !== '')) && (
+            <div style={{ marginTop: 6 }}>
+              <Convite descricao={r.descricaoOutlook as string | null} organizador={r.organizador as string | null} participantes={r.participantes as string | null} />
+            </div>
           )}
         </div>
         <div className="small">

@@ -630,3 +630,12 @@ body { touch-action: manipulation; } /* sem zoom acidental com toque duplo */
 .pt-tarefa { display: flex; align-items: center; gap: 10px; padding: 6px 4px; border-radius: 8px; cursor: pointer; }
 .pt-tarefa:hover { background: var(--surface-2); }
 @media (max-width: 600px) { .pt-cab { flex-wrap: wrap; } .pt-tarefa { flex-wrap: wrap; } }
+
+/* ── Convite de reunião (texto do Outlook/Google/iCloud) */
+.cv { display: grid; gap: 8px; min-width: 0; }
+.cv-quem { display: grid; gap: 6px; }
+.cv-pessoas { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.cv-acesso { gap: 12px; }
+.cv-texto { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; max-height: 320px; overflow-y: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+.cv-texto a { color: var(--info); text-decoration: underline; }
+.pre { overflow-wrap: anywhere; }
