@@ -12,6 +12,8 @@ import { addFiles, deleteFilesOf } from '../lib/files'
 import { isDone } from '../lib/alerts'
 import { fmtDate } from '../lib/format'
 import { limparHtml, textoDoHtml } from '../lib/sanitize'
+import { ditadoSuportado, ditar } from '../lib/ditado'
+import { avisar } from '../components/Dialogs'
 
 // Bloco de anotações no estilo OneNote: blocos › seções › páginas (com subpáginas).
 
@@ -535,6 +537,55 @@ function Pagina({ p, caminho, foco, onFoco, onSubpagina, onExcluir }: { p: Item;
     document.execCommand(cmd, false, arg)
     mudou()
   }
+  // ── ditado por voz
+  const [ditando, setDitando] = useState(false)
+  const [previa, setPrevia] = useState('')
+  const parar = useRef<(() => void) | null>(null)
+  useEffect(() => () => parar.current?.(), [])
+  function inserirDitado(t: string) {
+    if (!t || !ed.current) return
+    const s = window.getSelection()
+    // cursor fora do texto: continua no fim da página
+    if (!s || !s.rangeCount || !ed.current.contains(s.anchorNode)) {
+      ed.current.focus()
+      const r = document.createRange()
+      r.selectNodeContents(ed.current)
+      r.collapse(false)
+      s?.removeAllRanges()
+      s?.addRange(r)
+    }
+    const antes = s?.anchorNode?.textContent?.slice(0, s.anchorOffset) ?? ''
+    const espaco = antes && !/\s$/.test(antes) ? ' ' : ''
+    document.execCommand('insertText', false, espaco + t.charAt(0).toUpperCase() + t.slice(1))
+    mudou()
+  }
+  function alternarDitado() {
+    if (ditando) {
+      parar.current?.()
+      parar.current = null
+      setDitando(false)
+      setPrevia('')
+      return
+    }
+    if (!ditadoSuportado()) {
+      avisar('Este navegador não oferece ditado. Use o Chrome ou o Edge no computador. No iPhone/iPad, toque no texto e use o microfone 🎤 do próprio teclado.')
+      return
+    }
+    ed.current?.focus()
+    setDitando(true)
+    parar.current = ditar({
+      onTexto: inserirDitado,
+      onPrevia: setPrevia,
+      onFim: (erro) => {
+        setDitando(false)
+        setPrevia('')
+        parar.current = null
+        if (erro === 'not-allowed' || erro === 'service-not-allowed') avisar('O microfone não foi liberado. Permita o microfone para este site (cadeado ao lado do endereço) e tente de novo.')
+        else if (erro && erro !== 'sem-suporte') avisar('O ditado parou: ' + erro)
+      },
+    })
+  }
+
   function tabela() {
     const cel = '<td><br></td>'.repeat(3)
     exec('insertHTML', `<table><tbody>${`<tr>${cel}</tr>`.repeat(3)}</tbody></table><p><br></p>`)
@@ -589,6 +640,8 @@ function Pagina({ p, caminho, foco, onFoco, onSubpagina, onExcluir }: { p: Item;
     '|',
     { i: '✍️ Desenho', t: 'Inserir área de desenho à mão (Apple Pencil, caneta ou mouse)', run: novoDesenho },
     { i: '✓ Tarefa', t: 'Transformar o texto selecionado (ou a linha do cursor) em tarefa', run: () => tarefaDoTexto() },
+    '|',
+    { i: '🎤 Ditar', t: 'Ditar por voz: fale e o texto entra onde está o cursor (clique de novo para parar)', run: alternarDitado },
   ]
 
   return (
@@ -703,12 +756,20 @@ function Pagina({ p, caminho, foco, onFoco, onSubpagina, onExcluir }: { p: Item;
           c === '|' ? (
             <span key={i} className="nb-sep" />
           ) : (
-            <button key={i} type="button" className="nb-btn" title={c.t} onClick={c.run}>
+            <button key={i} type="button" className={`nb-btn ${c.i === '🎤 Ditar' && ditando ? 'nb-ditando' : ''}`} title={c.t} onClick={c.run}>
               {c.i === 'B' ? <b>B</b> : c.i === 'I' ? <i>I</i> : c.i === 'U' ? <u>U</u> : c.i === 'S' ? <s>S</s> : c.i}
             </button>
           ),
         )}
       </div>
+      {ditando && (
+        <div className="nb-ditado">
+          <span className="nb-ponto" /> Ouvindo… {previa ? <i>{previa}</i> : <span className="muted">fale normalmente; diga “vírgula” ou “ponto” para pontuar</span>}
+          <button type="button" className="btn sm" onMouseDown={(e) => e.preventDefault()} onClick={alternarDitado}>
+            Parar
+          </button>
+        </div>
+      )}
       <div
         ref={ed}
         className={`nb-texto ${desenhos.length ? 'curto' : ''}`}

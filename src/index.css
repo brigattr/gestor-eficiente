@@ -639,3 +639,10 @@ body { touch-action: manipulation; } /* sem zoom acidental com toque duplo */
 .cv-texto { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; max-height: 320px; overflow-y: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
 .cv-texto a { color: var(--info); text-decoration: underline; }
 .pre { overflow-wrap: anywhere; }
+
+/* ── Ditado por voz nas anotações */
+.nb-btn.nb-ditando { background: #fee2e2; color: #b91c1c; box-shadow: 0 0 0 2px #fca5a5; }
+.nb-ditado { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 6px 10px; border-radius: 10px; background: #fef2f2; border: 1px solid #fecaca; font-size: 13.5px; }
+.nb-ditado .btn { margin-left: auto; }
+.nb-ponto { width: 10px; height: 10px; border-radius: 50%; background: #dc2626; animation: nbPulsa 1s infinite; }
+@keyframes nbPulsa { 50% { opacity: .3; } }
