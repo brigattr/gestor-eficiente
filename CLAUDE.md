@@ -18,7 +18,8 @@
 - 16/10/2026 (2º envio, com ciência do usuário) — anotações: transformar texto ou desenho em tarefa. **Envios do dia 16/10 já usados**.
 - 19/10/2026 00h — vários calendários (Outlook, Google, iCloud), menu Clima e bem-estar, marca Gestor Eficiente · ChiefDesk, backlog de tickets com SLA. **Envio do dia 19/10 já usado**.
 - 26/10/2026 22h — listas sem concluídas por padrão, Contratos e vencimentos, avisos de vencimento (sino), anotações estilo Notas do iPhone (tela cheia, papel liso/linhas/quadriculado, lápis, régua, estilos, tabela, fixar), atalhos + Tarefa no 1:1 e Conectar calendários. **Envio do dia 26/10 já usado**.
-- 27/10/2026 18h — etapas (subtarefas) dentro da tarefa, 'Concluída e criar nova tarefa', fluxogramas de processo, ajustes de celular (sem zoom nos campos, área segura do iPhone, telas sem estourar a largura) e login que não cai (manter conectado renova a cada uso; bloqueio por inatividade não derruba quem marcou). **Envio do dia 27/10 já usado**; outro envio no mesmo dia só com a frase de ciência dos créditos.
+- 27/10/2026 18h — etapas (subtarefas) dentro da tarefa, 'Concluída e criar nova tarefa', fluxogramas de processo, ajustes de celular (sem zoom nos campos, área segura do iPhone, telas sem estourar a largura) e login que não cai (manter conectado renova a cada uso; bloqueio por inatividade não derruba quem marcou). **Envio do dia 27/10 já usado**.
+- 01/11/2026 17h — tarefas dentro dos projetos (progresso automático), importação em massa com modelo Excel por tela, horário do aviso nas tarefas, ditado por voz nas anotações, convite de reunião legível, modo TV com Sair no iPhone, menu oculto também nos Pontos de atenção/OKR, receitas do manual do usuário (docs/manual-usuario). **Envio do dia 01/11 já usado**; outro envio no mesmo dia só com a frase de ciência dos créditos.
 
 ## Próximos passos comerciais (anotado em 16/10/2026)
 
@@ -36,7 +37,9 @@
   - **Totalmente dinâmico**: o gestor cria as etapas (fluxo/status) de cada tipo de ticket; nada fixo no código.
   - Integrar com o Painel de eficiência existente (hoje ele importa tickets do SharePoint) e com o Calendário/alertas (prazos de SLA vencendo).
 
-- **Horário padrão por lista** (ideia, 27/10/2026): ex.: lista Pessoal já vem com aviso às 18h. O horário de aviso por tarefa já foi feito (aguardando envio).
+- **Horário padrão por lista** (ideia, 27/10/2026): ex.: lista Pessoal já vem com aviso às 18h. O horário de aviso por tarefa já foi feito.
+- **Manuais** (01/11/2026): Manual do Usuário em PDF (fontes em docs/manual-usuario; regenerar quando telas mudarem) e Manual Comercial (fora do repositório, entregue ao usuário).
+- **Lacunas vistas ao escrever o manual** (01/11/2026): candidato 'Contratado' não cria pessoa/admissão; feedback 'compartilhar' não publica no Mural; Férias não cruza com a Matriz de cobertura; pesquisas não alimentam Indicadores de bem-estar.
 - **Avisos com o sistema fechado** (próximo passo das notificações, 26/10/2026): hoje os avisos do sino aparecem com o sistema aberto (mesmo em outra aba/minimizado). Para avisar com tudo fechado é preciso Web Push com agendador no servidor (Worker com cron + chaves VAPID) — fazer junto com a migração para VPS ou antes, se o usuário pedir.
 - **Anotações — o que ficou de fora do pacote Notas do iPhone**: laço (selecionar e mover parte do desenho), bloquear nota com senha, seções recolhíveis, imagem dentro do texto.
 
