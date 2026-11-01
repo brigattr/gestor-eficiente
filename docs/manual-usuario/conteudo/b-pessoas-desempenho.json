@@ -1,0 +1,540 @@
+[
+  {
+    "path": "pessoas",
+    "titulo": "Time",
+    "grupo": "Pessoas & DP",
+    "objetivo": "É o cadastro central da sua equipe. Cada pessoa cadastrada aqui passa a ser a “dona” de todo o histórico do sistema: ponto, férias, ocorrências, exames, avaliações, feedbacks, PDIs, benefícios, holerites, tarefas e projetos. Ao clicar em uma pessoa, você abre o perfil dela com indicadores e todas essas informações em abas.",
+    "quando_usar": "Ao contratar alguém, ao mudar cargo, área, salário ou gestor de uma pessoa, e antes de uma conversa individual, para ver em um só lugar tudo o que está registrado sobre ela.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Time”. A tela abre na visão “Cartões”, com um cartão por pessoa.",
+      "Para cadastrar alguém, clique em “Novo” e preencha pelo menos o “Nome”. Complete “Cargo”, “Área”, “Centro de custo”, “E-mail”, “Admissão”, “Salário base” e “Situação”.",
+      "Informe o “Gestor imediato” de cada pessoa: é com ele que o Organograma é montado.",
+      "Se quiser, preencha “Data de nascimento” (aniversariantes do Mural), “Perfil comportamental (DISC)” e os campos opcionais e autodeclarados “Gênero” e “Pessoa com deficiência”. Clique em “Salvar”.",
+      "Use “Buscar…” e os filtros de Cargo, Área, Centro de custo e Situação para encontrar pessoas. Alterne entre “Lista” e “Cartões” no seletor de visões.",
+      "Clique no cartão de uma pessoa para abrir o perfil. No topo aparecem Compa-ratio, Bônus projetado do ano, Ocorrências e Tarefas abertas.",
+      "No perfil, navegue pelas abas (Cartão-ponto, Controle de férias, Registro de ocorrências, Exames, Avaliação, Feedbacks, PDIs, Benefícios, Holerites, Tarefas, Projetos e outras). O número ao lado de cada aba mostra quantos registros existem.",
+      "Dentro de uma aba, clique em “Novo” para lançar um registro já ligado àquela pessoa, sem precisar escolhê-la de novo.",
+      "Para mudar os dados da pessoa, clique em “Editar cadastro”. Para preparar uma conversa individual, clique em “1:1”. Use “← Time” para voltar à lista."
+    ],
+    "recursos": [
+      {"nome": "Visão Cartões", "descricao": "Mostra nome, cargo, situação, área, número de tarefas abertas, ações de PDI abertas e, se houver avaliação, o potencial da pessoa."},
+      {"nome": "Perfil da pessoa", "descricao": "Página própria de cada pessoa com cabeçalho (cargo, área, centro de custo e data de admissão), indicadores e abas com todo o histórico ligado a ela."},
+      {"nome": "Compa-ratio no perfil", "descricao": "Compara o salário base com o ponto médio da faixa do cargo. Fica destacado quando está abaixo de 90% ou acima de 110%."},
+      {"nome": "Bônus projetado", "descricao": "Mostra o atingimento projetado das metas da pessoa no Incentive model do ano, com a quantidade de metas e a soma dos pesos."},
+      {"nome": "Abas de histórico", "descricao": "Cada aba é uma lista completa (com busca, filtros e “Novo”) mostrando só os registros daquela pessoa."},
+      {"nome": "Listas de opções editáveis", "descricao": "No campo “Área”, use “+ Nova opção…” ou “✎ Editar lista…” para adaptar as áreas à sua empresa. A mudança vale para todos os registros."},
+      {"nome": "Etiquetas e anexos", "descricao": "Marque a pessoa com etiquetas e anexe documentos arrastando arquivos para a área de anexos do formulário."},
+      {"nome": "Importar e CSV", "descricao": "“Importar” cadastra o time em massa a partir de uma planilha modelo; “CSV” exporta a lista filtrada para o Excel."}
+    ],
+    "impactos": [
+      "O campo “Gestor imediato” monta o Organograma e é usado na Diversidade para identificar quem ocupa posição de liderança.",
+      "“Cargo” e “Salário base” alimentam o compa-ratio em Cargos e salários e no perfil; o cargo também traz os requisitos comparados em Treinamentos (Pessoa × requisitos do cargo).",
+      "A “Data de nascimento” faz a pessoa aparecer entre os aniversariantes do mês no Mural e no Modo TV.",
+      "Gênero, pessoa com deficiência, data de nascimento, admissão e área alimentam o painel agregado de Diversidade.",
+      "Pessoa com situação “Desligado” sai do Organograma, da Matriz de cobertura, dos aniversariantes, da Diversidade, do quadro de compa-ratio, da comparação com requisitos de cargo e do número “Time ativo” na Visão geral.",
+      "Toda pessoa cadastrada passa a aparecer nas listas de escolha (Colaborador, Responsável, Titular, Backup etc.) dos outros módulos."
+    ],
+    "cuidados": [
+      "Prefira mudar a “Situação” para “Desligado” em vez de excluir. Excluir apaga só o cadastro: os registros ligados (férias, ocorrências, holerites…) ficam sem o nome da pessoa.",
+      "A situação “Férias” ou “Afastado” é informada à mão; ela não muda sozinha quando você lança férias.",
+      "Salário, gênero, deficiência e perfil comportamental são dados pessoais e sensíveis (LGPD). Registre só o necessário e restrinja o acesso de quem não precisa ver.",
+      "Pessoas desligadas continuam aparecendo nas listas de escolha dos formulários; confira antes de atribuir algo a alguém.",
+      "Evite cadastrar a mesma pessoa duas vezes: o histórico ficaria dividido entre os dois cadastros."
+    ],
+    "dica": "Cadastre o gestor imediato de todos desde o início: com isso o Organograma se monta sozinho."
+  },
+  {
+    "path": "vagas",
+    "titulo": "Vagas e seleção",
+    "grupo": "Pessoas & DP",
+    "objetivo": "Organiza as vagas em aberto e o funil de candidatos de cada uma. Você acompanha a vaga da aprovação ao fechamento e cada candidato da triagem à proposta, com nota, parecer e data da próxima entrevista.",
+    "quando_usar": "Ao pedir aprovação para uma nova posição ou substituição, ao receber currículos e durante as rodadas de entrevista.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Vagas e seleção”. A tela tem duas partes: as vagas (no alto) e “Candidatos” (embaixo), ambas no Kanban.",
+      "Clique em “Novo” no alto e preencha “Vaga”, “Cargo”, “Motivo”, “Status”, “Abertura”, “Prazo para fechar” e “Recrutador / HRBP”. Clique em “Salvar”.",
+      "Acompanhe a vaga arrastando o cartão entre as colunas: Aprovação, Aberta, Triagem, Entrevistas, Proposta, Fechada ou Cancelada.",
+      "Na parte “Candidatos”, clique em “Novo” e informe “Nome” e “Vaga”. Se quiser, anexe o currículo e coloque o link em “LinkedIn / CV”.",
+      "Avalie o candidato com as estrelas de “Avaliação”, escreva o “Parecer” e marque a “Próxima entrevista”.",
+      "Mova o candidato pelas etapas arrastando o cartão: Triagem, Entrevista RH, Entrevista gestor, Case técnico, Proposta, Contratado ou Reprovado.",
+      "Registre em “Verificação de referências” se o contato com empregadores anteriores já foi feito.",
+      "Use o filtro de vaga na parte de candidatos para ver só o funil de uma vaga.",
+      "Para ver vagas fechadas ou candidatos já contratados/reprovados, mude o filtro de status para “todos” ou “concluídas (histórico)”."
+    ],
+    "recursos": [
+      {"nome": "Kanban de vagas", "descricao": "Cada coluna é um status da vaga. Arraste o cartão para mudar o status ou use o “+” da coluna para criar uma vaga já naquele status."},
+      {"nome": "Funil de candidatos", "descricao": "Kanban por etapa de seleção, com nota em estrelas, data da próxima entrevista e anexos indicados no cartão."},
+      {"nome": "Filtro “em aberto”", "descricao": "Por padrão, só aparecem vagas e candidatos em andamento. Vagas fechadas/canceladas e candidatos contratados/reprovados ficam no histórico."},
+      {"nome": "Cadastro rápido", "descricao": "No campo “Vaga” do candidato ou “Cargo” da vaga, a opção “+ Cadastrar novo…” cria o item sem sair do formulário."},
+      {"nome": "Motivo editável", "descricao": "A lista de motivos (Aumento de quadro, Substituição, Temporária, Estágio) pode ser ampliada com “+ Nova opção…”."},
+      {"nome": "Anexos", "descricao": "Arraste currículos, testes e e-mails (.msg/.eml) para o formulário do candidato."},
+      {"nome": "Visão Lista e CSV", "descricao": "Troque para “Lista” para ver em tabela e use “CSV” para exportar."}
+    ],
+    "impactos": [
+      "O “Prazo para fechar” da vaga e a “Próxima entrevista” do candidato aparecem no Calendário.",
+      "Vagas que não estão fechadas, canceladas ou contratadas aparecem no rodapé do Organograma, com link para esta tela.",
+      "A Visão geral mostra o número de vagas abertas no quadro “Time ativo”.",
+      "Marcar o candidato como “Contratado” não cria a pessoa no Time nem a admissão: faça esses cadastros em “Time” e em “Admissões”."
+    ],
+    "cuidados": [
+      "Dados de candidatos são dados pessoais (LGPD). Guarde só o necessário e só verifique referências com autorização do candidato.",
+      "O parecer pode ser lido por outros usuários com acesso; escreva de forma objetiva e respeitosa.",
+      "Excluir uma vaga não exclui os candidatos dela: eles ficam sem a vaga vinculada.",
+      "Candidatos reprovados de processos antigos devem ser revistos periodicamente e excluídos quando não houver mais motivo para guardar."
+    ],
+    "dica": "Sempre marque a “Próxima entrevista”: assim ela entra no Calendário e ninguém fica esperando retorno."
+  },
+  {
+    "path": "ponto",
+    "titulo": "Cartão-ponto",
+    "grupo": "Pessoas & DP",
+    "objetivo": "Controla a revisão mensal do cartão-ponto de cada pessoa antes do fechamento da folha. Você registra horas extras, faltas e atrasos e acompanha quem ainda não teve o ponto aprovado.",
+    "quando_usar": "Todo mês, nos dias que antecedem o fechamento da folha, para garantir que nenhum cartão fique sem revisão.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Cartão-ponto”.",
+      "Clique em “Novo”, escolha o “Colaborador” e a “Competência” (mês de referência).",
+      "Informe “Horas extras”, “Faltas/atrasos” e o “Prazo de aprovação”. Use “Observações” para justificar ajustes.",
+      "Clique em “Salvar”. O registro começa como “Pendente”.",
+      "Troque para “Kanban” e arraste o cartão conforme a revisão avança: Pendente, Em revisão, Com ajustes e Aprovado.",
+      "Use o filtro de “Colaborador” para ver o histórico de uma pessoa.",
+      "Para lançar vários meses ou pessoas de uma vez, clique em “Importar”, baixe o modelo, preencha e envie a planilha.",
+      "Para ver os cartões já aprovados, mude o filtro de status para “concluídas (histórico)” ou clique no aviso “concluída(s) oculta(s)”."
+    ],
+    "recursos": [
+      {"nome": "Lista e Kanban", "descricao": "Veja os cartões em tabela ou em colunas por status, arrastando para mudar a etapa."},
+      {"nome": "Filtro “em aberto”", "descricao": "Por padrão, só aparecem os cartões ainda não aprovados. Os aprovados ficam no histórico."},
+      {"nome": "Prazo de aprovação", "descricao": "Data limite para o ponto estar aprovado; ela gera alerta e entra no Calendário."},
+      {"nome": "Anexos", "descricao": "Anexe o espelho de ponto ou e-mails de justificativa ao registro."},
+      {"nome": "Importar planilha", "descricao": "Carrega vários registros de uma vez com modelo pronto e opção de “Desfazer importação”."},
+      {"nome": "Exportar CSV", "descricao": "Leva a lista filtrada para o Excel."}
+    ],
+    "impactos": [
+      "Quando faltam 3 dias ou menos para o “Prazo de aprovação” e o ponto não está “Aprovado”, aparece o alerta “Cartão-ponto pendente” na Visão geral (vermelho se o prazo já passou).",
+      "O prazo aparece no Calendário como “Aprovar ponto”, com o nome da pessoa.",
+      "O registro aparece na aba “Cartão-ponto” do perfil da pessoa no Time."
+    ],
+    "cuidados": [
+      "Mudar para “Aprovado” encerra o alerta e esconde o registro da lista padrão; aprove só depois de conferir.",
+      "Sem “Prazo de aprovação” o sistema não gera alerta nem evento no Calendário.",
+      "Horas e faltas são dados trabalhistas: mantenha a justificativa em “Observações” ou em anexo.",
+      "Se a ferramenta for ocultada no menu, seus alertas e datas deixam de aparecer na Visão geral e no Calendário."
+    ],
+    "dica": "Lance todas as pessoas no início do mês com o mesmo prazo: o alerta avisa sozinho quem ficou para trás."
+  },
+  {
+    "path": "ferias",
+    "titulo": "Férias",
+    "grupo": "Pessoas & DP",
+    "objetivo": "Controla períodos aquisitivos, limite concessivo, datas de gozo, abono e o status de cada período de férias. A linha do tempo mostra quem sai quando, para não desfalcar a equipe, e o sistema avisa quando o limite para tirar férias está chegando.",
+    "quando_usar": "Ao planejar as férias do ano, ao receber um pedido de férias e para conferir quem tem período vencendo sem data marcada.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Férias”. A tela (“Controle de férias”) abre na “Linha do tempo”.",
+      "Confira os indicadores no topo: “Sem programação”, “Limite concessivo ≤ 90 dias” e “Saídas nos próximos 60 dias”.",
+      "Clique em “Novo”, escolha o “Colaborador” e preencha “Período aquisitivo – início”, “Período aquisitivo – fim” e “Limite concessivo”.",
+      "Quando as datas forem definidas, preencha “Início do gozo”, “Fim do gozo”, “Dias” e, se houver, “Abono pecuniário (dias)”.",
+      "Atualize o “Status”: Planejada, Solicitada, Aprovada, Em gozo, Concluída ou Recusada. Clique em “Salvar”.",
+      "Use a “Linha do tempo” para ver sobreposições: cada barra é um período, com cor por pessoa; clique na barra para abrir o registro.",
+      "Use “Kanban” para mover pedidos entre status ou “Lista” para ver em tabela.",
+      "Para ver férias aprovadas, em gozo ou concluídas, mude o filtro de status para “todos” ou “concluídas (histórico)”."
+    ],
+    "recursos": [
+      {"nome": "Indicadores do topo", "descricao": "Contam períodos sem data de gozo, períodos com limite concessivo em até 90 dias sem programação e quem sai nos próximos 60 dias (com os nomes)."},
+      {"nome": "Linha do tempo", "descricao": "Barras por período, com marcação do dia de hoje. Concluídas ficam verdes, recusadas vermelhas e planejadas/solicitadas mais claras."},
+      {"nome": "Kanban de status", "descricao": "Colunas por status, com arrastar e soltar."},
+      {"nome": "Filtro “em aberto”", "descricao": "Por padrão mostra só férias Planejadas e Solicitadas. Aprovada, Em gozo, Concluída e Recusada contam como encerradas e ficam no histórico."},
+      {"nome": "Anexos", "descricao": "Anexe aviso e recibo de férias ao registro."},
+      {"nome": "Importar e CSV", "descricao": "Carregue o histórico de férias por planilha ou exporte a lista."}
+    ],
+    "impactos": [
+      "Na Visão geral aparece “Férias sem programação, limite concessivo em N dias” quando faltam 90 dias ou menos para o limite e não há data de início (vermelho a partir de 45 dias).",
+      "O “Início do gozo” e o “Limite concessivo” aparecem no Calendário.",
+      "O registro aparece na aba “Controle de férias” do perfil da pessoa no Time.",
+      "Lançar férias não muda a “Situação” da pessoa no Time nem altera a Matriz de cobertura; ajuste à mão se precisar."
+    ],
+    "cuidados": [
+      "Com o filtro padrão, férias “Aprovadas” somem da lista e da linha do tempo. Para ver todo o planejamento, escolha “Status: todos”.",
+      "O alerta desaparece assim que o “Início do gozo” é preenchido, mesmo que o status continue “Planejada”. Só preencha a data quando ela for real.",
+      "Sem “Limite concessivo” não há alerta de risco de pagamento em dobro.",
+      "Antes de aprovar, olhe a linha do tempo para evitar que pessoas que se cobrem saiam ao mesmo tempo."
+    ],
+    "dica": "Cadastre o limite concessivo de todos os períodos: é ele que dispara o alerta antes do risco de pagar férias em dobro."
+  },
+  {
+    "path": "ocorrencias",
+    "titulo": "Ocorrências",
+    "grupo": "Pessoas & DP",
+    "objetivo": "Transforma fatos do dia a dia em histórico. Você registra acontecimentos positivos, neutros ou negativos com motivo padronizado, descrição e evidência, para tomar decisões consistentes em avaliações, feedbacks e conversas difíceis.",
+    "quando_usar": "Logo depois de um fato relevante: uma entrega acima do esperado, um prazo perdido, um problema de comportamento ou pontualidade, uma questão de compliance ou segurança.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Ocorrências”.",
+      "Clique em “Novo” e escolha o “Colaborador” e a “Data”.",
+      "Defina o “Tipo” (Positiva, Neutra ou Negativa) e o “Motivo”.",
+      "Descreva o que aconteceu em “Descrição do fato”, de forma objetiva.",
+      "Cole um link em “Evidência” ou anexe o arquivo/e-mail na área de anexos. Informe quem registrou em “Registrado por”.",
+      "Clique em “Salvar”.",
+      "Use os filtros de Colaborador, Tipo e Motivo para analisar o histórico, ou abra o perfil da pessoa no Time e vá à aba “Registro de ocorrências”."
+    ],
+    "recursos": [
+      {"nome": "Tipo da ocorrência", "descricao": "Classifica o fato como positivo, neutro ou negativo, para equilibrar a leitura do histórico."},
+      {"nome": "Motivos padronizados e editáveis", "descricao": "Lista pronta (Prazo, Qualidade, Comportamento, Pontualidade, Compliance, Segurança…) que pode ser ampliada com “+ Nova opção…” ou ajustada em “✎ Editar lista…”."},
+      {"nome": "Evidência e anexos", "descricao": "Link e arquivos (inclusive e-mails .msg/.eml) que comprovam o fato."},
+      {"nome": "Filtros e busca", "descricao": "Encontre ocorrências por pessoa, tipo, motivo ou por qualquer palavra."},
+      {"nome": "Importar e CSV", "descricao": "Traga registros antigos de uma planilha ou exporte para o Excel."}
+    ],
+    "impactos": [
+      "O perfil da pessoa no Time mostra o total de ocorrências, quantas são positivas e quantas são negativas.",
+      "O registro aparece na aba “Registro de ocorrências” do perfil da pessoa."
+    ],
+    "cuidados": [
+      "Ocorrências são dados pessoais com possível impacto trabalhista (LGPD). Registre fatos, não opiniões ou rótulos.",
+      "Excluir uma ocorrência apaga o histórico e os anexos dela; prefira corrigir o texto.",
+      "Registre também as positivas: um histórico só de negativas distorce avaliações.",
+      "Se você mudar a lista de motivos, os registros antigos mantêm o motivo que tinham."
+    ],
+    "dica": "Registre no mesmo dia, com evidência: na hora da avaliação, o fato bem documentado fala por si."
+  },
+  {
+    "path": "exames",
+    "titulo": "Exames (ASO)",
+    "grupo": "Pessoas & DP",
+    "objetivo": "É a agenda dos exames ocupacionais (ASO) de cada pessoa: periódico, admissional, retorno ao trabalho, mudança de função e demissional. O sistema avisa quando um exame está para vencer ou já venceu.",
+    "quando_usar": "Ao admitir alguém, ao planejar os periódicos do ano e sempre que a Visão geral mostrar um alerta de ASO.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Exames (ASO)”.",
+      "Clique em “Novo” e escolha o “Colaborador” e o “Tipo” de exame.",
+      "Informe a data do “Último exame” e a do “Próximo exame” (obrigatória).",
+      "Escolha o “Status” (A agendar, Agendado ou Realizado) e a “Clínica”. Clique em “Salvar”.",
+      "Quando marcar o exame com a clínica, mude o status para “Agendado”.",
+      "Use o “Kanban” para arrastar os exames entre A agendar, Agendado e Realizado.",
+      "Anexe o ASO assinado ao registro na área de anexos.",
+      "Para ver os exames já realizados, escolha o filtro de status “concluídas (histórico)”."
+    ],
+    "recursos": [
+      {"nome": "Lista e Kanban", "descricao": "Acompanhe todos os exames em tabela ou em colunas por status."},
+      {"nome": "Alertas de vencimento", "descricao": "Avisos automáticos na Visão geral para exames vencidos ou que precisam ser agendados."},
+      {"nome": "Filtro “em aberto”", "descricao": "Por padrão esconde os exames já realizados."},
+      {"nome": "Anexos", "descricao": "Guarde o ASO e o pedido de exame junto do registro."},
+      {"nome": "Importar e CSV", "descricao": "Carregue a agenda de periódicos por planilha ou exporte para o Excel."}
+    ],
+    "impactos": [
+      "Na Visão geral aparece “ASO vencido” quando a data do “Próximo exame” já passou e o status não é “Realizado”.",
+      "Aparece “Agendar ASO em N dias” quando faltam 30 dias ou menos e o exame ainda está “A agendar”.",
+      "O “Próximo exame” aparece no Calendário como “ASO”.",
+      "O registro aparece na aba de exames do perfil da pessoa no Time."
+    ],
+    "cuidados": [
+      "Marcar como “Realizado” encerra todos os alertas daquele registro. Depois de realizar um periódico, registre o próximo exame (novo registro ou novas datas com status “A agendar”) para não perder o próximo vencimento.",
+      "“Agendado” tira o aviso de “Agendar ASO”, mas não o de “ASO vencido” se a data passar.",
+      "ASO e laudos são dados de saúde, sensíveis pela LGPD. Anexe só o necessário e limite quem tem acesso.",
+      "Ocultar esta ferramenta no menu também esconde seus alertas e datas da Visão geral e do Calendário."
+    ],
+    "dica": "Depois de cada exame, já registre a data do próximo: é isso que mantém os alertas funcionando."
+  },
+  {
+    "path": "cargos",
+    "titulo": "Cargos e salários",
+    "grupo": "Pessoas & DP",
+    "objetivo": "Reúne os cargos da área com nível, grade, faixa salarial (mínimo, ponto médio e máximo), benefícios e treinamentos exigidos. Mostra também o compa-ratio de cada pessoa, para apoiar decisões de mérito, promoção e retenção.",
+    "quando_usar": "Ao estruturar ou revisar a tabela salarial, antes do ciclo de mérito e ao abrir uma vaga para um cargo.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Cargos e salários”.",
+      "Clique em “Novo” e preencha “Cargo”, “Nível” e “Grade / Job level”.",
+      "Informe a faixa: “Faixa – mínimo”, “Faixa – ponto médio” e “Faixa – máximo”.",
+      "Em “Treinamentos/certificações exigidos”, escreva um requisito por linha. Descreva os “Benefícios” do cargo. Clique em “Salvar”.",
+      "No Time, associe cada pessoa ao seu cargo e informe o “Salário base”.",
+      "Volte a esta tela e escolha a visão “Compa-ratio do time” para ver a posição de cada pessoa na faixa.",
+      "Clique em uma linha do compa-ratio para abrir e ajustar o cadastro da pessoa."
+    ],
+    "recursos": [
+      {"nome": "Tabela de cargos", "descricao": "Lista com nível, grade e faixa salarial, com busca, filtro por nível e exportação CSV."},
+      {"nome": "Compa-ratio do time", "descricao": "Para cada pessoa ativa: faixa do cargo, salário, compa-ratio (salário ÷ ponto médio) e barra com a posição na faixa."},
+      {"nome": "Cores do compa-ratio", "descricao": "Abaixo de 90% indica risco de retenção; acima de 110% indica pouco espaço para mérito; entre os dois, adequado."},
+      {"nome": "Requisitos do cargo", "descricao": "Lista de treinamentos/certificações exigidos, um por linha, usada na comparação com o controle de treinamentos."},
+      {"nome": "Cadastro rápido", "descricao": "Em Time, Vagas e Admissões, o campo “Cargo” permite criar um cargo novo sem sair do formulário."}
+    ],
+    "impactos": [
+      "A faixa do cargo e o salário da pessoa geram o compa-ratio mostrado no perfil de cada pessoa no Time.",
+      "Os requisitos do cargo são comparados com os treinamentos registrados em Treinamentos (visão “Pessoa × requisitos do cargo”), mostrando o que falta, o que está vencendo e o que está ok.",
+      "O cargo pode ser escolhido em Time, Vagas e Admissões e aparece no Organograma abaixo do nome de cada pessoa."
+    ],
+    "cuidados": [
+      "Faixas e salários são informações confidenciais. Restrinja o acesso a quem realmente precisa.",
+      "Para a comparação com treinamentos funcionar, escreva o requisito com o mesmo nome (ou parte dele) usado no registro do treinamento.",
+      "Excluir um cargo deixa as pessoas, vagas e admissões ligadas a ele sem cargo.",
+      "Sem ponto médio da faixa ou sem salário da pessoa, o compa-ratio não é calculado."
+    ],
+    "dica": "Revise o “Compa-ratio do time” antes de cada ciclo de mérito: ele mostra rapidamente quem está fora da faixa."
+  },
+  {
+    "path": "organograma",
+    "titulo": "Organograma",
+    "grupo": "Pessoas & DP",
+    "objetivo": "Mostra a estrutura da equipe em forma de árvore, montada automaticamente a partir do campo “Gestor imediato” do cadastro do Time. Não é preciso desenhar nada: basta manter o cadastro em dia.",
+    "quando_usar": "Para apresentar a estrutura da área, conferir quem responde a quem, integrar novas pessoas e ver rapidamente as vagas em aberto.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Organograma”.",
+      "Se a tela estiver vazia, cadastre o time em “Time” e informe o “Gestor imediato” de cada pessoa.",
+      "Veja a árvore: cada cartão mostra iniciais, nome e cargo (ou área). O número no cartão indica quantas pessoas respondem diretamente a ela.",
+      "Clique em um cartão para abrir e editar o cadastro da pessoa, por exemplo para corrigir o gestor.",
+      "Confira o aviso abaixo da árvore: ele indica quantas pessoas estão sem gestor informado (elas aparecem no topo).",
+      "No rodapé, veja as vagas em aberto e clique em “ver vagas →” para ir a Vagas e seleção.",
+      "Use o botão “Time” para voltar ao cadastro da equipe."
+    ],
+    "recursos": [
+      {"nome": "Montagem automática", "descricao": "A árvore é construída a partir do “Gestor imediato”, com até 9 níveis, em ordem alfabética dentro de cada gestor."},
+      {"nome": "Contagem de liderados", "descricao": "Cada cartão mostra quantos liderados diretos a pessoa tem."},
+      {"nome": "Edição pelo cartão", "descricao": "Clique em qualquer pessoa para abrir o cadastro dela."},
+      {"nome": "Aviso de pessoas sem gestor", "descricao": "Indica quantas pessoas estão no topo por falta de gestor informado."},
+      {"nome": "Vagas em aberto", "descricao": "Lista as vagas que ainda não foram fechadas, canceladas ou contratadas, com link para a tela de vagas."}
+    ],
+    "impactos": [
+      "Mudar o “Gestor imediato” de alguém no Time muda o organograma na hora.",
+      "Pessoas com situação “Desligado” não aparecem no organograma; quem respondia a uma pessoa desligada passa a aparecer no topo.",
+      "Abrir ou fechar vagas em Vagas e seleção altera a lista de vagas no rodapé."
+    ],
+    "cuidados": [
+      "Ao desligar um gestor, atualize o gestor imediato dos liderados dele, senão eles aparecem soltos no topo.",
+      "Não aponte uma pessoa como gestora dela mesma ou crie ciclos (A responde a B e B responde a A): elas podem sumir da árvore.",
+      "A tela só mostra; toda correção é feita no cadastro da pessoa."
+    ],
+    "dica": "Se alguém aparece no topo por engano, clique no cartão e preencha o gestor imediato."
+  },
+  {
+    "path": "cobertura",
+    "titulo": "Matriz de cobertura",
+    "grupo": "Pessoas & DP",
+    "objetivo": "Lista as atividades da área com titular, backup, criticidade e se há procedimento documentado, e mostra o nível de domínio de cada pessoa em cada atividade (polivalência). Assim você enxerga onde só uma pessoa sabe fazer e reduz o risco de parar a área em férias, afastamentos ou saídas.",
+    "quando_usar": "Ao planejar férias e substituições, ao montar planos de treinamento cruzado e ao avaliar riscos operacionais da área.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Matriz de cobertura”.",
+      "Clique em “Novo” e descreva a “Atividade”. Informe “Frequência” e “Criticidade”.",
+      "Escolha o “Titular” e o “Backup”. Marque “Procedimento documentado?” e, se houver, cole o “Link do procedimento”. Clique em “Salvar”.",
+      "Confira os três indicadores no topo: “Onde só uma pessoa sabe”, “Críticas sem backup” e “Sem procedimento documentado”.",
+      "No quadro “Polivalência (quem sabe fazer o quê)”, clique na célula de uma pessoa para mudar o nível: 1 Aprendendo, 2 Faz com apoio, 3 Faz sozinho, 4 Ensina. Um novo clique depois do 4 limpa a célula.",
+      "Veja a coluna “Cobertura”: ela mostra quantas pessoas fazem a atividade com autonomia.",
+      "Clique no nome da atividade para editar titular, backup ou criticidade.",
+      "Use os filtros de Frequência, Criticidade, Titular e Backup para focar nas atividades mais sensíveis."
+    ],
+    "recursos": [
+      {"nome": "Indicadores de risco", "descricao": "Contam e listam atividades com uma só pessoa autônoma, atividades críticas sem backup (ou com backup igual ao titular) e atividades sem procedimento documentado."},
+      {"nome": "Quadro de polivalência", "descricao": "Grade atividade × pessoa com o nível de domínio de cada um, e marcação T (titular) e B (backup)."},
+      {"nome": "Cobertura por atividade", "descricao": "Conta como autônomo quem tem nível 3 ou 4 ou é o titular; fica vermelho com 1 pessoa ou menos, amarelo com 2 e verde com 3 ou mais."},
+      {"nome": "Destaque de críticas", "descricao": "Atividades de criticidade Alta aparecem marcadas como “crítica”."},
+      {"nome": "Lista, filtros e CSV", "descricao": "A lista de atividades tem busca, filtros, importação por planilha e exportação."}
+    ],
+    "impactos": [
+      "As pessoas da grade vêm do Time; quem está com situação “Desligado” sai da grade e deixa de contar como autônomo.",
+      "Titular e backup são escolhidos entre as pessoas cadastradas no Time.",
+      "A matriz não é ligada automaticamente às Férias: use-a junto com a linha do tempo de férias para conferir se o backup estará disponível."
+    ],
+    "cuidados": [
+      "Quando alguém for desligado, revise as atividades em que essa pessoa era titular ou backup.",
+      "Excluir uma atividade apaga também os níveis de polivalência registrados nela.",
+      "Mantenha os níveis atualizados após treinamentos; um nível desatualizado dá uma falsa sensação de cobertura.",
+      "Atividade crítica com backup igual ao titular conta como “sem backup”."
+    ],
+    "dica": "Comece pelas atividades críticas com só uma pessoa autônoma: elas são o primeiro alvo do treinamento cruzado."
+  },
+  {
+    "path": "admissoes",
+    "titulo": "Admissões",
+    "grupo": "Pessoas & DP",
+    "objetivo": "Acompanha cada admissão do aceite ao primeiro dia: documentação, exame admissional, contrato e eSocial, acessos e equipamentos. Cada admissão vem com um checklist pronto, que você marca à medida que avança.",
+    "quando_usar": "Assim que o candidato aceitar a proposta, até a pessoa começar a trabalhar com tudo pronto.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Admissões”.",
+      "Clique em “Novo” e preencha “Nome” e “Data de início” (obrigatórios), além de “Cargo” e “Gestor”.",
+      "Revise o “Checklist”, que já vem preenchido (documentos, ASO, contrato, eSocial, benefícios, acessos, onboarding). Um item por linha.",
+      "Ao concluir um item, troque “[ ]” por “[x]” no início da linha. Você pode incluir ou apagar linhas.",
+      "Atualize o “Status”: Documentação, Exame admissional, Contrato e eSocial, Acessos e equipamentos, Concluída ou Cancelada. Clique em “Salvar”.",
+      "Use o “Kanban” para arrastar a admissão entre as etapas.",
+      "Anexe documentos e o contrato assinado na área de anexos.",
+      "Ao finalizar, cadastre a pessoa em “Time” e, se usar, registre o exame em “Exames (ASO)” e o plano em “Onboarding”."
+    ],
+    "recursos": [
+      {"nome": "Checklist pronto", "descricao": "Lista padrão com RG/CPF, CTPS e PIS, dados bancários, foto, ASO, contrato, envio ao eSocial (S-2200), benefícios, acessos e onboarding."},
+      {"nome": "Kanban por etapa", "descricao": "Colunas com as etapas da admissão, com arrastar e soltar."},
+      {"nome": "Filtro “em aberto”", "descricao": "Por padrão mostra só admissões em andamento; concluídas e canceladas ficam no histórico."},
+      {"nome": "Cadastro rápido", "descricao": "Nos campos “Cargo” e “Gestor” dá para criar o item sem sair do formulário."},
+      {"nome": "Anexos", "descricao": "Arraste documentos e e-mails para guardar junto da admissão."}
+    ],
+    "impactos": [
+      "A “Data de início” aparece no Calendário como “Admissão”.",
+      "Concluir a admissão não cria a pessoa no Time, não agenda o ASO e não abre o onboarding automaticamente: esses cadastros são feitos nas respectivas telas."
+    ],
+    "cuidados": [
+      "Documentos pessoais (RG, CPF, dados bancários, certidões de dependentes) são dados sensíveis (LGPD). Anexe só o necessário e controle o acesso.",
+      "Mudar para “Concluída” ou “Cancelada” tira a admissão da lista padrão; use o filtro de histórico para consultá-la.",
+      "Excluir a admissão apaga também os anexos dela."
+    ],
+    "dica": "Mantenha o checklist marcado com [x]: em segundos você vê o que falta para o primeiro dia."
+  },
+  {
+    "path": "beneficios",
+    "titulo": "Benefícios",
+    "grupo": "Pessoas & DP",
+    "objetivo": "Controla os benefícios de cada pessoa (assistência médica, odontológico, VR/VA, VT, seguro de vida, previdência e outros) com plano, dependentes, custo para a empresa, desconto do colaborador e vigência.",
+    "quando_usar": "Na admissão, em inclusões e exclusões de dependentes, em trocas de plano e na conferência mensal das faturas das operadoras.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Benefícios”.",
+      "Clique em “Novo” e escolha o “Colaborador” e o “Benefício”.",
+      "Preencha “Plano / operadora” e o número de “Dependentes”.",
+      "Informe o “Custo empresa (mês)” e o “Desconto colaborador (mês)”.",
+      "Registre o “Início” e, quando encerrar, o “Fim” da vigência. Clique em “Salvar”.",
+      "Use os filtros de Colaborador e Benefício para conferir, por exemplo, todos os planos de saúde.",
+      "Clique em “CSV” para levar a lista ao Excel e conferir com a fatura da operadora."
+    ],
+    "recursos": [
+      {"nome": "Lista por pessoa e benefício", "descricao": "Tabela com colaborador, benefício, plano, dependentes, custo empresa e desconto."},
+      {"nome": "Tipos de benefício editáveis", "descricao": "Use “+ Nova opção…” ou “✎ Editar lista…” para incluir benefícios próprios da empresa."},
+      {"nome": "Anexos", "descricao": "Guarde termos de adesão, carteirinhas e comprovantes junto do registro."},
+      {"nome": "Importar e CSV", "descricao": "Carregue a base de benefícios por planilha ou exporte para conferência."}
+    ],
+    "impactos": [
+      "Os benefícios aparecem na aba “Controle de benefícios” do perfil da pessoa no Time.",
+      "As datas de início e fim não geram alertas nem entram no Calendário."
+    ],
+    "cuidados": [
+      "Dependentes e plano de saúde são dados pessoais sensíveis (LGPD). Restrinja o acesso.",
+      "Ao encerrar um benefício, preencha o “Fim” em vez de excluir, para manter o histórico de custo.",
+      "O sistema não soma custos nem avisa de fim de vigência; confira os totais exportando o CSV.",
+      "Ao mudar a lista de benefícios, os registros antigos mantêm o nome que tinham."
+    ],
+    "dica": "Exporte o CSV filtrado por benefício todo mês e confira com a fatura da operadora."
+  },
+  {
+    "path": "holerites",
+    "titulo": "Holerites e informes",
+    "grupo": "Pessoas & DP",
+    "objetivo": "É o repositório de holerites, recibos de adiantamento, férias, 13º, PLR, rescisão e informes de rendimentos, organizado por pessoa e competência. O documento em PDF vai como anexo do registro.",
+    "quando_usar": "Depois de cada folha, adiantamento, pagamento de férias, 13º ou PLR, e no início do ano para guardar os informes de rendimentos.",
+    "passo_a_passo": [
+      "No menu, abra “Pessoas & DP” e clique em “Holerites e informes”.",
+      "Clique em “Novo” e escolha o “Colaborador” e a “Competência” (mês).",
+      "Escolha o “Tipo”: Mensal, Adiantamento, Férias, 13º salário, PLR, Rescisão ou Informe de rendimentos.",
+      "Informe o “Valor líquido” e a data em “Disponibilizado em”.",
+      "Arraste o PDF para a área de anexos do formulário (ou clique nela para escolher o arquivo). Clique em “Salvar”.",
+      "Para consultar, use os filtros de Colaborador e Tipo ou a busca.",
+      "Para abrir o documento, entre no registro e clique no anexo."
+    ],
+    "recursos": [
+      {"nome": "Repositório por pessoa e competência", "descricao": "Lista com colaborador, competência, tipo, valor líquido e data de disponibilização."},
+      {"nome": "Anexo do PDF", "descricao": "O holerite ou informe fica guardado junto do registro; o cartão mostra quantos anexos existem."},
+      {"nome": "Filtros e busca", "descricao": "Encontre rapidamente um documento por pessoa, tipo ou palavra."},
+      {"nome": "Importar e CSV", "descricao": "Lance vários registros por planilha (os PDFs são anexados depois) ou exporte a lista."}
+    ],
+    "impactos": [
+      "Os documentos aparecem na aba “Holerites e informes” do perfil da pessoa no Time.",
+      "Esta tela não gera alertas nem eventos no Calendário."
+    ],
+    "cuidados": [
+      "Holerites e informes têm salário e descontos: são dados pessoais protegidos pela LGPD. Garanta que só quem pode ver tenha acesso ao sistema.",
+      "Excluir o registro apaga também o PDF anexado.",
+      "Confira se o anexo é da pessoa certa antes de salvar: um holerite no cadastro errado é um vazamento de dados."
+    ],
+    "dica": "Padronize: um registro por pessoa, competência e tipo, sempre com o PDF anexado."
+  },
+  {
+    "path": "avaliacoes",
+    "titulo": "Avaliação e 9-Box",
+    "grupo": "Desempenho",
+    "objetivo": "Registra as avaliações de desempenho por pessoa e ciclo, com nota de resultados, nota de competências, potencial e movimentação sugerida. A Matriz 9-Box posiciona automaticamente cada pessoa pelo cruzamento de desempenho e potencial, apoiando calibração, mérito e sucessão.",
+    "quando_usar": "No ciclo anual (ou semestral) de avaliação, nas reuniões de calibração e ao decidir mérito, promoção ou plano de melhoria.",
+    "passo_a_passo": [
+      "No menu, abra “Desempenho” e clique em “Avaliação e 9-Box”. A tela abre na visão “Matriz 9-Box”.",
+      "Clique em “Novo”, escolha o “Colaborador” e confira o “Ciclo” (já vem com o ano atual) e o “Tipo” (Autoavaliação, 90°, 180°, 360° ou Calibração).",
+      "Dê as notas de 1 a 5 em “Desempenho (resultados)” e “Competências” e escolha o “Potencial” (Baixo, Médio ou Alto).",
+      "Escreva “Pontos fortes” e “A desenvolver” e escolha a “Movimentação sugerida”.",
+      "Defina o “Prazo” e o “Status” (Não iniciada, Em andamento, Calibrada, Lançada no SF, Comunicada). Clique em “Salvar”.",
+      "Volte à “Matriz 9-Box” para ver em qual quadro cada pessoa ficou. Clique no nome para abrir a avaliação.",
+      "Use o “Kanban” para acompanhar o andamento do ciclo até “Comunicada”.",
+      "Para incluir avaliações já lançadas ou comunicadas na matriz, mude o filtro de status para “todos”."
+    ],
+    "recursos": [
+      {"nome": "Matriz 9-Box", "descricao": "Nove quadros (de “Insuficiente” a “Talento / estrela”). Eixo vertical: potencial; horizontal: desempenho (notas 1–2 baixo, 3 médio, 4–5 alto). Mostra também a movimentação sugerida."},
+      {"nome": "Avaliação mais recente", "descricao": "A matriz considera só a avaliação do ciclo mais recente de cada pessoa."},
+      {"nome": "Kanban do ciclo", "descricao": "Colunas por status, inclusive o lembrete do que falta lançar no SuccessFactors (SF)."},
+      {"nome": "Filtros", "descricao": "Por colaborador, tipo, potencial e status; por padrão mostra só avaliações em aberto."},
+      {"nome": "Anexos e CSV", "descricao": "Anexe formulários e atas de calibração; exporte a lista para o Excel."}
+    ],
+    "impactos": [
+      "O “Prazo” da avaliação aparece no Calendário.",
+      "O potencial da avaliação aparece no cartão da pessoa na tela Time.",
+      "A avaliação aparece na aba “Avaliação de desempenho” do perfil da pessoa."
+    ],
+    "cuidados": [
+      "Com o filtro padrão, avaliações “Lançada no SF” e “Comunicada” saem da lista e da 9-Box. Escolha “Status: todos” para ver a matriz completa.",
+      "Pessoas sem nota de desempenho ou sem potencial não aparecem na matriz.",
+      "Use o mesmo formato de ciclo (ex.: 2026) para todos: a matriz escolhe a avaliação mais recente pela ordem do ciclo.",
+      "Avaliações são dados pessoais e confidenciais; discuta a 9-Box só com quem participa da calibração."
+    ],
+    "dica": "Calibre com a matriz aberta e todas as avaliações do ciclo visíveis (filtro “todos”)."
+  },
+  {
+    "path": "competencias",
+    "titulo": "Competências",
+    "grupo": "Desempenho",
+    "objetivo": "Mantém o catálogo de competências técnicas, comportamentais e de resultado que a área precisa e o mapa do time, comparando o nível atual de cada pessoa com o nível esperado. Os gaps encontrados podem virar ações de PDI com um clique.",
+    "quando_usar": "Ao definir o que se espera de cada função, no ciclo de avaliação de competências e ao montar PDIs.",
+    "passo_a_passo": [
+      "No menu, abra “Desempenho” e clique em “Competências”.",
+      "Na parte de cima (catálogo), clique em “Novo”, informe a “Competência”, o “Tipo” e a “Descrição / comportamentos observáveis”. Clique em “Salvar”.",
+      "Desça até “Mapa de competências do time” e clique em “Novo” dessa seção.",
+      "Escolha o “Colaborador” e a “Competência”, marque o “Nível atual” e o “Nível esperado” (estrelas), o “Ciclo” e a “Avaliação” (90°, 180°, 360° ou Autoavaliação). Clique em “Salvar”.",
+      "Veja o “Mapa de gaps”: cada célula mostra atual / esperado. Verde está no nível, âmbar tem gap de 1 e vermelho tem gap de 2 ou mais.",
+      "Clique em “+ PDI” na célula com gap para abrir uma ação de PDI já preenchida com a pessoa, a competência e o motivo.",
+      "Clique na célula para corrigir a avaliação da competência."
+    ],
+    "recursos": [
+      {"nome": "Catálogo de competências", "descricao": "Lista com nome, tipo (Técnica, Comportamental, Resultado) e comportamentos observáveis."},
+      {"nome": "Mapa de gaps", "descricao": "Tabela pessoa × competência com cores por tamanho do gap."},
+      {"nome": "Botão “+ PDI”", "descricao": "Transforma o gap em uma ação de PDI (5W2H), já com o “Por quê” preenchido."},
+      {"nome": "Visão Lista do mapa", "descricao": "Mostra as avaliações de competência em tabela, com filtros por colaborador e competência."},
+      {"nome": "Cadastro rápido", "descricao": "No campo “Competência” do mapa dá para criar uma competência nova sem sair do formulário."}
+    ],
+    "impactos": [
+      "O botão “+ PDI” cria uma ação em PDIs (5W2H) ligada à pessoa e à competência.",
+      "As competências do catálogo ficam disponíveis no mapa e no campo “Competência” dos PDIs.",
+      "As avaliações de competência aparecem na aba “Mapa de competências” do perfil da pessoa no Time."
+    ],
+    "cuidados": [
+      "Excluir uma competência do catálogo deixa os registros do mapa e os PDIs ligados a ela sem a competência.",
+      "Escreva comportamentos observáveis na descrição: isso deixa a avaliação menos subjetiva.",
+      "O mapa mostra um registro por pessoa e competência; se houver mais de um ciclo, filtre ou revise para não confundir.",
+      "Avaliações de competência são dados pessoais; compartilhe com cuidado."
+    ],
+    "dica": "Use o “+ PDI” logo após a avaliação: gap identificado e já transformado em ação."
+  },
+  {
+    "path": "feedbacks",
+    "titulo": "Feedbacks",
+    "grupo": "Desempenho",
+    "objetivo": "Registra feedbacks da rotina usando a estrutura SCI: Situação, Comportamento e Impacto, mais o próximo passo combinado. Assim você cria um histórico de reconhecimento e evolução de cada pessoa, inclusive os feedbacks que você recebe.",
+    "quando_usar": "Logo depois de dar ou receber um feedback, e antes de 1:1 e avaliações, para relembrar o que foi combinado.",
+    "passo_a_passo": [
+      "No menu, abra “Desempenho” e clique em “Feedbacks”.",
+      "Clique em “Novo”, escolha o “Colaborador” e a “Data”.",
+      "Escolha o “Tipo”: Reconhecimento, Construtivo, Solicitado ou Recebido (para mim).",
+      "Preencha “Situação”, “Comportamento observado” e “Impacto no time / resultado”.",
+      "Registre o “Próximo passo combinado”.",
+      "Se for o caso, marque “Compartilhar como reconhecimento público”. Clique em “Salvar”.",
+      "Use os filtros de Colaborador e Tipo para revisar o histórico, ou abra a aba “Feedbacks” no perfil da pessoa no Time."
+    ],
+    "recursos": [
+      {"nome": "Estrutura SCI", "descricao": "Campos separados para situação, comportamento, impacto e próximo passo, que deixam o feedback claro e objetivo."},
+      {"nome": "Tipos de feedback", "descricao": "Diferencia reconhecimento, construtivo, solicitado e o que você recebeu."},
+      {"nome": "Marcação de público", "descricao": "Indica na lista quais feedbacks podem ser compartilhados como reconhecimento."},
+      {"nome": "Filtros, anexos e CSV", "descricao": "Busca por pessoa e tipo, anexos de apoio e exportação para o Excel."}
+    ],
+    "impactos": [
+      "Os feedbacks aparecem na aba “Feedbacks” do perfil da pessoa no Time.",
+      "Marcar “Compartilhar como reconhecimento público” não publica nada sozinho: para aparecer no Mural, registre também em Reconhecimentos."
+    ],
+    "cuidados": [
+      "Descreva fatos e comportamentos, não julgamentos sobre a pessoa.",
+      "Feedbacks construtivos são informação pessoal; só marque como público o que a pessoa concordaria em ver divulgado.",
+      "Excluir um feedback apaga o histórico e os anexos dele.",
+      "Volte ao “Próximo passo combinado” nos 1:1 seguintes para fechar o ciclo."
+    ],
+    "dica": "Registre o feedback no mesmo dia, com o próximo passo: é ele que transforma conversa em evolução."
+  }
+]

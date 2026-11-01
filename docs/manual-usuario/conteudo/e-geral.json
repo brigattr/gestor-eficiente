@@ -1,0 +1,545 @@
+{
+  "primeiros_passos": [
+    {
+      "titulo": "Entrar no sistema",
+      "texto": "O acesso é feito com usuário (ou e-mail) e senha. Cada pessoa tem o próprio login, criado pelo administrador em Sistema → Usuários. A senha precisa ter pelo menos 8 caracteres. Por segurança, depois de 5 senhas erradas seguidas o acesso daquele usuário fica bloqueado por 15 minutos.\n\nA opção \"Manter conectado neste aparelho\" já vem marcada. Com ela, você continua conectado por 30 dias, e esse prazo é renovado a cada dia em que você usa o sistema — quem usa com frequência praticamente não precisa digitar a senha de novo. Sem essa opção, a sessão dura no máximo 12 horas. Marque apenas em aparelhos seus (celular, notebook pessoal); em computadores compartilhados, deixe desmarcada e use o botão Sair ao terminar.\n\nBloqueio por inatividade: em Sistema → Usuários, no quadro \"Bloqueio automático\", você escolhe sair do sistema após 5, 15, 30 (padrão), 60 ou 120 minutos sem uso, ou \"Nunca bloquear\". A escolha vale para o aparelho em que foi feita, a partir do próximo login. O bloqueio não derruba quem marcou \"Manter conectado\" naquele aparelho.\n\nEsqueci a senha: se você é um usuário comum, peça ao administrador para definir uma nova senha em Usuários. Se você é o administrador, use o link \"Esqueci a senha do administrador\" na tela de entrada e informe o código de recuperação.",
+      "passos": [
+        "Abra o endereço do sistema no navegador (sempre com https://).",
+        "Digite seu usuário ou e-mail e a sua senha.",
+        "Deixe marcado \"Manter conectado neste aparelho\" se o aparelho for só seu; desmarque em computadores compartilhados.",
+        "Clique em Entrar.",
+        "Primeiro acesso da empresa: a tela \"Primeiro acesso\" pede a chave de instalação (fornecida por quem instalou o sistema), seu nome, usuário e senha, e cria o administrador.",
+        "Logo depois aparece o código de recuperação (formato XXXX-XXXX-XXXX-XXXX). Anote em local seguro: ele não será mostrado de novo e é a única forma de o administrador redefinir a própria senha.",
+        "Esqueceu a senha do administrador: clique em \"Esqueci a senha do administrador\", informe o usuário, o código de recuperação e a nova senha duas vezes, e clique em \"Redefinir senha e entrar\".",
+        "Usuário comum que esqueceu a senha: o administrador abre Usuários, clica no nome da pessoa e preenche \"Nova senha\".",
+        "Para trocar a sua própria senha: Sistema → Usuários → \"Alterar minha senha\" (ou clique no seu nome na lista)."
+      ]
+    },
+    {
+      "titulo": "Instalar no celular, tablet ou computador",
+      "texto": "O Gestor Eficiente pode ser instalado como um aplicativo: ganha um ícone na tela de início, abre em tela cheia (sem a barra do navegador) e aparece com o nome \"Gestor\". Não é preciso baixar nada de loja de aplicativos. No iPhone e no iPad, os avisos do sino só funcionam com o sistema instalado na tela de início.",
+      "passos": [
+        "iPhone/iPad: abra o sistema no Safari, toque no botão Compartilhar (quadrado com seta para cima), escolha \"Adicionar à Tela de Início\" e confirme em Adicionar.",
+        "Android: abra o sistema no Chrome, toque no menu (três pontinhos) e escolha \"Instalar app\" (ou \"Adicionar à tela inicial\"); confirme.",
+        "Computador (Chrome ou Edge): clique no ícone de instalar que aparece no fim da barra de endereço (ou menu → Instalar Gestor Eficiente) e confirme.",
+        "Depois de instalado, abra pelo ícone \"Gestor\" e faça o login normalmente. Marque \"Manter conectado neste aparelho\" para não precisar entrar toda vez."
+      ]
+    },
+    {
+      "titulo": "Conhecendo a tela",
+      "texto": "À esquerda fica o menu lateral, organizado por grupos: Visão (Visão geral, Calendário, Preparação da semana, Anotações, Arquivos e Etiquetas), Gestão e Produtividade, Pessoas & DP, Clima e bem-estar, Cultura, Comunicação, Desempenho, Desenvolvimento, Controles, Processos, Conhecimento e Sistema. O item Visão geral mostra um número com a quantidade de pontos de atenção, e Etiquetas mostra quantos itens etiquetados estão em aberto. O menu pode mostrar só parte das ferramentas, conforme o administrador configurou. No celular, o menu fica escondido: toque no botão de menu (três linhas) no canto superior esquerdo para abrir.\n\nNo topo ficam: o nome da tela atual, a caixa \"Buscar em tudo… (Ctrl+K)\", a data de hoje, o sino de avisos (\"Ativar avisos\"/\"Avisos\"), o botão de tema e, à direita, as suas iniciais, seu primeiro nome, seu perfil e o botão Sair.",
+      "passos": [
+        "Clique em um item do menu lateral para abrir a ferramenta.",
+        "Use a busca do topo (ou Ctrl+K; no Mac, Cmd+K) para achar qualquer tela ou registro.",
+        "Clique no sino para ligar ou desligar os avisos de vencimento neste aparelho.",
+        "Clique no botão de tema para alternar entre Auto (segue o aparelho), Claro e Escuro. A escolha fica gravada neste aparelho.",
+        "Clique em Sair para encerrar a sessão (é também a forma de \"bloquear\" o sistema ao se afastar do computador)."
+      ]
+    },
+    {
+      "titulo": "Perfis de acesso e o que cada um pode fazer",
+      "texto": "Existem três perfis, definidos pelo administrador em Sistema → Usuários:\n\n• Administrador: faz tudo, inclusive cadastrar, alterar e excluir usuários, restaurar backup, apagar todos os dados ou carregar dados de exemplo, escolher as ferramentas que aparecem no menu e conectar calendários externos (Outlook, Google, iCloud).\n• Gestor: cria, edita e exclui registros e anexos em todas as telas, importa planilhas e sincroniza calendários já conectados; não gerencia usuários, não restaura backup e não altera o menu.\n• Leitura: consulta tudo, sem editar. O botão Importar não aparece, e qualquer tentativa de gravar é recusada com a mensagem \"Seu perfil é somente leitura\". (Exceção: todos podem votar no Termômetro de humor, que é anônimo.)\n\nQualquer usuário pode exportar CSV, gerar o backup .zip e alterar o próprio nome, e-mail e senha. Sempre deve existir pelo menos um administrador ativo. Um usuário pode ser marcado como inativo (não consegue entrar) sem ser excluído, e pode ser vinculado a um colaborador do Time.",
+      "passos": [
+        "Administrador: Sistema → Usuários → Novo usuário.",
+        "Preencha nome, usuário (login), e-mail, senha e escolha o Perfil (Administrador, Gestor ou Leitura).",
+        "Opcional: vincule o usuário a um colaborador cadastrado em Time.",
+        "Deixe marcado \"Usuário ativo (pode entrar)\" e salve.",
+        "Para bloquear alguém sem apagar o histórico, desmarque \"Usuário ativo\"."
+      ]
+    },
+    {
+      "titulo": "Avisos do sino",
+      "texto": "O sino mostra avisos na tela do computador ou do celular (as notificações do próprio aparelho) sobre o que vence hoje:\n• tarefas com prazo hoje;\n• tarefas com follow-up hoje;\n• etapas de tarefas marcadas para hoje;\n• contratos e vencimentos com vencimento hoje.\n\nHorário do aviso: na tarefa (e em cada etapa) você pode preencher um horário — por exemplo 18:00 para um tema pessoal. Nesse caso, o aviso só aparece a partir daquele horário no dia do prazo ou do follow-up. Sem horário, o aviso aparece assim que o sistema é aberto no dia.\n\nCada aviso aparece uma vez por dia em cada aparelho. Quando há mais de 3 avisos ao mesmo tempo, eles vêm juntos num resumo (\"N itens vencem hoje\"). Tocar no aviso abre a tela de Tarefas (ou Contratos).\n\nLimites importantes: os avisos só funcionam com o sistema aberto — pode estar em outra aba ou minimizado, mas precisa estar aberto. Com o navegador ou o app fechados, não há aviso. No iPhone/iPad, os avisos só funcionam com o sistema instalado na tela de início. A ativação vale por aparelho: ative em cada computador e celular que quiser. Tarefas e contratos de ferramentas ocultadas do menu não geram avisos.",
+      "passos": [
+        "Clique em \"Ativar avisos\" (o sino) no topo da tela.",
+        "O navegador vai perguntar se o site pode mostrar notificações: clique em Permitir.",
+        "Aparece um aviso de teste \"Avisos ativados\" e o botão passa a mostrar \"Avisos\".",
+        "Para desligar neste aparelho, clique no sino de novo.",
+        "Se você negou sem querer: clique no cadeado ao lado do endereço do site → Notificações → Permitir, e depois clique no sino novamente.",
+        "Para receber o aviso num horário específico, abra a tarefa e preencha \"Horário do aviso\"."
+      ]
+    }
+  ],
+  "padroes": [
+    {
+      "titulo": "Visões Lista, Kanban e Gantt",
+      "texto": "As telas de cadastro mostram os registros em uma ou mais visões, escolhidas nos botões do canto superior esquerdo do quadro:\n• Lista: tabela com as principais colunas. Clique numa linha para abrir o registro.\n• Kanban: aparece nas telas que têm status. Cada coluna é um status; arraste um cartão de uma coluna para outra para mudar o status na hora.\n• Gantt: aparece nas telas com data de início e fim (por exemplo, Projetos). Mostra barras numa linha do tempo, agrupadas por responsável. Em Férias, chama-se \"Linha do tempo\".\nAlgumas telas têm visões extras próprias (por exemplo, \"Compa-ratio do time\" em Cargos e salários). O sistema lembra a última visão usada em cada tela.",
+      "passos": [
+        "Abra a tela desejada pelo menu.",
+        "Clique em Lista, Kanban ou Gantt no topo do quadro.",
+        "No Kanban, arraste o cartão para a coluna do novo status."
+      ]
+    },
+    {
+      "titulo": "Busca e filtros da tela",
+      "texto": "Ao lado das visões há a caixa \"Buscar…\", que procura o texto em todos os campos dos registros da tela. Ao lado ficam até quatro filtros automáticos (por exemplo Responsável, Status, Lista) e, se existirem etiquetas, o filtro \"Etiqueta: todas\". O contador à direita mostra quantos registros estão sendo exibidos. Busca e filtros ficam gravados para a próxima vez que você abrir a tela.",
+      "passos": [
+        "Digite parte de um nome ou palavra na caixa Buscar.",
+        "Escolha os valores nos filtros (ex.: Responsável: Ana).",
+        "Para limpar, volte o filtro para \"todos\" e apague o texto da busca."
+      ]
+    },
+    {
+      "titulo": "Em aberto x concluídas (histórico)",
+      "texto": "Nas telas com status, a lista abre mostrando só o que está em aberto (filtro \"Status: em aberto\"). Itens concluídos, realizados, aprovados, cancelados, encerrados e semelhantes ficam escondidos para a tela não ficar poluída — nada é apagado. Ao lado do contador aparece o link \"N concluída(s) oculta(s)\": clique nele para ver o histórico. No filtro de status também existem as opções \"todos\" e \"concluídas (histórico)\".",
+      "passos": [
+        "Clique em \"N concluída(s) oculta(s)\" para ver o histórico.",
+        "Ou escolha no filtro de status: em aberto, todos ou concluídas (histórico).",
+        "Para voltar ao normal, escolha \"em aberto\"."
+      ]
+    },
+    {
+      "titulo": "Criar, editar e excluir registros",
+      "texto": "Todo registro é criado e alterado no mesmo formulário, que abre por cima da tela. Ao editar, o rodapé mostra \"Alterado por (nome) em (data)\"; passando o mouse por cima, aparece também quem criou e quando. A exclusão sempre pede confirmação e apaga também os anexos do registro. Nas tarefas existe ainda o botão \"✓ Concluir e criar próxima\" (ou a opção \"Concluída e criar nova tarefa\" no Status), que conclui a tarefa e abre outra já preenchida com o mesmo responsável, projeto, etiquetas e etapas pendentes.",
+      "passos": [
+        "Clique em \"+ Novo\" no topo da tela.",
+        "Preencha os campos e clique em Salvar.",
+        "Para editar, clique no registro na lista, no Kanban, no Calendário ou na busca; altere e salve.",
+        "Para excluir, abra o registro, clique em Excluir e confirme.",
+        "Cancelar fecha o formulário sem gravar (anexos de um registro novo que não foi salvo são descartados)."
+      ]
+    },
+    {
+      "titulo": "Campos obrigatórios",
+      "texto": "Campos com asterisco (*) são obrigatórios. Se algum ficar vazio, o formulário não salva e mostra no rodapé, em vermelho, \"Preencha:\" seguido dos campos que faltam. Muitos campos têm uma explicação curta logo abaixo.",
+      "passos": [
+        "Preencha os campos marcados com *.",
+        "Se aparecer \"Preencha: …\", complete os campos indicados e clique em Salvar de novo."
+      ]
+    },
+    {
+      "titulo": "Listas de opções editáveis e cadastro rápido",
+      "texto": "Algumas listas de escolha podem ser ajustadas por você sem sair do formulário (por exemplo, a \"Lista\" das tarefas, o \"Tipo\" de reunião e o \"Motivo\" das ocorrências). No fim dessas listas aparecem \"+ Nova opção…\" e \"✎ Editar lista…\". A lista editada vale para todos os registros; quem já usa uma opção removida continua com ela. O botão \"Restaurar padrão\" volta às opções originais.\n\nNos campos que apontam para outro cadastro (Responsável, Projeto etc.), quando o cadastro é simples aparece \"+ Cadastrar novo …\" para criar na hora, só com o nome. Se a lista estiver vazia e não houver cadastro rápido, o sistema indica em qual tela do menu cadastrar.",
+      "passos": [
+        "Abra a lista e escolha \"+ Nova opção…\"; digite e clique em Criar (ou Enter).",
+        "Para reorganizar, escolha \"✎ Editar lista…\": uma opção por linha, na ordem desejada; clique em \"Salvar lista\".",
+        "Em Responsável/Projeto, escolha \"+ Cadastrar novo…\", digite o nome e clique em Criar."
+      ]
+    },
+    {
+      "titulo": "Etiquetas",
+      "texto": "Etiquetas marcam temas que atravessam várias ferramentas (ex.: Auditoria 2026, Reforma Tributária). Todo formulário tem o campo Etiquetas: clique numa etiqueta para marcar/desmarcar ou crie uma nova digitando em \"Nova etiqueta…\". O menu Etiquetas reúne tudo que foi etiquetado, de todas as telas, com filtro por uma ou mais etiquetas, totais, itens atrasados, \"Lembretes por data\" e a lista \"Por origem\". Em \"Configurar etiquetas\" você define nome, cor, descrição e pode arquivar uma etiqueta (ela some das escolhas, mas os registros continuam marcados).",
+      "passos": [
+        "No formulário, clique nas etiquetas desejadas ou crie uma nova.",
+        "Abra o menu Etiquetas para ver tudo do tema.",
+        "Use o filtro \"Etiqueta\" em qualquer tela para ver só os registros daquela etiqueta."
+      ]
+    },
+    {
+      "titulo": "Anexos e e-mails",
+      "texto": "No fim de todo formulário há a área de anexos: arraste arquivos ou e-mails salvos do Outlook (.msg ou .eml) para lá, ou clique para escolher. Nos e-mails, o sistema lê assunto, remetente e data. Todos os anexos de todas as telas podem ser consultados em Sistema → Anexos e e-mails (com busca por assunto, remetente, arquivo ou registro) e também em Arquivos, na pasta que reúne os anexos dos módulos. Na tela de Tarefas, arrastar e-mails para a área própria cria uma tarefa de follow-up para cada e-mail.",
+      "passos": [
+        "Abra o registro (ou um novo).",
+        "Arraste o arquivo ou o e-mail salvo para a área \"Arraste arquivos ou e-mails (.msg / .eml) aqui\".",
+        "Aguarde \"Salvando…\" terminar e salve o registro.",
+        "Para remover, clique no ícone de remover ao lado do anexo."
+      ]
+    },
+    {
+      "titulo": "Exportar para Excel (CSV)",
+      "texto": "O botão CSV, no canto direito do quadro, baixa um arquivo que abre no Excel com todos os campos dos registros que estão na tela — respeitando a busca e os filtros aplicados naquele momento.",
+      "passos": [
+        "Aplique os filtros desejados (ou escolha \"todos\").",
+        "Clique em CSV.",
+        "Abra o arquivo baixado no Excel."
+      ]
+    },
+    {
+      "titulo": "Importar planilha (histórico em massa)",
+      "texto": "Para trazer dados antigos de uma vez, use o botão Importar de cada tela (disponível para Administrador e Gestor) ou a \"Importação em massa (histórico)\" em Configurações e backup, que reúne todas as telas. O modelo em Excel já vem com as colunas certas, uma aba de instruções explicando como preencher cada coluna (datas dd/mm/aaaa, valores 1.234,56, horários hh:mm) e listas de escolha. Antes de gravar, o sistema mostra a conferência: quantos registros estão prontos, linhas com erro (que não entram), avisos, colunas reconhecidas e ignoradas e uma prévia. É possível pedir para criar automaticamente pessoas, projetos, etiquetas etc. que ainda não existem. Depois de importar, o botão \"Desfazer importação\" apaga exatamente o que entrou (e os cadastros criados junto).",
+      "passos": [
+        "Clique em Importar na tela (ou vá em Configurações e backup → Importação em massa).",
+        "Baixe o modelo da tela.",
+        "Preencha a aba \"Dados\": uma linha por registro, sem mudar os títulos da linha 1; colunas com * são obrigatórias.",
+        "Volte ao sistema, clique em Escolher arquivo e envie o .xlsx ou .csv.",
+        "Confira os números, erros e a prévia; marque se deseja criar cadastros que faltam.",
+        "Clique em \"Importar N registro(s)\".",
+        "Se algo saiu errado, clique em \"Desfazer importação\"."
+      ]
+    },
+    {
+      "titulo": "Busca global (Ctrl+K)",
+      "texto": "A caixa \"Buscar em tudo…\" no topo procura ao mesmo tempo nos nomes das telas do menu, nos registros de todas as ferramentas visíveis (inclusive anotações) e nos arquivos e e-mails anexados (pelo nome ou assunto). Digite pelo menos 2 letras; acentos e maiúsculas não importam, e várias palavras precisam aparecer todas. Cada resultado mostra o tipo (Tela, Tarefa, Arquivo…) e de onde vem. Ferramentas ocultas do menu não aparecem na busca.",
+      "passos": [
+        "Pressione Ctrl+K (Cmd+K no Mac) ou clique na caixa de busca.",
+        "Digite o que procura.",
+        "Use as setas para escolher e Enter para abrir (ou clique no resultado). Esc fecha."
+      ]
+    },
+    {
+      "titulo": "Menu configurável (ocultar ferramentas)",
+      "texto": "Em Sistema → Configurações e backup, o quadro \"Ferramentas no menu\" permite que o administrador escolha quais ferramentas a empresa usa. O que for desmarcado some do menu lateral de todos os usuários, deixa de gerar alertas na Visão geral e avisos no sino, sai do Calendário e da busca global. Nada é apagado: ao marcar de novo, tudo volta como estava. Visão geral, Usuários e Configurações e backup ficam sempre visíveis. Somente administradores alteram essa configuração.",
+      "passos": [
+        "Entre como administrador e abra Configurações e backup.",
+        "No quadro \"Ferramentas no menu\", desmarque as ferramentas (ou o grupo inteiro) que não serão usadas.",
+        "Para voltar tudo, clique em \"Mostrar todas\"."
+      ]
+    },
+    {
+      "titulo": "Backup e restauração",
+      "texto": "Em Configurações e backup, \"Exportar backup completo (.zip)\" gera um arquivo com todos os dados e anexos. Guarde no OneDrive/SharePoint corporativo, não em e-mail pessoal. Somente o administrador pode \"Restaurar backup\", que substitui TODOS os dados atuais pelos do arquivo (inclusive usuários e senhas, se estiverem no backup).",
+      "passos": [
+        "Clique em \"Exportar backup completo (.zip)\" periodicamente.",
+        "Para restaurar (administrador): \"Restaurar backup\" → escolha o .zip → confirme."
+      ]
+    }
+  ],
+  "integracoes": [
+    {
+      "de": "Tarefas, Projetos, Reuniões, 1:1, Férias, Exames (ASO), Vagas/Candidatos, Treinamentos, PDIs, OKR, Contratos, Obrigações, Admissões e outras telas com data",
+      "para": "Calendário",
+      "como": "Tudo que tem data (prazo, follow-up, data da reunião, início de férias, limite concessivo, próximo ASO, vencimento, revisão etc.) aparece automaticamente no Calendário (visões Dia, Semana, Mês e Agenda). Clicar no item abre o registro."
+    },
+    {
+      "de": "Etapas das tarefas",
+      "para": "Calendário",
+      "como": "Etapas não feitas e com data aparecem na agenda como \"Tarefa › Etapa\", no horário indicado, enquanto a tarefa estiver em aberto."
+    },
+    {
+      "de": "Calendário (horário vazio)",
+      "para": "Reuniões",
+      "como": "Clicar num horário livre do Calendário abre uma nova reunião já com data e hora preenchidas."
+    },
+    {
+      "de": "Tarefas",
+      "para": "Visão geral (Pontos de atenção)",
+      "como": "Tarefas atrasadas, etapas atrasadas e follow-ups de hoje ou atrasados viram alertas. O menu Visão geral mostra o número de alertas."
+    },
+    {
+      "de": "Contratos e vencimentos",
+      "para": "Visão geral (Pontos de atenção)",
+      "como": "Gera alerta quando o vencimento entra no prazo de aviso do contrato (padrão de 30 dias) e quando está vencido."
+    },
+    {
+      "de": "Treinamentos (certificações)",
+      "para": "Visão geral (Pontos de atenção)",
+      "como": "Certificação vencida ou que vence em até 45 dias gera alerta."
+    },
+    {
+      "de": "Exames (ASO)",
+      "para": "Visão geral (Pontos de atenção)",
+      "como": "ASO vencido, ou a vencer em até 30 dias sem estar agendado, gera alerta."
+    },
+    {
+      "de": "Férias",
+      "para": "Visão geral (Pontos de atenção)",
+      "como": "Período sem data de gozo com limite concessivo em até 90 dias gera alerta (mais grave a partir de 45 dias)."
+    },
+    {
+      "de": "Cartão-ponto",
+      "para": "Visão geral (Pontos de atenção)",
+      "como": "Aprovação de ponto pendente a 3 dias ou menos do prazo gera alerta."
+    },
+    {
+      "de": "Projetos",
+      "para": "Visão geral (Pontos de atenção)",
+      "como": "Projeto com status \"Em risco\" ou que passou do término previsto gera alerta."
+    },
+    {
+      "de": "OKR (resultados-chave)",
+      "para": "Visão geral (Pontos de atenção)",
+      "como": "Resultado-chave com confiança \"Baixa\" no último check-in gera alerta."
+    },
+    {
+      "de": "Reuniões",
+      "para": "Visão geral e Preparação da semana",
+      "como": "Reuniões da semana ainda não marcadas como \"Estou preparado\" geram o alerta \"Preparar: …\"."
+    },
+    {
+      "de": "Incentive model",
+      "para": "Visão geral (Pontos de atenção)",
+      "como": "Quando os pesos das metas de uma pessoa no ano não somam 100%, aparece alerta."
+    },
+    {
+      "de": "Tarefas, etapas e Contratos",
+      "para": "Sino de avisos",
+      "como": "No dia do prazo, do follow-up, da etapa ou do vencimento do contrato, o sino mostra a notificação no aparelho (respeitando o horário do aviso da tarefa/etapa)."
+    },
+    {
+      "de": "Qualquer tela (campo Etiquetas)",
+      "para": "Menu Etiquetas",
+      "como": "Tudo que recebe uma etiqueta, de qualquer ferramenta (inclusive páginas de anotações), é reunido no painel de Etiquetas, com totais, atrasados, lembretes por data e lista por origem."
+    },
+    {
+      "de": "Tarefas",
+      "para": "Projetos (progresso)",
+      "como": "Tarefas vinculadas a um projeto contam no progresso: com \"Progresso pelas tarefas\" marcado, o % é recalculado sozinho (concluídas ÷ total) sempre que uma tarefa muda. A lista mostra também \"3/8\" tarefas."
+    },
+    {
+      "de": "Projetos",
+      "para": "Tarefas",
+      "como": "Dentro do projeto dá para criar tarefas já vinculadas a ele (com o responsável do projeto) e marcá-las como concluídas."
+    },
+    {
+      "de": "Anotações",
+      "para": "Tarefas",
+      "como": "Um trecho de texto selecionado (ou a linha onde está o cursor) ou um desenho vira tarefa; a tarefa guarda o link \"Criada a partir da anotação\" e o desenho vai como anexo."
+    },
+    {
+      "de": "E-mails salvos (.msg/.eml) arrastados na tela de Tarefas",
+      "para": "Tarefas",
+      "como": "Cada e-mail vira uma tarefa \"Follow-up: assunto\", com status Aguardando terceiros, follow-up em 2 dias úteis, remetente em \"Aguardando quem\" e o e-mail anexado."
+    },
+    {
+      "de": "Tarefa recorrente (campo Repetir)",
+      "para": "Tarefas",
+      "como": "Ao concluir, o sistema cria a próxima tarefa com o prazo seguinte (dias úteis, semanal, quinzenal, mensal, trimestral ou anual), deslocando também o follow-up."
+    },
+    {
+      "de": "Tarefa concluída com \"Concluir e criar próxima\"",
+      "para": "Tarefas",
+      "como": "A tarefa nova nasce com o mesmo responsável, projeto, lista, etiquetas e etapas pendentes, e as duas ficam ligadas (\"Continuação de\" / \"Próximo passo\")."
+    },
+    {
+      "de": "Calendários externos (Outlook, Google, iCloud)",
+      "para": "Reuniões e Calendário",
+      "como": "Os compromissos entram como reuniões e são atualizados automaticamente (ao abrir o sistema, se a última sincronização tiver mais de 1 hora, ou ao sincronizar manualmente). Pauta, preparo e decisões continuam suas; cancelamentos aparecem marcados. Também é possível importar um arquivo .ics."
+    },
+    {
+      "de": "1:1 e roteiros",
+      "para": "Tarefas",
+      "como": "O botão \"+ Tarefa\" (e o atalho a partir dos acordos) abre uma tarefa já com a pessoa da conversa como responsável."
+    },
+    {
+      "de": "1:1 e roteiros",
+      "para": "Histórico da pessoa e Calendário",
+      "como": "A conversa registrada (roteiro, respostas, acordos, termômetro) fica no histórico da pessoa; a data da \"Próxima 1:1\" vai para o Calendário."
+    },
+    {
+      "de": "Incentive model",
+      "para": "Projetos",
+      "como": "Projeto marcado \"Está no Incentive Model?\" e vinculado a uma meta mostra peso, target, realizado e o bônus pela régua; a tela do Incentive lista os projetos de cada meta."
+    },
+    {
+      "de": "OKR (resultados-chave)",
+      "para": "Projetos",
+      "como": "O projeto pode apontar o Key Result relacionado; no OKR, cada resultado-chave mostra os projetos que o movem."
+    },
+    {
+      "de": "Cargos e salários (requisitos)",
+      "para": "Treinamentos",
+      "como": "Os treinamentos exigidos no cargo são comparados com os registrados por pessoa (\"Pessoa × requisitos do cargo\"); clicar num requisito pendente abre o registro do treinamento já preenchido."
+    },
+    {
+      "de": "Cargos e salários (faixas)",
+      "para": "Time (compa-ratio)",
+      "como": "A visão \"Compa-ratio do time\" cruza o salário de cada pessoa com a faixa do cargo."
+    },
+    {
+      "de": "Competências (gaps)",
+      "para": "PDIs (5W2H)",
+      "como": "Um gap de competência de uma pessoa pode abrir um PDI já preenchido com a pessoa, a competência e o motivo."
+    },
+    {
+      "de": "Time (Gestor imediato)",
+      "para": "Organograma",
+      "como": "O organograma é montado a partir do campo \"Gestor imediato\" de cada pessoa."
+    },
+    {
+      "de": "Férias",
+      "para": "Painel de férias",
+      "como": "A tela mostra quem está sem programação, limites concessivos em até 90 dias e quem sai nos próximos 60 dias, para não descobrir o time de uma vez."
+    },
+    {
+      "de": "Matriz de cobertura",
+      "para": "Riscos de ausência",
+      "como": "Mostra as atividades em que só uma pessoa sabe fazer, as críticas sem backup e as sem procedimento — informação para planejar férias e ausências."
+    },
+    {
+      "de": "Painel de eficiência (tickets)",
+      "para": "Tarefas",
+      "como": "Um ticket importado pode virar tarefa, com solicitante, tipo, status e link do ticket nos comentários."
+    },
+    {
+      "de": "Despesas e Budget por centro de custo",
+      "para": "Visão geral",
+      "como": "O quadro \"Budget × realizado\" e o indicador de despesas do ano somam todos os centros de custo."
+    },
+    {
+      "de": "Todas as telas (anexos)",
+      "para": "Anexos e e-mails / Arquivos / Busca global",
+      "como": "Todo anexo fica listado em Anexos e e-mails e na pasta de anexos dos módulos em Arquivos, e pode ser achado pela busca global pelo nome ou assunto."
+    },
+    {
+      "de": "Ferramentas no menu (ocultar)",
+      "para": "Visão geral, Sino, Calendário, Busca global",
+      "como": "Ferramenta desmarcada deixa de gerar alertas e avisos, sai do Calendário e da busca. Nada é apagado."
+    }
+  ],
+  "glossario": [
+    {
+      "termo": "Matriz GUT",
+      "significado": "Forma de priorizar tarefas dando notas de 1 a 5 para Gravidade (G), Urgência (U) e Tendência (T). A nota GUT é a multiplicação das três (máximo 125); quanto maior, mais prioritária."
+    },
+    {
+      "termo": "Kanban",
+      "significado": "Quadro em colunas, uma para cada status (ex.: A fazer, Em andamento, Concluída). Os registros são cartões que você arrasta de uma coluna para outra."
+    },
+    {
+      "termo": "Gantt",
+      "significado": "Gráfico de barras numa linha do tempo, mostrando início e fim de cada projeto ou período, para ver sobreposições e prazos."
+    },
+    {
+      "termo": "Follow-up",
+      "significado": "Data marcada para cobrar ou retomar um assunto que depende de outra pessoa. Na tarefa, é o campo \"Próximo follow-up\"."
+    },
+    {
+      "termo": "Etapa",
+      "significado": "Pequeno passo dentro de uma tarefa (subtarefa), que pode ter responsável, data e horário próprios e ser marcada como feita."
+    },
+    {
+      "termo": "Recorrência",
+      "significado": "Repetição automática de uma tarefa (campo \"Repetir\"): ao concluir, o sistema cria a próxima com o novo prazo."
+    },
+    {
+      "termo": "Etiqueta",
+      "significado": "Marcador colorido de tema (ex.: Auditoria 2026) que pode ser aplicado a registros de qualquer tela e os reúne no menu Etiquetas."
+    },
+    {
+      "termo": "Status em aberto / concluído",
+      "significado": "Em aberto é tudo que ainda exige ação. Concluído (ou realizado, aprovado, cancelado, encerrado etc.) sai da lista padrão e fica no histórico."
+    },
+    {
+      "termo": "OKR",
+      "significado": "Objectives and Key Results: objetivos qualitativos desdobrados de empresa para área, equipe e pessoa."
+    },
+    {
+      "termo": "KR (Key Result / resultado-chave)",
+      "significado": "Número que mede se o objetivo foi alcançado, com valor inicial, meta, valor atual e confiança (Alta, Média, Baixa) atualizados em check-ins."
+    },
+    {
+      "termo": "1:1",
+      "significado": "Conversa individual e periódica entre gestor e colaborador, guiada por um roteiro (Gestão, Status, Feedback, Delegação, Decisão)."
+    },
+    {
+      "termo": "PDI (5W2H)",
+      "significado": "Plano de Desenvolvimento Individual organizado pelas perguntas O quê, Por quê, Onde, Quando, Quem, Como e Quanto."
+    },
+    {
+      "termo": "9-Box",
+      "significado": "Matriz de 3×3 que cruza desempenho e potencial dos colaboradores, usada na avaliação para apoiar decisões de desenvolvimento e sucessão."
+    },
+    {
+      "termo": "Compa-ratio",
+      "significado": "Salário da pessoa dividido pelo ponto médio da faixa do cargo, em %. 100% significa salário exatamente no meio da faixa."
+    },
+    {
+      "termo": "eNPS",
+      "significado": "Employee Net Promoter Score: mede o quanto os colaboradores recomendariam a empresa como lugar para trabalhar (notas de 0 a 10)."
+    },
+    {
+      "termo": "NPS interno",
+      "significado": "Mesma lógica do NPS, aplicada às áreas atendidas que avaliam o serviço da sua área de 0 a 10."
+    },
+    {
+      "termo": "SLA",
+      "significado": "Service Level Agreement: prazo combinado para atender uma demanda, por exemplo por prioridade. No Painel de eficiência, mede se os tickets foram atendidos no prazo."
+    },
+    {
+      "termo": "NR-1 / PGR",
+      "significado": "NR-1 é a norma do Ministério do Trabalho que exige a gestão dos riscos ocupacionais, incluindo os psicossociais; o PGR (Programa de Gerenciamento de Riscos) é o documento/processo que registra inventário de riscos e plano de ação."
+    },
+    {
+      "termo": "ASO",
+      "significado": "Atestado de Saúde Ocupacional: resultado dos exames médicos admissional, periódico, de retorno, de mudança de função e demissional."
+    },
+    {
+      "termo": "Limite concessivo",
+      "significado": "Data máxima para o colaborador tirar as férias de um período aquisitivo sem que a empresa precise pagá-las em dobro."
+    },
+    {
+      "termo": "Incentive model",
+      "significado": "Controle das metas de bônus de cada pessoa: goals com peso, métrica, target e régua de atingimento (50% / 100% / 150%), que podem ter sub-KPIs e projetos vinculados."
+    },
+    {
+      "termo": "Matriz de cobertura",
+      "significado": "Quadro de atividades da área com titular, backup e nível de domínio de cada pessoa, que mostra onde só uma pessoa sabe fazer."
+    },
+    {
+      "termo": "SWOT",
+      "significado": "Diagnóstico de Forças, Fraquezas, Oportunidades e Ameaças da área; cada ponto pode virar objetivo, projeto ou tarefa."
+    },
+    {
+      "termo": "CSV",
+      "significado": "Formato de planilha simples, que abre no Excel, usado para exportar as listas do sistema."
+    },
+    {
+      "termo": "Perfil de acesso",
+      "significado": "Nível de permissão do usuário: Administrador, Gestor (cria e edita) ou Leitura (só consulta)."
+    }
+  ],
+  "faq": [
+    {
+      "pergunta": "Por que algumas tarefas \"sumiram\" da lista?",
+      "resposta": "Provavelmente foram concluídas. As listas mostram só o que está em aberto. Clique em \"N concluída(s) oculta(s)\" ao lado do contador, ou escolha \"concluídas (histórico)\" no filtro de status. Verifique também se não há busca ou filtro (responsável, etiqueta) aplicado — eles ficam gravados entre uma visita e outra."
+    },
+    {
+      "pergunta": "Preciso digitar a senha toda vez?",
+      "resposta": "Não, se marcar \"Manter conectado neste aparelho\" no login: a sessão dura 30 dias e é renovada a cada dia de uso. Sem essa opção, a sessão dura até 12 horas."
+    },
+    {
+      "pergunta": "O sistema me desconectou sozinho. Por quê?",
+      "resposta": "É o bloqueio por inatividade (padrão: 30 minutos sem uso), configurado em Usuários → Bloqueio automático. Ele não vale em aparelhos onde você marcou \"Manter conectado\". Outra causa: 5 senhas erradas bloqueiam o login por 15 minutos."
+    },
+    {
+      "pergunta": "Esqueci minha senha. E agora?",
+      "resposta": "Peça ao administrador para definir uma nova em Usuários. Se você é o administrador, use \"Esqueci a senha do administrador\" na tela de entrada com o código de recuperação recebido no primeiro acesso."
+    },
+    {
+      "pergunta": "Ativei o sino, mas não recebi aviso com o computador desligado. Está com defeito?",
+      "resposta": "Não. Os avisos só aparecem com o sistema aberto (pode estar minimizado ou em outra aba). Com tudo fechado não há aviso. No iPhone/iPad, o sistema precisa estar instalado na tela de início."
+    },
+    {
+      "pergunta": "Quero ser avisado de uma tarefa pessoal só às 18h. Como faço?",
+      "resposta": "Abra a tarefa e preencha \"Horário do aviso\" com 18:00. No dia do prazo (ou do follow-up), o sino só avisa a partir desse horário."
+    },
+    {
+      "pergunta": "Ativei os avisos no computador. Preciso ativar no celular também?",
+      "resposta": "Sim. A ativação vale por aparelho: clique no sino em cada computador e celular onde quiser receber os avisos."
+    },
+    {
+      "pergunta": "Não consigo editar nada; aparece \"Seu perfil é somente leitura\". O que fazer?",
+      "resposta": "Seu usuário está com o perfil Leitura. Peça ao administrador para mudar para Gestor em Sistema → Usuários."
+    },
+    {
+      "pergunta": "Uma ferramenta sumiu do menu. Foi apagada?",
+      "resposta": "Não. O administrador provavelmente a desmarcou em Configurações e backup → Ferramentas no menu. Os dados continuam guardados e voltam ao marcar a ferramenta de novo."
+    },
+    {
+      "pergunta": "A opção que eu preciso não existe na lista (ex.: um novo tipo de reunião). Posso criar?",
+      "resposta": "Nas listas editáveis, sim: escolha \"+ Nova opção…\" no fim da lista. Para reordenar ou remover, use \"✎ Editar lista…\". Nos campos de pessoa/projeto, use \"+ Cadastrar novo…\"."
+    },
+    {
+      "pergunta": "Como transformo um e-mail em tarefa?",
+      "resposta": "Salve o e-mail do Outlook como arquivo (.msg ou .eml) e arraste para a área de e-mails na tela de Tarefas: cada e-mail vira uma tarefa de follow-up com o e-mail anexado. Para só guardar o e-mail num registro existente, arraste-o para a área de anexos do formulário."
+    },
+    {
+      "pergunta": "Tenho uma planilha antiga com o histórico. Preciso digitar tudo?",
+      "resposta": "Não. Use Importar na tela (ou a Importação em massa em Configurações e backup), baixe o modelo, cole os dados, confira e importe. Se der errado, use \"Desfazer importação\"."
+    },
+    {
+      "pergunta": "Como levo uma lista para o Excel?",
+      "resposta": "Clique em CSV no quadro da tela. O arquivo traz exatamente os registros que estão sendo exibidos, com a busca e os filtros aplicados."
+    },
+    {
+      "pergunta": "Como vejo tudo de um mesmo assunto, espalhado em várias telas?",
+      "resposta": "Marque os registros com a mesma etiqueta e abra o menu Etiquetas, ou use a busca global (Ctrl+K)."
+    },
+    {
+      "pergunta": "Por que minha tarefa repetida apareceu de novo?",
+      "resposta": "Ela tem o campo \"Repetir\" preenchido. Ao ser concluída, o sistema cria automaticamente a próxima com o novo prazo. Para parar, mude \"Repetir\" para \"Não repete\"."
+    },
+    {
+      "pergunta": "O progresso do projeto mudou sozinho. Por quê?",
+      "resposta": "Com \"Progresso pelas tarefas\" marcado, o percentual é calculado pelas tarefas vinculadas (concluídas ÷ total). Desmarque para informar o progresso à mão."
+    },
+    {
+      "pergunta": "Quem alterou este registro?",
+      "resposta": "Abra o registro: o rodapé mostra \"Alterado por (nome) em (data)\". Passe o mouse por cima para ver também quem criou e quando."
+    },
+    {
+      "pergunta": "Como faço backup dos dados?",
+      "resposta": "Em Configurações e backup, clique em \"Exportar backup completo (.zip)\". O arquivo traz dados e anexos; guarde-o em local corporativo seguro."
+    }
+  ]
+}

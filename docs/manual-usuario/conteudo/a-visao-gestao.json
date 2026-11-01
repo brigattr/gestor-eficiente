@@ -1,0 +1,523 @@
+[
+  {
+    "path": "",
+    "titulo": "Visão geral",
+    "grupo": "Visão",
+    "objetivo": "É a tela de abertura do sistema. Ela reúne num só lugar o que precisa da sua atenção hoje: prazos vencidos, riscos, números da área e o que vem pela frente. Você não precisa abrir módulo por módulo para saber onde agir.",
+    "quando_usar": "Logo ao começar o dia, para decidir as prioridades. Também antes de uma reunião com a diretoria, para ter os números da área à mão.",
+    "passo_a_passo": [
+      "Clique em “Visão geral” no menu (ou no logotipo). O número ao lado do nome no menu mostra quantos pontos de atenção existem.",
+      "Confira os quatro indicadores do topo: “Tarefas abertas” (com quantas estão atrasadas), “Projetos ativos” (com quantos estão em risco), “Despesas” do ano (quanto do orçamento já foi consumido) e “Time ativo” (com as vagas abertas).",
+      "No quadro “Pontos de atenção”, leia os alertas. Os vermelhos são mais graves e aparecem primeiro; os amarelos pedem atenção.",
+      "Clique em “Abrir” ao lado de um alerta para abrir o registro e resolver ali mesmo (por exemplo, mudar o prazo ou concluir a tarefa). Quando não há um registro específico, o botão é “Ver” e leva à tela do assunto.",
+      "No quadro “Próximos 7 dias”, veja tudo que tem data na próxima semana. Clique em um item para abri-lo ou em “calendário →” para ver o Calendário completo.",
+      "No gráfico “Budget × realizado”, compare o gasto de cada mês com o orçamento. Clique em “detalhar →” para ir às despesas.",
+      "No quadro “OKR”, veja o avanço médio dos objetivos e o semáforo de confiança dos resultados-chave (Alta, Média, Baixa). Clique em um resultado-chave para abri-lo ou em “árvore →” para ir ao OKR.",
+      "Na tabela “Projetos em andamento”, acompanhe status, progresso, horas e custos planejados × realizados e o término. Clique em uma linha para abrir o projeto."
+    ],
+    "recursos": [
+      {"nome": "Indicadores do topo", "descricao": "Tarefas abertas e atrasadas, projetos ativos e em risco, consumo do orçamento de despesas no ano e tamanho do time ativo com vagas abertas."},
+      {"nome": "Pontos de atenção", "descricao": "Lista automática de alertas: tarefas e etapas atrasadas, follow-ups vencendo, projetos em risco ou fora do prazo, resultados-chave com confiança baixa, reuniões da semana ainda não preparadas, contratos vencendo, certificações, exames, férias e cartão-ponto pendentes, entre outros."},
+      {"nome": "Próximos 7 dias", "descricao": "Agenda resumida com todos os itens de data dos próximos sete dias, de todos os módulos, indicando o tipo (tarefa, follow-up, reunião, entrega de projeto etc.)."},
+      {"nome": "Budget × realizado", "descricao": "Gráfico mensal do ano com o gasto realizado de todos os centros de custo comparado ao orçamento; meses acima do orçamento ficam em vermelho."},
+      {"nome": "Quadro de OKR", "descricao": "Avanço médio dos objetivos principais e contagem de resultados-chave por nível de confiança."},
+      {"nome": "Projetos em andamento", "descricao": "Tabela com os projetos não concluídos, com barra de progresso, horas e custos planejados × realizados e se fazem parte do Incentive Model. Término vencido aparece destacado."}
+    ],
+    "impactos": [
+      "Esta tela só mostra informações; tudo o que aparece vem dos outros módulos. Ao resolver um alerta (concluir a tarefa, ajustar a data, marcar a reunião como preparada), ele some daqui automaticamente.",
+      "Itens de ferramentas ocultas no menu deixam de aparecer em “Pontos de atenção”, em “Próximos 7 dias” e no Calendário, e deixam de contar no número de alertas ao lado de “Visão geral”."
+    ],
+    "cuidados": [
+      "Alterações feitas pelo botão “Abrir” são gravadas no módulo de origem. Excluir um registro por ali também o apaga do módulo, e não dá para desfazer.",
+      "Os números só são confiáveis se os módulos estiverem atualizados: datas, status e confiança dos resultados-chave preenchidos.",
+      "Perfis de Leitura veem tudo, mas não conseguem alterar os registros abertos daqui."
+    ],
+    "dica": "Comece o dia zerando os alertas vermelhos de “Pontos de atenção”: cada um resolvido some sozinho da lista."
+  },
+  {
+    "path": "calendario",
+    "titulo": "Calendário",
+    "grupo": "Visão",
+    "objetivo": "Mostra num só calendário tudo que tem data em todos os módulos: prazos e follow-ups de tarefas, etapas, reuniões, entregas de projetos, prazos de resultados-chave, próximas conversas 1:1 e muito mais. Assim você enxerga a carga de trabalho real da semana sem montar agenda à mão.",
+    "quando_usar": "Para planejar a semana ou o mês, ver se um dia está sobrecarregado antes de aceitar um novo prazo, ou marcar rapidamente uma reunião num horário livre.",
+    "passo_a_passo": [
+      "Clique em “Calendário” no menu.",
+      "Escolha a visão no topo: “Dia”, “Semana de trabalho” (segunda a sexta), “Semana”, “Mês” ou “Agenda” (lista do mês). A visão escolhida fica lembrada neste computador.",
+      "Use “Hoje” para voltar à data atual e as setas para avançar ou voltar (um dia, uma semana ou um mês, conforme a visão).",
+      "Clique em qualquer item para abrir o registro de origem e editar sem sair do calendário.",
+      "Nas visões de dia e semana, clique num horário vazio da grade para criar uma reunião já com data, hora de início e 30 minutos de duração.",
+      "Use os botões coloridos com o nome de cada módulo (Tarefas, Reuniões, Projetos…) para esconder ou mostrar os itens daquele módulo.",
+      "Marque ou desmarque “ocultar concluídos” para esconder ou mostrar o que já foi feito.",
+      "Na visão “Agenda”, use o link “módulo →” para ir direto à tela de onde o item veio.",
+      "Clique em “Conectar calendários” para ligar seu Outlook, Google Agenda ou iCloud (isso é feito na tela Reuniões)."
+    ],
+    "recursos": [
+      {"nome": "Cinco visões", "descricao": "Dia, Semana de trabalho, Semana, Mês e Agenda. Nas visões de dia e semana há uma grade de horários e uma faixa “dia todo” para prazos sem horário."},
+      {"nome": "Cores por módulo", "descricao": "Cada item tem a cor do módulo de onde veio (tarefas, reuniões, projetos, férias, exames etc.), para identificar de relance."},
+      {"nome": "Filtro por módulo", "descricao": "Botões para ligar e desligar cada módulo no calendário. A escolha fica guardada neste computador."},
+      {"nome": "Ocultar concluídos", "descricao": "Esconde tarefas e outros itens já concluídos. Vem marcado por padrão."},
+      {"nome": "Reuniões lado a lado", "descricao": "Reuniões no mesmo horário aparecem lado a lado na grade. Reuniões canceladas no calendário de origem aparecem riscadas."},
+      {"nome": "Linha do “agora”", "descricao": "Na grade do dia de hoje, uma linha marca o horário atual."},
+      {"nome": "Marcar reunião com um clique", "descricao": "Clicar num horário livre abre o formulário de nova reunião já preenchido com data e horário."},
+      {"nome": "Etapas e horário de aviso", "descricao": "Etapas de tarefas com data também aparecem. Tarefas e etapas com horário ocupam o horário na grade; sem horário, ficam em “dia todo”."}
+    ],
+    "impactos": [
+      "Criar uma reunião pelo calendário a cadastra na tela Reuniões e na Preparação da semana.",
+      "Editar um item aberto pelo calendário altera o registro no módulo de origem, e a mudança aparece também na Visão geral e nos alertas.",
+      "Ferramentas ocultas no menu (em Configurações) deixam de mostrar suas datas no calendário."
+    ],
+    "cuidados": [
+      "O calendário não guarda dados próprios: para tirar um item daqui, mude a data ou o status no registro de origem.",
+      "Reuniões vindas de calendários conectados (Outlook, Google, iCloud) têm data, hora e título atualizados pela sincronização; mudar esses dados aqui não altera o calendário original.",
+      "Os botões de módulo e “ocultar concluídos” valem só para este computador; outra pessoa pode estar vendo um calendário diferente.",
+      "Perfis de Leitura podem consultar, mas não criar nem alterar itens."
+    ],
+    "dica": "Use a “Semana de trabalho” toda segunda-feira e desligue os módulos que não importam no momento para ver só o essencial."
+  },
+  {
+    "path": "semana",
+    "titulo": "Preparação da semana",
+    "grupo": "Visão",
+    "objetivo": "É o momento de revisar, de uma vez, todas as reuniões da semana e se preparar para cada uma: pauta, materiais, roteiro de perguntas e o contexto da pessoa envolvida. Evita chegar a uma reunião sem saber do que se trata.",
+    "quando_usar": "Na sexta-feira à tarde ou na segunda de manhã, para preparar a semana. Também na véspera de uma reunião importante.",
+    "passo_a_passo": [
+      "Clique em “Preparação da semana” no menu. A tela abre na semana atual (de segunda a domingo).",
+      "Use as setas ao lado das datas para ir à semana anterior ou à próxima.",
+      "Veja no topo quantas reuniões já estão preparadas (por exemplo, “2 de 5 reuniões preparadas”) e quantos outros prazos existem na semana.",
+      "Para cada dia, leia os cartões das reuniões: horário, título, tipo, pauta, local, convite, materiais e roteiro de perguntas.",
+      "Clique em “Editar” no cartão para escrever a pauta, listar materiais (um por linha), escolher um roteiro ou registrar decisões.",
+      "Quando estiver pronto para a reunião, marque a caixa “preparado”. O cartão muda de cor e a contagem do topo é atualizada.",
+      "Abaixo das reuniões de cada dia, clique nos outros prazos (tarefas, follow-ups, entregas) para abri-los.",
+      "Para incluir uma reunião que não está na lista, clique em “Reunião” no topo; ela já vem com a data de início da semana, que você pode trocar."
+    ],
+    "recursos": [
+      {"nome": "Barra de preparo", "descricao": "Mostra quantas reuniões da semana já estão marcadas como preparadas."},
+      {"nome": "Cartão da reunião", "descricao": "Reúne horário, tipo, origem (Outlook, Google, iCloud), pauta, local, convite com participantes e link da chamada, materiais e roteiro."},
+      {"nome": "Materiais", "descricao": "Os itens listados na reunião aparecem aqui. Endereços de internet ou de pastas viram links clicáveis; textos comuns viram itens de lista para conferir."},
+      {"nome": "Roteiro de perguntas", "descricao": "Se a reunião tem um roteiro escolhido (Gestão, Status, Feedback, Delegação etc.), as primeiras perguntas aparecem no cartão."},
+      {"nome": "Contexto da pessoa", "descricao": "Quando o nome de alguém do time aparece no título ou nos participantes, o cartão mostra os acordos do último 1:1, as tarefas abertas dela e as ações de PDI em aberto."},
+      {"nome": "Outros prazos da semana", "descricao": "Tarefas, follow-ups, etapas e outros itens com data em cada dia, para você ver a semana completa."},
+      {"nome": "Reuniões canceladas", "descricao": "Reuniões canceladas no calendário de origem aparecem riscadas e com o aviso de cancelamento."}
+    ],
+    "impactos": [
+      "Marcar “preparado” faz o alerta “Preparar: …” sumir da Visão geral.",
+      "Tudo o que você edita aqui é gravado na própria reunião, em Reuniões, e aparece também no Calendário.",
+      "O contexto da pessoa vem do 1:1 e roteiros, de Tarefas e dos PDIs; manter esses módulos em dia deixa a preparação mais rica."
+    ],
+    "cuidados": [
+      "Para o contexto da pessoa aparecer, o nome (ou o primeiro nome) dela precisa estar no título ou nos participantes da reunião, igual ao cadastro do Time.",
+      "Em reuniões sincronizadas do Outlook, Google ou iCloud, título, data, horário e convite são atualizados pela sincronização. Pauta, materiais, preparo e decisões continuam sendo seus.",
+      "Perfis de Leitura não conseguem marcar “preparado” nem editar."
+    ],
+    "dica": "Bloqueie 30 minutos fixos na sexta para deixar todas as reuniões da semana seguinte com “preparado” marcado."
+  },
+  {
+    "path": "anotacoes",
+    "titulo": "Anotações",
+    "grupo": "Visão",
+    "objetivo": "É o seu caderno digital, organizado em blocos, seções e páginas, como um fichário. Você escreve, formata, desenha à mão (com Apple Pencil, caneta ou mouse), dita por voz e transforma qualquer trecho em tarefa. Assim as ideias de reuniões e conversas não ficam perdidas em papel.",
+    "quando_usar": "Para anotar durante uma reunião, rascunhar um raciocínio, fazer um esboço à mão no iPad ou guardar atas e lembretes por assunto.",
+    "passo_a_passo": [
+      "Clique em “Anotações” no menu.",
+      "Na coluna “Blocos”, clique no botão de adicionar para criar um bloco (um caderno). Ele já vem com uma primeira seção.",
+      "Dentro do bloco, clique em “+ Seção” para criar seções (como divisórias). Dê duplo clique no nome para renomear e use o seletor de cor para diferenciar.",
+      "Escolha a seção e clique em “Página” para criar uma página. Digite o título e escreva o texto; tudo é salvo sozinho enquanto você escreve (aparece “Salvando…” e depois “Salvo”).",
+      "Use a barra de ferramentas para formatar: estilo do parágrafo, destaque, cor do texto, negrito, listas, lista de tarefas com caixinhas, tabela, link, data e hora, linha divisória.",
+      "Para transformar um trecho em tarefa, selecione o texto e clique no botão flutuante ou em “✓ Tarefa” (sem seleção, vale a linha onde está o cursor). Confira o formulário e salve.",
+      "Para desenhar, clique em “✍️ Desenho” ou em “Área de desenho”. Escolha caneta, lápis, marca-texto, régua ou borracha, a cor, a espessura e o tipo de papel (liso, linhas ou quadriculado).",
+      "Para ditar, clique em “🎤 Ditar”, fale normalmente (diga “vírgula” ou “ponto” para pontuar) e clique de novo para parar.",
+      "Use “⤢ Tela cheia” para esconder os menus e escrever com mais espaço; “☰ Mostrar menu” volta ao normal.",
+      "Para organizar, arraste uma página para mudar a ordem ou solte-a sobre outra seção para mover. Use os botões da página para criar subpágina, fixar no topo (📌), ver anexos e etiquetas, ou excluir."
+    ],
+    "recursos": [
+      {"nome": "Blocos, seções e páginas", "descricao": "Três níveis de organização, cada bloco e seção com cor própria. Páginas podem ter subpáginas."},
+      {"nome": "Busca nas anotações", "descricao": "O campo “Buscar em todas as anotações…” procura em todos os blocos e mostra onde cada página está."},
+      {"nome": "Editor de texto", "descricao": "Estilos de parágrafo, marca-texto, cores, negrito, itálico, sublinhado, riscado, citação, listas, lista de tarefas, recuo, tabela 3×3, link, data e hora, linha divisória e limpar formatação."},
+      {"nome": "Desenho à mão", "descricao": "Áreas de desenho com caneta, lápis, marca-texto, régua para linhas retas e borracha; cores e espessuras; desfazer e refazer; papel liso, com linhas ou quadriculado. Funciona com Apple Pencil, caneta ou mouse."},
+      {"nome": "Transformar em tarefa", "descricao": "Texto selecionado vira o título da tarefa. Um desenho pode virar tarefa com a imagem anexada. A tarefa leva as etiquetas da página e um link de volta para a anotação."},
+      {"nome": "Ditado por voz", "descricao": "Fale e o texto entra onde está o cursor. Funciona no Chrome ou Edge no computador; no iPhone e iPad, use o microfone do próprio teclado."},
+      {"nome": "Fixar e subpáginas", "descricao": "Fixe páginas importantes no topo da seção e crie subpáginas para detalhar um assunto."},
+      {"nome": "Anexos e etiquetas", "descricao": "Cada página pode receber arquivos anexados e etiquetas, para aparecer junto com outros itens do mesmo tema."},
+      {"nome": "Tarefas criadas desta página", "descricao": "No fim da página, a lista das tarefas nascidas dela, com status e prazo. Clique para abrir."}
+    ],
+    "impactos": [
+      "Tarefas criadas a partir de uma anotação vão para o menu Tarefas, entram no Calendário, nos alertas e nos avisos do sino como qualquer tarefa.",
+      "Páginas com etiqueta aparecem no painel de Etiquetas, junto com tarefas, reuniões e projetos do mesmo tema.",
+      "Arquivos anexados a uma página aparecem em Arquivos, na área “Anexos dos módulos”.",
+      "As páginas também são encontradas pela busca geral do topo do sistema."
+    ],
+    "cuidados": [
+      "Excluir um bloco apaga todas as suas seções e páginas; excluir uma seção apaga todas as páginas dela. Não dá para desfazer.",
+      "“Apagar tudo” e excluir uma área de desenho também não têm volta; use “Desfazer” logo após um traço errado.",
+      "Páginas muito grandes não são salvas: o sistema avisa e pede para dividir em mais páginas ou usar anexos.",
+      "O ditado envia o áudio para o serviço de voz do próprio navegador; o sistema recebe só o texto.",
+      "Perfis de Leitura não conseguem criar nem alterar anotações."
+    ],
+    "dica": "Durante a reunião, anote livremente e, no final, selecione cada combinado e clique em “✓ Tarefa”: nada fica só no papel."
+  },
+  {
+    "path": "arquivos",
+    "titulo": "Arquivos",
+    "grupo": "Visão",
+    "objetivo": "É o repositório de documentos da área, organizado em pastas, como um disco virtual. Também mostra, num só lugar, todos os anexos colocados em tarefas, reuniões, projetos e outros registros. Assim você encontra qualquer documento sem procurar em vários lugares.",
+    "quando_usar": "Para guardar modelos, políticas, relatórios e documentos de apoio da equipe, ou para achar rapidamente um anexo que você lembra ter colocado numa tarefa ou reunião.",
+    "passo_a_passo": [
+      "Clique em “Arquivos” no menu. Você começa em “Meus arquivos”.",
+      "Clique em “Pasta” para criar uma pasta dentro da pasta atual e digite o nome.",
+      "Clique em “Enviar arquivos” ou arraste arquivos do computador para a área da pasta (ou para uma pasta na árvore à esquerda).",
+      "Navegue pela árvore à esquerda ou pela trilha no topo (Meus arquivos › Pasta › Subpasta). Clique na seta para abrir ou fechar subpastas.",
+      "Para mover, arraste um arquivo ou pasta sobre outra pasta, ou use “Mover…” na linha do arquivo.",
+      "Para renomear, dê duplo clique na pasta ou use o botão de editar. Você também pode trocar a cor da pasta.",
+      "Use “Buscar em todos os arquivos…” para procurar pelo nome em todas as pastas e anexos (e-mails também são encontrados pelo assunto e pelo remetente).",
+      "Use o seletor de ordem para listar por “Nome”, “Mais recentes” ou “Maiores”.",
+      "Clique em “Anexos dos módulos” para ver todos os anexos de tarefas, reuniões, projetos etc., com a indicação de onde cada um está.",
+      "Clique no nome do arquivo ou no botão de baixar para abrir; use a lixeira para excluir."
+    ],
+    "recursos": [
+      {"nome": "Pastas e subpastas", "descricao": "Organização em árvore, com cores e descrição, do jeito que você já usa no computador."},
+      {"nome": "Arrastar e soltar", "descricao": "Envie arquivos arrastando do computador e mova arquivos e pastas arrastando sobre outra pasta."},
+      {"nome": "Anexos dos módulos", "descricao": "Visão que reúne todos os anexos colocados nos registros do sistema, mostrando a qual tarefa, reunião ou projeto pertencem."},
+      {"nome": "Busca", "descricao": "Procura pelo nome do arquivo e, em e-mails salvos, pelo assunto e pelo remetente, em todas as pastas."},
+      {"nome": "E-mails salvos", "descricao": "Arquivos de e-mail (.msg ou .eml) aparecem com o assunto, o remetente e a data."},
+      {"nome": "Uso do espaço", "descricao": "Abaixo da árvore aparecem a quantidade de arquivos e o espaço ocupado nas pastas."},
+      {"nome": "Ordenação", "descricao": "Por nome, mais recentes ou maiores. A escolha fica lembrada neste computador."}
+    ],
+    "impactos": [
+      "Excluir um arquivo em “Anexos dos módulos” remove o anexo do registro de origem (por exemplo, some da tarefa).",
+      "Anexos colocados em qualquer formulário (tarefa, reunião, projeto, página de anotação) aparecem automaticamente aqui.",
+      "Os arquivos também são encontrados pela busca geral do topo do sistema."
+    ],
+    "cuidados": [
+      "Excluir uma pasta apaga também todas as subpastas e arquivos dentro dela. Não dá para desfazer.",
+      "Excluir um arquivo não tem volta.",
+      "Cada arquivo pode ter no máximo 50 MB; acima disso ele não é enviado.",
+      "Anexos dos módulos não podem ser movidos nem renomeados aqui; isso vale só para arquivos das suas pastas.",
+      "Perfis de Leitura conseguem consultar e baixar, mas não enviar, mover ou excluir."
+    ],
+    "dica": "Crie uma pasta por assunto recorrente (Fechamento, Auditoria, Políticas) e arraste os documentos direto do computador para ela."
+  },
+  {
+    "path": "etiquetas",
+    "titulo": "Etiquetas",
+    "grupo": "Etiquetas",
+    "objetivo": "Etiquetas são temas que atravessam os módulos, como “Auditoria 2026” ou “Reforma Tributária”. Este painel mostra tudo que recebeu uma etiqueta, em todos os módulos, num só lugar. Assim você acompanha um assunto inteiro sem caçar tarefas, reuniões e projetos separadamente.",
+    "quando_usar": "Quando um tema envolve várias frentes ao mesmo tempo (uma auditoria, um projeto com a matriz, uma mudança de lei) e você quer ver tudo dele, o que está atrasado e o que vence na semana.",
+    "passo_a_passo": [
+      "Crie a etiqueta direto no campo “Etiquetas” de qualquer formulário (digite em “Nova etiqueta…” e clique em “Criar”) ou clique em “Configurar etiquetas” nesta tela e depois em “Novo”.",
+      "Marque tarefas, reuniões, projetos, páginas de anotação e outros registros com a etiqueta, clicando nela no campo “Etiquetas” do formulário.",
+      "Clique em “Etiquetas” no menu. O número ao lado mostra quantos itens com etiqueta estão em aberto.",
+      "No topo, clique em uma ou mais etiquetas para filtrar; clique em “Todas” para limpar o filtro. Cada etiqueta mostra quantos itens abertos tem.",
+      "Confira os indicadores: “Itens abertos”, “Atrasados”, “Próximos 7 dias” e “Módulos” envolvidos.",
+      "No quadro “Lembretes por data”, veja os próximos itens com data, em ordem; os atrasados aparecem em vermelho. Clique para abrir.",
+      "Em “Por origem”, veja os itens agrupados por módulo. Marque “mostrar concluídos” para incluir o histórico e clique em “abrir módulo →” para ir à tela de origem.",
+      "Com uma única etiqueta filtrada, use “Editar” para mudar nome, cor ou descrição.",
+      "Em “Configurar etiquetas”, veja o painel com cada etiqueta (abertos, total e atrasados) e use “Ver itens →” para filtrar; para tirar uma etiqueta de uso, marque “Arquivada”."
+    ],
+    "recursos": [
+      {"nome": "Filtro por etiqueta", "descricao": "Escolha uma ou várias etiquetas. O filtro fica lembrado e também vai no endereço da página, para você guardar nos favoritos."},
+      {"nome": "Indicadores", "descricao": "Itens abertos, atrasados, com data nos próximos 7 dias e em quantos módulos o tema aparece."},
+      {"nome": "Lembretes por data", "descricao": "Os próximos 12 itens com data (prazo, data da reunião, validade…), com destaque para os atrasados."},
+      {"nome": "Por origem", "descricao": "Itens agrupados por módulo, com status, responsável e data. Concluídos ficam ocultos, a menos que você marque “mostrar concluídos”."},
+      {"nome": "Configurar etiquetas", "descricao": "Cadastro com nome, cor, “Para que serve” e opção “Arquivada (some do menu)”. Tem visão em painel e em lista, com importação de planilha e exportação em CSV."},
+      {"nome": "Criação rápida", "descricao": "Em qualquer formulário, o campo “Etiquetas” permite criar uma nova na hora, sem sair da tela."},
+      {"nome": "Filtro nas listas", "descricao": "Nas telas de lista dos módulos, aparece o filtro “Etiqueta: todas” para mostrar só os itens de um tema."}
+    ],
+    "impactos": [
+      "Marcar um registro com etiqueta faz ele aparecer neste painel e permite filtrá-lo nas listas dos módulos.",
+      "Etiquetas aparecem como selos coloridos nas listas, nos cartões do Kanban e nas páginas de anotação.",
+      "Tarefas criadas a partir de uma anotação ou com “Concluída e criar nova tarefa” herdam as etiquetas de origem.",
+      "Etiquetas arquivadas somem das opções de escolha, mas continuam nos registros que já as têm.",
+      "O grupo Etiquetas pode ser escondido do menu em Configurações, na parte de ferramentas visíveis."
+    ],
+    "cuidados": [
+      "Excluir uma etiqueta não dá para desfazer. Prefira “Arquivada” quando o tema acabou: o histórico continua organizado.",
+      "Use poucas etiquetas, com nomes claros, para temas que realmente cruzam vários módulos; para classificar tarefas do dia a dia, use o campo “Lista”.",
+      "Os itens deste painel são alterados no módulo de origem; ao abrir e editar daqui, a mudança vale lá.",
+      "Perfis de Leitura consultam o painel, mas não criam nem editam etiquetas."
+    ],
+    "dica": "Crie uma etiqueta para cada grande tema do ano e abra este painel filtrado por ela antes de cada reunião sobre o assunto."
+  },
+  {
+    "path": "tarefas",
+    "titulo": "Tarefas",
+    "grupo": "Gestão e Produtividade",
+    "objetivo": "É o centro da sua rotina: criar, priorizar, delegar e acompanhar tarefas até o fim. Cada tarefa pode ter responsável, projeto, prazo, follow-up, horário de aviso, repetição e etapas. Com isso nada depende da memória e você sabe sempre o que está parado e com quem.",
+    "quando_usar": "Sempre que surgir algo a fazer ou a cobrar: um pedido da diretoria, um retorno que você espera de outra área, uma rotina mensal ou um e-mail que precisa de resposta.",
+    "passo_a_passo": [
+      "Clique em “Tarefas” no menu. A tela abre no Kanban, com colunas por status.",
+      "Clique em “Novo”, preencha “Tarefa” (o título) e o que fizer sentido: responsável, projeto, lista, prazo, próximo follow-up, horário do aviso, repetir, status, prioridade (G, U, T) e etiquetas. Clique em “Salvar”.",
+      "Para dividir a tarefa, use “Etapas da tarefa” no formulário: escreva a etapa, escolha o tipo (ligação, e-mail, reunião…), a data, a hora e quem faz, e clique em “Adicionar” (ou tecle Enter). Marque a bolinha quando concluir.",
+      "No Kanban, arraste o cartão entre as colunas (“A fazer”, “Em andamento”, “Aguardando terceiros”, “Concluída”) para mudar o status.",
+      "Troque a visão para “Lista” para ver tudo em tabela (clique no título da coluna para ordenar) ou para “Prioridade GUT” para ver as tarefas abertas da mais crítica para a menos crítica.",
+      "Use “Buscar…” e os filtros (Responsável, Projeto, Status, Etiqueta). Por padrão aparecem só as tarefas em aberto; escolha “Status: concluídas (histórico)” ou clique em “concluída(s) oculta(s)” para ver as já feitas.",
+      "Ao terminar uma tarefa que tem continuação, clique em “✓ Concluir e criar próxima” (ou escolha o status “Concluída e criar nova tarefa”) e salve: ela é concluída e uma nova abre já preenchida para o próximo passo.",
+      "Arraste e-mails salvos (.msg ou .eml) para a área no topo da tela: cada e-mail vira uma tarefa de follow-up com o e-mail anexado.",
+      "Use “Importar” para trazer tarefas de uma planilha (baixe o modelo antes) e “CSV” para exportar a lista para o Excel.",
+      "Para excluir, abra a tarefa e clique em “Excluir”."
+    ],
+    "recursos": [
+      {"nome": "Visões", "descricao": "Kanban (padrão, com arrastar entre status), Lista (tabela ordenável) e Prioridade GUT (ranking das abertas)."},
+      {"nome": "Matriz GUT", "descricao": "Gravidade, Urgência e Tendência de 1 a 5 estrelas. A nota é a multiplicação das três: 64 ou mais é crítico, 27 ou mais pede atenção."},
+      {"nome": "Etapas da tarefa", "descricao": "Subtarefas com tipo, data, hora e responsável, contagem de concluídas e barra de progresso. Etapas feitas registram quando e por quem. Um checklist antigo pode ser convertido com “Transformar o checklist em etapas”."},
+      {"nome": "Prazo, follow-up e horário do aviso", "descricao": "Prazo final, data para cobrar ou retomar o assunto e o horário em que o sino deve avisar nesses dias."},
+      {"nome": "Repetir", "descricao": "Diária (dias úteis), semanal, quinzenal, mensal, trimestral ou anual. Ao concluir, o sistema cria a próxima com o prazo seguinte."},
+      {"nome": "Delegação e “Aguardando quem”", "descricao": "Indique se a tarefa é sua ou delegada (pendente, aceita, recusada) e de quem depende o retorno."},
+      {"nome": "Concluída e criar nova tarefa", "descricao": "Conclui a tarefa atual e abre outra com o mesmo responsável, projeto, lista e etiquetas, levando as etapas pendentes. As duas ficam ligadas (“Continuação de…” e “Próximo passo…”)."},
+      {"nome": "E-mail vira tarefa", "descricao": "E-mails soltos na área do topo viram tarefas “Follow-up: assunto”, com status “Aguardando terceiros”, follow-up em 2 dias úteis e o e-mail anexado."},
+      {"nome": "Listas e cadastro rápido", "descricao": "O campo “Lista” aceita “+ Nova opção…” e “✎ Editar lista…”. Em Responsável e Projeto, “+ Cadastrar novo…” cria a pessoa ou o projeto sem sair da tarefa."},
+      {"nome": "Anexos e comentários", "descricao": "Arraste arquivos ou e-mails para o formulário e registre o histórico em “Comentários / histórico”."}
+    ],
+    "impactos": [
+      "Prazos, follow-ups e etapas com data aparecem no Calendário, na Visão geral (Próximos 7 dias) e na Preparação da semana.",
+      "Tarefas, etapas e follow-ups atrasados geram alertas em “Pontos de atenção” na Visão geral.",
+      "Com os avisos ligados no sino, o sistema avisa no dia do prazo, do follow-up e das etapas, a partir do horário de aviso, se houver.",
+      "Tarefas ligadas a um projeto recalculam o progresso do projeto (concluídas ÷ total), se ele estiver no modo automático.",
+      "Tarefas com etiqueta aparecem no painel de Etiquetas; tarefas criadas de uma anotação mostram o link para a página de origem.",
+      "As tarefas abertas de uma pessoa aparecem no contexto dela na Preparação da semana."
+    ],
+    "cuidados": [
+      "Excluir uma tarefa remove também seus anexos e não dá para desfazer. Prefira concluir, para manter o histórico.",
+      "Tarefa com “Repetir” cria a próxima só quando é marcada como concluída; reabrir e concluir de novo não gera duplicatas.",
+      "Etapas de uma tarefa já salva são gravadas na hora em que você as adiciona ou marca.",
+      "As tarefas concluídas ficam escondidas por padrão; elas não sumiram, estão no filtro de histórico.",
+      "Perfis de Leitura consultam, mas não criam, alteram nem importam tarefas."
+    ],
+    "dica": "Preencha sempre o “Próximo follow-up” ao delegar: o sistema passa a cobrar por você no dia certo."
+  },
+  {
+    "path": "projetos",
+    "titulo": "Projetos",
+    "grupo": "Gestão e Produtividade",
+    "objetivo": "Acompanha os projetos da área com prazos, responsável, horas e custos planejados × realizados. Cada projeto pode ser quebrado em tarefas, e o progresso é calculado sozinho a partir delas. Você enxerga rapidamente o que está em risco, atrasado ou estourando o orçamento.",
+    "quando_usar": "Para iniciativas com começo, meio e fim que envolvem várias tarefas ou pessoas, como implantar um sistema, uma auditoria ou uma melhoria de processo.",
+    "passo_a_passo": [
+      "Clique em “Projetos” no menu e confira os indicadores do topo: projetos ativos, horas e custos realizados × planejados e projetos ligados ao Incentive Model.",
+      "Clique em “Novo” e preencha nome, responsável, sponsor, início, término previsto, status, horas e custos planejados, escopo e riscos. Clique em “Salvar”.",
+      "Abra o projeto salvo e, em “Tarefas do projeto”, escreva a tarefa, escolha responsável e prazo e clique em “Adicionar”. Marque a bolinha para concluir; clique na tarefa para abri-la por cima do projeto.",
+      "Atualize as horas e os custos realizados conforme o projeto anda.",
+      "Troque a visão: “Lista”, “Kanban” (arraste entre os status), “Gantt” (linha do tempo por responsável), “Com tarefas” (cada projeto com suas tarefas abertas) ou “Planejado × realizado”.",
+      "Na visão “Com tarefas”, use “+ Tarefa neste projeto” para incluir uma tarefa rapidamente.",
+      "Use “Buscar…” e os filtros. Por padrão aparecem só os projetos em aberto; escolha “concluídas (histórico)” para ver os encerrados.",
+      "Para ligar o projeto a metas, marque “Está no Incentive Model?” e escolha a meta, ou escolha o “Key Result relacionado” do OKR.",
+      "Use “Importar” para trazer projetos de uma planilha e “CSV” para exportar."
+    ],
+    "recursos": [
+      {"nome": "Visões", "descricao": "Lista, Kanban por status, Gantt, Com tarefas e Planejado × realizado."},
+      {"nome": "Tarefas do projeto", "descricao": "O projeto é quebrado em tarefas comuns, que aparecem também no menu Tarefas. Mostra quantas estão concluídas e uma barra de progresso."},
+      {"nome": "Progresso automático", "descricao": "Com “Progresso pelas tarefas” marcado, o percentual é calculado sozinho (tarefas concluídas ÷ total). Desmarque para informar à mão."},
+      {"nome": "Planejado × realizado", "descricao": "Compara horas e custos com o avanço do projeto. Desvio positivo indica que se está gastando mais do que o avanço entregue."},
+      {"nome": "Status", "descricao": "Ideia, Planejado, Em andamento, Em risco, Pausado e Concluído."},
+      {"nome": "Vínculo com Incentive Model", "descricao": "Mostra peso, target, realizado e bônus pela régua da meta vinculada."},
+      {"nome": "Vínculo com OKR", "descricao": "O projeto aparece embaixo do resultado-chave escolhido, na tela de OKR."},
+      {"nome": "Escopo e riscos", "descricao": "Campos livres para escopo (5W2H) e riscos e dependências."}
+    ],
+    "impactos": [
+      "O término previsto aparece no Calendário como “Entrega de projeto”.",
+      "Projetos com status “Em risco” ou com término vencido geram alertas na Visão geral; projetos ativos aparecem na tabela “Projetos em andamento” de lá.",
+      "Tarefas criadas no projeto aparecem em Tarefas, no Calendário e nos avisos do sino.",
+      "Concluir ou reabrir tarefas do projeto (em qualquer tela) recalcula o progresso do projeto, se estiver no automático.",
+      "O projeto aparece listado no resultado-chave escolhido, na tela de OKR."
+    ],
+    "cuidados": [
+      "As tarefas do projeto só podem ser adicionadas depois que o projeto é salvo pela primeira vez.",
+      "Com o progresso automático ligado, um percentual digitado à mão é substituído pelo cálculo das tarefas.",
+      "Excluir um projeto não apaga as tarefas ligadas a ele, e não dá para desfazer. Prefira mudar o status para “Concluído”.",
+      "Perfis de Leitura não criam nem alteram projetos."
+    ],
+    "dica": "Quebre todo projeto em tarefas com responsável e prazo: o progresso, os alertas e a agenda passam a se atualizar sozinhos."
+  },
+  {
+    "path": "okr",
+    "titulo": "OKR",
+    "grupo": "Gestão e Produtividade",
+    "objetivo": "Organiza os objetivos da empresa desdobrados em área, equipe e pessoa, cada um com seus resultados-chave mensuráveis. Você faz o check-in do valor atual e da confiança direto na tela e vê o avanço de cada objetivo. Assim todos sabem para onde a área está indo e se está chegando lá.",
+    "quando_usar": "No planejamento do trimestre, para definir objetivos e metas, e nos check-ins semanais ou quinzenais, para atualizar números e sinalizar riscos.",
+    "passo_a_passo": [
+      "Clique em “OKR” no menu. Escolha o ciclo no seletor do topo (por exemplo, 2026-T4) ou deixe “Todos os ciclos”.",
+      "Clique em “Objetivo” para criar um objetivo: escreva o objetivo, escolha o nível (Empresa, Área, Equipe, Pessoa), o dono e o ciclo. Clique em “Salvar”.",
+      "No cartão do objetivo, clique em “+ Resultado-chave” e preencha o resultado-chave, o valor inicial, a meta, o valor atual, a unidade, a confiança e o prazo.",
+      "Para desdobrar, clique em “+ Desdobrar objetivo”: o novo objetivo já vem ligado ao de cima, no mesmo ciclo e no nível seguinte.",
+      "No check-in, digite o novo valor atual direto na linha do resultado-chave e escolha a confiança (Alta, Média ou Baixa). A barra de progresso é atualizada na hora.",
+      "Clique no nome do resultado-chave para registrar notas do check-in e riscos, ou no título do objetivo para editá-lo.",
+      "Para mostrar quais projetos movem um resultado-chave, abra o projeto e escolha-o em “Key Result relacionado”."
+    ],
+    "recursos": [
+      {"nome": "Árvore de objetivos", "descricao": "Objetivos aparecem em cascata, com os desdobramentos recuados abaixo do objetivo de cima."},
+      {"nome": "Resultados-chave", "descricao": "Cada um mostra o caminho do valor inicial até a meta, o valor atual, a confiança, a barra de progresso e o prazo."},
+      {"nome": "Check-in rápido", "descricao": "Valor atual e confiança são alterados direto na linha, sem abrir formulário."},
+      {"nome": "Progresso do objetivo", "descricao": "Média do progresso dos seus resultados-chave e dos objetivos desdobrados dele. Fica verde a partir de 70%, amarelo a partir de 40% e vermelho abaixo disso."},
+      {"nome": "Ciclos", "descricao": "Filtre os objetivos por ciclo (ano e trimestre). O ciclo atual é sugerido ao criar."},
+      {"nome": "Projetos ligados", "descricao": "Abaixo de cada resultado-chave aparecem os projetos vinculados a ele."},
+      {"nome": "Notas do check-in", "descricao": "Comentários e riscos do último check-in aparecem sob o resultado-chave."}
+    ],
+    "impactos": [
+      "Resultados-chave com confiança “Baixa” geram alerta na Visão geral.",
+      "O prazo dos resultados-chave aparece no Calendário como “Key Result”.",
+      "O avanço médio dos objetivos e o semáforo de confiança aparecem no quadro de OKR da Visão geral.",
+      "Projetos podem ser vinculados a um resultado-chave e aparecem embaixo dele."
+    ],
+    "cuidados": [
+      "O valor atual e a confiança são gravados assim que você digita ou escolhe; não há botão de salvar nesta linha.",
+      "Excluir um objetivo não dá para desfazer. Os resultados-chave dele deixam de aparecer na árvore, e os objetivos desdobrados dele passam a aparecer soltos no topo; reveja os vínculos antes.",
+      "Mantenha o ciclo igual entre o objetivo e seus desdobramentos para que a árvore apareça completa ao filtrar.",
+      "Perfis de Leitura acompanham, mas não fazem check-in nem editam."
+    ],
+    "dica": "Faça o check-in toda semana no mesmo dia: mexer só no valor atual e na confiança leva menos de um minuto por resultado-chave."
+  },
+  {
+    "path": "one-on-one",
+    "titulo": "1:1 e roteiros",
+    "grupo": "Gestão e Produtividade",
+    "objetivo": "Ajuda você a conduzir conversas individuais com cada pessoa do time usando roteiros de perguntas prontos. As respostas, os acordos e o “termômetro” de como a pessoa está ficam no histórico dela. Assim cada conversa começa de onde a anterior parou.",
+    "quando_usar": "Nas conversas 1:1 periódicas, em feedbacks, ao delegar algo importante ou antes de uma decisão em conjunto com alguém do time.",
+    "passo_a_passo": [
+      "Clique em “1:1 e roteiros” no menu.",
+      "Escolha a pessoa no seletor e o roteiro nos botões: Gestão, Reunião de Status, Feedback, Avaliação de Time, Delegação ou Tomada de Decisão.",
+      "Durante a conversa, escreva as respostas embaixo de cada pergunta.",
+      "Em “Acordos / próximos passos”, registre o que foi combinado. Clique em “+ Criar tarefa” para abrir uma tarefa já com a pessoa como responsável e a primeira linha dos acordos como título.",
+      "Marque o “Termômetro” (1 a 5 estrelas) e, se quiser, a data da “Próxima 1:1”.",
+      "Clique em “Registrar conversa”. Ela entra no “Histórico” da pessoa, à direita, com data, roteiro, termômetro e acordos.",
+      "No histórico, use o botão “Tarefa” para criar uma tarefa para a pessoa sem sair da tela e clique numa conversa para revê-la ou editá-la.",
+      "Na lista abaixo, veja todas as conversas registradas, com busca, filtros por colaborador e roteiro, “Novo”, “Importar” e “CSV”."
+    ],
+    "recursos": [
+      {"nome": "Roteiros de perguntas", "descricao": "Seis roteiros prontos: Gestão, Reunião de Status, Feedback, Avaliação de Time, Delegação e Tomada de Decisão."},
+      {"nome": "Respostas e acordos", "descricao": "As respostas preenchidas são guardadas junto com os acordos, no registro da conversa."},
+      {"nome": "Termômetro", "descricao": "Nota de 1 a 5 estrelas sobre como a pessoa está, para acompanhar a evolução ao longo do tempo."},
+      {"nome": "Próxima 1:1", "descricao": "Data da próxima conversa, que vai para o Calendário."},
+      {"nome": "Histórico por pessoa", "descricao": "Todas as conversas da pessoa escolhida, da mais recente para a mais antiga."},
+      {"nome": "Atalho de tarefa", "descricao": "“+ Criar tarefa” e “Tarefa” abrem uma tarefa já com a pessoa como responsável."},
+      {"nome": "Lista de conversas", "descricao": "Tabela com todas as 1:1 registradas, com filtros, importação de planilha e exportação em CSV."}
+    ],
+    "impactos": [
+      "A data da “Próxima 1:1” aparece no Calendário.",
+      "Os acordos da última conversa aparecem no contexto da pessoa na Preparação da semana, quando ela participa de uma reunião.",
+      "Tarefas criadas pelos atalhos vão para o menu Tarefas, com Calendário, alertas e avisos como qualquer tarefa."
+    ],
+    "cuidados": [
+      "As respostas só são guardadas ao clicar em “Registrar conversa”; se você trocar de pessoa ou sair da tela antes, perde o que escreveu.",
+      "Depois de registrar, a conversa recebe a data de hoje; para mudar a data, abra a conversa no histórico e edite.",
+      "Pessoas com status “Desligado” não aparecem no seletor.",
+      "Excluir uma conversa não dá para desfazer.",
+      "Perfis de Leitura não conseguem registrar conversas."
+    ],
+    "dica": "Antes de cada 1:1, leia os acordos da última conversa no histórico e comece cobrando o que foi combinado."
+  },
+  {
+    "path": "reunioes",
+    "titulo": "Reuniões",
+    "grupo": "Gestão e Produtividade",
+    "objetivo": "Reúne todas as suas reuniões com pauta, materiais, roteiro, preparo e decisões. Você pode conectar o Outlook, o Google Agenda ou o iCloud para que os compromissos entrem sozinhos. Assim a preparação e o registro das decisões ficam num só lugar.",
+    "quando_usar": "Para registrar pauta e decisões de qualquer reunião, preparar-se para as reuniões da semana ou trazer a agenda do seu calendário de trabalho para o sistema.",
+    "passo_a_passo": [
+      "Clique em “Reuniões” no menu.",
+      "Para conectar um calendário (administrador), clique em “Adicionar calendário (Outlook, Google, iCloud…)”, escolha o serviço, siga as instruções que aparecem para copiar o link, dê um nome (ex.: Pessoal) e clique em “Conectar”.",
+      "Para atualizar na hora, clique em “Sincronizar agora”. Sem isso, o sistema sincroniza sozinho ao ser aberto, no máximo uma vez por hora.",
+      "Sem calendário conectado, use “Importar arquivo .ics” para trazer um arquivo exportado do Outlook, Google ou iCloud.",
+      "Para criar uma reunião manualmente, clique em “Novo” e preencha reunião, data, hora, até, local ou link e participantes.",
+      "Em qualquer reunião, preencha suas anotações: tipo, roteiro de perguntas, pauta, materiais (um por linha), “Estou preparado” e decisões e próximos passos. Clique em “Salvar”.",
+      "Use “Buscar…” e os filtros de tipo e origem para encontrar reuniões; “Importar” traz reuniões de uma planilha e “CSV” exporta a lista.",
+      "Em reuniões sincronizadas, veja no topo do formulário o convite organizado: organizador, participantes, link da chamada (Teams, Zoom, Meet, Webex) em destaque.",
+      "Para um calendário conectado, o administrador pode usar “Renomear”, “Trocar link” ou “Desconectar”."
+    ],
+    "recursos": [
+      {"nome": "Calendários conectados", "descricao": "Vários calendários (Outlook, Google, iCloud ou outro) ao mesmo tempo, com data da última sincronização e quantidade de compromissos."},
+      {"nome": "Minhas anotações", "descricao": "Tipo, roteiro, pauta, materiais, “Estou preparado”, decisões e etiquetas são seus e não são apagados pela sincronização."},
+      {"nome": "Convite organizado", "descricao": "O texto do convite aparece legível, com o link da reunião como botão e participantes e organizador separados."},
+      {"nome": "Tipo da reunião", "descricao": "Lista de tipos (1:1, Status do time, Fechamento, Comitê, Auditoria, Projeto, Externa…) que você pode ampliar com “+ Nova opção…” ou “✎ Editar lista…”."},
+      {"nome": "Roteiro de perguntas", "descricao": "O mesmo conjunto de roteiros do 1:1, que aparece no cartão da reunião na Preparação da semana."},
+      {"nome": "Importar arquivo .ics", "descricao": "Traz compromissos de um arquivo de calendário, atualizando os que já existem e mantendo suas anotações."},
+      {"nome": "Origem e cancelamento", "descricao": "Cada reunião mostra de onde veio (Manual, Outlook, Google, iCloud). Reuniões canceladas no calendário de origem ficam marcadas como canceladas."},
+      {"nome": "Anexos", "descricao": "Arraste arquivos ou e-mails para o formulário da reunião."}
+    ],
+    "impactos": [
+      "As reuniões aparecem no Calendário, ocupando o horário na grade, e na Preparação da semana.",
+      "Reuniões da semana ainda não preparadas geram o alerta “Preparar: …” na Visão geral; marcar “Estou preparado” tira o alerta.",
+      "Reuniões com etiqueta aparecem no painel de Etiquetas."
+    ],
+    "cuidados": [
+      "Em reuniões sincronizadas, título, data, horário, local, participantes e convite são atualizados pelo calendário de origem e não são editados aqui. Mude-os no Outlook, Google ou iCloud.",
+      "Cada serviço de calendário pode levar algumas horas para publicar mudanças; uma alteração feita agora pode demorar a aparecer.",
+      "“Desconectar” um calendário apaga também os compromissos que vieram dele. Não dá para desfazer.",
+      "O link do calendário fica guardado só no servidor e não é mostrado de novo; para trocar, use “Trocar link”.",
+      "Conectar, renomear, trocar link e desconectar calendários são ações só do administrador. Perfis de Leitura não editam reuniões."
+    ],
+    "dica": "Conecte seu calendário de trabalho uma vez e use o sistema só para o que importa: pauta antes, decisões depois."
+  },
+  {
+    "path": "eficiencia",
+    "titulo": "Painel de eficiência",
+    "grupo": "Gestão e Produtividade",
+    "objetivo": "Analisa os chamados (tickets) atendidos pela sua equipe a partir de uma lista exportada do SharePoint. Mostra entradas × saídas por mês, backlog, tempo de atendimento em dias úteis e cumprimento do SLA por prioridade, tipo, analista, área e solicitante. Você enxerga a produtividade da equipe e onde estão os gargalos.",
+    "quando_usar": "No fechamento do mês, para apresentar a produtividade da área, ou sempre que precisar saber quais chamados estão parados e fora do prazo.",
+    "passo_a_passo": [
+      "No SharePoint, abra a lista de tickets na visão “Todos os itens” e clique em “Exportar → Exportar para CSV”. Se precisar, baixe o “Modelo de exemplo” nesta tela.",
+      "Clique em “Importar lista” e escolha o arquivo (CSV ou .xlsx).",
+      "Confira o mapeamento: para cada informação do sistema, veja qual coluna da planilha foi reconhecida, o formato das datas e a prévia. Escolha “Atualizar pelo ID e somar novos” ou “Substituir todos os tickets” e importe.",
+      "Clique em “SLA e link” para definir o prazo de atendimento, em dias úteis, de cada prioridade, e o endereço base para abrir cada ticket no SharePoint.",
+      "Use a busca (ID, título, solicitante), os filtros de tipo, equipe, analista, empresa e prioridade, e o período (“de” e “até”).",
+      "Leia os indicadores: “Recebidos”, “Concluídos”, “Backlog aberto” (com quantos estão fora do SLA) e “Tempo de atendimento” (com o percentual dentro do SLA).",
+      "Veja o gráfico “Entradas × saídas por mês” e, em “Quebra por dimensão”, escolha como agrupar (tipo, analista, área, solicitante…). Clique numa linha para filtrar por aquele valor.",
+      "Na tabela “Backlog aberto”, veja cada chamado em aberto com idade e situação do SLA. Use o botão de link para abrir no SharePoint ou o botão de tarefa para criar uma tarefa de acompanhamento.",
+      "Reimporte sempre que quiser atualizar; para começar do zero, use “Limpar importação”."
+    ],
+    "recursos": [
+      {"nome": "Importação com conferência", "descricao": "Aceita CSV e .xlsx, reconhece as colunas automaticamente e deixa você ajustar antes de importar. Reimportações atualizam os tickets pelo ID."},
+      {"nome": "Indicadores", "descricao": "Recebidos, concluídos, backlog aberto com idade média e quantos estão fora do SLA, tempo médio de atendimento e percentual dentro do SLA."},
+      {"nome": "SLA por prioridade", "descricao": "Prazo em dias úteis para cada prioridade, contado da abertura até a conclusão. Se o ticket tiver prazo próprio, ele vale no lugar do SLA."},
+      {"nome": "Entradas × saídas por mês", "descricao": "Barras de recebidos e concluídos e uma linha com o backlog ao fim de cada mês."},
+      {"nome": "Quebra por dimensão", "descricao": "Tabela com recebidos, concluídos, abertos, fora do SLA e percentual no SLA por tipo, analista, equipe, área, solicitante, empresa, prioridade ou status."},
+      {"nome": "Backlog aberto", "descricao": "Lista dos chamados em aberto com tipo, solicitante, analista, prioridade, status, data de abertura e indicação “no SLA” ou “fora”."},
+      {"nome": "Ticket vira tarefa", "descricao": "Cria uma tarefa “Ticket N: título” com solicitante, tipo, status e o link do chamado."},
+      {"nome": "Horas", "descricao": "Se a planilha tiver horas planejadas e realizadas, o painel mostra o total de cada uma."}
+    ],
+    "impactos": [
+      "Tarefas criadas a partir de um ticket vão para o menu Tarefas e passam a contar no Calendário, nos alertas e nos avisos como qualquer tarefa.",
+      "Os tickets importados ficam só neste painel; eles não geram alertas nem entram no Calendário por conta própria."
+    ],
+    "cuidados": [
+      "“Substituir todos os tickets” e “Limpar importação” apagam os tickets já importados. Não dá para desfazer; reimporte o arquivo se precisar.",
+      "Quando o ticket concluído não tem a data de fechamento, o sistema usa a data da última modificação como estimativa e avisa. Alterações em massa na lista distorcem o tempo de atendimento.",
+      "As configurações de SLA e link ficam guardadas neste computador; em outro computador, configure de novo.",
+      "Os tempos são contados em dias úteis (d.u.).",
+      "Perfis de Leitura consultam o painel, mas não importam nem limpam tickets."
+    ],
+    "dica": "Importe a lista no mesmo dia de cada mês e acompanhe a linha do backlog: se ela sobe mês após mês, a equipe está recebendo mais do que consegue entregar."
+  },
+  {
+    "path": "diagnostico",
+    "titulo": "Diagnóstico (SWOT)",
+    "grupo": "Gestão e Produtividade",
+    "objetivo": "Organiza o diagnóstico da área em forças, fraquezas, oportunidades e ameaças, com nota de impacto e a ação que decorre de cada ponto. Ajuda a transformar a análise em plano: cada ponto pode virar um objetivo, um projeto ou uma tarefa.",
+    "quando_usar": "No planejamento anual ou trimestral, ao assumir uma nova área ou antes de definir os OKRs do próximo ciclo.",
+    "passo_a_passo": [
+      "Clique em “Diagnóstico (SWOT)” no menu. A tela abre na “Matriz SWOT”, com os quatro quadrantes para cada tema.",
+      "Clique em “Novo” e preencha o tema (por exemplo, Controladoria), o quadrante, o ponto, o impacto (1 a 5 estrelas) e a ação decorrente. Clique em “Salvar”.",
+      "Para incluir rápido num quadrante, clique no “+” do quadrante: o tema e o quadrante já vêm preenchidos.",
+      "Clique em um ponto da matriz para abri-lo e editar ou excluir.",
+      "Dentro de cada quadrante, os pontos aparecem do maior para o menor impacto.",
+      "Troque para a visão “Lista” para ver tudo em tabela, buscar e filtrar por quadrante.",
+      "Use “Importar” para trazer os pontos de uma planilha e “CSV” para exportar.",
+      "Transforme as ações em resultados: crie o objetivo em OKR, o projeto em Projetos ou a tarefa em Tarefas."
+    ],
+    "recursos": [
+      {"nome": "Matriz SWOT", "descricao": "Os quatro quadrantes lado a lado, separados por tema, com cores próprias."},
+      {"nome": "Vários temas", "descricao": "Monte diagnósticos diferentes (por área, processo ou projeto) usando o campo “Tema / escopo”."},
+      {"nome": "Impacto", "descricao": "Nota de 1 a 5 estrelas que ordena os pontos dentro do quadrante."},
+      {"nome": "Ação decorrente", "descricao": "O que fazer a partir de cada ponto."},
+      {"nome": "Lista e filtros", "descricao": "Visão em tabela com busca, filtro por quadrante e por etiqueta."},
+      {"nome": "Importar e exportar", "descricao": "Importação a partir de planilha (com modelo) e exportação em CSV."}
+    ],
+    "impactos": [
+      "Os pontos do diagnóstico não geram alertas nem datas no Calendário.",
+      "Pontos com etiqueta aparecem no painel de Etiquetas, junto com os demais itens do tema.",
+      "A ligação com OKR, Projetos e Tarefas é feita por você, criando os registros nessas telas; o sistema não cria nada automaticamente a partir da matriz."
+    ],
+    "cuidados": [
+      "Excluir um ponto não dá para desfazer.",
+      "Escreva o tema sempre do mesmo jeito; uma grafia diferente cria uma nova matriz separada.",
+      "Perfis de Leitura consultam a matriz, mas não criam nem editam pontos."
+    ],
+    "dica": "Cruze forças com oportunidades para achar ataques e fraquezas com ameaças para achar defesas, e leve as melhores ações para o OKR."
+  }
+]

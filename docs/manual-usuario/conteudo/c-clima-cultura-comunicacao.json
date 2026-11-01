@@ -1,0 +1,999 @@
+[
+ {
+  "path": "clima",
+  "titulo": "Pesquisa de clima e eNPS",
+  "grupo": "Clima e bem-estar",
+  "objetivo": "Medir o clima da equipe em 8 dimensões (liderança, comunicação, reconhecimento, desenvolvimento, colaboração, condições de trabalho, equilíbrio e orgulho) e calcular o eNPS. A pesquisa é aplicada fora do sistema, no Microsoft Forms anônimo, e o sistema guarda só o resultado do grupo.",
+  "quando_usar": "Uma ou duas vezes por ano, para ter uma fotografia do clima e comparar com o ciclo anterior.",
+  "passo_a_passo": [
+   "Clique em Novo ciclo. O sistema cria um ciclo com o nome do semestre (ex.: Clima 2026/2) e a data de hoje.",
+   "Se quiser mudar nome, data ou grupo, clique no ícone de lápis ao lado da lista de ciclos.",
+   "Clique em Ver questionário para conferir as 16 perguntas.",
+   "Clique em Copiar para o Forms, cole o texto no Microsoft Forms e marque o formulário como anônimo.",
+   "Se preferir, baixe o Modelo de planilha para ver o formato das colunas (P1, P2…).",
+   "Divulgue o formulário para a equipe e aguarde as respostas.",
+   "No Forms, exporte as respostas para Excel.",
+   "De volta ao sistema, escolha o ciclo e clique em Importar respostas (Excel/CSV). Selecione o arquivo.",
+   "Leia o resultado: favorabilidade por dimensão (0 a 100) e o eNPS, com a comparação com o ciclo anterior."
+  ],
+  "recursos": [
+   {
+    "nome": "Ciclos de pesquisa",
+    "descricao": "Cada aplicação é um ciclo. A lista no topo mostra os ciclos do mais novo para o mais antigo; escolha qual quer ver."
+   },
+   {
+    "nome": "Questionário pronto",
+    "descricao": "16 perguntas: 1 de eNPS (nota de 0 a 10) e 15 afirmações com escala de Discordo totalmente a Concordo totalmente."
+   },
+   {
+    "nome": "Copiar para o Forms e Modelo de planilha",
+    "descricao": "Copia o texto das perguntas com as escalas, e oferece uma planilha-modelo com o cabeçalho P1, P2…"
+   },
+   {
+    "nome": "Importação que guarda só o total",
+    "descricao": "Ao importar, o sistema reconhece as perguntas pelo texto ou pelo código (P1, P2…), soma as respostas e guarda apenas o resultado do grupo. As respostas individuais não ficam gravadas."
+   },
+   {
+    "nome": "Favorabilidade por dimensão",
+    "descricao": "Nota de 0 a 100 por dimensão (maior é melhor): 67 a 100 forte, 50 a 66 atenção, 0 a 49 crítico. Setas mostram quanto subiu ou caiu em relação ao ciclo anterior."
+   },
+   {
+    "nome": "eNPS",
+    "descricao": "Percentual de promotores (notas 9 e 10) menos percentual de detratores (0 a 6), de −100 a +100. Acima de 30 é bom; acima de 50, excelente."
+   },
+   {
+    "nome": "Mínimo de respostas",
+    "descricao": "O resultado só aparece com 5 ou mais respostas, para proteger o anonimato."
+   }
+  ],
+  "impactos": [
+   "Não cria registros em outros módulos automaticamente. A própria tela sugere transformar as 2 ou 3 dimensões mais baixas em ações em Tarefas, Projetos ou no Plano de ação da NR-1, o que você faz manualmente.",
+   "Os ciclos de clima ficam separados dos ciclos do Diagnóstico de cultura e da Pesquisa anônima (NR-1)."
+  ],
+  "cuidados": [
+   "Marque o formulário do Forms como anônimo. O sistema não identifica ninguém, mas o anonimato começa na coleta.",
+   "Com menos de 5 respostas o resultado fica oculto. Evite aplicar em grupos muito pequenos.",
+   "Importar de novo no mesmo ciclo substitui as respostas anteriores (o sistema pede confirmação). Para comparar períodos, crie um ciclo novo.",
+   "Use o texto das perguntas ou os códigos P1, P2… no cabeçalho da planilha; se nenhuma pergunta for reconhecida, nada é importado.",
+   "Compartilhe o resultado com a equipe: isso aumenta a confiança e a participação no próximo ciclo."
+  ],
+  "dica": "Crie um ciclo novo a cada aplicação: é a comparação com o ciclo anterior que mostra se as ações funcionaram."
+ },
+ {
+  "path": "humor",
+  "titulo": "Termômetro de humor",
+  "grupo": "Clima e bem-estar",
+  "objetivo": "Uma pergunta por semana, anônima: “Como você está se sentindo nesta semana no trabalho?”. Cada pessoa vota numa escala de cinco carinhas e o gestor acompanha a média da equipe semana a semana.",
+  "quando_usar": "Toda semana, como um pulso rápido do humor da equipe entre uma pesquisa de clima e outra.",
+  "passo_a_passo": [
+   "Abra Termômetro de humor no menu Clima e bem-estar.",
+   "Clique na carinha que representa como você está: Muito mal, Mal, Normal, Bem ou Muito bem.",
+   "Pronto: aparece a mensagem de agradecimento e o voto da semana fica registrado.",
+   "Compartilhe o link desta tela com a equipe para que todos votem.",
+   "Acompanhe o quadro Esta semana (distribuição dos votos) e o quadro Últimas semanas (média das últimas 12 semanas)."
+  ],
+  "recursos": [
+   {
+    "nome": "Voto anônimo",
+    "descricao": "O sistema grava só a semana e a nota. Não grava quem votou."
+   },
+   {
+    "nome": "Um voto por semana neste aparelho",
+    "descricao": "Depois de votar, os botões somem até a semana seguinte naquele computador ou celular."
+   },
+   {
+    "nome": "Esta semana",
+    "descricao": "Mostra o percentual de cada carinha. Aparece a partir de 3 votos na semana."
+   },
+   {
+    "nome": "Últimas semanas",
+    "descricao": "Média de cada semana (1 a 5) com carinha e barra colorida. Semanas com menos de 3 votos aparecem como “poucos votos para mostrar”."
+   },
+   {
+    "nome": "Voto liberado para todos os perfis",
+    "descricao": "Até quem tem usuário somente de leitura consegue votar."
+   }
+  ],
+  "impactos": [
+   "Não alimenta outros módulos automaticamente. A tela sugere que uma queda de duas semanas seguidas é um bom gatilho para conversar com a equipe e, se for o caso, registrar o risco no Inventário de riscos (NR-1).",
+   "Os votos não aparecem na busca geral do sistema."
+  ],
+  "cuidados": [
+   "Cada pessoa precisa de um usuário no sistema para votar (pode ser só de leitura).",
+   "O controle de um voto por semana vale por aparelho, não por pessoa. Combine com a equipe que cada um vota uma vez.",
+   "Resultados só aparecem a partir de 3 votos na semana, para não expor ninguém.",
+   "Use o termômetro como sinal para conversar, nunca para tentar descobrir quem votou o quê."
+  ],
+  "dica": "Olhe a tendência, não uma semana isolada: duas semanas seguidas de queda pedem uma conversa com a equipe."
+ },
+ {
+  "path": "nr1-bem-estar",
+  "titulo": "Check-ins de bem-estar",
+  "grupo": "Clima e bem-estar",
+  "objetivo": "Registrar de forma curta as conversas sobre bem-estar e carga de trabalho com cada pessoa, por exemplo no 1:1. Guarda a percepção de carga e energia, os sinais observados, o encaminhamento e a data do próximo contato.",
+  "quando_usar": "Logo depois de uma conversa individual em que você perguntou como a pessoa está e como está a carga de trabalho.",
+  "passo_a_passo": [
+   "Clique em Novo.",
+   "Escolha o Colaborador e a Data (obrigatórios).",
+   "Marque a Carga de trabalho (1 leve a 5 pesada) e a Energia / disposição (1 baixa a 5 alta).",
+   "Em Sinais observados, descreva fatos (ex.: horas fora do horário, recusa de férias, erros novos, isolamento).",
+   "Escolha o Encaminhamento (ex.: Acompanhar no próximo 1:1, Ajuste de carga/prazos, Apoio psicológico / EAP, RH).",
+   "Preencha Próximo contato para não perder o acompanhamento.",
+   "Use Observações (sem dados clínicos) se precisar, e clique em Salvar."
+  ],
+  "recursos": [
+   {
+    "nome": "Campos curtos e objetivos",
+    "descricao": "Carga e energia em escala de 1 a 5, sinais observados, encaminhamento e próximo contato."
+   },
+   {
+    "nome": "Lista de encaminhamentos editável",
+    "descricao": "No campo Encaminhamento, use + Nova opção… ou ✎ Editar lista… para ajustar as opções."
+   },
+   {
+    "nome": "Filtro por encaminhamento",
+    "descricao": "Na lista, filtre pelos check-ins com determinado encaminhamento e use o campo Buscar…."
+   },
+   {
+    "nome": "Lista, busca e filtros",
+    "descricao": "A barra acima da lista tem o campo Buscar…, filtros prontos e a contagem de registros. A visão escolhida, a busca e os filtros ficam guardados para a próxima vez."
+   },
+   {
+    "nome": "Importar e CSV",
+    "descricao": "O botão Importar traz registros em massa de uma planilha (há modelo para baixar). O botão CSV exporta o que está na tela para abrir no Excel."
+   },
+   {
+    "nome": "Anexos e etiquetas",
+    "descricao": "Dentro de cada registro dá para anexar arquivos (atas, listas de presença, prints) e marcar etiquetas para agrupar temas."
+   }
+  ],
+  "impactos": [
+   "A data de Próximo contato aparece no Calendário (como “Check-in de bem-estar”) e nos Próximos 7 dias da Visão geral.",
+   "Check-ins com próximo contato nos próximos 7 dias (ou atrasado há até 30 dias) aparecem nas Pendências do Painel NR-1.",
+   "Os check-ins aparecem na ficha da pessoa, no menu Time."
+  ],
+  "cuidados": [
+   "Registre só fatos e ações. Nunca escreva diagnóstico, doença, remédio ou outro dado clínico (LGPD).",
+   "Quem tem acesso ao sistema pode ver estes registros. Escreva pensando que o colaborador poderia ler.",
+   "O gestor observa e encaminha; quem avalia saúde é o profissional de saúde.",
+   "Excluir um check-in apaga também os anexos dele, sem volta."
+  ],
+  "dica": "Sempre preencha o Próximo contato: é ele que garante que a conversa vira acompanhamento."
+ },
+ {
+  "path": "nr1-relatos",
+  "titulo": "Relatos e encaminhamentos",
+  "grupo": "Clima e bem-estar",
+  "objetivo": "Registrar situações relatadas ou observadas, como sobrecarga, conflito na equipe, suspeita de assédio ou evento traumático, e o que foi feito. Ajuda a mostrar que a área trata os casos e a não perder prazos de retorno.",
+  "quando_usar": "Sempre que alguém trouxer uma situação que afeta o bem-estar no trabalho ou você observar algo que precise de encaminhamento.",
+  "passo_a_passo": [
+   "Clique em Novo.",
+   "Escreva o Resumo do fato e a Data (obrigatórios).",
+   "Escolha o Tipo (ex.: Sobrecarga, Conflito na equipe, Suspeita de assédio) e, se souber, o Fator (Guia MTE).",
+   "Indique os Envolvidos apenas se for necessário.",
+   "Em Encaminhado para, escolha quem vai tratar (ex.: RH, Canal de denúncia / Compliance, SESMT / saúde ocupacional).",
+   "Defina o Retorno até e descreva as Ações tomadas. Clique em Salvar.",
+   "Acompanhe na visão Kanban, arrastando o cartão de Aberto para Em andamento e Encerrado."
+  ],
+  "recursos": [
+   {
+    "nome": "Lista e Kanban",
+    "descricao": "Veja os relatos em Lista ou em Kanban por status (Aberto, Em andamento, Encerrado)."
+   },
+   {
+    "nome": "Em aberto por padrão",
+    "descricao": "A lista mostra só os relatos não encerrados. Para ver o histórico, use o filtro Status: concluídas (histórico) ou o link de concluídas ocultas."
+   },
+   {
+    "nome": "Filtros prontos",
+    "descricao": "Filtre por Tipo, Encaminhado para e Status, além do campo Buscar…."
+   },
+   {
+    "nome": "Fatores do Guia do MTE",
+    "descricao": "O campo Fator usa a lista dos 13 fatores de risco psicossocial do Guia do MTE, o mesmo do inventário."
+   },
+   {
+    "nome": "Listas editáveis",
+    "descricao": "Tipo e Encaminhado para aceitam + Nova opção… e ✎ Editar lista…."
+   },
+   {
+    "nome": "Importar e CSV",
+    "descricao": "O botão Importar traz registros em massa de uma planilha (há modelo para baixar). O botão CSV exporta o que está na tela para abrir no Excel."
+   },
+   {
+    "nome": "Anexos e etiquetas",
+    "descricao": "Dentro de cada registro dá para anexar arquivos (atas, listas de presença, prints) e marcar etiquetas para agrupar temas."
+   }
+  ],
+  "impactos": [
+   "A data de Retorno até aparece no Calendário (como “Retorno de relato”) e nos Próximos 7 dias da Visão geral.",
+   "Relatos não encerrados aparecem nas Pendências do Painel NR-1."
+  ],
+  "cuidados": [
+   "Registre fatos e ações, sem opiniões, julgamentos ou dados clínicos.",
+   "Denúncias de assédio devem ir para o canal oficial da empresa. Aqui fica só o registro do encaminhamento.",
+   "Cite nomes de envolvidos só quando for indispensável: quem tem acesso ao sistema pode ver estes registros.",
+   "Excluir um relato apaga também os anexos dele. Prefira mudar o status para Encerrado e manter o histórico.",
+   "Na dúvida sobre como tratar um caso, consulte RH, SESMT ou jurídico."
+  ],
+  "dica": "Encerre o relato só depois de dar o retorno à pessoa e registrar as ações tomadas."
+ },
+ {
+  "path": "nr1",
+  "titulo": "Painel NR-1",
+  "grupo": "Clima e bem-estar",
+  "objetivo": "Visão única da gestão dos riscos psicossociais da área: checklist de evidências, riscos do inventário, ações do plano, última pesquisa, pendências, treinamento de assédio e indicadores. Ajuda a organizar o que a NR-1 pede no PGR, sem substituir o SESMT ou o jurídico.",
+  "quando_usar": "Para acompanhar, de forma rápida, em que pé está a gestão de riscos psicossociais da área, por exemplo uma vez por semana ou antes de uma reunião com RH ou SESMT.",
+  "passo_a_passo": [
+   "Abra Painel NR-1 no menu Clima e bem-estar.",
+   "Leia o quadro de situação jurídica no topo; clique em entender → ou em Guia e legislação para os detalhes.",
+   "Confira os quatro indicadores: Checklist do ano, Riscos ativos, Ações abertas e Última pesquisa. Clique em cada um para ir à tela correspondente.",
+   "No quadro Pendências, clique em um item (ação atrasada, risco a revisar, relato aberto ou check-in próximo) para abri-lo e atualizar.",
+   "Veja a Matriz de risco: clique numa célula com número para abrir o risco.",
+   "Confira o quadro Treinamento anual de assédio (Lei 14.457) e registre quem falta em Treinamentos.",
+   "No quadro Indicadores, compare o último mês com o anterior; use ver todos → para lançar novos meses."
+  ],
+  "recursos": [
+   {
+    "nome": "Situação jurídica",
+    "descricao": "Resumo da situação da NR-1 na data da pesquisa feita para o sistema, com link para o guia."
+   },
+   {
+    "nome": "Indicadores de topo",
+    "descricao": "Percentual do checklist do ano, número de riscos ativos por nível (alto, moderado, baixo), ações abertas e atrasadas, e quantas dimensões da última pesquisa ficaram em risco."
+   },
+   {
+    "nome": "Pendências",
+    "descricao": "Junta ações do plano atrasadas, riscos com revisão nos próximos 30 dias, relatos não encerrados e check-ins com próximo contato em até 7 dias."
+   },
+   {
+    "nome": "Matriz de risco",
+    "descricao": "Grade de probabilidade × severidade com a quantidade de riscos ativos em cada célula, colorida do verde ao vermelho."
+   },
+   {
+    "nome": "Treinamento de assédio",
+    "descricao": "Lista quem está ativo no Time e não tem treinamento de assédio ou violência registrado em Treinamentos nos últimos 12 meses."
+   },
+   {
+    "nome": "Resumo de indicadores",
+    "descricao": "Absenteísmo, horas extras, afastamentos por saúde mental, turnover, 1:1 realizados e férias vencidas, com seta de melhora ou piora."
+   },
+   {
+    "nome": "Campanhas e apoio",
+    "descricao": "Mostra a próxima campanha do ano (ex.: Setembro Amarelo) e os contatos CVV 188 e SAMU 192."
+   }
+  ],
+  "impactos": [
+   "O painel só lê dados: Checklist NR-1, Inventário de riscos, Plano de ação, Pesquisa anônima, Relatos, Check-ins, Indicadores, Time e Treinamentos.",
+   "Para o treinamento de assédio contar, o registro em Treinamentos precisa ter “assédio”, “violência” ou “14.457” no nome ou no tipo, com data de realização.",
+   "Clicar em uma pendência abre o registro original; o que você mudar lá muda em todo o sistema."
+  ],
+  "cuidados": [
+   "O painel organiza a gestão, mas não é parecer jurídico. Confirme obrigações, prazos e documentos com o SESMT e o jurídico da empresa.",
+   "A situação jurídica mostrada tem data. Ela pode ter mudado depois; confira as fontes no Guia NR-1.",
+   "O painel só reflete o que foi cadastrado. Inventário e plano desatualizados geram um painel enganoso."
+  ],
+  "dica": "Comece pelo quadro Pendências: zerar ações atrasadas e revisões vencidas é o que mais dá segurança numa fiscalização."
+ },
+ {
+  "path": "nr1-inventario",
+  "titulo": "Inventário de riscos (NR-1)",
+  "grupo": "Clima e bem-estar",
+  "objetivo": "Listar os fatores de risco psicossocial da área, com grupo exposto, fontes, probabilidade, severidade e medidas já existentes. O sistema calcula o nível de cada risco e mostra a matriz. É a base para a parte psicossocial do PGR.",
+  "quando_usar": "Ao montar ou revisar o inventário de riscos, depois de uma pesquisa, de uma conversa importante ou de qualquer mudança na área.",
+  "passo_a_passo": [
+   "Clique em Novo.",
+   "Descreva o Perigo / situação identificada e escolha o Fator (Guia MTE).",
+   "Informe o Grupo exposto, o Nº de pessoas expostas e as Fontes / circunstâncias.",
+   "Escolha Como foi identificado (ex.: Pesquisa anônima, Indicadores, Conversas 1:1 / check-in).",
+   "Escolha a Probabilidade e a Severidade (de 1 a 5). O Nível (P×S) é calculado sozinho.",
+   "Descreva as Medidas já existentes, preencha Avaliado em e Revisar até, e clique em Salvar.",
+   "Para cada risco moderado ou alto, crie uma ação no Plano de ação.",
+   "Atualize o Status (Identificado, Em tratamento, Controlado, Revisar) conforme o andamento."
+  ],
+  "recursos": [
+   {
+    "nome": "Matriz",
+    "descricao": "No topo, a matriz de probabilidade × severidade mostra quantos riscos ativos há em cada célula. Clique numa célula para abrir o risco."
+   },
+   {
+    "nome": "Nível calculado",
+    "descricao": "Nível = probabilidade × severidade (1 a 25): 15 ou mais alto, 8 a 14 moderado, 4 a 7 baixo, 1 a 3 trivial."
+   },
+   {
+    "nome": "Como avaliar",
+    "descricao": "Quadro de apoio com o critério de avaliação e o significado de cada nota de probabilidade e severidade."
+   },
+   {
+    "nome": "13 fatores do MTE",
+    "descricao": "O campo Fator traz a lista do Guia de Fatores de Riscos Psicossociais do MTE."
+   },
+   {
+    "nome": "Lista e Kanban",
+    "descricao": "Veja em Lista ou em Kanban por status. Por padrão aparecem só os riscos em aberto; os controlados ficam no filtro de histórico."
+   },
+   {
+    "nome": "Filtros prontos",
+    "descricao": "Filtre por Fator e Status, além do campo Buscar…."
+   },
+   {
+    "nome": "Importar e CSV",
+    "descricao": "O botão Importar traz registros em massa de uma planilha (há modelo para baixar). O botão CSV exporta o que está na tela para abrir no Excel."
+   },
+   {
+    "nome": "Anexos e etiquetas",
+    "descricao": "Dentro de cada registro dá para anexar arquivos (atas, listas de presença, prints) e marcar etiquetas para agrupar temas."
+   }
+  ],
+  "impactos": [
+   "A data Revisar até aparece no Calendário (como “Revisão de risco psicossocial”) e nos Próximos 7 dias da Visão geral.",
+   "Riscos com revisão nos próximos 30 dias aparecem nas Pendências do Painel NR-1; os riscos ativos alimentam a matriz e o contador do painel.",
+   "Os riscos podem ser ligados às ações no Plano de ação (campo Risco do inventário).",
+   "A Pesquisa anônima (NR-1) pode criar riscos aqui automaticamente pelo botão → inventário."
+  ],
+  "cuidados": [
+   "Riscos com status Controlado saem da matriz e do contador de riscos ativos.",
+   "Excluir um risco apaga os anexos dele e deixa sem vínculo as ações do plano ligadas a ele. Prefira mudar o status.",
+   "Revise a avaliação ao menos a cada 2 anos, ou antes se houver mudança, adoecimento ou medida ineficaz.",
+   "O inventário oficial do PGR deve ser validado e assinado com o SESMT. O sistema ajuda a organizar as informações."
+  ],
+  "dica": "Para todo risco moderado ou alto, crie na hora a ação correspondente no Plano de ação."
+ },
+ {
+  "path": "nr1-plano",
+  "titulo": "Plano de ação",
+  "grupo": "Clima e bem-estar",
+  "objetivo": "Registrar as medidas para eliminar ou reduzir os riscos do inventário, com responsável, prazo, forma de medir a eficácia e evidência. É o plano de ação da parte psicossocial do PGR.",
+  "quando_usar": "Sempre que um risco moderado ou alto entrar no inventário, e no acompanhamento periódico das medidas.",
+  "passo_a_passo": [
+   "Clique em Novo.",
+   "Descreva a Ação / medida e escolha o Risco do inventário a que ela responde.",
+   "Escolha o Tipo de medida (ex.: Carga e prazos, Liderança e comunicação, Treinamento).",
+   "Defina o Responsável e o Prazo.",
+   "Em Como medir a eficácia, escreva o indicador (ex.: horas extras abaixo de 10 h por pessoa no fechamento).",
+   "Clique em Salvar.",
+   "Ao concluir, preencha Resultado / evidência, anexe os comprovantes e mude o Status para Concluída.",
+   "Use a visão Kanban para acompanhar Planejada, Em andamento, Concluída e Cancelada."
+  ],
+  "recursos": [
+   {
+    "nome": "Lista e Kanban",
+    "descricao": "Veja as ações em Lista ou em Kanban por status, arrastando os cartões."
+   },
+   {
+    "nome": "Em aberto por padrão",
+    "descricao": "Ações concluídas e canceladas ficam ocultas; use o filtro de histórico para vê-las."
+   },
+   {
+    "nome": "Filtros prontos",
+    "descricao": "Filtre por Risco do inventário, Responsável e Status, além do campo Buscar…."
+   },
+   {
+    "nome": "Tipo de medida editável",
+    "descricao": "O campo Tipo de medida aceita + Nova opção… e ✎ Editar lista…."
+   },
+   {
+    "nome": "Evidências",
+    "descricao": "Anexe atas, listas de presença e outros comprovantes dentro da ação."
+   },
+   {
+    "nome": "Importar e CSV",
+    "descricao": "O botão Importar traz registros em massa de uma planilha (há modelo para baixar). O botão CSV exporta o que está na tela para abrir no Excel."
+   }
+  ],
+  "impactos": [
+   "O Prazo aparece no Calendário (como “Ação NR-1”) e nos Próximos 7 dias da Visão geral.",
+   "Ações abertas e atrasadas aparecem no Painel NR-1 (indicador Ações abertas e quadro Pendências).",
+   "As ações aparecem na ficha do responsável, no menu Time."
+  ],
+  "cuidados": [
+   "Ações atrasadas não entram nos Pontos de atenção da Visão geral nem nos avisos do sino; acompanhe pelo Painel NR-1 e pelo Calendário.",
+   "Excluir uma ação apaga as evidências anexadas. Se a ação não vai acontecer, use o status Cancelada.",
+   "Sem indicador de eficácia fica difícil provar que a medida funcionou. Preencha sempre."
+  ],
+  "dica": "Uma ação só está realmente concluída quando tem resultado medido e evidência anexada."
+ },
+ {
+  "path": "nr1-pesquisa",
+  "titulo": "Pesquisa anônima (NR-1)",
+  "grupo": "Clima e bem-estar",
+  "objetivo": "Aplicar uma pesquisa anônima de 24 perguntas sobre riscos psicossociais, adaptada do COPSOQ II-Br e do HSE. A coleta é feita no Microsoft Forms anônimo; o sistema guarda só o resultado do grupo e mostra o índice de risco por dimensão.",
+  "quando_usar": "Para identificar riscos com participação da equipe, por exemplo uma vez por semestre, fora da semana de fechamento.",
+  "passo_a_passo": [
+   "Clique em Novo ciclo. O sistema cria o ciclo do semestre (ex.: Pesquisa 2026/2).",
+   "Clique no ícone de lápis para ajustar nome, data ou grupo.",
+   "Clique em Ver questionário e depois em Copiar para o Forms. Cole no Microsoft Forms e marque o formulário como anônimo.",
+   "Se quiser, baixe o Modelo de planilha para ver o formato esperado (P1 a P24).",
+   "Depois das respostas, exporte do Forms para Excel.",
+   "Clique em Importar respostas (Excel/CSV) e escolha o arquivo.",
+   "Leia o Índice de risco por dimensão e o quadro Assédio e violência.",
+   "Para dimensões em atenção ou risco, clique em → inventário para criar o risco no Inventário."
+  ],
+  "recursos": [
+   {
+    "nome": "Questionário de 24 perguntas",
+    "descricao": "Cobre carga, exigências emocionais, autonomia, clareza de papel, reconhecimento, apoio da liderança, relacionamentos, justiça, mudanças, comunicação, equilíbrio, esgotamento e assédio."
+   },
+   {
+    "nome": "Importação flexível",
+    "descricao": "Aceita o texto da escala (Nunca… Sempre, Discordo totalmente… Concordo totalmente, Sim/Não) ou números de 0 a 4 (ou 1 a 5). Os cabeçalhos podem ser P1…P24 ou o texto da pergunta."
+   },
+   {
+    "nome": "Só o resultado do grupo",
+    "descricao": "As respostas individuais não ficam no sistema; só o total por pergunta."
+   },
+   {
+    "nome": "Índice de risco por dimensão",
+    "descricao": "De 0 (sem risco) a 100 (risco máximo): 0 a 33 favorável, 34 a 66 atenção, 67 a 100 risco. Setas comparam com o ciclo anterior."
+   },
+   {
+    "nome": "Assédio e violência",
+    "descricao": "Mostra quantos responderam “sim” às duas perguntas sobre assédio e violência nos últimos 12 meses."
+   },
+   {
+    "nome": "Botão → inventário",
+    "descricao": "Aparece nas dimensões acima de 33 e cria o risco no Inventário já preenchido."
+   },
+   {
+    "nome": "Mínimo de respostas",
+    "descricao": "O resultado só aparece com 5 ou mais respostas."
+   }
+  ],
+  "impactos": [
+   "O botão → inventário (e o link Levar ao inventário, no quadro de assédio) cria um risco no Inventário de riscos com fator, grupo, nº de expostos, origem “Pesquisa anônima”, probabilidade e severidade sugeridas, status Identificado e revisão em 2 anos. Essa revisão passa a aparecer no Calendário.",
+   "A última pesquisa aparece no Painel NR-1, com a quantidade de dimensões em risco.",
+   "Os resultados não viram automaticamente lançamentos em Indicadores de bem-estar."
+  ],
+  "cuidados": [
+   "Marque o formulário como anônimo e avise a equipe que o resultado é analisado só em conjunto (5 ou mais pessoas).",
+   "Importar de novo no mesmo ciclo substitui as respostas anteriores (o sistema pede confirmação).",
+   "Qualquer “sim” em assédio pede ação imediata: reforçar o canal de denúncia, conversar com RH ou Compliance e registrar no inventário.",
+   "Depois de usar → inventário, ajuste probabilidade e severidade no risco criado e crie a ação no Plano.",
+   "O questionário foi adaptado para uso interno. Para validade científica, use o COPSOQ II-Br publicado; o método deve ser alinhado com o SESMT."
+  ],
+  "dica": "Compartilhe o resultado com a equipe: além de gerar confiança, é evidência de participação dos trabalhadores."
+ },
+ {
+  "path": "nr1-indicadores",
+  "titulo": "Indicadores de bem-estar",
+  "grupo": "Clima e bem-estar",
+  "objetivo": "Lançar, mês a mês, indicadores da área que ajudam a perceber riscos psicossociais e medir se o plano de ação funciona: absenteísmo, horas extras, afastamentos, turnover, 1:1 realizados e outros.",
+  "quando_usar": "Uma vez por mês, depois do fechamento da folha ou do ponto.",
+  "passo_a_passo": [
+   "Clique em Novo.",
+   "Escolha a Competência (mês e ano).",
+   "Preencha os números que tiver: Headcount, Absenteísmo (%), Atestados, Afastamentos por saúde mental, Horas extras por pessoa, Turnover voluntário (%), 1:1 realizados (%) e os demais.",
+   "Clique em Salvar.",
+   "Confira o resumo no topo da tela, que compara o mês mais recente com o anterior.",
+   "Para lançar vários meses de uma vez, use Importar com a planilha-modelo."
+  ],
+  "recursos": [
+   {
+    "nome": "Resumo do mês",
+    "descricao": "Mostra o último mês lançado contra o anterior, com seta de melhora (verde) ou piora (vermelha)."
+   },
+   {
+    "nome": "Indicadores disponíveis",
+    "descricao": "Headcount, absenteísmo, atestados, afastamentos por saúde mental, afastamentos acima de 15 dias, horas extras por pessoa, pessoas com jornada acima de 10 h ou fim de semana, férias vencidas, turnover voluntário, 1:1 realizados, relatos/denúncias no mês e uso do EAP."
+   },
+   {
+    "nome": "Campos opcionais",
+    "descricao": "Só a competência é obrigatória; preencha o que tiver."
+   },
+   {
+    "nome": "Lista, busca e filtros",
+    "descricao": "A barra acima da lista tem o campo Buscar…, filtros prontos e a contagem de registros. A visão escolhida, a busca e os filtros ficam guardados para a próxima vez."
+   },
+   {
+    "nome": "Importar e CSV",
+    "descricao": "O botão Importar traz registros em massa de uma planilha (há modelo para baixar). O botão CSV exporta o que está na tela para abrir no Excel."
+   }
+  ],
+  "impactos": [
+   "O resumo do mês mais recente aparece no quadro Indicadores do Painel NR-1.",
+   "Não puxa dados de outros módulos: os números são digitados ou importados."
+  ],
+  "cuidados": [
+   "Lance só quantidades. Nunca nomes, CID individual ou dados clínicos.",
+   "Mantenha um lançamento por mês: a comparação usa os dois meses mais recentes.",
+   "Use os mesmos critérios de cálculo todo mês para a comparação fazer sentido."
+  ],
+  "dica": "Use estes indicadores para medir a eficácia das ações do Plano de ação, não só para acompanhar."
+ },
+ {
+  "path": "nr1-checklist",
+  "titulo": "Checklist NR-1",
+  "grupo": "Clima e bem-estar",
+  "objetivo": "Lista das evidências que um auditor fiscal costuma pedir sobre riscos psicossociais e assédio, organizada em seis grupos. Para cada item você marca se está feito, indica o responsável e guarda a evidência.",
+  "quando_usar": "No início de cada ano, para planejar, e ao longo do ano, sempre que uma evidência for produzida.",
+  "passo_a_passo": [
+   "Escolha o ano (ciclo) no seletor do topo.",
+   "Percorra os grupos: PGR e inventário, Metodologia e participação, Plano de ação, Assédio e violência, Saúde/jornada/afastamentos, Liderança e rituais.",
+   "Para cada item, escolha o Responsável….",
+   "Quando o item estiver pronto, marque a caixa. A data de conclusão é registrada sozinha.",
+   "Clique em evidência para escrever onde está o documento (observação) e anexar o arquivo.",
+   "Acompanhe a barra de progresso do ciclo e o contador de cada grupo."
+  ],
+  "recursos": [
+   {
+    "nome": "Ciclos por ano",
+    "descricao": "Um checklist por ano; dá para abrir também o ano seguinte para se planejar."
+   },
+   {
+    "nome": "25 itens em 6 grupos",
+    "descricao": "Itens baseados na NR-1, na Lei 14.457/2022 e em boas práticas de saúde e segurança."
+   },
+   {
+    "nome": "Data automática",
+    "descricao": "Ao marcar um item, o sistema grava “feito em” com a data do dia."
+   },
+   {
+    "nome": "Evidência",
+    "descricao": "Campo de observação (onde está a evidência, nº do documento) e anexos por item."
+   },
+   {
+    "nome": "Progresso",
+    "descricao": "Barra geral do ciclo e contador por grupo."
+   }
+  ],
+  "impactos": [
+   "O percentual do ano atual aparece no Painel NR-1.",
+   "Os responsáveis vêm do cadastro do Time."
+  ],
+  "cuidados": [
+   "As marcações são salvas na hora, sem botão Salvar. Desmarcar um item também vale na hora.",
+   "Cada ano é um checklist separado; o ano novo começa em branco.",
+   "Marcar o item não substitui o documento: anexe a evidência ou indique onde ela está.",
+   "A lista é um apoio. Confirme com o SESMT e o jurídico quais documentos a sua empresa precisa ter."
+  ],
+  "dica": "Anexe a evidência no mesmo dia em que marcar o item: na hora da fiscalização, tudo estará num lugar só."
+ },
+ {
+  "path": "nr1-guia",
+  "titulo": "Guia NR-1 e legislação",
+  "grupo": "Clima e bem-estar",
+  "objetivo": "Resumo prático, para o gestor, sobre NR-1, riscos psicossociais e saúde mental: situação jurídica, o que a empresa precisa ter, os 13 fatores de risco do MTE, sinais de alerta, como agir e campanhas do ano. É uma tela de leitura, com fontes.",
+  "quando_usar": "Para entender o tema antes de montar o inventário e o plano, ou para tirar uma dúvida rápida sobre como agir com alguém da equipe.",
+  "passo_a_passo": [
+   "Abra Guia NR-1 e legislação no menu Clima e bem-estar (ou clique em Guia e legislação no Painel NR-1).",
+   "Leia Situação jurídica e abra as Fontes para conferir os textos originais.",
+   "Leia O que a empresa precisa ter: inventário, plano de ação, participação, revisão e as leis de assédio e de saúde mental.",
+   "Consulte os 13 fatores de risco psicossocial, com descrição e exemplo de cada um.",
+   "Use Sinais de alerta e Como agir quando perceber que alguém não está bem.",
+   "Veja as Campanhas do ano para programar ações."
+  ],
+  "recursos": [
+   {
+    "nome": "Situação jurídica com data e fontes",
+    "descricao": "Resumo do que estava em vigor na data da pesquisa (16/10/2026), com links para as fontes e os pontos ainda a confirmar."
+   },
+   {
+    "nome": "O que a empresa precisa ter",
+    "descricao": "Inventário de riscos, plano de ação, participação dos trabalhadores, revisão periódica, Lei 14.457/2022 (assédio) e Lei 14.831/2024 (certificado voluntário)."
+   },
+   {
+    "nome": "Os 13 fatores do MTE",
+    "descricao": "Cada fator com uma descrição curta e um exemplo prático."
+   },
+   {
+    "nome": "Sinais de alerta",
+    "descricao": "Sinais de esgotamento a observar, lembrando que quem diagnostica é o médico."
+   },
+   {
+    "nome": "Como agir",
+    "descricao": "Passos de primeiros socorros psicológicos: observar, conversar em particular, ajustar o trabalho, encaminhar, acompanhar e, em risco imediato, CVV 188 ou SAMU 192."
+   },
+   {
+    "nome": "Campanhas do ano",
+    "descricao": "Janeiro Branco, Abril Verde, Maio Amarelo, Setembro Amarelo e Dia Mundial da Saúde Mental."
+   }
+  ],
+  "impactos": [
+   "Tela só de leitura: não cria nem altera registros.",
+   "A mesma lista de 13 fatores é usada nos campos Fator do Inventário de riscos e dos Relatos."
+  ],
+  "cuidados": [
+   "O conteúdo tem data. A legislação e as decisões judiciais podem mudar; confirme sempre com o SESMT e o jurídico da empresa.",
+   "O papel do gestor é observar, conversar, ajustar o trabalho e encaminhar, sem diagnosticar nem registrar dados clínicos.",
+   "Em risco imediato, não deixe a pessoa sozinha e acione CVV 188 ou SAMU 192."
+  ],
+  "dica": "Leia a seção Como agir antes de precisar dela: na hora difícil, saber o próximo passo faz diferença."
+ },
+ {
+  "path": "cultura",
+  "titulo": "Diagnóstico de cultura",
+  "grupo": "Cultura",
+  "objetivo": "Medir como a equipe percebe a cultura em quatro traços: envolvimento, consistência, adaptabilidade e missão (inspirado no modelo de Denison). Funciona como a pesquisa de clima: Forms anônimo, exportação para Excel e importação só do resultado do grupo.",
+  "quando_usar": "Uma vez por ano, ou antes e depois de uma mudança importante (nova liderança, reestruturação, troca de sistema).",
+  "passo_a_passo": [
+   "Clique em Novo ciclo. O sistema cria o ciclo do semestre (ex.: Cultura 2026/2).",
+   "Use o ícone de lápis para mudar nome, data ou grupo, se precisar.",
+   "Clique em Ver questionário e em Copiar para o Forms. Cole no Microsoft Forms e marque como anônimo.",
+   "Se quiser, baixe o Modelo de planilha (P1 a P12).",
+   "Depois das respostas, exporte do Forms para Excel.",
+   "Clique em Importar respostas (Excel/CSV) e escolha o arquivo.",
+   "Leia a favorabilidade de cada traço e compare com o ciclo anterior."
+  ],
+  "recursos": [
+   {
+    "nome": "Questionário de 12 afirmações",
+    "descricao": "Três por traço, com escala de Discordo totalmente a Concordo totalmente."
+   },
+   {
+    "nome": "Ciclos",
+    "descricao": "Cada aplicação é um ciclo, separado dos ciclos da pesquisa de clima."
+   },
+   {
+    "nome": "Favorabilidade por traço",
+    "descricao": "Nota de 0 a 100 (maior é melhor): 67 a 100 forte, 50 a 66 atenção, 0 a 49 crítico, com setas de comparação."
+   },
+   {
+    "nome": "Só o resultado do grupo",
+    "descricao": "As respostas individuais não ficam gravadas."
+   },
+   {
+    "nome": "Mínimo de respostas",
+    "descricao": "O resultado só aparece com 5 ou mais respostas."
+   }
+  ],
+  "impactos": [
+   "Não cria registros em outros módulos automaticamente. Os traços mais fracos podem virar Tarefas, Projetos ou ações do Plano de ação, criados por você."
+  ],
+  "cuidados": [
+   "Marque o formulário como anônimo e não aplique em grupos com menos de 5 pessoas.",
+   "Importar de novo no mesmo ciclo substitui o resultado anterior (o sistema pede confirmação).",
+   "Use um ciclo novo a cada aplicação para poder comparar."
+  ],
+  "dica": "Discuta o resultado com a equipe e escolha um traço para trabalhar de cada vez."
+ },
+ {
+  "path": "politicas",
+  "titulo": "Políticas e procedimentos",
+  "grupo": "Cultura",
+  "objetivo": "Reunir as políticas, normas e procedimentos da área com versão, vigência, data de revisão e link do documento oficial. Também registra quem da equipe deu ciência de cada política vigente.",
+  "quando_usar": "Ao publicar ou atualizar uma política, ao cobrar a ciência da equipe e ao acompanhar as revisões programadas.",
+  "passo_a_passo": [
+   "Clique em Novo.",
+   "Preencha Política / procedimento, Código, Versão e Categoria.",
+   "Escolha o Responsável, Vigente desde e Revisar até.",
+   "Defina o Status (Rascunho, Em aprovação, Vigente, Obsoleta) e marque se Exige ciência da equipe?.",
+   "Cole o Link do documento oficial, escreva o Resumo e clique em Salvar.",
+   "No quadro Ciência da equipe, escolha a política na lista e marque o nome de cada pessoa que deu ciência.",
+   "Quando a política mudar, atualize o campo Versão: a ciência volta a ficar pendente para todos."
+  ],
+  "recursos": [
+   {
+    "nome": "Ciência da equipe",
+    "descricao": "Aparece para políticas Vigentes que exigem ciência. Mostra cada pessoa ativa do Time com a data da ciência ou “pendente”, e o total geral (ex.: 12 de 20 ciências)."
+   },
+   {
+    "nome": "Controle por versão",
+    "descricao": "A ciência vale para a versão atual. Mudou a versão, todos ficam pendentes de novo."
+   },
+   {
+    "nome": "Lista e Kanban",
+    "descricao": "Veja as políticas em Lista ou em Kanban por status. Por padrão as Obsoletas ficam ocultas (estão no filtro de histórico)."
+   },
+   {
+    "nome": "Filtros prontos",
+    "descricao": "Filtre por Categoria e Status, além do campo Buscar…."
+   },
+   {
+    "nome": "Categoria editável",
+    "descricao": "O campo Categoria aceita + Nova opção… e ✎ Editar lista…."
+   },
+   {
+    "nome": "Importar e CSV",
+    "descricao": "O botão Importar traz registros em massa de uma planilha (há modelo para baixar). O botão CSV exporta o que está na tela para abrir no Excel."
+   },
+   {
+    "nome": "Anexos e etiquetas",
+    "descricao": "Dentro de cada registro dá para anexar arquivos (atas, listas de presença, prints) e marcar etiquetas para agrupar temas."
+   }
+  ],
+  "impactos": [
+   "A data Revisar até aparece no Calendário (como “Revisão de política”) e nos Próximos 7 dias da Visão geral.",
+   "A lista de pessoas da ciência vem do Time (só quem não está desligado)."
+  ],
+  "cuidados": [
+   "A ciência marcada não pode ser desmarcada na tela. Marque com atenção.",
+   "Mudar a versão zera a ciência de todos. Altere a versão só quando o conteúdo mudar de fato.",
+   "Excluir uma política apaga os anexos dela. Para tirar de uso, prefira o status Obsoleta e mantenha o histórico.",
+   "Revisões vencidas não geram aviso no sino; acompanhe pelo Calendário."
+  ],
+  "dica": "Guarde o documento oficial no link e use o sistema para controlar versão, revisão e ciência."
+ },
+ {
+  "path": "diversidade",
+  "titulo": "Diversidade",
+  "grupo": "Cultura",
+  "objetivo": "Painel com indicadores agregados de diversidade da equipe, calculados a partir do cadastro do Time: gênero, faixa etária, tempo de casa, pessoas com deficiência, área e mulheres na liderança.",
+  "quando_usar": "Para acompanhar a composição da equipe, preparar relatórios e apoiar decisões de contratação e promoção.",
+  "passo_a_passo": [
+   "Cadastre ou complete as pessoas no menu Time (data de nascimento, admissão, área, gestor imediato e, se a pessoa quiser declarar, gênero e deficiência).",
+   "Abra Diversidade no menu Cultura.",
+   "Veja os indicadores do topo: Pessoas ativas, Mulheres, Mulheres na liderança e PcD.",
+   "Consulte os quadros de Gênero (autodeclarado), Faixa etária, Tempo de casa, Pessoas com deficiência e Área.",
+   "Para corrigir um número, ajuste o cadastro da pessoa no Time; o painel se atualiza sozinho."
+  ],
+  "recursos": [
+   {
+    "nome": "Indicadores de topo",
+    "descricao": "Total de pessoas ativas, percentual de mulheres, percentual de mulheres na liderança e quantidade de PcD."
+   },
+   {
+    "nome": "Liderança pelo organograma",
+    "descricao": "É considerado líder quem aparece como Gestor imediato de alguém no cadastro do Time."
+   },
+   {
+    "nome": "Quadros por tema",
+    "descricao": "Quantidade e percentual por gênero, faixa etária, tempo de casa, deficiência e área."
+   },
+   {
+    "nome": "Proteção de grupos pequenos",
+    "descricao": "Com menos de 5 pessoas ativas o painel não aparece, para não identificar ninguém."
+   }
+  ],
+  "impactos": [
+   "Tela só de leitura: não altera nada. Todos os números vêm do cadastro do Time.",
+   "Pessoas com status de desligado não entram na conta."
+  ],
+  "cuidados": [
+   "Gênero e deficiência são dados sensíveis pela LGPD: são opcionais, autodeclarados e devem ser usados só de forma agregada.",
+   "Nunca preencha gênero ou deficiência por suposição; use “Prefere não informar” ou deixe em branco.",
+   "Campos vazios aparecem como “Não informado”. Quanto mais completo o cadastro, mais confiável o painel."
+  ],
+  "dica": "Mantenha o campo Gestor imediato atualizado no Time: é ele que define quem está na liderança."
+ },
+ {
+  "path": "mural",
+  "titulo": "Mural",
+  "grupo": "Comunicação",
+  "objetivo": "Quadro de comunicação da área: avisos, metas do mês, campanhas, conquistas, eventos e lembretes, junto com os aniversariantes do mês e os reconhecimentos recentes. O mesmo conteúdo pode ficar passando numa tela pelo Modo TV.",
+  "quando_usar": "Para publicar recados para a equipe e deixar à vista o que é importante no período.",
+  "passo_a_passo": [
+   "Clique em Novo aviso.",
+   "Escreva o Título e escolha o Tipo (Aviso, Meta do mês, Campanha, Conquista, Evento, Lembrete).",
+   "Escreva o Texto.",
+   "Ajuste Publicar em (já vem com a data de hoje) e, se quiser, Válido até.",
+   "Marque Fixar no topo para avisos importantes e clique em Salvar.",
+   "Para editar, clique no cartão do aviso no mural ou na lista abaixo dele.",
+   "Clique em Modo TV para exibir o mural numa televisão ou monitor."
+  ],
+  "recursos": [
+   {
+    "nome": "Avisos válidos",
+    "descricao": "O mural mostra só os avisos já publicados e ainda dentro da validade. Os fixados aparecem primeiro."
+   },
+   {
+    "nome": "Publicação agendada",
+    "descricao": "Um aviso com Publicar em no futuro só aparece a partir dessa data; depois de Válido até, ele sai sozinho."
+   },
+   {
+    "nome": "Aniversariantes do mês",
+    "descricao": "Lista quem faz aniversário no mês, a partir da data de nascimento no Time, com destaque para quem faz aniversário hoje."
+   },
+   {
+    "nome": "Reconhecimentos recentes",
+    "descricao": "Mostra até 6 reconhecimentos públicos dos últimos 30 dias, com link todos → para a tela de Reconhecimentos."
+   },
+   {
+    "nome": "Lista de todos os avisos",
+    "descricao": "Abaixo do mural há a lista completa (inclusive vencidos e agendados), com Buscar…, filtro por Tipo, Importar e CSV."
+   },
+   {
+    "nome": "Tipo editável",
+    "descricao": "O campo Tipo aceita + Nova opção… e ✎ Editar lista…."
+   }
+  ],
+  "impactos": [
+   "Os avisos válidos, os aniversariantes e os reconhecimentos recentes alimentam o Modo TV.",
+   "Aniversariantes vêm do Time; reconhecimentos vêm da tela Reconhecimentos (só os marcados para Mostrar no mural)."
+  ],
+  "cuidados": [
+   "Avisos vencidos somem do mural, mas continuam na lista abaixo. Exclua só o que não precisar mais.",
+   "Não publique dados pessoais ou confidenciais: o mural pode estar passando numa TV à vista de todos.",
+   "Se alguém não quiser aparecer nos aniversariantes, deixe a data de nascimento em branco no Time."
+  ],
+  "dica": "Sempre preencha Válido até: assim o mural se limpa sozinho."
+ },
+ {
+  "path": "reconhecimentos",
+  "titulo": "Reconhecimentos",
+  "grupo": "Comunicação",
+  "objetivo": "Registrar elogios entre colegas e da liderança, ligados aos valores da equipe. Os reconhecimentos públicos aparecem no Mural e no Modo TV.",
+  "quando_usar": "Sempre que alguém fizer algo que mereça ser lembrado: uma entrega no prazo, uma ajuda a um colega, uma melhoria.",
+  "passo_a_passo": [
+   "Clique em Novo.",
+   "Escolha Para quem é o reconhecimento.",
+   "Em De, escreva quem reconhece (em branco, vale o seu nome de usuário).",
+   "Escolha o Valor / comportamento (ex.: Colaboração, Entrega no prazo, Melhoria contínua).",
+   "Escreva a Mensagem e confira a Data.",
+   "Deixe marcado Mostrar no mural se quiser que apareça para todos, e clique em Salvar.",
+   "Acompanhe no topo da tela os quadros Mais reconhecidos no ano e Valores mais lembrados."
+  ],
+  "recursos": [
+   {
+    "nome": "Mais reconhecidos no ano",
+    "descricao": "Ranking das 8 pessoas com mais reconhecimentos no ano corrente."
+   },
+   {
+    "nome": "Valores mais lembrados",
+    "descricao": "Quantas vezes cada valor foi citado no ano."
+   },
+   {
+    "nome": "Público ou reservado",
+    "descricao": "Com Mostrar no mural desmarcado, o reconhecimento fica só na lista, fora do Mural e do Modo TV."
+   },
+   {
+    "nome": "Valores editáveis",
+    "descricao": "O campo Valor / comportamento aceita + Nova opção… e ✎ Editar lista… para usar os valores da sua empresa."
+   },
+   {
+    "nome": "Filtros prontos",
+    "descricao": "Filtre por Para e Valor / comportamento, além do campo Buscar…."
+   },
+   {
+    "nome": "Importar e CSV",
+    "descricao": "O botão Importar traz registros em massa de uma planilha (há modelo para baixar). O botão CSV exporta o que está na tela para abrir no Excel."
+   }
+  ],
+  "impactos": [
+   "Reconhecimentos públicos dos últimos 30 dias aparecem no Mural; os dos últimos 14 dias (até 5) entram nos slides do Modo TV.",
+   "Os reconhecimentos aparecem na ficha da pessoa reconhecida, no menu Time."
+  ],
+  "cuidados": [
+   "Reconhecimentos públicos podem aparecer numa TV: escreva mensagens que a pessoa ficaria feliz em ver exposta.",
+   "Evite usar o ranking como competição; ele serve para ver se o reconhecimento está bem distribuído.",
+   "Excluir um reconhecimento tira ele também do Mural, do Modo TV e da ficha da pessoa."
+  ],
+  "dica": "Reconheça logo depois do fato e cite o comportamento concreto: o elogio específico vale mais."
+ },
+ {
+  "path": "grupos",
+  "titulo": "Grupos de trabalho",
+  "grupo": "Comunicação",
+  "objetivo": "Cadastrar comitês, squads e grupos de projeto com objetivo, líder, membros, cadência de encontros, canal de comunicação e status.",
+  "quando_usar": "Ao criar um comitê ou grupo de trabalho, para deixar claro quem participa, para quê e com que frequência.",
+  "passo_a_passo": [
+   "Clique em Novo.",
+   "Dê o nome do Grupo e escolha o Líder.",
+   "Em Membros, selecione as pessoas do Time.",
+   "Descreva o Objetivo.",
+   "Escolha a Cadência (Semanal, Quinzenal, Mensal, Sob demanda) e informe o Canal (Teams, e-mail…).",
+   "Defina o Status e, se houver, o Término previsto. Clique em Salvar.",
+   "Use a visão Kanban para ver os grupos Ativos, Pausados e Encerrados."
+  ],
+  "recursos": [
+   {
+    "nome": "Lista e Kanban",
+    "descricao": "Veja os grupos em Lista ou em Kanban por status, arrastando os cartões."
+   },
+   {
+    "nome": "Ativos por padrão",
+    "descricao": "Grupos encerrados ficam ocultos; use o filtro de histórico para vê-los."
+   },
+   {
+    "nome": "Filtros prontos",
+    "descricao": "Filtre por Líder e Status, além do campo Buscar…."
+   },
+   {
+    "nome": "Membros do Time",
+    "descricao": "Líder e membros são escolhidos do cadastro do Time."
+   },
+   {
+    "nome": "Importar e CSV",
+    "descricao": "O botão Importar traz registros em massa de uma planilha (há modelo para baixar). O botão CSV exporta o que está na tela para abrir no Excel."
+   },
+   {
+    "nome": "Anexos e etiquetas",
+    "descricao": "Dentro de cada registro dá para anexar arquivos (atas, listas de presença, prints) e marcar etiquetas para agrupar temas."
+   }
+  ],
+  "impactos": [
+   "Não gera eventos no Calendário: o Término previsto serve só de referência na lista.",
+   "Não cria reuniões automaticamente; para marcar encontros, use o menu Reuniões."
+  ],
+  "cuidados": [
+   "Ao encerrar um grupo, mude o status para Encerrado em vez de excluir, para manter o histórico.",
+   "Excluir um grupo apaga também os anexos dele."
+  ],
+  "dica": "Escreva o objetivo do grupo em uma frase: se não couber, talvez sejam dois grupos."
+ },
+ {
+  "path": "ouvidoria",
+  "titulo": "Ouvidoria",
+  "grupo": "Comunicação",
+  "objetivo": "Registrar sugestões, reclamações, elogios e dúvidas recebidas, com protocolo, responsável, prazo de resposta e devolutiva. Denúncias de assédio são só registradas aqui e seguem para o canal oficial da empresa.",
+  "quando_usar": "Sempre que chegar uma manifestação da equipe ou de clientes internos que precise de análise e resposta.",
+  "passo_a_passo": [
+   "Clique em Novo.",
+   "Escreva o Assunto e, se houver, o Protocolo.",
+   "Escolha o Tipo (Sugestão, Reclamação, Elogio, Dúvida ou Denúncia, que deve ser encaminhada ao canal oficial).",
+   "Deixe marcado Manifestante anônimo se a pessoa não quiser se identificar.",
+   "Preencha Recebido em e o Relato.",
+   "Escolha o Responsável e o prazo em Responder até. Clique em Salvar.",
+   "Ao responder, escreva a Devolutiva e mude o Status para Respondida ou Encerrada."
+  ],
+  "recursos": [
+   {
+    "nome": "Lista e Kanban",
+    "descricao": "Acompanhe em Lista ou em Kanban por status (Recebida, Em análise, Respondida, Encerrada)."
+   },
+   {
+    "nome": "Em aberto por padrão",
+    "descricao": "Manifestações respondidas ou encerradas ficam ocultas; veja-as pelo filtro de histórico."
+   },
+   {
+    "nome": "Filtros prontos",
+    "descricao": "Filtre por Tipo e Status, além do campo Buscar…."
+   },
+   {
+    "nome": "Anônimo por padrão",
+    "descricao": "O campo Manifestante anônimo já vem marcado."
+   },
+   {
+    "nome": "Importar e CSV",
+    "descricao": "O botão Importar traz registros em massa de uma planilha (há modelo para baixar). O botão CSV exporta o que está na tela para abrir no Excel."
+   },
+   {
+    "nome": "Anexos e etiquetas",
+    "descricao": "Dentro de cada registro dá para anexar arquivos (atas, listas de presença, prints) e marcar etiquetas para agrupar temas."
+   }
+  ],
+  "impactos": [
+   "A data Responder até aparece no Calendário (como “Resposta de ouvidoria”) e nos Próximos 7 dias da Visão geral."
+  ],
+  "cuidados": [
+   "Denúncias de assédio devem ir para o canal oficial da empresa, que tem procedimento de apuração. Não conduza a apuração por aqui.",
+   "Em manifestações anônimas, não escreva no relato informações que identifiquem quem fez a manifestação.",
+   "Prazos vencidos não geram aviso no sino; acompanhe pelo Calendário e pelo filtro de status.",
+   "Excluir uma manifestação apaga os anexos e o histórico. Prefira encerrar."
+  ],
+  "dica": "Toda manifestação merece devolutiva, mesmo quando a resposta é “não será possível agora” e o porquê."
+ },
+ {
+  "path": "tv",
+  "titulo": "Modo TV",
+  "grupo": "Comunicação",
+  "objetivo": "Mostra o conteúdo do Mural em slides grandes que mudam sozinhos, com data e hora no topo. Feito para deixar passando numa televisão ou monitor da área.",
+  "quando_usar": "Quando quiser manter avisos, aniversariantes e reconhecimentos visíveis para a equipe numa tela compartilhada.",
+  "passo_a_passo": [
+   "Cadastre os avisos no Mural e os reconhecimentos em Reconhecimentos.",
+   "Abra Modo TV no menu Comunicação (ou clique em Modo TV no Mural).",
+   "Se quiser ocupar a tela inteira, use o modo de tela cheia do navegador.",
+   "Deixe a tela aberta: os slides trocam sozinhos a cada 10 segundos.",
+   "Para ir direto a um slide, clique numa das bolinhas da parte de baixo.",
+   "Para sair, clique em ✕ Sair ou aperte Esc no teclado; você volta ao Mural."
+  ],
+  "recursos": [
+   {
+    "nome": "Slides automáticos",
+    "descricao": "Um slide por aviso válido, um slide com os aniversariantes do mês e um slide por reconhecimento recente."
+   },
+   {
+    "nome": "Data e relógio",
+    "descricao": "O topo mostra o dia da semana, a data e a hora."
+   },
+   {
+    "nome": "Navegação por bolinhas",
+    "descricao": "Os pontos na parte de baixo mostram quantos slides existem e permitem pular para um deles."
+   },
+   {
+    "nome": "Atualização sozinha",
+    "descricao": "Avisos novos ou vencidos entram e saem dos slides sem precisar recarregar a tela."
+   }
+  ],
+  "impactos": [
+   "Só exibe conteúdo: não cria nem altera registros.",
+   "Usa avisos válidos do Mural, aniversariantes do Time e reconhecimentos públicos dos últimos 14 dias (até 5)."
+  ],
+  "cuidados": [
+   "Tudo o que está no Mural fica visível para quem passar pela TV. Revise o conteúdo antes.",
+   "Reconhecimentos com Mostrar no mural desmarcado não aparecem.",
+   "Sem conteúdo cadastrado, a tela mostra “Nada no mural agora”.",
+   "Deixe na TV um usuário de perfil somente leitura, para ninguém alterar dados por ali."
+  ],
+  "dica": "Use datas de validade nos avisos: assim a TV está sempre atualizada sem ninguém mexer."
+ }
+]

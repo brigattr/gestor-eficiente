@@ -12,8 +12,11 @@ export function menuOcultos(db: DB): Set<string> {
   return new Set(Array.isArray(v) ? (v as string[]).filter((p) => !FIXOS.has(p)) : [])
 }
 
+// cadastros auxiliares que vivem dentro de outra tela do menu
+const DENTRO_DE: Record<string, string> = { krs: 'okr', candidatos: 'vagas' }
+
 /** Caminho visível? (também usado para esconder alertas e eventos de ferramentas desligadas) */
-export const visivel = (db: DB, path: string) => !menuOcultos(db).has(path)
+export const visivel = (db: DB, path: string) => !menuOcultos(db).has(DENTRO_DE[path] ?? path)
 
 export function navVisivel(db: DB) {
   const ocultos = menuOcultos(db)

@@ -127,7 +127,8 @@ export function computeAlerts(db: DB): Alert[] {
       a.push({ level: 'warn', text: `Incentive ${ano}: pesos ${p ? `de ${P(p)}` : 'das suas metas'} somam ${s}% (devem somar 100%)`, col: 'incentivos', path: 'incentive' })
     }
   }
-  return a.sort((x, y) => (x.level === y.level ? 0 : x.level === 'bad' ? -1 : 1))
+  // ferramentas desligadas no menu não geram alertas (nem na Visão geral nem no contador do menu)
+  return a.filter((x) => visivel(db, x.path)).sort((x, y) => (x.level === y.level ? 0 : x.level === 'bad' ? -1 : 1))
 }
 
 export function useAlerts() {
