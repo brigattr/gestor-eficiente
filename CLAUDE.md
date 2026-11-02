@@ -19,7 +19,8 @@
 - 19/10/2026 00h — vários calendários (Outlook, Google, iCloud), menu Clima e bem-estar, marca Gestor Eficiente · ChiefDesk, backlog de tickets com SLA. **Envio do dia 19/10 já usado**.
 - 26/10/2026 22h — listas sem concluídas por padrão, Contratos e vencimentos, avisos de vencimento (sino), anotações estilo Notas do iPhone (tela cheia, papel liso/linhas/quadriculado, lápis, régua, estilos, tabela, fixar), atalhos + Tarefa no 1:1 e Conectar calendários. **Envio do dia 26/10 já usado**.
 - 27/10/2026 18h — etapas (subtarefas) dentro da tarefa, 'Concluída e criar nova tarefa', fluxogramas de processo, ajustes de celular (sem zoom nos campos, área segura do iPhone, telas sem estourar a largura) e login que não cai (manter conectado renova a cada uso; bloqueio por inatividade não derruba quem marcou). **Envio do dia 27/10 já usado**.
-- 01/11/2026 17h — tarefas dentro dos projetos (progresso automático), importação em massa com modelo Excel por tela, horário do aviso nas tarefas, ditado por voz nas anotações, convite de reunião legível, modo TV com Sair no iPhone, menu oculto também nos Pontos de atenção/OKR, receitas do manual do usuário (docs/manual-usuario). **Envio do dia 01/11 já usado**; outro envio no mesmo dia só com a frase de ciência dos créditos.
+- 01/11/2026 17h — tarefas dentro dos projetos (progresso automático), importação em massa com modelo Excel por tela, horário do aviso nas tarefas, ditado por voz nas anotações, convite de reunião legível, modo TV com Sair no iPhone, menu oculto também nos Pontos de atenção/OKR, receitas do manual do usuário (docs/manual-usuario). **Envio do dia 01/11 já usado**.
+- 01/11/2026 (2º envio, com ciência do usuário) — menu lateral recolhível, imagens e fontes nas anotações, workflow de delegação (Minhas pendências, aviso de nova atribuição), backlog de e-mail. **Envios do dia 01/11 já usados**.
 
 ## Próximos passos comerciais (anotado em 16/10/2026)
 
