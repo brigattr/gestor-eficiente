@@ -8,10 +8,11 @@ import { SeletorEtiquetas, openEditor } from '../components/ItemForm'
 import { TagChips } from '../components/Tags'
 import { CORES_ETIQUETA } from '../data/schema'
 import { get, getPref, list, remove, setPref, uid, upsert, useDB, type Item } from '../data/store'
-import { addFiles, deleteFilesOf } from '../lib/files'
+import { addFiles, deleteFilesOf, getBlob } from '../lib/files'
+import { servidor } from '../lib/api'
 import { isDone } from '../lib/alerts'
 import { fmtDate } from '../lib/format'
-import { limparHtml, textoDoHtml } from '../lib/sanitize'
+import { CSS_FONTE, limparHtml, textoDoHtml } from '../lib/sanitize'
 import { ditadoSuportado, ditar } from '../lib/ditado'
 import { avisar } from '../components/Dialogs'
 
@@ -398,6 +399,36 @@ const DESTAQUES: [string, string][] = [
   ['#e8dcff', 'Roxo'],
   ['transparent', 'Sem destaque'],
 ]
+const TAMANHOS: [string, string][] = [
+  ['12px', 'Pequeno'],
+  ['15px', 'Normal'],
+  ['18px', 'Médio'],
+  ['22px', 'Grande'],
+  ['28px', 'Muito grande'],
+  ['36px', 'Enorme'],
+]
+const FONTES_NOTA = Object.keys(CSS_FONTE)
+
+// imagens coladas ficam guardadas como anexo da página; no texto vai só a referência (data-arquivo)
+const urls = new Map<string, string>()
+async function mostrarImagens(raiz: HTMLElement) {
+  for (const img of Array.from(raiz.querySelectorAll<HTMLImageElement>('img[data-arquivo]'))) {
+    if (img.getAttribute('src')) continue
+    const id = img.getAttribute('data-arquivo')!
+    if (servidor()) img.src = `api/files/${id}`
+    else {
+      let u = urls.get(id)
+      if (!u) {
+        const b = await getBlob(id)
+        if (!b) continue
+        u = URL.createObjectURL(b)
+        urls.set(id, u)
+      }
+      img.src = u
+    }
+  }
+}
+
 const CORES_TEXTO: [string, string][] = [
   ['#1f2937', 'Preto'],
   ['#c0392b', 'Vermelho'],
@@ -485,7 +516,8 @@ function Pagina({ p, caminho, foco, onFoco, onSubpagina, onExcluir }: { p: Item;
     if (!ed.current) return
     if (document.activeElement === ed.current) return // não mexe no texto enquanto você digita
     const html = limparHtml(String(p.html ?? ''))
-    if (ed.current.innerHTML !== html) ed.current.innerHTML = html
+    if (limparHtml(ed.current.innerHTML) !== html) ed.current.innerHTML = html
+    void mostrarImagens(ed.current)
   }, [p.html])
   useEffect(() => {
     if (document.activeElement?.classList.contains('nb-titulo')) return
@@ -586,6 +618,83 @@ function Pagina({ p, caminho, foco, onFoco, onSubpagina, onExcluir }: { p: Item;
     })
   }
 
+  // ── imagens no texto (colar, arrastar ou escolher) e redimensionamento
+  const [imgSel, setImgSel] = useState<{ el: HTMLImageElement; x: number; y: number } | null>(null)
+  const arqImg = useRef<HTMLInputElement>(null)
+  async function inserirImagens(arquivos: File[]) {
+    const imgs = arquivos.filter((f) => f.type.startsWith('image/'))
+    if (!imgs.length) return false
+    const metas = await addFiles('paginas', p.id, imgs)
+    if (!metas.length) return true
+    ed.current?.focus()
+    if (guardada.current) {
+      const s = window.getSelection()
+      s?.removeAllRanges()
+      s?.addRange(guardada.current)
+      guardada.current = null
+    }
+    document.execCommand('insertHTML', false, metas.map((m) => `<img data-arquivo="${m.id}" style="width: 100%">`).join('') + '<br>')
+    if (ed.current) await mostrarImagens(ed.current)
+    mudou()
+    return true
+  }
+  /** Imagens vindas do Word/navegador como dados embutidos viram anexos de verdade. */
+  async function colarHtml(html: string) {
+    const doc = new DOMParser().parseFromString(html, 'text/html')
+    for (const img of Array.from(doc.querySelectorAll('img'))) {
+      const src = img.getAttribute('src') ?? ''
+      if (!src.startsWith('data:image/')) continue
+      const b = await (await fetch(src)).blob()
+      const [m] = await addFiles('paginas', p.id, [new File([b], `imagem-colada.${b.type.split('/')[1] ?? 'png'}`, { type: b.type })])
+      if (m) {
+        img.setAttribute('data-arquivo', m.id)
+        img.setAttribute('style', `width: ${Number(img.getAttribute('width')) && Number(img.getAttribute('width')) < 400 ? 50 : 100}%`)
+      }
+    }
+    document.execCommand('insertHTML', false, limparHtml(doc.body.innerHTML))
+    if (ed.current) await mostrarImagens(ed.current)
+    mudou()
+  }
+  function tamanhoImagem(pct: number | null) {
+    if (!imgSel) return
+    if (pct === null) {
+      const atual = parseInt(imgSel.el.style.width) || 100
+      const v = window.prompt('Tamanho da imagem em % da largura (de 5 a 100):', String(atual))
+      const n = v ? Math.round(Number(v.replace('%', '').replace(',', '.'))) : NaN
+      if (!isFinite(n) || n < 5 || n > 100) return
+      pct = n
+    }
+    imgSel.el.style.width = pct + '%'
+    setImgSel(null)
+    mudou()
+  }
+  function removerImagem() {
+    imgSel?.el.remove()
+    setImgSel(null)
+    mudou()
+  }
+  function abrirMenuImagem(img: HTMLImageElement, x: number, y: number) {
+    const base = folha.current?.getBoundingClientRect()
+    if (!base) return
+    setImgSel({ el: img, x: Math.min(Math.max(x - base.left, 10), base.width - 230), y: y - base.top + 8 })
+  }
+  // ── tamanho e tipo de fonte (o navegador marca com <font>; trocamos por estilo)
+  function aplicarFonte(tipo: 'tamanho' | 'familia', valor: string) {
+    exec(tipo === 'tamanho' ? 'fontSize' : 'fontName', tipo === 'tamanho' ? '7' : valor)
+    if (!ed.current) return
+    for (const f of Array.from(ed.current.querySelectorAll('font'))) {
+      const span = document.createElement('span')
+      if (f.getAttribute('size') === '7' && tipo === 'tamanho') span.style.fontSize = valor
+      const face = f.getAttribute('face')
+      if (face) span.style.fontFamily = CSS_FONTE[face] ?? face
+      const cor = f.getAttribute('color')
+      if (cor) span.style.color = cor
+      while (f.firstChild) span.appendChild(f.firstChild)
+      f.replaceWith(span)
+    }
+    mudou()
+  }
+
   function tabela() {
     const cel = '<td><br></td>'.repeat(3)
     exec('insertHTML', `<table><tbody>${`<tr>${cel}</tr>`.repeat(3)}</tbody></table><p><br></p>`)
@@ -632,6 +741,7 @@ function Pagina({ p, caminho, foco, onFoco, onSubpagina, onExcluir }: { p: Item;
     { i: '⇥', t: 'Aumentar recuo', run: () => exec('indent') },
     { i: '⇤', t: 'Diminuir recuo', run: () => exec('outdent') },
     { i: '▦', t: 'Inserir tabela (3 × 3)', run: tabela },
+    { i: '🖼 Imagem', t: 'Inserir imagem (ou cole com Ctrl+V / arraste para o texto). Clique na imagem para mudar o tamanho', run: () => (guardar(), arqImg.current?.click()) },
     '|',
     { i: '🔗', t: 'Link (selecione o texto antes)', run: link },
     { i: '🕑', t: 'Inserir data e hora', run: dataHora },
@@ -751,6 +861,22 @@ function Pagina({ p, caminho, foco, onFoco, onSubpagina, onExcluir }: { p: Item;
             </option>
           ))}
         </select>
+        <select className="nb-menu" value="" title="Tamanho da letra" onMouseDown={(e) => (guardar(), e.stopPropagation())} onChange={(e) => e.target.value && aplicarFonte('tamanho', e.target.value)}>
+          <option value="">Tamanho</option>
+          {TAMANHOS.map(([v, nome]) => (
+            <option key={v} value={v}>
+              {nome}
+            </option>
+          ))}
+        </select>
+        <select className="nb-menu" value="" title="Tipo de letra" onMouseDown={(e) => (guardar(), e.stopPropagation())} onChange={(e) => e.target.value && aplicarFonte('familia', e.target.value)}>
+          <option value="">Fonte</option>
+          {FONTES_NOTA.map((f) => (
+            <option key={f} value={f} style={{ fontFamily: CSS_FONTE[f] }}>
+              {f}
+            </option>
+          ))}
+        </select>
         <span className="nb-sep" />
         {cmds.map((c, i) =>
           c === '|' ? (
@@ -779,13 +905,45 @@ function Pagina({ p, caminho, foco, onFoco, onSubpagina, onExcluir }: { p: Item;
         onInput={mudou}
         onBlur={salvar}
         onPaste={(e) => {
+          // imagem copiada (print, foto, Word): guarda como anexo da página e mostra no texto
+          const arquivos = Array.from(e.clipboardData.files ?? [])
+          if (arquivos.some((f) => f.type.startsWith('image/'))) {
+            e.preventDefault()
+            void inserirImagens(arquivos)
+            return
+          }
           const html = e.clipboardData.getData('text/html')
           if (!html) return
           e.preventDefault()
-          document.execCommand('insertHTML', false, limparHtml(html))
-          mudou()
+          if (/<img[^>]+src=["']data:image\//i.test(html)) void colarHtml(html)
+          else {
+            document.execCommand('insertHTML', false, limparHtml(html))
+            mudou()
+          }
+        }}
+        onDragOver={(e) => e.dataTransfer.types.includes('Files') && e.preventDefault()}
+        onDrop={(e) => {
+          const arquivos = Array.from(e.dataTransfer.files ?? [])
+          if (!arquivos.some((f) => f.type.startsWith('image/'))) return
+          e.preventDefault()
+          const r = document.caretRangeFromPoint?.(e.clientX, e.clientY)
+          if (r) guardada.current = r
+          void inserirImagens(arquivos)
+        }}
+        onContextMenu={(e) => {
+          const img = (e.target as Element).closest('img[data-arquivo]') as HTMLImageElement | null
+          if (!img) return
+          e.preventDefault()
+          abrirMenuImagem(img, e.clientX, e.clientY)
         }}
         onClick={(e) => {
+          // toque/clique na imagem: menu de tamanho (funciona também no tablet e no celular)
+          const img = (e.target as Element).closest('img[data-arquivo]') as HTMLImageElement | null
+          if (img) {
+            abrirMenuImagem(img, e.clientX, e.clientY)
+            return
+          }
+          setImgSel(null)
           // caixinha da lista de tarefas
           const li = (e.target as Element).closest('ul.check > li') as HTMLElement | null
           if (!li) return
@@ -802,6 +960,26 @@ function Pagina({ p, caminho, foco, onFoco, onSubpagina, onExcluir }: { p: Item;
           }
         }}
       />
+      <input ref={arqImg} type="file" accept="image/*" multiple hidden onChange={(e) => (void inserirImagens(Array.from(e.target.files ?? [])), (e.target.value = ''))} />
+      {imgSel && (
+        <div className="nb-imgmenu" style={{ left: imgSel.x, top: imgSel.y }} onMouseDown={(e) => e.preventDefault()}>
+          <span className="small muted">Tamanho</span>
+          {[25, 50, 75, 100].map((n) => (
+            <button key={n} type="button" className={`btn sm ${parseInt(imgSel.el.style.width) === n ? 'primary' : ''}`} onClick={() => tamanhoImagem(n)}>
+              {n}%
+            </button>
+          ))}
+          <button type="button" className="btn sm" onClick={() => tamanhoImagem(null)}>
+            Outro…
+          </button>
+          <button type="button" className="btn sm danger" onClick={removerImagem} title="Tirar a imagem do texto">
+            <Icon name="trash" size={13} />
+          </button>
+          <button type="button" className="btn ghost sm" onClick={() => setImgSel(null)} aria-label="Fechar">
+            ✕
+          </button>
+        </div>
+      )}
       {desenhos.map((d, i) => (
         <div key={d.id} id={'ds-' + d.id}>
           <Desenho d={d} podeSubir={i > 0} podeDescer={i < desenhos.length - 1} onMover={(dir) => moverDesenho(i, dir)} onTarefa={(png) => void tarefaDoDesenho(png)} />

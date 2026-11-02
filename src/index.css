@@ -311,7 +311,7 @@ label.field input, label.field select, label.field textarea { font-weight: 400; 
 .nb-prev { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nb-dica { padding: 10px 12px; }
 .nb-editor { padding: 14px 28px 40px; }
-.nb-pagina { display: grid; gap: 8px; max-width: 980px; }
+.nb-pagina { position: relative; display: grid; gap: 8px; max-width: 980px; }
 .nb-meta { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
 .nb-titulo { border: 0; border-bottom: 1px solid var(--border); border-radius: 0; font-size: 26px; font-weight: 800; padding: 6px 0; background: transparent; font-family: inherit; }
 .nb-titulo:focus { outline: none; border-bottom-color: var(--accent); }
@@ -665,3 +665,13 @@ body { touch-action: manipulation; } /* sem zoom acidental com toque duplo */
   .app.compacto .nav-badge { position: absolute; top: 1px; right: 4px; font-size: 9.5px; padding: 0 4px; }
 }
 @media (max-width: 860px) { .side-toggle { display: none; } }
+
+/* ── Imagens dentro das anotações */
+.nb-texto img { max-width: 100%; height: auto; border-radius: 6px; cursor: pointer; vertical-align: bottom; }
+.nb-texto img:hover { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); }
+.nb-imgmenu { position: absolute; z-index: 6; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; max-width: 330px; padding: 6px 8px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 8px 24px rgb(0 0 0 / .18); }
+
+/* ── Imagens dentro das anotações */
+.nb-texto img { max-width: 100%; height: auto; border-radius: 6px; cursor: pointer; vertical-align: bottom; }
+.nb-texto img:hover { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); }
+.nb-imgmenu { position: absolute; z-index: 6; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; max-width: 340px; padding: 6px 8px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 8px 24px rgb(0 0 0 / .18); }
