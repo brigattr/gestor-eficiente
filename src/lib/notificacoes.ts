@@ -53,6 +53,11 @@ async function mostrar(titulo: string, corpo: string, tag: string, url: string) 
   }
 }
 
+/** Aviso avulso (ex.: nova delegação), se os avisos estiverem ativos neste aparelho. */
+export async function notificar(titulo: string, corpo: string, url = './#/pendencias') {
+  if (estado() === 'ativo') await mostrar(titulo, corpo, 'n-' + titulo + corpo, url)
+}
+
 /** Liga os avisos neste aparelho (precisa ser chamado por um clique do usuário). */
 export async function ativar() {
   if (!suportado()) return 'sem-suporte' as const

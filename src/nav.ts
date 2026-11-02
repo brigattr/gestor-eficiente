@@ -5,6 +5,7 @@ export const NAV: { group: string; items: NavItem[] }[] = [
     group: 'Visão',
     items: [
       { path: '', label: 'Visão geral', icon: 'home' },
+      { path: 'pendencias', label: 'Minhas pendências', icon: 'inbox' },
       { path: 'calendario', label: 'Calendário', icon: 'calendar' },
       { path: 'semana', label: 'Preparação da semana', icon: 'week' },
       { path: 'anotacoes', label: 'Anotações', icon: 'book' },

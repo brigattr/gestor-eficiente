@@ -40,6 +40,10 @@
 - **Horário padrão por lista** (ideia, 27/10/2026): ex.: lista Pessoal já vem com aviso às 18h. O horário de aviso por tarefa já foi feito.
 - **Manuais** (01/11/2026): Manual do Usuário em PDF (fontes em docs/manual-usuario; regenerar quando telas mudarem) e Manual Comercial (fora do repositório, entregue ao usuário).
 - **Lacunas vistas ao escrever o manual** (01/11/2026): candidato 'Contratado' não cria pessoa/admissão; feedback 'compartilhar' não publica no Mural; Férias não cruza com a Matriz de cobertura; pesquisas não alimentam Indicadores de bem-estar.
+- **E-mail (pedido em 02/11/2026)** — aguardando decisão do usuário:
+  - *Hospedar e-mail de pequenas empresas* (caixa @empresa.com.br): não roda no Cloudflare Pages; caminho sugerido é revender/indicar um provedor (Zoho Mail, Google Workspace, Microsoft 365, Locaweb/KingHost) e o sistema só configurar o domínio. Servidor de e-mail próprio só faria sentido na VPS, e mesmo assim exige anti-spam, reputação e suporte.
+  - *E-mail dentro do sistema* (ler/enviar): via conexão oficial com Microsoft 365/Outlook (Graph) e Gmail (API), com login de cada usuário (OAuth); exige registrar o app na Microsoft/Google e, na Doehler, aprovação da TI. Passo 1 viável: ler a caixa e transformar e-mail em tarefa/follow-up; passo 2: responder/enviar.
+- **Manual do usuário a atualizar** com: Minhas pendências e delegação, menu recolhível, imagens e fontes nas anotações (regenerar o PDF a partir de docs/manual-usuario).
 - **Avisos com o sistema fechado** (próximo passo das notificações, 26/10/2026): hoje os avisos do sino aparecem com o sistema aberto (mesmo em outra aba/minimizado). Para avisar com tudo fechado é preciso Web Push com agendador no servidor (Worker com cron + chaves VAPID) — fazer junto com a migração para VPS ou antes, se o usuário pedir.
 - **Anotações — o que ficou de fora do pacote Notas do iPhone**: laço (selecionar e mover parte do desenho), bloquear nota com senha, seções recolhíveis, imagem dentro do texto.
 

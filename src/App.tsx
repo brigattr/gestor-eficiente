@@ -7,6 +7,7 @@ import { Diversidade, PesquisaClima, Politicas, Termometro } from './pages/Cultu
 import { ModoTV, Mural, Reconhecimentos } from './pages/Comunicacao'
 import { Checklists, ContratosPage, NpsInterno, ObrigacoesPage } from './pages/Processos'
 import { Fluxogramas } from './pages/Fluxogramas'
+import { Pendencias } from './pages/Pendencias'
 import { Cobertura, Organograma } from './pages/PessoasExtra'
 import { ChecklistNr1, GuiaNr1, IndicadoresNr1, InventarioNr1, PainelNr1, PesquisaNr1 } from './pages/Nr1'
 import { Arquivos } from './pages/Arquivos'
@@ -58,6 +59,7 @@ export default function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        <Route path="/pendencias" element={<Pendencias />} />
         <Route path="/calendario" element={<Calendario />} />
         <Route path="/semana" element={<Semana />} />
         <Route path="/anotacoes" element={<Anotacoes />} />

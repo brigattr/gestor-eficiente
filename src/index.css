@@ -675,3 +675,9 @@ body { touch-action: manipulation; } /* sem zoom acidental com toque duplo */
 .nb-texto img { max-width: 100%; height: auto; border-radius: 6px; cursor: pointer; vertical-align: bottom; }
 .nb-texto img:hover { outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent); }
 .nb-imgmenu { position: absolute; z-index: 6; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; max-width: 340px; padding: 6px 8px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 8px 24px rgb(0 0 0 / .18); }
+
+/* ── Minhas pendências / delegação */
+.pd-grupo { display: grid; gap: 4px; }
+.pd-titulo { font-weight: 800; text-transform: uppercase; letter-spacing: .06em; margin-top: 8px; }
+.pd-item { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
+.pd-corpo { display: grid; gap: 1px; flex: 1; min-width: 200px; cursor: pointer; }

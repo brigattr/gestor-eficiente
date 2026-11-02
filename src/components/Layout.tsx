@@ -15,6 +15,8 @@ import { logout } from '../lib/auth'
 import { useUser } from '../pages/Login'
 import { ativar, desativar, estado, verificar } from '../lib/notificacoes'
 import { avisar } from './Dialogs'
+import { AvisoAtribuicoes } from './AvisoAtribuicoes'
+import { atribuicoes, minhaPessoa } from '../lib/workflow'
 
 type Theme = 'auto' | 'light' | 'dark'
 
@@ -28,6 +30,8 @@ export function Layout({ children }: { children: ReactNode }) {
   const alerts = useAlerts()
   const user = useUser()
   const db = useDB()
+  const eu = minhaPessoa(db)
+  const pendentes = eu ? atribuicoes(db, eu).filter((x) => !x.feito).length : 0
 
   // avisos do dia (tarefas e vencimentos): confere ao abrir, quando os dados mudam e a cada minuto (horário de aviso)
   useEffect(() => {
@@ -64,6 +68,7 @@ export function Layout({ children }: { children: ReactNode }) {
                 <Icon name={i.icon} size={17} />
                 <span className="nav-txt">{i.label}</span>
                 {i.path === '' && alerts.length > 0 && <span className="nav-badge">{alerts.length}</span>}
+                {i.path === 'pendencias' && pendentes > 0 && <span className="nav-badge" style={{ background: 'var(--info)' }}>{pendentes}</span>}
               </NavLink>
             ))}
             {g.group === 'Visão' && visivel(db, ETIQUETAS) && <MenuEtiquetas fechar={() => setOpen(false)} />}
@@ -107,6 +112,7 @@ export function Layout({ children }: { children: ReactNode }) {
       </div>
       {open && <div className="overlay" style={{ zIndex: 30, background: 'rgb(0 0 0 / .3)' }} onClick={() => setOpen(false)} />}
       <EditorHost />
+      {user && <AvisoAtribuicoes />}
       <DialogHost />
     </div>
   )
