@@ -20,6 +20,9 @@ type Theme = 'auto' | 'light' | 'dark'
 
 export function Layout({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false)
+  // menu recolhido: só os ícones (mais área de trabalho); lembrado neste aparelho
+  const [compacto, setCompactoRaw] = useState<boolean>(() => getPref('menu:compacto', false))
+  const setCompacto = (v: boolean) => (setCompactoRaw(v), setPref('menu:compacto', v))
   const [theme, setTheme] = useState<Theme>(() => getPref<Theme>('theme', 'auto'))
   const loc = useLocation()
   const alerts = useAlerts()
@@ -45,16 +48,21 @@ export function Layout({ children }: { children: ReactNode }) {
   const title = NAV.flatMap((g) => g.items).find((i) => '/' + i.path === loc.pathname || (i.path && loc.pathname.startsWith('/' + i.path + '/')))?.label ?? (loc.pathname.startsWith('/etiquetas') ? 'Etiquetas' : 'Visão geral')
 
   return (
-    <div className="app">
+    <div className={`app ${compacto ? 'compacto' : ''}`}>
       <aside className={`sidebar ${open ? 'open' : ''}`}>
-        <Logo light />
+        <div className="side-topo">
+          <Logo light />
+          <button className="side-toggle" onClick={() => setCompacto(!compacto)} title={compacto ? 'Mostrar o menu completo' : 'Recolher o menu (só ícones)'} aria-label={compacto ? 'Expandir menu' : 'Recolher menu'}>
+            <Icon name="painel" size={18} />
+          </button>
+        </div>
         {navVisivel(db).map((g) => (
           <div key={g.group}>
             <div className="nav-group">{g.group}</div>
             {g.items.map((i) => (
-              <NavLink key={i.path} to={'/' + i.path} end={i.path === ''} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => setOpen(false)}>
+              <NavLink key={i.path} to={'/' + i.path} end={i.path === ''} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => setOpen(false)} title={compacto ? i.label : undefined}>
                 <Icon name={i.icon} size={17} />
-                {i.label}
+                <span className="nav-txt">{i.label}</span>
                 {i.path === '' && alerts.length > 0 && <span className="nav-badge">{alerts.length}</span>}
               </NavLink>
             ))}
@@ -111,9 +119,9 @@ function MenuEtiquetas({ fechar }: { fechar: () => void }) {
   return (
     <>
       <div className="nav-group">Etiquetas</div>
-      <NavLink to="/etiquetas" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={fechar}>
+      <NavLink to="/etiquetas" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={fechar} title="Etiquetas">
         <Icon name="tag" size={17} />
-        Etiquetas
+        <span className="nav-txt">Etiquetas</span>
         {n > 0 && <span className="nav-count">{n}</span>}
       </NavLink>
     </>

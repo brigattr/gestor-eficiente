@@ -646,3 +646,22 @@ body { touch-action: manipulation; } /* sem zoom acidental com toque duplo */
 .nb-ditado .btn { margin-left: auto; }
 .nb-ponto { width: 10px; height: 10px; border-radius: 50%; background: #dc2626; animation: nbPulsa 1s infinite; }
 @keyframes nbPulsa { 50% { opacity: .3; } }
+
+/* ── Menu lateral recolhível (só ícones) */
+.side-topo { display: flex; align-items: flex-start; gap: 4px; }
+.side-topo .logo { flex: 1; min-width: 0; }
+.side-toggle { flex: none; margin-top: 6px; width: 32px; height: 32px; border-radius: 8px; border: 0; background: transparent; color: #9fb0d0; cursor: pointer; display: grid; place-items: center; }
+.side-toggle:hover { background: rgb(255 255 255 / .08); color: #fff; }
+.nav-link { position: relative; }
+@media (min-width: 861px) {
+  .app { transition: grid-template-columns .18s ease; }
+  .app.compacto { grid-template-columns: 68px minmax(0, 1fr); }
+  .app.compacto .sidebar { padding-left: 8px; padding-right: 8px; overflow-x: hidden; }
+  .app.compacto .side-topo { flex-direction: column; align-items: center; gap: 6px; }
+  .app.compacto .logo > div, .app.compacto .nav-txt, .app.compacto .nav-count { display: none; }
+  .app.compacto .sidebar .logo { padding: 6px 0 4px; justify-content: center; }
+  .app.compacto .nav-group { font-size: 0; padding: 0; height: 1px; background: rgb(255 255 255 / .1); margin: 8px 6px; }
+  .app.compacto .nav-link { justify-content: center; padding: 9px 0; }
+  .app.compacto .nav-badge { position: absolute; top: 1px; right: 4px; font-size: 9.5px; padding: 0 4px; }
+}
+@media (max-width: 860px) { .side-toggle { display: none; } }
