@@ -38,6 +38,11 @@
   - **Totalmente dinâmico**: o gestor cria as etapas (fluxo/status) de cada tipo de ticket; nada fixo no código.
   - Integrar com o Painel de eficiência existente (hoje ele importa tickets do SharePoint) e com o Calendário/alertas (prazos de SLA vencendo).
 
+- **Etapas visíveis na lista de Tarefas** (pedido em 02/11/2026): ver os prazos das etapas sem abrir a tarefa. Proposta:
+  - Na Lista, tarefa com etapas ganha uma setinha ▸ que **expande as etapas logo abaixo, recuadas** (como "agrupar" do Excel): bolinha para concluir, responsável e prazo (vermelho se atrasada). Botões "Expandir todas / Recolher todas", lembrados no aparelho.
+  - Coluna **"Próxima etapa"** (nome + prazo da etapa pendente mais próxima), ordenável — dá para organizar o dia sem expandir nada.
+  - **Prazo geral × etapas**: aviso quando uma etapa vence depois do prazo da tarefa; sem prazo na tarefa, mostrar a última data das etapas como prazo sugerido.
+  - No Kanban, o cartão mostra "Próxima etapa: … · dd/mm". (O Calendário já mostra as etapas com data.)
 - **Horário padrão por lista** (ideia, 27/10/2026): ex.: lista Pessoal já vem com aviso às 18h. O horário de aviso por tarefa já foi feito.
 - **Manuais** (01/11/2026): Manual do Usuário em PDF (fontes em docs/manual-usuario; regenerar quando telas mudarem) e Manual Comercial (fora do repositório, entregue ao usuário).
 - **Lacunas vistas ao escrever o manual** (01/11/2026): candidato 'Contratado' não cria pessoa/admissão; feedback 'compartilhar' não publica no Mural; Férias não cruza com a Matriz de cobertura; pesquisas não alimentam Indicadores de bem-estar.
