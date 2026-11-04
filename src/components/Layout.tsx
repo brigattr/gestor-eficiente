@@ -13,6 +13,7 @@ import { itensEtiquetados } from '../pages/Etiquetas'
 import { useDB, type DB } from '../data/store'
 import { logout } from '../lib/auth'
 import { useUser } from '../pages/Login'
+import { useConta } from '../lib/conta'
 import { ativar, desativar, estado, verificar } from '../lib/notificacoes'
 import { avisar } from './Dialogs'
 import { AvisoAtribuicoes } from './AvisoAtribuicoes'
@@ -29,6 +30,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const loc = useLocation()
   const alerts = useAlerts()
   const user = useUser()
+  useConta() // o plano da conta decide o menu
   const db = useDB()
   const eu = minhaPessoa(db)
   const pendentes = eu ? atribuicoes(db, eu).filter((x) => !x.feito).length : 0
@@ -72,6 +74,12 @@ export function Layout({ children }: { children: ReactNode }) {
               </NavLink>
             ))}
             {g.group === 'Visão' && visivel(db, ETIQUETAS) && <MenuEtiquetas fechar={() => setOpen(false)} />}
+            {g.group === 'Sistema' && user?.plataforma && (
+              <NavLink to="/plataforma" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => setOpen(false)} title={compacto ? 'Plataforma (contas)' : undefined}>
+                <Icon name="briefcase" size={17} />
+                <span className="nav-txt">Plataforma (contas)</span>
+              </NavLink>
+            )}
           </div>
         ))}
       </aside>

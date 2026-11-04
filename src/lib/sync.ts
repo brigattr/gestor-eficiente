@@ -1,6 +1,7 @@
 import { aplicar, setDB, setOnFalha, type DB, type Item } from '../data/store'
 import { api, servidor, setOnUnauthorized } from './api'
 import { applyFileChanges, setFileIndex, type FileMeta } from './files'
+import { setConta, type Conta } from './conta'
 import { getUser, setUser, type SessionUser } from './session'
 
 // Modo servidor: carrega tudo após o login e busca alterações feitas em outros
@@ -13,7 +14,8 @@ let carregando: Promise<void> | null = null
 export async function carregarServidor() {
   carregando ??= (async () => {
     try {
-      const r = await api<{ db: DB; files: FileMeta[]; now: string; user: SessionUser }>('/data')
+      const r = await api<{ db: DB; files: FileMeta[]; now: string; user: SessionUser; conta?: Conta }>('/data')
+      setConta(r.conta ?? null)
       setDB(r.db)
       setFileIndex(r.files)
       setUser(r.user)
@@ -30,10 +32,11 @@ export async function carregarServidor() {
 async function buscarMudancas() {
   if (!getUser() || !desde || document.hidden) return
   try {
-    const r = await api<{ items: { col: string; id: string; data: Item | null }[]; files: (FileMeta & { deleted?: boolean })[]; usuarios: Item[]; now: string; user: SessionUser }>(`/changes?since=${encodeURIComponent(desde)}`)
+    const r = await api<{ items: { col: string; id: string; data: Item | null }[]; files: (FileMeta & { deleted?: boolean })[]; usuarios: Item[]; now: string; user: SessionUser; conta?: Conta }>(`/changes?since=${encodeURIComponent(desde)}`)
     for (const c of r.items) aplicar(c.col, c.data, c.id)
     for (const u of r.usuarios) aplicar('usuarios', u)
     applyFileChanges(r.files)
+    setConta(r.conta ?? null)
     const eu = getUser()
     if (eu && (eu.papel !== r.user.papel || eu.nome !== r.user.nome)) setUser(r.user)
     desde = r.now
@@ -70,6 +73,7 @@ export function encerrarSync() {
   clearInterval(timer)
   timer = undefined
   desde = ''
+  setConta(null)
   setDB({})
   setFileIndex([])
 }

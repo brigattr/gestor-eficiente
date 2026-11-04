@@ -30,6 +30,7 @@ import { Anexos } from './pages/Anexos'
 import { Reunioes } from './pages/Reunioes'
 import { ConfigurarEtiquetas, EtiquetaDetalhe, Etiquetas } from './pages/Etiquetas'
 import { Usuarios } from './pages/Usuarios'
+import { Plataforma } from './pages/Plataforma'
 
 // Módulos que usam apenas a tela genérica (lista/kanban/gantt + formulário)
 const GENERIC: [string, string][] = [
@@ -111,6 +112,7 @@ export default function App() {
         <Route path="/etiquetas/configurar" element={<ConfigurarEtiquetas />} />
         <Route path="/etiquetas/:id" element={<EtiquetaDetalhe />} />
         <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/plataforma" element={<Plataforma />} />
         {GENERIC.map(([p, col]) => (
           <Route key={p} path={'/' + p} element={<ModulePage key={col} col={col} />} />
         ))}

@@ -1,6 +1,6 @@
 // Usuário logado nesta aba. Separado do store para evitar dependência circular.
-export type Papel = 'Administrador' | 'Gestor' | 'Leitura'
-export type SessionUser = { id: string; nome: string; papel: Papel }
+export type Papel = 'Administrador' | 'Gestor' | 'Colaborador' | 'Leitura'
+export type SessionUser = { id: string; nome: string; papel: Papel; plataforma?: boolean; conta?: string }
 
 let current: SessionUser | null = null
 const subs = new Set<() => void>()

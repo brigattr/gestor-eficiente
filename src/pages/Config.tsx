@@ -4,9 +4,10 @@ import { exportarZip, lerBackup, restaurar } from '../lib/backup'
 import { fmtSize, restoreFiles, useFileIndex } from '../lib/files'
 import { uso } from '../lib/idb'
 import { canWrite, isAdmin } from '../lib/session'
-import { servidor } from '../lib/api'
+import { api, servidor } from '../lib/api'
+import { liberado, setConta, useConta, type Conta } from '../lib/conta'
 import { Icon } from '../components/Icon'
-import { PageHead } from '../components/ui'
+import { Chip, PageHead } from '../components/ui'
 import { NAV } from '../nav'
 import { ETIQUETAS, FIXOS, menuOcultos } from '../lib/menu'
 import { upsert } from '../data/store'
@@ -122,9 +123,59 @@ export function Configuracoes() {
           </span>
         </div>
       </div>
+      {servidor() && <ContaConfig />}
       <MenuConfig />
       {canWrite() && <ImportacaoCentral />}
     </>
+  )
+}
+
+/** Dados da conta (empresa) e a opção "gestor vê tudo da equipe". */
+function ContaConfig() {
+  const conta = useConta()
+  const admin = isAdmin()
+  const [nome, setNome] = useState('')
+  if (!conta) return null
+  async function salvar(b: { nome?: string; opcoes?: { gestorVeEquipe: boolean } }) {
+    try {
+      const r = await api<{ conta: Conta }>('/conta', { method: 'PUT', body: b })
+      setConta(r.conta)
+      setNome('')
+    } catch (e) {
+      avisar((e as Error).message)
+    }
+  }
+  return (
+    <div className="card stack">
+      <div className="row">
+        <h2 className="grow">Conta</h2>
+        <Chip t="info">Plano {conta.plano === 'individual' ? 'Individual' : 'Empresa'}</Chip>
+      </div>
+      <div className="row" style={{ flexWrap: 'wrap' }}>
+        <input aria-label="Nome da conta" value={nome || conta.nome} disabled={!admin} onChange={(e) => setNome(e.target.value)} style={{ flex: '1 1 220px' }} />
+        {admin && nome && nome !== conta.nome && (
+          <button className="btn sm primary" onClick={() => void salvar({ nome })}>
+            Salvar nome
+          </button>
+        )}
+      </div>
+      {conta.plano === 'empresa' ? (
+        <>
+          <span className="small muted">
+            Cada pessoa vê o que é dela: o que criou, o que foi delegado a ela (responsável, aprovador, backup, etapa, aguardando), as reuniões em que foi convidada e o que alguém compartilhou com ela. Telas da empresa (mural, políticas, obrigações, organograma…) são de todos.
+          </span>
+          <label className="row" style={{ gap: 8 }}>
+            <input type="checkbox" disabled={!admin} checked={!!conta.opcoes?.gestorVeEquipe} onChange={(e) => void salvar({ opcoes: { gestorVeEquipe: e.target.checked } })} />
+            <span>
+              <b>Gestor vê tudo da equipe</b> — o gestor imediato (cadastro do Time) também vê os registros pessoais dos subordinados diretos.
+            </span>
+          </label>
+        </>
+      ) : (
+        <span className="small muted">No plano Individual tudo é seu: não há visão separada por usuário.</span>
+      )}
+      {!admin && <span className="small muted">Somente administradores alteram a conta.</span>}
+    </div>
   )
 }
 
@@ -133,10 +184,11 @@ function MenuConfig() {
   const db = useDB()
   const ocultos = menuOcultos(db)
   const admin = isAdmin()
+  useConta() // ferramentas fora do plano contratado não aparecem para escolher
   const grupos = NAV.map((g) => ({
     group: g.group,
-    items: [...g.items, ...(g.group === 'Visão' ? [{ path: ETIQUETAS, label: 'Etiquetas', icon: 'tag' }] : [])],
-  }))
+    items: [...g.items, ...(g.group === 'Visão' ? [{ path: ETIQUETAS, label: 'Etiquetas', icon: 'tag' }] : [])].filter((i) => FIXOS.has(i.path) || liberado(i.path)),
+  })).filter((g) => g.items.length)
   const total = grupos.reduce((a, g) => a + g.items.filter((i) => !FIXOS.has(i.path)).length, 0)
   function salvar(novo: Set<string>) {
     upsert('sistema', { id: 'menu', ocultos: [...novo].filter((p) => !FIXOS.has(p)).sort() })

@@ -10,7 +10,7 @@ import { visivel } from './menu'
 import { getUser } from './session'
 
 /** Papéis que significam "isto é com você". */
-export const PAPEIS = new Set(['responsavel', 'aprovador', 'backup', 'titular', 'instrutor', 'lider'])
+export const PAPEIS = new Set(['responsavel', 'aprovador', 'backup', 'titular', 'instrutor', 'lider', 'aguardandoPessoa'])
 
 export type Atribuicao = { chave: string; col: string; path: string; modulo: string; item: Item; titulo: string; papel: string; prazo?: string; status?: string; feito: boolean; quem?: string; etapa?: string }
 

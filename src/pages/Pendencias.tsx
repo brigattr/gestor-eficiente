@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { openEditor } from '../components/ItemForm'
 import { Chip, Kpi, PageHead, Seg, useLocalState } from '../components/ui'
 import { upsert, useDB } from '../data/store'
-import { fmtDate, todayISO } from '../lib/format'
+import { fmtDate, label, todayISO } from '../lib/format'
+import { isDone } from '../lib/alerts'
 import { isAdmin } from '../lib/session'
 import { atribuicoes, delegadasPorMim, minhaPessoa, type Atribuicao } from '../lib/workflow'
 
@@ -17,7 +18,7 @@ export function Pendencias() {
   const [aba, setAba] = useLocalState<Aba>('pend:aba', 'mim')
   const minhas = useMemo(() => (pessoa ? atribuicoes(db, pessoa).filter((a) => !a.feito) : []), [db, pessoa])
   const deleguei = useMemo(() => delegadasPorMim(db, pessoa), [db, pessoa])
-  const aguardando = useMemo(() => (pessoa ? (db.tarefas ?? []).filter((t) => t.responsavel === pessoa && /aguardando/i.test(String(t.status ?? ''))) : []), [db, pessoa])
+  const aguardando = useMemo(() => (pessoa ? (db.tarefas ?? []).filter((t) => t.responsavel === pessoa && (/aguardando/i.test(String(t.status ?? '')) || (!!t.aguardandoPessoa && t.aguardandoPessoa !== pessoa && !isDone('tarefas', t)))) : []), [db, pessoa])
   const hoje = todayISO()
   const atrasadas = minhas.filter((a) => a.prazo && a.prazo < hoje).length
   const aceitar = minhas.filter((a) => a.col === 'tarefas' && String(a.item.delegacao ?? '') === 'Delegada – pendente' && !a.etapa)
@@ -111,7 +112,7 @@ export function Pendencias() {
               <div key={t.id} className="pd-item">
                 <div className="pd-corpo" onClick={() => openEditor('tarefas', t.id)}>
                   <b>{String(t.titulo)}</b>
-                  <span className="small muted">Aguardando: {String(t.aguardando || '—')}</span>
+                  <span className="small muted">Aguardando: {t.aguardandoPessoa ? label('pessoas', (db.pessoas ?? []).find((p) => p.id === t.aguardandoPessoa)) : String(t.aguardando || '—')}</span>
                 </div>
                 {typeof t.followup === 'string' && t.followup && <span className={`small ${t.followup < hoje ? 'neg' : 'muted'}`}>follow-up {fmtDate(t.followup)}</span>}
               </div>

@@ -2,6 +2,7 @@
 // guardada na coleção "sistema" (id "menu"). Só o administrador altera.
 import { NAV } from '../nav'
 import type { DB } from '../data/store'
+import { liberado } from './conta'
 
 /** Itens que nunca podem ser ocultados (senão ninguém volta para religar). */
 export const FIXOS = new Set(['', 'configuracoes', 'usuarios'])
@@ -16,9 +17,12 @@ export function menuOcultos(db: DB): Set<string> {
 const DENTRO_DE: Record<string, string> = { krs: 'okr', candidatos: 'vagas' }
 
 /** Caminho visível? (também usado para esconder alertas e eventos de ferramentas desligadas) */
-export const visivel = (db: DB, path: string) => !menuOcultos(db).has(DENTRO_DE[path] ?? path)
+export const visivel = (db: DB, path: string) => {
+  const p = DENTRO_DE[path] ?? path
+  return !menuOcultos(db).has(p) && (FIXOS.has(p) || liberado(p))
+}
 
 export function navVisivel(db: DB) {
   const ocultos = menuOcultos(db)
-  return NAV.map((g) => ({ ...g, items: g.items.filter((i) => !ocultos.has(i.path)) })).filter((g) => g.items.length > 0 || g.group === 'Visão')
+  return NAV.map((g) => ({ ...g, items: g.items.filter((i) => FIXOS.has(i.path) || (!ocultos.has(i.path) && liberado(i.path))) })).filter((g) => g.items.length > 0 || g.group === 'Visão')
 }

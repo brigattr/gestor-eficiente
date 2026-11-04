@@ -11,7 +11,8 @@ import { label } from '../lib/format'
 const PAPEIS: { p: Papel; d: string }[] = [
   { p: 'Administrador', d: 'Tudo, inclusive usuários, backup e restauração' },
   { p: 'Gestor', d: 'Cria e edita registros e anexos; não gerencia usuários' },
-  { p: 'Leitura', d: 'Consulta tudo, sem editar' },
+  { p: 'Colaborador', d: 'Cria e edita os próprios registros e o que receber; não vê salários e remunerações' },
+  { p: 'Leitura', d: 'Consulta, sem editar' },
 ]
 
 export function Usuarios() {
@@ -58,7 +59,7 @@ export function Usuarios() {
                   <td>{String(u.login ?? '')}</td>
                   <td>{String(u.email ?? '')}</td>
                   <td>
-                    <Chip t={u.papel === 'Administrador' ? 'info' : u.papel === 'Leitura' ? 'muted' : 'ok'}>{String(u.papel)}</Chip>
+                    <Chip t={u.papel === 'Administrador' ? 'info' : u.papel === 'Leitura' ? 'muted' : u.papel === 'Colaborador' ? 'warn' : 'ok'}>{String(u.papel)}</Chip>
                   </td>
                   <td>{u.pessoa ? label('pessoas', get('pessoas', u.pessoa as string)) : '—'}</td>
                   <td className="small muted">{u.ultimoAcesso ? new Date(String(u.ultimoAcesso)).toLocaleString('pt-BR') : '—'}</td>

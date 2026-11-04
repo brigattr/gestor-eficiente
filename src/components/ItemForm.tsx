@@ -2,6 +2,7 @@ import { confirmar } from './Dialogs'
 import { Fragment, useState, useSyncExternalStore } from 'react'
 import { CORES_ETIQUETA, MOD, type Field } from '../data/schema'
 import { get, getDB, list, remove, uid, upsert, type Item } from '../data/store'
+import { telaPessoal } from '../lib/conta'
 import { bonus } from '../lib/incentive'
 import { opcoesCampo, salvarOpcoes } from '../lib/opcoes'
 import { deleteFilesOf } from '../lib/files'
@@ -241,12 +242,16 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
 // ── Reuniões: dados do calendário sincronizado (somente leitura) separados das suas anotações
 const ANOTACOES = ['tipo', 'roteiro', 'pauta', 'materiais', 'preparado', 'decisoes', 'etiquetas']
 
+// Plano Empresa: registros de telas pessoais só aparecem para quem criou/foi designado; este campo abre para outras pessoas
+const COMPARTILHAR: Field = { key: 'compartilhado', label: 'Compartilhar com', type: 'multiref', ref: 'pessoas', wide: true, help: 'Só dá visibilidade (não delega): estas pessoas passam a ver e editar este registro' }
+
 function camposVisiveis(col: string, fields: Field[], v: Record<string, unknown>) {
-  if (col !== 'reunioes') return fields
+  const extra = telaPessoal(col) ? [COMPARTILHAR] : []
+  if (col !== 'reunioes') return [...fields, ...extra]
   const porKey = (ks: string[]) => ks.map((k) => fields.find((f) => f.key === k)).filter(Boolean) as Field[]
-  if (ehExterna(v.origem)) return porKey(ANOTACOES)
+  if (ehExterna(v.origem)) return [...porKey(ANOTACOES), ...extra]
   // reunião criada aqui: dados básicos editáveis + anotações (sem os campos internos do calendário)
-  return porKey(['titulo', 'data', 'hora', 'horaFim', 'local', 'participantes', ...ANOTACOES])
+  return [...porKey(['titulo', 'data', 'hora', 'horaFim', 'local', 'participantes', ...ANOTACOES]), ...extra]
 }
 
 function ReuniaoTopo({ v }: { v: Record<string, unknown> }) {
