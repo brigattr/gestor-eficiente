@@ -29,6 +29,21 @@
 - **Mais à frente:** migrar do Cloudflare Pages/D1/R2 para uma **VPS** (servidor próprio), para suportar muitos clientes, usuários e banco de dados maiores. Isso exige planejar: separação por cliente (multi-tenant), banco (ex.: PostgreSQL), armazenamento de arquivos, backup automático, monitoramento, e-mail transacional e planos/assinatura. O usuário não é técnico nessa parte — explicar passo a passo, como foi feito no Cloudflare.
 - O menu configurável (Configurações → Ferramentas no menu) é a base dos planos/pacotes de venda.
 
+## Rumo do produto: contas e visão por usuário (decidido em 04/11/2026)
+
+- **Não recomeçar**: manter todas as telas; trocar a fundação. Hoje é 1 empresa por instalação e todos os usuários veem tudo (perfis só limitam edição).
+- **Dois jeitos de vender**: (1) **Individual** — um gestor organizando a própria vida/rotina; (2) **Empresa** — funcionários da mesma empresa, com delegação entre eles, cada um com a própria visão.
+- **Todos os módulos existem nos dois planos**; o **dono da plataforma (o usuário)** escolhe, por conta de cliente, o que cada uma pode acessar (liga/desliga em nível de plataforma). O administrador da empresa ainda pode esconder mais no menu.
+- **Regra de visibilidade (proposta, a validar)**: tudo **nasce pessoal** (só o criador vê). Passa a outra pessoa **só por um ato explícito**:
+  1. **Delegar** (Responsável/Aprovador/Backup… = outra pessoa) → ela vê e recebe o aviso; quem delegou acompanha em "Delegadas por mim".
+  2. **Depender de alguém** ("Aguardando quem" vira escolha de pessoa) → ela vê em "Aguardando você", sem virar dona.
+  3. **Etapa delegada** → a pessoa vê a tarefa (e a etapa dela).
+  4. **Compartilhar** (botão "Compartilhar com…" pessoas ou equipe) → só dar visibilidade, sem delegar.
+  5. **Telas "da empresa" por natureza** (mural, políticas, obrigações, organograma…) são visíveis para todos da conta; telas de RH sensíveis (salários, avaliações, ocorrências, relatos) só RH/gestor direto.
+  - Gestor **não** vê automaticamente o que é pessoal do subordinado; vê o que foi delegado/compartilhado. Opção da empresa (desligada por padrão): "gestor vê tudo da equipe".
+- **Passos**: 1) fundação de contas (cadastro "Criar conta", e-mail de confirmação/recuperação, convites, painel do dono); 2) dono + visibilidade por registro e perfis Administrador da empresa / Gestor / Colaborador; 3) planos e cobrança recorrente (Asaas/Iugu); 4) backup por cliente, Termos de uso e Política de privacidade (LGPD), site com "Criar conta"; 5) VPS quando crescer. Os dados atuais do usuário viram a conta nº 1.
+- **BP Conn**: no futuro, parte deste sistema vai para um produto próprio para **escritórios contábeis** (outro nicho). Não usar a BP Conn como empresa de teste por enquanto.
+
 ## Melhorias pendentes (backlog)
 
 - **Tickets de atendimento com SLA configurável** (pedido em 17/10/2026). O usuário vai trazer o modelo que usa na Controladoria como exemplo — **aguardar o modelo antes de implementar**.
