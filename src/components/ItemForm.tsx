@@ -2,7 +2,8 @@ import { confirmar } from './Dialogs'
 import { Fragment, useState, useSyncExternalStore } from 'react'
 import { CORES_ETIQUETA, MOD, type Field } from '../data/schema'
 import { get, getDB, list, remove, uid, upsert, type Item } from '../data/store'
-import { telaPessoal } from '../lib/conta'
+import { getConta, telaPessoal } from '../lib/conta'
+import { EtiquetaVisao } from './Visibilidade'
 import { bonus } from '../lib/incentive'
 import { opcoesCampo, salvarOpcoes } from '../lib/opcoes'
 import { deleteFilesOf } from '../lib/files'
@@ -150,6 +151,11 @@ function ItemForm({ col, id, preset, onClose }: { col: string; id?: string; pres
       }
     >
       <div className="modal-body">
+        {telaPessoal(col) || getConta()?.plano === 'empresa' ? (
+          <div className="field wide">
+            <EtiquetaVisao col={col} />
+          </div>
+        ) : null}
         {col === 'reunioes' && <ReuniaoTopo v={v} />}
         {camposVisiveis(col, m.fields, v).map((f) =>
           // tarefas: as etapas ocupam o lugar do checklist (que só aparece se já tiver itens, para converter)

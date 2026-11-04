@@ -1,4 +1,5 @@
 import { avisar } from '../components/Dialogs'
+import { EtiquetaVisao } from '../components/Visibilidade'
 import { useState } from 'react'
 import { Icon } from '../components/Icon'
 import { openEditor } from '../components/ItemForm'
@@ -40,7 +41,9 @@ export function OneOnOne() {
 
   return (
     <>
-      <PageHead title="1:1 e roteiros de conversa" desc="Roteiros da sua base: Gestão, Status, Feedback, Avaliação de time, Delegação e Tomada de decisão. Registre respostas e acordos no histórico da pessoa." />
+      <PageHead title="1:1 e roteiros de conversa" desc="Roteiros da sua base: Gestão, Status, Feedback, Avaliação de time, Delegação e Tomada de decisão. Registre respostas e acordos no histórico da pessoa.">
+        <EtiquetaVisao col="umaum" />
+      </PageHead>
       <div className="grid g3">
         <div className="card" style={{ gridColumn: 'span 2' }}>
           <div className="row" style={{ marginBottom: 12 }}>

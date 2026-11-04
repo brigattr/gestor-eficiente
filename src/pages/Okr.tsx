@@ -1,4 +1,5 @@
 import { Icon } from '../components/Icon'
+import { EtiquetaVisao } from '../components/Visibilidade'
 import { openEditor } from '../components/ItemForm'
 import { Bar, Chip, PageHead, useLocalState } from '../components/ui'
 import { upsert, useDB, type DB, type Item } from '../data/store'
@@ -15,6 +16,7 @@ export function Okr() {
   return (
     <>
       <PageHead title="OKR" desc="Objetivos desdobrados (empresa → área → equipe → pessoa), resultados-chave com check-in de progresso e confiança, e os projetos que os movem.">
+        <EtiquetaVisao col="objetivos" />
         <select value={ciclo} onChange={(e) => setCiclo(e.target.value)} style={{ width: 150 }}>
           <option value="">Todos os ciclos</option>
           {ciclos.map((c) => (

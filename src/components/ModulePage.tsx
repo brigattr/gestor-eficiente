@@ -7,6 +7,7 @@ import { downloadFile, label, toCSV } from '../lib/format'
 import { Icon } from './Icon'
 import { openEditor } from './ItemForm'
 import { PageHead, Seg, useLocalState } from './ui'
+import { EtiquetaVisao } from './Visibilidade'
 import { Gantt, Kanban, Table, cellText } from './Views'
 import { ImportarPlanilha } from './Importar'
 import { canWrite } from '../lib/session'
@@ -77,6 +78,7 @@ export function ModulePage({ col, extraViews = [], defaultView, above, actions, 
     <div className="stack">
       {!embedded && (
         <PageHead title={m.title} desc={m.description}>
+          <EtiquetaVisao col={col} />
           {actions}
           <button className="btn primary" onClick={() => openEditor(col, undefined, preset)}>
             <Icon name="plus" size={16} /> Novo

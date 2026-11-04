@@ -681,3 +681,10 @@ body { touch-action: manipulation; } /* sem zoom acidental com toque duplo */
 .pd-titulo { font-weight: 800; text-transform: uppercase; letter-spacing: .06em; margin-top: 8px; }
 .pd-item { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); }
 .pd-corpo { display: grid; gap: 1px; flex: 1; min-width: 200px; cursor: pointer; }
+
+/* etiqueta de visibilidade (plano Empresa) */
+.visao-tag { display: inline-flex; align-items: center; gap: 2px; font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.visao-tag.pessoal { border-color: color-mix(in srgb, var(--info) 45%, transparent); background: color-mix(in srgb, var(--info) 12%, transparent); }
+.visao-tag.empresa { border-color: color-mix(in srgb, var(--ok) 45%, transparent); background: color-mix(in srgb, var(--ok) 12%, transparent); }
+.visao-tag-txt { font-weight: 400; color: var(--muted); }
+@media (max-width: 640px) { .visao-tag-txt { display: none; } }
