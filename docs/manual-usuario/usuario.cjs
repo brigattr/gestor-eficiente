@@ -14,7 +14,9 @@ const existe = (n) => fs.existsSync(path.join(__dirname, 'jpg', n + '.jpg'))
 const foto = (n, leg) => (existe(n) ? `<img class="foto" src="${IMG(n)}">${leg ? `<div class="legenda">${esc(leg)}</div>` : ''}` : '')
 const imgDe = (p) => (p ? p.split('?')[0] : 'visao-geral')
 const EXTRAS = {
-  tarefas: [['det-tarefa', 'A tarefa aberta: campos, etapas e anexos'], ['det-kanban', 'Visão Kanban: arraste o cartão para mudar o status']],
+  tarefas: [['det-tarefa', 'A tarefa aberta: campos, etapas e anexos'], ['det-compartilhar', 'Plano Empresa: “Compartilhar com” no fim do formulário'], ['det-kanban', 'Visão Kanban: arraste o cartão para mudar o status']],
+  plataforma: [['det-nova-conta', 'Nova conta: plano, administrador e ferramentas liberadas']],
+  configuracoes: [['det-conta', 'Conta: plano e “Gestor vê tudo da equipe”']],
   projetos: [['det-projeto', 'Dentro do projeto: as tarefas do projeto e o progresso'], ['det-projetos-tarefas', 'Visão “Com tarefas”: cada projeto com as tarefas em aberto'], ['det-gantt', 'Visão Gantt: a linha do tempo dos projetos']],
 }
 const PADRAO_IMG = [
@@ -33,7 +35,7 @@ for (const t of telas) {
   g.telas.push(t)
 }
 const DESCR_GRUPO = {
-  Visão: 'O seu dia a dia: o que pede atenção, a agenda, a preparação da semana, as anotações e os arquivos da área.',
+  Visão: 'O seu dia a dia: o que pede atenção, as suas pendências, a agenda, a preparação da semana, as anotações e os arquivos da área.',
   Etiquetas: 'Temas que atravessam o sistema: tudo o que recebeu a mesma etiqueta, de qualquer tela, num só lugar.',
   'Gestão e Produtividade': 'Tarefas, projetos, metas, conversas 1:1, reuniões e indicadores de eficiência da área.',
   'Pessoas & DP': 'O cadastro do time e as rotinas de DP: vagas, ponto, férias, exames, cargos, organograma e benefícios.',
@@ -45,7 +47,7 @@ const DESCR_GRUPO = {
   Controles: 'Orçamento × realizado, centros de custo e o fechamento mensal.',
   Processos: 'Obrigações, checklists, fluxogramas, aprovações, reembolsos, contratos, patrimônio e NPS interno.',
   Conhecimento: 'A biblioteca de gestão com referências e boas práticas.',
-  Sistema: 'Anexos, usuários e perfis, configurações, backup e importação em massa.',
+  Sistema: 'Anexos, usuários e perfis, configurações, backup, importação em massa, o manual dentro do sistema e o painel das contas (dono da plataforma).',
 }
 
 const idTela = (t) => 'tela-' + slug(t.titulo)
@@ -69,7 +71,7 @@ const secaoTela = (t) => {
 
 const blocoTexto = (b) => {
   const img = PADRAO_IMG.find(([re]) => re.test(b.titulo))
-  return `<div style="break-inside: avoid-page"><h2 style="font-size:14pt;margin-top:10pt" id="${slug(b.titulo)}">${esc(b.titulo)}</h2>${b.texto ? `<p>${esc(b.texto)}</p>` : ''}${lista(b.passos, 'ol')}</div>${img ? foto(img[1], img[2]) : ''}`
+  return `<div style="break-inside: avoid-page"><h2 style="font-size:14pt;margin-top:10pt" id="${slug(b.titulo)}">${esc(b.titulo)}</h2>${b.texto ? b.texto.split('\n\n').map((t) => `<p>${esc(t).replace(/\n/g, '<br>')}</p>`).join('') : ''}${lista(b.passos, 'ol')}</div>${img ? foto(img[1], img[2]) : ''}`
 }
 
 // sumário clicável
@@ -87,9 +89,9 @@ const corpo = `
 <section class="capa"><div><div class="marca">ChiefDesk · Manual do usuário</div><h1>Gestor Eficiente</h1><p>Guia completo do sistema: para que serve cada tela, passo a passo, imagens, cuidados e como uma tela afeta as outras.</p>${foto('visao-geral')}</div><div class="rodape">Versão de ${new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })} · ${telas.length} telas · as imagens usam dados fictícios de demonstração</div></section>
 ${sumario}
 <section class="quebra" id="como-usar"><h1>Como usar este manual</h1>
-  <p class="objetivo">Este manual segue o <b>menu da esquerda</b> do sistema. Use os <b>marcadores</b> do seu leitor de PDF (o painel lateral, no Adobe, Edge ou Chrome: ícone de lista/marcadores) para pular direto para o grupo e a tela que você quer — ou clique nos itens do Sumário.</p>
+  <p class="objetivo">Este manual segue o <b>menu da esquerda</b> do sistema. Este mesmo conteúdo está dentro do sistema, em <b>Sistema → Manual do usuário</b> e no botão <b>?</b> ao lado do título de cada tela. No PDF, use os <b>marcadores</b> do seu leitor de PDF (o painel lateral, no Adobe, Edge ou Chrome: ícone de lista/marcadores) para pular direto para o grupo e a tela que você quer — ou clique nos itens do Sumário.</p>
   ${caixa('neutra', 'Cada tela traz', lista(['Objetivo — para que a tela serve e que problema resolve.', 'Imagem da tela (com dados de exemplo, fictícios).', 'Quando usar — situações do dia a dia.', 'Passo a passo — como fazer as tarefas principais.', 'Recursos da tela — campos, visões e botões importantes.', 'Impactos em outros módulos — o que muda em outras telas quando você altera algo aqui.', 'Cuidados e consequências — o que observar antes de alterar ou excluir.', 'Dica — o atalho para tirar o máximo da tela.']))}
-  ${caixa('dica', 'Para começar', '<p>Leia a Parte 1 (entrar, instalar no celular, conhecer a tela e ativar os avisos) e a Parte 2 (o que funciona igual em todas as telas). Depois, consulte só as telas que a sua área usa — o administrador pode esconder do menu as que não forem usadas.</p>')}
+  ${caixa('dica', 'Para começar', '<p>Leia a Parte 1 (entrar, instalar no celular, conhecer a tela, perfis, contas e quem vê o quê, e os avisos) e a Parte 2 (o que funciona igual em todas as telas). Depois, consulte só as telas que a sua área usa — o administrador pode esconder do menu as que não forem usadas.</p>')}
 </section>
 <section class="quebra parte" id="primeiros-passos"><span class="num">Parte 1</span><h1>Primeiros passos</h1><p>Entrar no sistema, instalar no celular ou tablet, conhecer a tela, entender os perfis de acesso e ligar os avisos.</p></section>
 <section class="quebra">${geral.primeiros_passos.map(blocoTexto).join('')}</section>

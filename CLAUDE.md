@@ -21,7 +21,7 @@
 - 27/10/2026 18h — etapas (subtarefas) dentro da tarefa, 'Concluída e criar nova tarefa', fluxogramas de processo, ajustes de celular (sem zoom nos campos, área segura do iPhone, telas sem estourar a largura) e login que não cai (manter conectado renova a cada uso; bloqueio por inatividade não derruba quem marcou). **Envio do dia 27/10 já usado**.
 - 01/11/2026 17h — tarefas dentro dos projetos (progresso automático), importação em massa com modelo Excel por tela, horário do aviso nas tarefas, ditado por voz nas anotações, convite de reunião legível, modo TV com Sair no iPhone, menu oculto também nos Pontos de atenção/OKR, receitas do manual do usuário (docs/manual-usuario). **Envio do dia 01/11 já usado**.
 - 01/11/2026 (2º envio, com ciência do usuário) — menu lateral recolhível, imagens e fontes nas anotações, workflow de delegação (Minhas pendências, aviso de nova atribuição), backlog de e-mail. **Envios do dia 01/11 já usados**.
-- 04/11/2026 12h — contas de clientes (Individual/Empresa) com painel Plataforma, visão por usuário (pessoal × da empresa, compartilhar, aguardando pessoa, perfil Colaborador, gestor vê equipe), calendários por usuário, etiqueta 🔒 Pessoal / 🏢 Da empresa, backlog etapas na lista. **Envio do dia 04/11 já usado**.
+- 04/11/2026 13h48 — contas de clientes (Individual/Empresa) com painel Plataforma, visão por usuário (pessoal × da empresa, compartilhar, aguardando pessoa, perfil Colaborador, gestor vê equipe), calendários por usuário, etiqueta 🔒 Pessoal / 🏢 Da empresa, backlog etapas na lista. **Envio do dia 04/11 já usado**.
 
 ## Próximos passos comerciais (anotado em 16/10/2026)
 
@@ -67,7 +67,7 @@
 - **E-mail (pedido em 02/11/2026)** — aguardando decisão do usuário:
   - *Hospedar e-mail de pequenas empresas* (caixa @empresa.com.br): não roda no Cloudflare Pages; caminho sugerido é revender/indicar um provedor (Zoho Mail, Google Workspace, Microsoft 365, Locaweb/KingHost) e o sistema só configurar o domínio. Servidor de e-mail próprio só faria sentido na VPS, e mesmo assim exige anti-spam, reputação e suporte.
   - *E-mail dentro do sistema* (ler/enviar): via conexão oficial com Microsoft 365/Outlook (Graph) e Gmail (API), com login de cada usuário (OAuth); exige registrar o app na Microsoft/Google e, na Doehler, aprovação da TI. Passo 1 viável: ler a caixa e transformar e-mail em tarefa/follow-up; passo 2: responder/enviar.
-- **Manual do usuário a atualizar** com: Minhas pendências e delegação, menu recolhível, imagens e fontes nas anotações (regenerar o PDF a partir de docs/manual-usuario).
+- **Manuais sempre atualizados** (pedido em 04/11/2026): a cada mudança de tela, atualizar `docs/manual-usuario/conteudo/*.json` (vale para o PDF e para o manual dentro do sistema, botão ? em cada tela) e o Manual Comercial (fora do repositório), refazer as fotos e entregar os PDFs ao usuário. Última atualização: 04/11/2026 (contas, visão por usuário, pendências, menu recolhível, imagens/fontes nas anotações, manual no sistema).
 - **Avisos com o sistema fechado** (próximo passo das notificações, 26/10/2026): hoje os avisos do sino aparecem com o sistema aberto (mesmo em outra aba/minimizado). Para avisar com tudo fechado é preciso Web Push com agendador no servidor (Worker com cron + chaves VAPID) — fazer junto com a migração para VPS ou antes, se o usuário pedir.
 - **Anotações — o que ficou de fora do pacote Notas do iPhone**: laço (selecionar e mover parte do desenho), bloquear nota com senha, seções recolhíveis, imagem dentro do texto.
 
@@ -75,6 +75,10 @@
 
 - **ChiefDesk** é a marca-mãe (empresa/plataforma), que no futuro terá outros produtos. **Gestor Eficiente** é o produto atual: "Gestor Eficiente · uma plataforma ChiefDesk". Não renomear o sistema para ChiefDesk.
 - O grupo de menu "Saúde mental e NR-1" virou **"Clima e bem-estar"** (clima/eNPS e termômetro de humor foram para ele; o antigo "Cultura e clima" virou "Cultura"). NR-1 continua coberta, mas sem ser o foco da comunicação.
+
+## Site comercial (05/11/2026)
+
+- Repositório próprio: **brigattr/gestor-eficiente-site** (página estática `index.html` + `img/`, robots.txt, sitemap.xml). SEO revisado (Lighthouse 100). Falta: conectar no Cloudflare Pages, colocar em `chiefdesk.com.br` e mover o sistema para `app.chiefdesk.com.br`; depois Google Search Console + sitemap. Hoje `chiefdesk.com.br` abre o sistema (com `noindex`), então o Google não mostra nada da ChiefDesk.
 
 ## Domínio
 

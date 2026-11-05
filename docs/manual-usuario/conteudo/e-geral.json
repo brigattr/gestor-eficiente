@@ -27,24 +27,36 @@
     },
     {
       "titulo": "Conhecendo a tela",
-      "texto": "À esquerda fica o menu lateral, organizado por grupos: Visão (Visão geral, Calendário, Preparação da semana, Anotações, Arquivos e Etiquetas), Gestão e Produtividade, Pessoas & DP, Clima e bem-estar, Cultura, Comunicação, Desempenho, Desenvolvimento, Controles, Processos, Conhecimento e Sistema. O item Visão geral mostra um número com a quantidade de pontos de atenção, e Etiquetas mostra quantos itens etiquetados estão em aberto. O menu pode mostrar só parte das ferramentas, conforme o administrador configurou. No celular, o menu fica escondido: toque no botão de menu (três linhas) no canto superior esquerdo para abrir.\n\nNo topo ficam: o nome da tela atual, a caixa \"Buscar em tudo… (Ctrl+K)\", a data de hoje, o sino de avisos (\"Ativar avisos\"/\"Avisos\"), o botão de tema e, à direita, as suas iniciais, seu primeiro nome, seu perfil e o botão Sair.",
+      "texto": "À esquerda fica o menu lateral, organizado por grupos: Visão (Visão geral, Calendário, Preparação da semana, Anotações, Arquivos e Etiquetas), Gestão e Produtividade, Pessoas & DP, Clima e bem-estar, Cultura, Comunicação, Desempenho, Desenvolvimento, Controles, Processos, Conhecimento e Sistema. O item Visão geral mostra um número com a quantidade de pontos de atenção, e Etiquetas mostra quantos itens etiquetados estão em aberto. O menu pode mostrar só parte das ferramentas, conforme o administrador configurou. No computador, o botão no alto do menu (ao lado do logotipo) recolhe o menu para mostrar só os ícones e dar mais espaço à tela; clique de novo para abrir. No celular, o menu fica escondido: toque no botão de menu (três linhas) no canto superior esquerdo para abrir.\n\nNo topo ficam: o nome da tela atual, a caixa \"Buscar em tudo… (Ctrl+K)\", a data de hoje, o sino de avisos (\"Ativar avisos\"/\"Avisos\"), o botão de tema e, à direita, as suas iniciais, seu primeiro nome, seu perfil e o botão Sair.",
       "passos": [
         "Clique em um item do menu lateral para abrir a ferramenta.",
         "Use a busca do topo (ou Ctrl+K; no Mac, Cmd+K) para achar qualquer tela ou registro.",
         "Clique no sino para ligar ou desligar os avisos de vencimento neste aparelho.",
         "Clique no botão de tema para alternar entre Auto (segue o aparelho), Claro e Escuro. A escolha fica gravada neste aparelho.",
-        "Clique em Sair para encerrar a sessão (é também a forma de \"bloquear\" o sistema ao se afastar do computador)."
+        "Clique em Sair para encerrar a sessão (é também a forma de \"bloquear\" o sistema ao se afastar do computador).",
+        "Clique no botão ? ao lado do título de qualquer tela para abrir o Manual do usuário direto na explicação daquela tela."
       ]
     },
     {
       "titulo": "Perfis de acesso e o que cada um pode fazer",
-      "texto": "Existem três perfis, definidos pelo administrador em Sistema → Usuários:\n\n• Administrador: faz tudo, inclusive cadastrar, alterar e excluir usuários, restaurar backup, apagar todos os dados ou carregar dados de exemplo, escolher as ferramentas que aparecem no menu e conectar calendários externos (Outlook, Google, iCloud).\n• Gestor: cria, edita e exclui registros e anexos em todas as telas, importa planilhas e sincroniza calendários já conectados; não gerencia usuários, não restaura backup e não altera o menu.\n• Leitura: consulta tudo, sem editar. O botão Importar não aparece, e qualquer tentativa de gravar é recusada com a mensagem \"Seu perfil é somente leitura\". (Exceção: todos podem votar no Termômetro de humor, que é anônimo.)\n\nQualquer usuário pode exportar CSV, gerar o backup .zip e alterar o próprio nome, e-mail e senha. Sempre deve existir pelo menos um administrador ativo. Um usuário pode ser marcado como inativo (não consegue entrar) sem ser excluído, e pode ser vinculado a um colaborador do Time.",
+      "texto": "Existem quatro perfis, definidos pelo administrador em Sistema → Usuários:\n\n• Administrador: faz tudo, inclusive cadastrar, alterar e excluir usuários da conta, restaurar backup, apagar todos os dados ou carregar dados de exemplo, escolher as ferramentas do menu e mudar as opções da conta. No plano Empresa, também vê as telas sensíveis de RH (ouvidoria, relatos, ocorrências, avaliações, holerites, exames, cartão-ponto, admissões, onboarding, benefícios e check-ins).\n• Gestor: cria, edita e exclui registros e anexos, importa planilhas e conecta os próprios calendários; não gerencia usuários, não restaura backup e não altera o menu.\n• Colaborador: igual ao Gestor no dia a dia, mas não vê nem grava salários e remunerações (Time e Cargos e salários).\n• Leitura: consulta, sem editar. Qualquer tentativa de gravar é recusada com a mensagem \"Seu perfil é somente leitura\". (Exceção: todos podem votar no Termômetro de humor, que é anônimo.)\n\nO perfil diz o que a pessoa pode FAZER. O que ela pode VER depende do plano da conta (veja “Contas, planos e quem vê o quê”). Qualquer usuário pode exportar CSV e alterar o próprio nome, e-mail e senha. Sempre deve existir pelo menos um administrador ativo.",
       "passos": [
         "Administrador: Sistema → Usuários → Novo usuário.",
-        "Preencha nome, usuário (login), e-mail, senha e escolha o Perfil (Administrador, Gestor ou Leitura).",
-        "Opcional: vincule o usuário a um colaborador cadastrado em Time.",
+        "Preencha nome, usuário (login), e-mail, senha e escolha o Perfil (Administrador, Gestor, Colaborador ou Leitura).",
+        "Escolha a Pessoa do time deste usuário (necessário para delegação, Minhas pendências e a visão de cada um).",
         "Deixe marcado \"Usuário ativo (pode entrar)\" e salve.",
         "Para bloquear alguém sem apagar o histórico, desmarque \"Usuário ativo\"."
+      ]
+    },
+    {
+      "titulo": "Contas, planos e quem vê o quê",
+      "texto": "Cada cliente do sistema tem a sua conta, com dados, usuários e ferramentas próprios. Uma conta nunca vê os dados de outra. Existem dois planos:\n\n• Individual: um gestor organizando a própria rotina. Tudo o que existe na conta é visível para todos os usuários dela.\n• Empresa: várias pessoas da mesma empresa, com delegação entre elas e cada uma com a própria visão.\n\nNo plano Empresa, as telas se dividem em dois tipos, mostrados por uma etiqueta no topo da tela e do formulário:\n• 🔒 Pessoal (Tarefas, Projetos, OKR, 1:1, Reuniões, SWOT, Anotações, Arquivos, Contratos, Solicitações, Reembolsos, PDIs, Feedbacks, Incentive e as telas sensíveis de RH): cada registro nasce visível só para quem criou. Ele passa a aparecer para outra pessoa só quando você a coloca como Responsável, Aprovador, Backup, Titular, Instrutor ou Líder, responsável por uma etapa, “Aguardando (pessoa do time)”, convidado da reunião, ou em “Compartilhar com”.\n• 🏢 Da empresa (Time, Organograma, Mural, Políticas, Obrigações, Checklists, Fluxogramas, Orçamento, Férias, Clima e as demais): todos da conta veem.\n\nO gestor não vê automaticamente o que é pessoal dos subordinados, só o que foi delegado ou compartilhado com ele. Se a empresa quiser, o administrador liga “Gestor vê tudo da equipe” em Configurações → Conta. Os registros criados antes da existência das contas continuam visíveis para todos da conta.",
+      "passos": [
+        "Veja o plano da sua conta em Configurações → Conta.",
+        "Procure a etiqueta 🔒 Pessoal ou 🏢 Da empresa no topo da tela.",
+        "Para mostrar um registro pessoal a alguém sem delegar, preencha “Compartilhar com” no fim do formulário.",
+        "Para passar a responsabilidade, troque o Responsável (ou Aprovador, Backup…): a pessoa recebe o aviso e vê em Minhas pendências.",
+        "Para tirar o acesso, remova a pessoa do campo: na próxima atualização o registro some para ela."
       ]
     },
     {
@@ -181,6 +193,16 @@
       "passos": [
         "Clique em \"Exportar backup completo (.zip)\" periodicamente.",
         "Para restaurar (administrador): \"Restaurar backup\" → escolha o .zip → confirme."
+      ]
+    },
+    {
+      "titulo": "Manual dentro do sistema",
+      "texto": "O Manual do usuário fica dentro do sistema, em Sistema → Manual do usuário, e também pelo botão ? ao lado do título de cada tela, que abre direto a explicação daquela tela. No manual, use a busca para achar um assunto, o sumário para navegar pelo menu e o botão Imprimir / salvar PDF para ter uma cópia.",
+      "passos": [
+        "Clique no ? ao lado do título da tela em que você está.",
+        "Ou abra Sistema → Manual do usuário e digite o que procura na busca.",
+        "Clique em um grupo ou tela no sumário para ir direto à explicação.",
+        "Use Imprimir / salvar PDF para guardar ou enviar o manual."
       ]
     }
   ],
@@ -364,6 +386,26 @@
       "de": "Ferramentas no menu (ocultar)",
       "para": "Visão geral, Sino, Calendário, Busca global",
       "como": "Ferramenta desmarcada deixa de gerar alertas e avisos, sai do Calendário e da busca. Nada é apagado."
+    },
+    {
+      "de": "Responsável, Aprovador, Backup, Titular, Instrutor, Líder e Aguardando (pessoa do time), em qualquer tela",
+      "para": "Minhas pendências e aviso de nova atribuição",
+      "como": "A pessoa escolhida vê o item na aba “Para mim” e recebe a janela de nova atribuição (e o aviso do sino, se estiver ativo). Quem criou acompanha em “Delegadas por mim”. No plano Empresa, é isso que faz o registro passar a ser visível para ela."
+    },
+    {
+      "de": "Compartilhar com (telas pessoais)",
+      "para": "Visão das outras pessoas",
+      "como": "As pessoas escolhidas passam a ver e editar o registro e os anexos dele, sem virar responsáveis."
+    },
+    {
+      "de": "Time (Gestor imediato)",
+      "para": "Visão do gestor (opção da conta)",
+      "como": "Com “Gestor vê tudo da equipe” ligado, o gestor imediato vê os registros pessoais dos subordinados diretos."
+    },
+    {
+      "de": "Plataforma (ferramentas liberadas)",
+      "para": "Menu, Calendário, Visão geral e sino da conta",
+      "como": "Ferramenta não liberada para a conta some do menu e das datas e alertas, como se estivesse oculta."
     }
   ],
   "glossario": [
@@ -465,7 +507,31 @@
     },
     {
       "termo": "Perfil de acesso",
-      "significado": "Nível de permissão do usuário: Administrador, Gestor (cria e edita) ou Leitura (só consulta)."
+      "significado": "Define o que cada usuário pode fazer: Administrador, Gestor, Colaborador ou Leitura."
+    },
+    {
+      "termo": "Conta",
+      "significado": "O espaço de um cliente no sistema, com dados, usuários e ferramentas próprios. Uma conta não vê as outras."
+    },
+    {
+      "termo": "Plano Individual / Empresa",
+      "significado": "Individual: um gestor e a própria rotina, tudo visível na conta. Empresa: equipe com delegação, cada pessoa com a própria visão."
+    },
+    {
+      "termo": "Pessoal / Da empresa",
+      "significado": "No plano Empresa: telas pessoais mostram cada registro só a quem criou, foi designado ou recebeu compartilhamento; telas da empresa são de todos."
+    },
+    {
+      "termo": "Delegar",
+      "significado": "Colocar outra pessoa como responsável (ou aprovador, backup…) de um registro. Ela vê, recebe aviso e pode aceitar ou recusar a tarefa."
+    },
+    {
+      "termo": "Compartilhar",
+      "significado": "Dar visibilidade de um registro pessoal a outras pessoas, sem mudar o responsável."
+    },
+    {
+      "termo": "Dono da plataforma",
+      "significado": "Quem administra o sistema para todos os clientes: cria contas, escolhe planos e libera ferramentas na tela Plataforma (contas)."
     }
   ],
   "faq": [
@@ -540,6 +606,30 @@
     {
       "pergunta": "Como faço backup dos dados?",
       "resposta": "Em Configurações e backup, clique em \"Exportar backup completo (.zip)\". O arquivo traz dados e anexos; guarde-o em local corporativo seguro."
+    },
+    {
+      "pergunta": "Um colega disse que criou uma tarefa, mas eu não vejo. Por quê?",
+      "resposta": "No plano Empresa, tarefas (e as outras telas 🔒 Pessoal) nascem visíveis só para quem criou. Para você ver, ele precisa colocar você como responsável, numa etapa, em “Aguardando (pessoa do time)” ou em “Compartilhar com”. Confira também se o seu usuário está ligado à sua pessoa do Time (Sistema → Usuários)."
+    },
+    {
+      "pergunta": "Sou gestor. Por que não vejo as tarefas pessoais da minha equipe?",
+      "resposta": "Por padrão, cada pessoa tem a própria visão e o gestor vê o que foi delegado ou compartilhado com ele. Se a empresa preferir, o administrador liga “Gestor vê tudo da equipe” em Configurações → Conta (usa o Gestor imediato do cadastro do Time)."
+    },
+    {
+      "pergunta": "Como sei se a minha conta é Individual ou Empresa?",
+      "resposta": "Em Configurações → Conta aparece o plano. No plano Empresa, as telas mostram no topo a etiqueta 🔒 Pessoal ou 🏢 Da empresa; no Individual, a etiqueta não aparece."
+    },
+    {
+      "pergunta": "Por que não aparece o salário no cadastro do Time?",
+      "resposta": "O seu perfil é Colaborador, que não vê nem grava salários e remunerações. Se precisar, peça ao administrador da conta."
+    },
+    {
+      "pergunta": "Uma ferramenta que eu via sumiu e não aparece nem em Ferramentas no menu.",
+      "resposta": "Ela não está liberada no plano da sua conta. Fale com o responsável pelo contrato do sistema."
+    },
+    {
+      "pergunta": "Onde encontro este manual dentro do sistema?",
+      "resposta": "Em Sistema → Manual do usuário, ou pelo botão ? ao lado do título de qualquer tela, que abre direto a explicação daquela tela."
     }
   ]
 }

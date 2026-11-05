@@ -5,7 +5,7 @@ import type { DB } from '../data/store'
 import { liberado } from './conta'
 
 /** Itens que nunca podem ser ocultados (senão ninguém volta para religar). */
-export const FIXOS = new Set(['', 'configuracoes', 'usuarios'])
+export const FIXOS = new Set(['', 'configuracoes', 'usuarios', 'manual'])
 export const ETIQUETAS = 'etiquetas' // grupo "Etiquetas" (fica fora do NAV)
 
 export function menuOcultos(db: DB): Set<string> {

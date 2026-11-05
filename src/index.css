@@ -688,3 +688,37 @@ body { touch-action: manipulation; } /* sem zoom acidental com toque duplo */
 .visao-tag.empresa { border-color: color-mix(in srgb, var(--ok) 45%, transparent); background: color-mix(in srgb, var(--ok) 12%, transparent); }
 .visao-tag-txt { font-weight: 400; color: var(--muted); }
 @media (max-width: 640px) { .visao-tag-txt { display: none; } }
+
+/* ── Manual do usuário (dentro do sistema) */
+.manual { display: grid; gap: 14px; }
+.manual h3 { font-size: 15px; margin: 6px 0 0; }
+.manual-p { margin: 0; line-height: 1.55; white-space: pre-line; }
+.manual ol, .manual ul { margin: 0; padding-left: 22px; display: grid; gap: 4px; line-height: 1.5; }
+.manual-busca { display: flex; align-items: center; gap: 8px; padding: 10px 14px; }
+.manual-busca input { flex: 1; min-width: 0; border: 0; background: transparent; outline: none; font: inherit; font-size: 16px; color: var(--text); }
+.manual-res { display: grid; gap: 4px; }
+.manual-res a, .manual-sumario a { color: var(--info); text-decoration: none; }
+.manual-res a:hover, .manual-sumario a:hover { text-decoration: underline; }
+.manual-sum-geral { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 10px; }
+.manual-sum-grupos { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+.manual-sum-grupos > div { display: grid; gap: 2px; font-size: 13.5px; align-content: start; }
+.manual-grupo { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--brand-2); margin-top: 10px; }
+.manual-tela, .manual-cap { scroll-margin-top: 70px; }
+.manual-img { width: 100%; max-width: 980px; border: 1px solid var(--border); border-radius: 10px; }
+.manual-recursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+.manual-recursos > div { border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; font-size: 13.5px; background: var(--surface-2); }
+.manual-caixa { border-radius: 10px; padding: 10px 12px; display: grid; gap: 4px; border-left: 4px solid var(--info); background: color-mix(in srgb, var(--info) 8%, transparent); }
+.manual-caixa.cuidado { border-left-color: var(--bad); background: color-mix(in srgb, var(--bad) 8%, transparent); }
+.manual-caixa.dica { border-left-color: var(--ok); background: color-mix(in srgb, var(--ok) 8%, transparent); }
+.manual-bloco { display: grid; gap: 6px; }
+.ajuda-btn { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border); color: var(--muted); font-weight: 800; font-size: 14px; text-decoration: none; vertical-align: middle; margin-left: 8px; background: var(--surface); }
+.ajuda-btn:hover { color: var(--accent); border-color: var(--accent); }
+@media print {
+  body.imprimindo-manual * { visibility: visible; }
+  body.imprimindo-manual .sidebar, body.imprimindo-manual .topbar, body.imprimindo-manual .nao-imprime, body.imprimindo-manual .ajuda-btn, body.imprimindo-manual .page-head .row { display: none !important; }
+  body.imprimindo-manual .app, body.imprimindo-manual .main { display: block; margin: 0; padding: 0; }
+  body.imprimindo-manual .card { box-shadow: none; break-inside: auto; }
+  body.imprimindo-manual .manual-tela, body.imprimindo-manual .manual-cap { break-before: page; }
+  body.imprimindo-manual .manual-img { max-width: 100%; break-inside: avoid; }
+}
+.manual-fig { margin: 0; display: grid; gap: 4px; }

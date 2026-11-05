@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { tone } from '../lib/format'
 import { Icon } from './Icon'
 
@@ -39,10 +40,19 @@ export function Modal({ title, onClose, children, foot, wide }: { title: ReactNo
 }
 
 export function PageHead({ title, desc, children }: { title: string; desc?: string; children?: ReactNode }) {
+  // botão ? : abre o Manual do usuário direto na explicação desta tela
+  const tela = useLocation().pathname.replace(/^\/+/, '').split('/')[0]
   return (
     <div className="page-head">
       <div className="grow">
-        <h1>{title}</h1>
+        <h1>
+          {title}
+          {tela !== 'manual' && (
+            <Link className="ajuda-btn" to={`/manual?tela=${encodeURIComponent(tela)}`} title="Ajuda: abrir o manual desta tela" aria-label="Ajuda sobre esta tela">
+              ?
+            </Link>
+          )}
+        </h1>
         {desc && <p>{desc}</p>}
       </div>
       {children && <div className="row">{children}</div>}

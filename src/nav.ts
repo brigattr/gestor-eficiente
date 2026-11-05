@@ -124,6 +124,7 @@ export const NAV: { group: string; items: NavItem[] }[] = [
       { path: 'anexos', label: 'Anexos e e-mails', icon: 'link' },
       { path: 'usuarios', label: 'Usuários', icon: 'users' },
       { path: 'configuracoes', label: 'Configurações e backup', icon: 'settings' },
+      { path: 'manual', label: 'Manual do usuário', icon: 'book' },
     ],
   },
 ]

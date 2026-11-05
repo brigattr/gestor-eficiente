@@ -1,1033 +1,1088 @@
 [
- {
-  "path": "onboarding",
-  "titulo": "Onboarding",
-  "grupo": "Desenvolvimento",
-  "objetivo": "Organiza a integração de cada novo colaborador em etapas. Cada etapa tem fase, responsável, prazo e situação. Assim nada fica esquecido desde antes do primeiro dia até os 90 dias.",
-  "quando_usar": "Sempre que alguém for contratado ou mudar para a sua área. Comece ainda na pré-admissão.",
-  "passo_a_passo": [
-   "Abra Desenvolvimento → Onboarding.",
-   "Clique em Novo.",
-   "Escolha o Novo colaborador e escreva a Etapa / tarefa (ex.: \"Criar acesso ao ERP\").",
-   "Escolha a Fase: Pré-admissão, Dia 1, Semana 1, Mês 1 ou 90 dias.",
-   "Informe o Responsável, o Prazo e, se houver, o Material / link.",
-   "Clique em Salvar. Repita para cada etapa da jornada.",
-   "Para acompanhar, use a visão Kanban e arraste o cartão entre Pendente, Em andamento e Concluída.",
-   "Use os filtros de colaborador e fase para ver a jornada de uma pessoa só."
-  ],
-  "recursos": [
-   {
-    "nome": "Visões Lista e Kanban",
-    "descricao": "A lista mostra todas as etapas. O Kanban organiza por situação e permite mudar a situação arrastando o cartão."
-   },
-   {
-    "nome": "Fases da jornada",
-    "descricao": "Pré-admissão, Dia 1, Semana 1, Mês 1 e 90 dias, para ver o que vem em cada momento."
-   },
-   {
-    "nome": "Filtro \"em aberto\"",
-    "descricao": "Por padrão a lista esconde as etapas concluídas. O contador mostra quantas estão ocultas; clique nele para ver o histórico."
-   },
-   {
-    "nome": "Barra da lista",
-    "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
-   },
-   {
-    "nome": "Formulário com anexos",
-    "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
-   },
-   {
-    "nome": "Etiquetas",
-    "descricao": "Marque etapas com etiquetas (ex.: \"Turma de março\") para agrupar temas."
-   }
-  ],
-  "impactos": [
-   "Etapas com prazo aparecem no Calendário (como \"Onboarding\") e na lista dos próximos 7 dias da Visão geral.",
-   "As etapas ficam no perfil do colaborador, na tela Time, na aba Onboarding.",
-   "Se a ferramenta Onboarding for ocultada no menu, as datas dela saem do Calendário."
-  ],
-  "cuidados": [
-   "Excluir uma etapa apaga também os anexos dela. Não há como desfazer.",
-   "Etapas concluídas somem da lista padrão, mas não são apagadas: use o filtro \"concluídas (histórico)\".",
-   "Monte uma vez a lista padrão de etapas numa planilha e use Importar para cada novo colaborador."
-  ],
-  "dica": "Cadastre a jornada antes do primeiro dia: integração bem feita começa na pré-admissão."
- },
- {
-  "path": "pdis",
-  "titulo": "PDIs (5W2H)",
-  "grupo": "Desenvolvimento",
-  "objetivo": "Transforma as competências a desenvolver em ações práticas no formato 5W2H: o quê, por quê, onde, quando, quem, como e quanto. Cada ação tem situação e prazo e pode ser acompanhada em Kanban e Gantt.",
-  "quando_usar": "Depois de avaliações, feedbacks ou 1:1, quando você combinar com a pessoa o que ela vai desenvolver.",
-  "passo_a_passo": [
-   "Abra Desenvolvimento → PDIs (5W2H).",
-   "Clique em Novo.",
-   "Escolha o Colaborador e, se quiser, a Competência ligada à ação.",
-   "Preencha O quê (ação), que é obrigatório, e os demais campos: Por quê, Onde, Início, Quando (prazo), Quem apoia, Como e Quanto custa.",
-   "Clique em Salvar.",
-   "Use o Kanban para mover a ação entre A fazer, Em andamento, Concluída e Cancelada.",
-   "Use o Gantt para ver as ações no tempo, agrupadas por colaborador (precisa de Início e Quando).",
-   "Filtre por colaborador ou competência para revisar o PDI de uma pessoa."
-  ],
-  "recursos": [
-   {
-    "nome": "Formato 5W2H",
-    "descricao": "Campos prontos para descrever a ação de forma completa e mensurável."
-   },
-   {
-    "nome": "Visões Lista, Kanban e Gantt",
-    "descricao": "Lista para consulta, Kanban por situação (arrastando o cartão) e Gantt com a linha do tempo por pessoa."
-   },
-   {
-    "nome": "Ligação com competências",
-    "descricao": "Cada ação pode apontar a competência do cadastro de Competências."
-   },
-   {
-    "nome": "Custo da ação",
-    "descricao": "O campo Quanto custa registra o investimento previsto."
-   },
-   {
-    "nome": "Barra da lista",
-    "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
-   },
-   {
-    "nome": "Formulário com anexos",
-    "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
-   }
-  ],
-  "impactos": [
-   "Ações com prazo aparecem no Calendário (como \"PDI\") e nos próximos 7 dias da Visão geral.",
-   "Na tela Competências, um gap pode gerar uma ação de PDI já preenchida com a pessoa, a competência e o motivo.",
-   "A Preparação da semana e o perfil da pessoa (tela Time) mostram as ações de PDI em aberto."
-  ],
-  "cuidados": [
-   "Ações Concluída ou Cancelada saem da lista padrão e do contador de ações em aberto.",
-   "Sem Início e Quando a ação não aparece no Gantt.",
-   "Excluir uma ação apaga os anexos dela e não pode ser desfeito. Prefira marcar como Cancelada para guardar o histórico."
-  ],
-  "dica": "Uma boa ação de PDI cabe numa frase com verbo, prazo e quem apoia."
- },
- {
-  "path": "treinamentos",
-  "titulo": "Treinamentos",
-  "grupo": "Desenvolvimento",
-  "objetivo": "Controla cursos, certificações, treinamentos obrigatórios, idiomas e formação de cada pessoa, com data de conclusão, validade e custo. Avisa o que está vencendo e compara o que cada pessoa tem com o que o cargo exige.",
-  "quando_usar": "Sempre que alguém concluir um curso ou certificação, e para vigiar validades de treinamentos obrigatórios.",
-  "passo_a_passo": [
-   "Abra Desenvolvimento → Treinamentos (a tela se chama Controle de treinamentos).",
-   "Clique em Novo.",
-   "Escolha o Colaborador e escreva o nome do Treinamento / certificação.",
-   "Escolha o Tipo e informe a Data de conclusão, a Validade e o Custo.",
-   "Cole o link do certificado ou arraste o arquivo na área de Anexos e clique em Salvar.",
-   "Veja os números no topo: Registros, Vencendo (45 dias), Vencidos e Investimento no ano.",
-   "Abra a visão Validade para ver os treinamentos em ordem de vencimento.",
-   "Abra a visão Pessoa × requisitos do cargo e clique em um requisito pendente para registrar o treinamento que falta."
-  ],
-  "recursos": [
-   {
-    "nome": "Indicadores do topo",
-    "descricao": "Total de registros, quantos vencem em até 45 dias, quantos já venceram e o custo dos treinamentos concluídos no ano atual."
-   },
-   {
-    "nome": "Visão Validade",
-    "descricao": "Lista por data de vencimento com selo Válido, Vencendo ou Vencido."
-   },
-   {
-    "nome": "Pessoa × requisitos do cargo",
-    "descricao": "Para cada pessoa ativa, compara os treinamentos cadastrados com os requisitos do cargo. Mostra ✓ (ok), ! (vencendo ou vencido), ✗ (falta) e uma barra de aderência."
-   },
-   {
-    "nome": "Lista de tipos editável",
-    "descricao": "No campo Tipo, use \"+ Nova opção…\" ou \"✎ Editar lista…\" para ajustar as opções."
-   },
-   {
-    "nome": "Barra da lista",
-    "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
-   },
-   {
-    "nome": "Formulário com anexos",
-    "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
-   }
-  ],
-  "impactos": [
-   "Validade vencida ou que vence em até 45 dias gera alerta na Visão geral e no contador do menu.",
-   "A validade aparece no Calendário como \"Vence certificação\".",
-   "A comparação usa os requisitos digitados no cargo, em Cargos e salários (um por linha).",
-   "Os treinamentos aparecem no perfil da pessoa, na tela Time."
-  ],
-  "cuidados": [
-   "A comparação com o cargo é feita pelo nome: escreva o treinamento de forma parecida com o requisito do cargo (ex.: \"CPA-20\").",
-   "Sem data de Validade, o treinamento é tratado como válido para sempre.",
-   "Excluir um registro apaga também o certificado anexado."
-  ],
-  "dica": "Cadastre os requisitos em Cargos e salários: a tela passa a mostrar sozinha quem está pendente."
- },
- {
-  "path": "treinamento-interno",
-  "titulo": "Treinamento interno",
-  "grupo": "Desenvolvimento",
-  "objetivo": "Organiza os treinamentos dados pelo próprio time: tema, instrutor, prazo de preparação, data, carga horária, material e anotações. Registra convidados e presentes e gera certificados para imprimir ou salvar em PDF.",
-  "quando_usar": "Quando alguém do time for ensinar um tema aos colegas, do planejamento até a entrega dos certificados.",
-  "passo_a_passo": [
-   "Abra Desenvolvimento → Treinamento interno.",
-   "Clique em Novo e preencha o Tema (obrigatório), o Instrutor (do time), o Prazo de preparação, a Data do treinamento e a Carga horária.",
-   "Marque os Convidados e coloque o link do Material. Clique em Salvar.",
-   "Acompanhe a situação (Planejado, Em preparação, Agendado, Realizado) na visão Kanban.",
-   "Depois do treinamento, na visão Presença e certificados, clique em Lista de presença e marque os Presentes.",
-   "Clique em Certificados (PDF).",
-   "Na tela de certificados, clique em Imprimir / salvar PDF e escolha \"Salvar como PDF\" em A4 paisagem."
-  ],
-  "recursos": [
-   {
-    "nome": "Visão Presença e certificados",
-    "descricao": "É a visão inicial. Mostra um cartão por treinamento com instrutor, data, carga horária e a barra de presença (presentes de convidados)."
-   },
-   {
-    "nome": "Certificados em PDF",
-    "descricao": "Gera um certificado por pessoa presente, com tema, instrutor, data e carga horária."
-   },
-   {
-    "nome": "Botão Material",
-    "descricao": "Abre o link do material direto do cartão."
-   },
-   {
-    "nome": "Visões Lista e Kanban",
-    "descricao": "Lista para consulta e Kanban para mover o treinamento entre as situações."
-   },
-   {
-    "nome": "Barra da lista",
-    "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
-   }
-  ],
-  "impactos": [
-   "O Prazo de preparação aparece no Calendário como \"Preparar treinamento\" e a data como \"Treinamento interno\".",
-   "Essas datas também entram nos próximos 7 dias da Visão geral."
-  ],
-  "cuidados": [
-   "O botão Certificados (PDF) só funciona depois de marcar pelo menos um presente.",
-   "O certificado sai com os textos \"Treinamento interno · Controladoria\" e \"Gestor da área\" fixos. Confira antes de distribuir.",
-   "Treinamentos com situação Realizado saem da lista padrão (filtro \"em aberto\")."
-  ],
-  "dica": "Marque a presença no mesmo dia: o certificado sai pronto com um clique."
- },
- {
-  "path": "incentive",
-  "titulo": "Incentive model",
-  "grupo": "Desenvolvimento",
-  "objetivo": "Reproduz o formulário de metas de incentivo (Incentive/KPI do SuccessFactors). Cada meta (goal) tem peso, métrica, target e régua de bônus de 50%, 100% e 150%. A tela calcula o bônus projetado de cada pessoa no ano.",
-  "quando_usar": "No início do ano para registrar as metas, e ao longo do ano para lançar o realizado e simular o bônus.",
-  "passo_a_passo": [
-   "Abra Desenvolvimento → Incentive model. A tela abre no Formulário (scorecard).",
-   "Clique em Novo (ou em + Goal dentro de um scorecard).",
-   "Escolha o Colaborador (deixe vazio para as suas próprias metas), o Ano e escreva o Goal.",
-   "Informe o Peso (%), a Metric (unidade), o Sentido (Maior é melhor ou Menor é melhor) e o Target (100% de bônus).",
-   "Se quiser, informe os pontos de 50% e 150%. Vazios, o sistema usa 80% e 120% do target.",
-   "Para sub-KPIs, preencha Sub-KPI de (goal agregador) e o peso interno.",
-   "Clique em Salvar. No scorecard, digite o Realizado direto na linha para simular o bônus.",
-   "Para metas qualitativas, sem target, informe o Bônus % manual.",
-   "Confira se o selo de pesos mostra 100% e veja o Bônus projetado no cabeçalho."
-  ],
-  "recursos": [
-   {
-    "nome": "Formulário (scorecard)",
-    "descricao": "Um quadro por pessoa e ano com Peso, Metric, 50%, 100%, 150%, Realizado, % do target, Régua, Bônus e Contribuição."
-   },
-   {
-    "nome": "Régua de bônus",
-    "descricao": "Abaixo do ponto de 50% paga 0. Entre os pontos o cálculo é linear. Acima do stretch, limita em 150%."
-   },
-   {
-    "nome": "Sub-KPIs",
-    "descricao": "Metas dentro de uma meta agregadora. O bônus da agregadora é a média ponderada dos sub-KPIs."
-   },
-   {
-    "nome": "Bônus manual",
-    "descricao": "Para metas de projeto ou qualitativas, substitui o cálculo pela régua."
-   },
-   {
-    "nome": "Link do SuccessFactors",
-    "descricao": "Botão SuccessFactors no cabeçalho do scorecard, quando o link estiver preenchido."
-   },
-   {
-    "nome": "Visões Lista e Kanban",
-    "descricao": "Além do scorecard, a lista comum e o Kanban por situação (No prazo, Atenção, Crítico, Atingida, Não atingida)."
-   }
-  ],
-  "impactos": [
-   "Um projeto (tela Projetos) pode ser marcado como \"Está no Incentive Model?\" e ligado a uma meta. O formulário do projeto mostra peso, target, realizado e bônus da meta, e o scorecard mostra o nome do projeto abaixo do goal.",
-   "Se os pesos das metas principais de uma pessoa no ano não somarem 100%, aparece um alerta na Visão geral.",
-   "O Prazo da meta vai para o Calendário como \"Goal de incentivo\".",
-   "O perfil da pessoa, na tela Time, mostra as metas do ano e o atingimento."
-  ],
-  "cuidados": [
-   "O valor digitado no Realizado do scorecard é gravado na hora, sem botão Salvar.",
-   "Excluir uma meta agregadora faz os sub-KPIs dela sumirem do scorecard (continuam na Lista) e desfaz o vínculo com os projetos ligados a ela.",
-   "Confira o Sentido: em metas \"Menor é melhor\" (ex.: dias de fechamento) a régua funciona ao contrário.",
-   "Os valores calculados são uma simulação. O valor oficial é o do sistema de RH da empresa."
-  ],
-  "dica": "Lance o realizado todo mês: o bônus projetado vira um termômetro do ano."
- },
- {
-  "path": "despesas",
-  "titulo": "Despesas × budget",
-  "grupo": "Controles",
-  "objetivo": "Compara o orçado (budget) com o realizado por centro de custo, conta, mês e ano. Mostra a variação, o acumulado do ano e uma projeção de fechamento. Você pode consolidar vários centros de custo de uma vez.",
-  "quando_usar": "Todo mês, depois de lançar o realizado, e no ciclo de orçamento para cadastrar o budget do ano.",
-  "passo_a_passo": [
-   "Abra Controles → Despesas × budget (a tela se chama Despesas do departamento).",
-   "Escolha o ano no seletor do topo.",
-   "Clique nos centros de custo que quer ver, ou em Todos (consolidado).",
-   "Na aba Linhas de budget, clique em Distribuir budget anual por mês, escolha centro de custo, conta e valor, e clique em Gerar 12 meses.",
-   "Na aba Lançamentos realizados, clique em Novo e preencha centro de custo, ano, mês, conta, produto/serviço e valor. Clique em Salvar.",
-   "Para trazer dados do ERP, no quadro Importar do ERP (CSV) clique em Modelo, preencha e clique em Importar.",
-   "Na aba Budget × realizado, analise o gráfico e as tabelas Por mês, Por conta (ano) e Por centro de custo (YTD).",
-   "Acompanhe os indicadores do topo: Budget FY, YTD, Variação YTD e Forecast."
-  ],
-  "recursos": [
-   {
-    "nome": "Indicadores do topo",
-    "descricao": "Budget do ano, realizado acumulado (YTD), variação contra o budget acumulado e Forecast (realizado + budget dos meses que faltam)."
-   },
-   {
-    "nome": "Aba Budget × realizado",
-    "descricao": "Gráfico mensal e tabelas com Budget, Real, Variação, % de uso e variação acumulada."
-   },
-   {
-    "nome": "Distribuir budget anual por mês",
-    "descricao": "Cria 12 linhas mensais a partir de um valor anual (divide por 12) ou mensal (repete 12 vezes)."
-   },
-   {
-    "nome": "Importar do ERP (CSV)",
-    "descricao": "Lê um arquivo com as colunas tipo, centro_custo, ano, mes, conta, descricao, fornecedor, valor, documento e po. Em tipo use \"real\" ou \"budget\"."
-   },
-   {
-    "nome": "Lançamentos realizados",
-    "descricao": "Lista dos gastos com fornecedor, quantidade, valor unitário, NF e pedido (PO). Se o Valor total ficar vazio, o sistema calcula quantidade × unitário."
-   },
-   {
-    "nome": "Contas editáveis",
-    "descricao": "No campo Conta / natureza, use \"+ Nova opção…\" ou \"✎ Editar lista…\". A lista vale para budget e realizado."
-   }
-  ],
-  "impactos": [
-   "A Visão geral mostra o consumo do budget do ano (Despesas YTD) com base nestes lançamentos.",
-   "Usa o cadastro de Centros de custo. Só os centros marcados como Ativo aparecem nos botões de seleção."
-  ],
-  "cuidados": [
-   "Em Distribuir, a opção \"Substituir linhas existentes desta conta/centro/ano\" apaga as linhas antigas antes de criar as novas.",
-   "Na importação do ERP, linhas com centro de custo não cadastrado são ignoradas, e conta desconhecida vira \"Outros\". Essa importação não tem botão de desfazer: confira o arquivo antes.",
-   "Reembolsos e contratos não entram aqui sozinhos. Lance o realizado nesta tela.",
-   "Cadastre os centros de custo antes de lançar budget ou realizado."
-  ],
-  "dica": "Olhe o Forecast todo mês: ele mostra cedo se o ano vai fechar acima do orçado."
- },
- {
-  "path": "centros-custo",
-  "titulo": "Centros de custo",
-  "grupo": "Controles",
-  "objetivo": "Cadastro dos centros de custo sob a sua gestão, com código, descrição, gestor responsável e empresa. É a base para budget, despesas e outras telas que pedem centro de custo.",
-  "quando_usar": "Na implantação do sistema (é o primeiro cadastro recomendado) e quando um centro de custo for criado ou desativado.",
-  "passo_a_passo": [
-   "Abra Controles → Centros de custo.",
-   "Clique em Novo.",
-   "Preencha o Código e a Descrição (obrigatórios).",
-   "Informe o Gestor responsável e a Empresa / company code.",
-   "Deixe Ativo marcado e clique em Salvar.",
-   "Quando um centro deixar de ser usado, abra-o, desmarque Ativo e salve."
-  ],
-  "recursos": [
-   {
-    "nome": "Cadastro simples",
-    "descricao": "Código, descrição, gestor, empresa e situação Ativo."
-   },
-   {
-    "nome": "Exibição código · descrição",
-    "descricao": "Nas outras telas o centro aparece como \"código · descrição\"."
-   },
-   {
-    "nome": "Cadastro rápido",
-    "descricao": "Em formulários de outras telas, o campo Centro de custo oferece \"+ Cadastrar novo…\" para criar sem sair da tela."
-   },
-   {
-    "nome": "Barra da lista",
-    "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
-   },
-   {
-    "nome": "Formulário com anexos",
-    "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
-   }
-  ],
-  "impactos": [
-   "Usado em Despesas × budget (budget e realizado), Reembolsos, Contratos e vencimentos e no cadastro do Time.",
-   "Na importação do ERP em Despesas × budget, o centro é reconhecido pelo código ou pela descrição.",
-   "Centros desmarcados como Ativo deixam de aparecer nos botões de seleção de Despesas × budget."
-  ],
-  "cuidados": [
-   "Não exclua um centro que já tem lançamentos: os registros ligados perdem a referência. Prefira desmarcar Ativo.",
-   "Mudar o código afeta a importação do ERP, que procura o centro pelo código.",
-   "Use o mesmo código do ERP para a importação funcionar sem ajustes."
-  ],
-  "dica": "Use exatamente o código do ERP: a importação de despesas fica automática."
- },
- {
-  "path": "fechamento",
-  "titulo": "Fechamento mensal",
-  "grupo": "Controles",
-  "objetivo": "Checklist de fechamento contábil do mês, um por competência. Os itens são organizados por grupos, como livro razão, contas a receber, inventário, contas a pagar, folha e impostos. Cada item tem responsável e data de conclusão.",
-  "quando_usar": "Em todo fechamento mensal, do primeiro ao último dia útil do processo.",
-  "passo_a_passo": [
-   "Abra Controles → Fechamento mensal.",
-   "Confira a competência no campo de mês do topo. Ela começa no mês anterior ao atual.",
-   "Em cada item, escolha o responsável na lista \"resp.\".",
-   "Marque a caixa do item quando ele for concluído. A data é preenchida sozinha.",
-   "Acompanhe o total no topo (ex.: \"12 de 40 itens\") e o placar de cada grupo.",
-   "Use os botões de competências anteriores, com o percentual concluído, para rever meses passados."
-  ],
-  "recursos": [
-   {
-    "nome": "Um checklist por competência",
-    "descricao": "Cada mês tem o seu registro. Trocar o mês abre o checklist daquela competência."
-   },
-   {
-    "nome": "Grupos de itens",
-    "descricao": "Livro razão e lançamentos, Contas a receber, Inventário e CMV, Contas a pagar, Folha e benefícios, Impostos."
-   },
-   {
-    "nome": "Responsável e data",
-    "descricao": "Cada item guarda quem é o responsável e a data em que foi marcado."
-   },
-   {
-    "nome": "Barra de progresso",
-    "descricao": "Mostra quantos itens estão prontos, no total e por grupo."
-   },
-   {
-    "nome": "Histórico",
-    "descricao": "Botões com as últimas 6 competências e o percentual de cada uma."
-   }
-  ],
-  "impactos": [
-   "A lista de responsáveis vem do cadastro do Time.",
-   "Esta tela não gera datas no Calendário nem alertas."
-  ],
-  "cuidados": [
-   "As marcações são gravadas na hora, sem botão Salvar.",
-   "Os itens do checklist são fixos. Para rotinas próprias, use Checklists recorrentes.",
-   "Confira a competência antes de marcar: é fácil marcar no mês errado."
-  ],
-  "dica": "Defina os responsáveis no primeiro dia do fechamento: cada um sabe o que é seu."
- },
- {
-  "path": "obrigacoes",
-  "titulo": "Agenda de obrigações",
-  "grupo": "Processos",
-  "objetivo": "Controla obrigações recorrentes: fiscais, contábeis, reporting à matriz, auditoria, trabalhistas, societárias e internas. O sistema calcula o próximo vencimento e registra a entrega de cada competência, com responsável e backup.",
-  "quando_usar": "Para montar o calendário fixo de entregas da área e marcar cada entrega feita.",
-  "passo_a_passo": [
-   "Abra Processos → Agenda de obrigações.",
-   "Clique em Novo e escreva o nome da Obrigação.",
-   "Escolha o Tipo e a Periodicidade (Mensal, Trimestral, Anual ou Eventual).",
-   "Informe o Dia do vencimento. Para anuais, escolha também o Mês (anuais). Para eventuais, informe a Data (eventual).",
-   "Escolha o Responsável e o Backup, informe o Órgão / destino e explique em Como fazer / observações. Clique em Salvar.",
-   "No quadro Próximos vencimentos, clique em ✓ Entregue quando a obrigação for entregue.",
-   "Para desfazer uma entrega, clique no mês marcado com ✓ e confirme."
-  ],
-  "recursos": [
-   {
-    "nome": "Indicadores",
-    "descricao": "Atrasadas, Vencem em 7 dias, Entregues no mês e Obrigações cadastradas."
-   },
-   {
-    "nome": "Próximos vencimentos",
-    "descricao": "Lista em ordem de data, com selo de cor, dias que faltam ou de atraso, responsável, backup e as últimas 3 entregas."
-   },
-   {
-    "nome": "Cálculo automático",
-    "descricao": "O Próximo vencimento é calculado sozinho. Se cair em sábado ou domingo, é antecipado para a sexta. Trimestrais vencem em janeiro, abril, julho e outubro."
-   },
-   {
-    "nome": "Controle por competência",
-    "descricao": "Cada entrega fica registrada com a data e quem marcou. Competências dos últimos 3 meses sem entrega aparecem como atrasadas."
-   },
-   {
-    "nome": "Tipos editáveis",
-    "descricao": "O campo Tipo aceita \"+ Nova opção…\" e \"✎ Editar lista…\"."
-   },
-   {
-    "nome": "Barra da lista",
-    "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
-   }
-  ],
-  "impactos": [
-   "O próximo vencimento de cada obrigação aparece no Calendário como \"Obrigação\" e nos próximos 7 dias da Visão geral.",
-   "As obrigações aparecem no perfil do responsável, na tela Time.",
-   "Se a ferramenta for ocultada no menu, os vencimentos saem do Calendário."
-  ],
-  "cuidados": [
-   "Feriados não são considerados. Ajuste o dia na obrigação quando necessário.",
-   "Meses anteriores à data de cadastro da obrigação não contam como atrasados.",
-   "Excluir uma obrigação apaga todo o histórico de entregas dela. Não há como desfazer.",
-   "Sempre defina um backup: ele aparece na lista e evita atraso em férias e ausências."
-  ],
-  "dica": "Clique em ✓ Entregue no dia da entrega: o próximo vencimento já aparece calculado."
- },
- {
-  "path": "checklists",
-  "titulo": "Checklists recorrentes",
-  "grupo": "Processos",
-  "objetivo": "Cria modelos de checklist reaproveitáveis, como reconciliações, abertura de período, auditoria e desligamento. A cada ciclo você inicia uma execução do modelo e acompanha quem marcou cada item e quando.",
-  "quando_usar": "Para rotinas que se repetem e precisam de evidência de que cada passo foi feito.",
-  "passo_a_passo": [
-   "Abra Processos → Checklists recorrentes.",
-   "Clique em Novo modelo.",
-   "Preencha o nome do Checklist, a Área / tema, a Periodicidade e o Responsável padrão.",
-   "Em Itens, escreva um item por linha e clique em Salvar.",
-   "No quadro Modelos, clique em ▶ Iniciar no modelo desejado.",
-   "Confira a Referência (preenchida pela periodicidade, ex.: \"Out/2026\") e informe um Prazo, se quiser.",
-   "Marque cada item quando for feito. O sistema grava quem marcou e a data.",
-   "Quando todos os itens forem marcados, a execução aparece como concluída."
-  ],
-  "recursos": [
-   {
-    "nome": "Modelos",
-    "descricao": "Lista de modelos com área, periodicidade e número de itens. Clique no nome para editar."
-   },
-   {
-    "nome": "Execuções",
-    "descricao": "Cada ciclo iniciado, com barra de progresso. As em aberto aparecem primeiro."
-   },
-   {
-    "nome": "Rastro de quem fez",
-    "descricao": "Cada item marcado mostra o primeiro nome de quem marcou e a data."
-   },
-   {
-    "nome": "Referência automática",
-    "descricao": "Mensal vira mês/ano, trimestral vira \"1º tri/ano\", anual vira o ano; nos demais, a data de hoje."
-   },
-   {
-    "nome": "Excluir execução",
-    "descricao": "Ícone de lixeira na execução aberta, com confirmação."
-   }
-  ],
-  "impactos": [
-   "Execuções com Prazo aparecem no Calendário como \"Checklist\" e nos próximos 7 dias da Visão geral."
-  ],
-  "cuidados": [
-   "Os itens são copiados no momento em que você clica em ▶ Iniciar. Mudar o modelo depois não altera execuções já iniciadas.",
-   "Excluir uma execução apaga as marcações dela. Não há como desfazer.",
-   "As marcações são gravadas na hora, sem botão Salvar."
-  ],
-  "dica": "Escreva itens curtos e verificáveis: \"Conciliar banco X\" é melhor que \"Ver bancos\"."
- },
- {
-  "path": "fluxogramas",
-  "titulo": "Fluxogramas de processo",
-  "grupo": "Processos",
-  "objetivo": "Desenha o processo com quadros de início, etapa, decisão, documento, sistema e fim, ligados por setas. Cada quadro guarda a descrição da etapa. O mesmo desenho também vira um procedimento em texto, pronto para imprimir.",
-  "quando_usar": "Para documentar como um processo funciona, treinar pessoas novas ou revisar um processo com a equipe.",
-  "passo_a_passo": [
-   "Abra Processos → Fluxogramas de processo e clique em Novo fluxograma. Ele já vem com Início, Primeira etapa e Fim.",
-   "Troque o nome do processo no campo do topo.",
-   "Para criar um quadro, clique em Início, Etapa, Decisão, Documento, Sistema / dados ou Fim na barra. Com um quadro selecionado, o novo já nasce ligado a ele.",
-   "Clique em um quadro e preencha à direita: Texto do quadro, Quem faz, Entrada, Saída, Sistema / ferramenta, Prazo / SLA e Como fazer.",
-   "Para ligar quadros, clique em ↗ Ligar, toque no quadro de origem e depois no de destino. Também dá para arrastar a bolinha azul de um quadro até outro.",
-   "Clique numa seta para escrever um texto ou usar Sim, Não, Aprovado ou Reprovado. Use ⇄ Inverter sentido se precisar.",
-   "Sem nada selecionado, preencha os Dados do processo: Área, Dono do processo, Status, Próxima revisão e Objetivo / escopo.",
-   "Troque para Procedimento (texto) para ver os passos numerados e clique em Imprimir / salvar em PDF.",
-   "Clique em ← Fluxogramas para voltar à lista."
-  ],
-  "recursos": [
-   {
-    "nome": "Seis formas",
-    "descricao": "Início, Etapa, Decisão (losango), Documento, Sistema / dados e Fim, cada uma com sua cor."
-   },
-   {
-    "nome": "Descrição de cada etapa",
-    "descricao": "Quem faz, entrada, saída, sistema, prazo/SLA e o passo a passo detalhado."
-   },
-   {
-    "nome": "Procedimento em texto",
-    "descricao": "Os quadros viram passos numerados, com os caminhos de cada decisão (ex.: \"Sim → passo 4\")."
-   },
-   {
-    "nome": "Gravação automática",
-    "descricao": "O topo mostra \"Salvando…\" e \"Salvo\". Não há botão Salvar."
-   },
-   {
-    "nome": "Desfazer, excluir e zoom",
-    "descricao": "Botão ↶ (ou Ctrl+Z) desfaz; lixeira (ou tecla Delete) apaga o item selecionado; − e + ajustam o zoom."
-   },
-   {
-    "nome": "Lista com miniaturas",
-    "descricao": "A tela inicial mostra cada fluxograma com miniatura, área, dono, status e data da última edição, com busca."
-   }
-  ],
-  "impactos": [
-   "A Próxima revisão aparece no Calendário como \"Revisão do fluxograma\" e nos próximos 7 dias da Visão geral."
-  ],
-  "cuidados": [
-   "Excluir fluxograma (no painel Dados do processo) apaga o desenho inteiro e não pode ser desfeito.",
-   "O desfazer guarda só as mudanças da sessão aberta. Ao sair do fluxograma, o histórico de desfazer se perde.",
-   "Use o Status (Rascunho, Em uso, Em revisão, Obsoleto) para deixar claro qual versão vale."
-  ],
-  "dica": "Desenhe primeiro o caminho feliz; depois acrescente as decisões e exceções."
- },
- {
-  "path": "solicitacoes",
-  "titulo": "Solicitações e aprovações",
-  "grupo": "Processos",
-  "objetivo": "Registra pedidos que precisam de aprovação, como compras, acessos, horas extras, folgas, viagens e treinamentos. Cada pedido segue o caminho pedido → aprovação → execução e guarda a justificativa e a decisão.",
-  "quando_usar": "Quando alguém do time pedir algo que depende de aprovação e você quiser manter o histórico da decisão.",
-  "passo_a_passo": [
-   "Abra Processos → Solicitações e aprovações.",
-   "Clique em Novo e escreva a Solicitação.",
-   "Escolha o Tipo, o Solicitante e o Aprovador.",
-   "Informe o Valor (se houver), a data em Precisa até e a Justificativa. Clique em Salvar.",
-   "O pedido nasce como Aguardando aprovação.",
-   "O aprovador abre o pedido, escreve em Decisão / comentário do aprovador e muda o Status para Aprovada ou Recusada.",
-   "Depois de executado, mude para Concluída. No Kanban, basta arrastar o cartão."
-  ],
-  "recursos": [
-   {
-    "nome": "Situações do pedido",
-    "descricao": "Rascunho, Aguardando aprovação, Aprovada, Recusada e Concluída."
-   },
-   {
-    "nome": "Visões Lista e Kanban",
-    "descricao": "O Kanban mostra o funil de pedidos e permite mudar a situação arrastando."
-   },
-   {
-    "nome": "Histórico da decisão",
-    "descricao": "Justificativa e comentário do aprovador ficam no próprio registro. O rodapé mostra quem alterou por último."
-   },
-   {
-    "nome": "Tipos editáveis",
-    "descricao": "O campo Tipo aceita \"+ Nova opção…\" e \"✎ Editar lista…\"."
-   },
-   {
-    "nome": "Barra da lista",
-    "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
-   },
-   {
-    "nome": "Formulário com anexos",
-    "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
-   }
-  ],
-  "impactos": [
-   "A data Precisa até aparece no Calendário como \"Solicitação\" e nos próximos 7 dias da Visão geral.",
-   "As solicitações aparecem no perfil do solicitante, na tela Time."
-  ],
-  "cuidados": [
-   "O sistema não envia aviso ao aprovador. Combine com ele que vai consultar esta tela.",
-   "Pedidos Aprovada, Recusada e Concluída saem da lista padrão (filtro \"em aberto\"). Use o filtro \"concluídas (histórico)\" para vê-los.",
-   "Anexe orçamentos e e-mails de aprovação no próprio pedido, como evidência."
-  ],
-  "dica": "Sem justificativa escrita não há aprovação: peça sempre o porquê no pedido."
- },
- {
-  "path": "reembolsos",
-  "titulo": "Reembolsos",
-  "grupo": "Processos",
-  "objetivo": "Controla despesas que precisam ser reembolsadas aos colaboradores, com comprovante anexado, centro de custo, aprovador e data de pagamento.",
-  "quando_usar": "Sempre que alguém pagar uma despesa da empresa com recurso próprio, como transporte, alimentação, hospedagem ou quilometragem.",
-  "passo_a_passo": [
-   "Abra Processos → Reembolsos.",
-   "Clique em Novo.",
-   "Escolha o Colaborador, escreva a Descrição e informe a Data da despesa e o Valor (obrigatórios).",
-   "Escolha a Categoria, o Centro de custo e o Aprovador.",
-   "Arraste a nota ou recibo para a área de Anexos e clique em Salvar. O reembolso nasce como Enviado.",
-   "Na aprovação, mude o Status para Aprovado ou Recusado.",
-   "No pagamento, mude para Pago e informe a data em Pago em."
-  ],
-  "recursos": [
-   {
-    "nome": "Situações",
-    "descricao": "Rascunho, Enviado, Aprovado, Pago e Recusado."
-   },
-   {
-    "nome": "Comprovante anexado",
-    "descricao": "O recibo ou nota fica guardado dentro do próprio reembolso."
-   },
-   {
-    "nome": "Visões Lista e Kanban",
-    "descricao": "Kanban para acompanhar o fluxo de aprovação e pagamento."
-   },
-   {
-    "nome": "Categorias editáveis",
-    "descricao": "O campo Categoria aceita \"+ Nova opção…\" e \"✎ Editar lista…\"."
-   },
-   {
-    "nome": "Barra da lista",
-    "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
-   }
-  ],
-  "impactos": [
-   "Usa o cadastro de Centros de custo.",
-   "Os reembolsos aparecem no perfil do colaborador, na tela Time.",
-   "Os reembolsos não entram sozinhos em Despesas × budget, nem geram datas no Calendário."
-  ],
-  "cuidados": [
-   "Reembolsos Aprovado, Pago e Recusado saem da lista padrão (filtro \"em aberto\"). Para ver os aprovados ainda não pagos, use o filtro de Status.",
-   "Excluir um reembolso apaga também o comprovante anexado.",
-   "Confira a política de reembolso da empresa antes de aprovar."
-  ],
-  "dica": "Sem comprovante anexado, não aprove: o anexo é a sua evidência na auditoria."
- },
- {
-  "path": "contratos",
-  "titulo": "Contratos e vencimentos",
-  "grupo": "Processos",
-  "objetivo": "Controla tudo o que vence: contratos, certificados digitais, domínios, assinaturas, licenças, seguros, alvarás e procurações. Mostra o que precisa de atenção, avisa com antecedência e guarda o histórico de renovações.",
-  "quando_usar": "Para cadastrar cada item com vencimento e para renovar quando a data se aproximar.",
-  "passo_a_passo": [
-   "Abra Processos → Contratos e vencimentos.",
-   "Clique em Novo e escreva o Item (ex.: \"Certificado digital e-CNPJ\").",
-   "Escolha o Tipo e informe Fornecedor / emissor, Nº do contrato e Responsável.",
-   "Informe o Vencimento (obrigatório) e em Avisar com quantos dias a antecedência (padrão 30).",
-   "Escolha Renova a cada, marque Renovação automática se for o caso, informe Valor por período e Centro de custo. Clique em Salvar.",
-   "Acompanhe o quadro Precisam de atenção: ele lista os itens dentro do prazo de aviso ou vencidos.",
-   "Quando renovar, clique em Renovar e confirme. O sistema calcula o novo vencimento e registra no histórico.",
-   "Se a data ou o valor mudaram, abra o item e ajuste depois da renovação."
-  ],
-  "recursos": [
-   {
-    "nome": "Indicadores",
-    "descricao": "Vencidos, Vencem em 30 dias (com 60 e 90 dias abaixo), Custo anual dos itens ativos e Itens ativos."
-   },
-   {
-    "nome": "Precisam de atenção",
-    "descricao": "Itens dentro do prazo de aviso de cada um, com \"faltam Xd\", \"vence hoje\" ou \"vencido há Xd\"."
-   },
-   {
-    "nome": "Botão Renovar",
-    "descricao": "Soma o período de renovação ao vencimento atual, volta o status para Vigente e grava uma linha no Histórico de renovações com data, quem renovou e valor."
-   },
-   {
-    "nome": "Custo anual",
-    "descricao": "Converte o valor por período para 12 meses e soma os itens ativos."
-   },
-   {
-    "nome": "Visões Lista e Kanban",
-    "descricao": "A lista mostra a coluna de dias que faltam. O Kanban organiza por Vigente, Em renovação, Encerrado e Cancelado."
-   },
-   {
-    "nome": "Barra da lista",
-    "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
-   }
-  ],
-  "impactos": [
-   "Itens dentro do prazo de aviso ou vencidos geram alertas na Visão geral e no contador do menu (vermelho a partir de 7 dias).",
-   "No dia do vencimento, quem ativou os avisos no sino recebe a notificação \"Vence hoje\" no computador ou celular.",
-   "O vencimento aparece no Calendário como \"Vencimento\".",
-   "Usa o cadastro de Centros de custo e de pessoas (Responsável)."
-  ],
-  "cuidados": [
-   "Itens com status Encerrado ou Cancelado param de gerar alertas e saem dos indicadores.",
-   "Se Renova a cada estiver como \"Não renova\", o botão Renovar só abre o cadastro para você ajustar a data.",
-   "O aviso do sino só aparece com o sistema aberto (mesmo minimizado). No iPhone/iPad, só com o app na tela de início.",
-   "Excluir um item apaga o histórico de renovações e os anexos. Prefira marcar como Encerrado."
-  ],
-  "dica": "Use 60 dias de aviso para contratos e 30 para certificados e domínios."
- },
- {
-  "path": "patrimonio",
-  "titulo": "Patrimônio",
-  "grupo": "Processos",
-  "objetivo": "Controla os bens entregues às pessoas: notebooks, monitores, celulares, tokens, certificados digitais, licenças e mobiliário. Registra com quem está, desde quando e até quando devolver ou renovar.",
-  "quando_usar": "Na entrega de um equipamento, na devolução e principalmente no desligamento de alguém.",
-  "passo_a_passo": [
-   "Abra Processos → Patrimônio (a tela se chama Controle de patrimônio).",
-   "Clique em Novo e escreva o Item.",
-   "Escolha o Tipo e informe o Nº patrimônio / plaqueta e o Nº de série / chave.",
-   "Em Com quem está, escolha a pessoa e informe a data em Entregue em.",
-   "Se houver prazo, informe Devolver / renovar até (ex.: vencimento do certificado ou da licença).",
-   "Informe o Valor e clique em Salvar.",
-   "Na devolução, mude o Status para Devolvido. Se o bem for descartado, use Baixado."
-  ],
-  "recursos": [
-   {
-    "nome": "Situações",
-    "descricao": "Em uso, Disponível, Em manutenção, Devolvido e Baixado."
-   },
-   {
-    "nome": "Visões Lista e Kanban",
-    "descricao": "Kanban para ver rapidamente o que está em uso, disponível ou em manutenção."
-   },
-   {
-    "nome": "Filtros por tipo e pessoa",
-    "descricao": "Veja tudo o que está com uma pessoa antes do desligamento."
-   },
-   {
-    "nome": "Tipos editáveis",
-    "descricao": "O campo Tipo aceita \"+ Nova opção…\" e \"✎ Editar lista…\"."
-   },
-   {
-    "nome": "Barra da lista",
-    "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
-   },
-   {
-    "nome": "Formulário com anexos",
-    "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
-   }
-  ],
-  "impactos": [
-   "A data Devolver / renovar até aparece no Calendário como \"Patrimônio (devolução/renovação)\" e nos próximos 7 dias da Visão geral.",
-   "Os itens aparecem no perfil da pessoa, na tela Time."
-  ],
-  "cuidados": [
-   "Itens Devolvido e Baixado saem da lista padrão (filtro \"em aberto\").",
-   "Não exclua itens devolvidos: o histórico mostra quem usou cada bem.",
-   "Não grave senhas ou chaves secretas no campo Nº de série / chave."
-  ],
-  "dica": "No desligamento, filtre pela pessoa: a lista do que devolver fica pronta."
- },
- {
-  "path": "nps-interno",
-  "titulo": "NPS clientes internos",
-  "grupo": "Processos",
-  "objetivo": "Registra como as áreas atendidas (Compras, Comercial, matriz e outras) avaliam o serviço da sua área, de 0 a 10. Calcula o NPS de cada ciclo e de cada área cliente.",
-  "quando_usar": "Ao fim de cada ciclo de pesquisa com os clientes internos, por exemplo a cada semestre.",
-  "passo_a_passo": [
-   "Abra Processos → NPS clientes internos.",
-   "Faça a pergunta às áreas: \"De 0 a 10, quanto você recomendaria o serviço da Controladoria?\".",
-   "Clique em Novo para cada resposta.",
-   "Informe o Ciclo (ex.: 2026-S2), a Área cliente e a Nota (0 a 10). Os três são obrigatórios.",
-   "Copie o Comentário e informe a Data. Clique em Salvar.",
-   "Para muitas respostas, use Importar e envie a planilha preenchida.",
-   "Veja no topo o NPS do ciclo mais recente, a comparação com os ciclos anteriores e o NPS por área cliente."
-  ],
-  "recursos": [
-   {
-    "nome": "NPS do ciclo",
-    "descricao": "Mostra o NPS, o número de respostas e quantos promotores, neutros e detratores."
-   },
-   {
-    "nome": "Comparação de ciclos",
-    "descricao": "Lista os últimos 6 ciclos com o NPS de cada um."
-   },
-   {
-    "nome": "Por área cliente",
-    "descricao": "NPS de cada área no ciclo mais recente."
-   },
-   {
-    "nome": "Cores",
-    "descricao": "Verde a partir de 50, amarelo de 0 a 49, vermelho abaixo de 0."
-   },
-   {
-    "nome": "Áreas editáveis",
-    "descricao": "O campo Área cliente aceita \"+ Nova opção…\" e \"✎ Editar lista…\"."
-   },
-   {
-    "nome": "Barra da lista",
-    "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
-   }
-  ],
-  "impactos": [
-   "Esta tela não gera datas no Calendário nem alertas. Os números ficam só aqui."
-  ],
-  "cuidados": [
-   "NPS = % de notas 9 e 10 menos % de notas 0 a 6.",
-   "O ciclo \"mais recente\" é escolhido pela ordem do texto. Escreva sempre no mesmo padrão (ex.: 2026-S1, 2026-S2).",
-   "Poucas respostas deixam o NPS instável. Leia os comentários junto com o número."
-  ],
-  "dica": "Mais que o número, use os comentários dos detratores para montar o plano de melhoria."
- },
- {
-  "path": "biblioteca",
-  "titulo": "Biblioteca de gestão",
-  "grupo": "Conhecimento",
-  "objetivo": "Reúne referências de gestão para consulta no dia a dia. Cada conceito explica o que é, como usar e, quando existe, leva direto à tela do sistema onde ele é aplicado.",
-  "quando_usar": "Para relembrar um conceito, preparar uma conversa com o time ou descobrir qual tela do sistema ajuda em um tema.",
-  "passo_a_passo": [
-   "Abra Conhecimento → Biblioteca de gestão.",
-   "Escolha uma aba: Tabela periódica da gestão, Gestão ágil: 6 peças, Liderando um time novo ou Gestão × microgestão.",
-   "Na tabela periódica, clique em um elemento para ver o resumo e o \"Como usar\".",
-   "Se o elemento tiver o selo \"no sistema\", clique em Abrir no sistema → para ir à tela correspondente.",
-   "Na aba Gestão ágil, veja onde cada peça aparece no Gestor Eficiente."
-  ],
-  "recursos": [
-   {
-    "nome": "Tabela periódica da gestão",
-    "descricao": "Conceitos agrupados por tema, cada um com sigla, nome, resumo e forma de uso."
-   },
-   {
-    "nome": "Gestão ágil: 6 peças",
-    "descricao": "Scrum, Kanban, OKR, Design Thinking, Cultura Lean e Liderança Antifrágil, com a indicação de onde aparecem no sistema."
-   },
-   {
-    "nome": "Liderando um time novo",
-    "descricao": "Passos numerados para quem assume uma equipe."
-   },
-   {
-    "nome": "Gestão × microgestão",
-    "descricao": "Quadro comparando atitudes de controle e de confiança."
-   },
-   {
-    "nome": "Atalho para o sistema",
-    "descricao": "O botão Abrir no sistema → leva à tela onde o conceito é aplicado."
-   }
-  ],
-  "impactos": [
-   "Apenas consulta: nada que você faça aqui altera dados de outras telas."
-  ],
-  "cuidados": [
-   "O conteúdo é fixo e não pode ser editado pela tela.",
-   "Se a tela de destino estiver oculta no menu, o atalho pode levar a uma ferramenta que a sua instalação não usa."
-  ],
-  "dica": "Antes de uma reunião difícil com o time, passe cinco minutos na aba Gestão × microgestão."
- },
- {
-  "path": "anexos",
-  "titulo": "Anexos e e-mails",
-  "grupo": "Sistema",
-  "objetivo": "Mostra num só lugar todos os arquivos e e-mails anexados em qualquer tela do sistema. Permite buscar por assunto, remetente, nome do arquivo ou registro e abrir o registro de origem.",
-  "quando_usar": "Quando você lembra de um arquivo ou e-mail, mas não lembra em qual tarefa, projeto ou registro ele foi guardado.",
-  "passo_a_passo": [
-   "Abra Sistema → Anexos e e-mails.",
-   "Digite no campo de busca parte do assunto, do remetente ou do nome do arquivo.",
-   "Se quiser, escolha a tela de origem em \"Módulo: todos\".",
-   "Marque \"só e-mails\" para ver apenas mensagens .msg e .eml.",
-   "Clique no nome do arquivo para abri-lo.",
-   "Clique no nome do registro (ex.: \"Tarefa: …\") para abrir o registro de origem."
-  ],
-  "recursos": [
-   {
-    "nome": "Indicadores",
-    "descricao": "Total de anexos e espaço ocupado, número de e-mails e número de registros com anexo."
-   },
-   {
-    "nome": "Busca ampla",
-    "descricao": "Procura no nome do arquivo, assunto, remetente, destinatário, resumo do e-mail e nome do registro."
-   },
-   {
-    "nome": "E-mails legíveis",
-    "descricao": "E-mails anexados mostram assunto, remetente, data e um resumo do texto."
-   },
-   {
-    "nome": "Filtro por módulo",
-    "descricao": "Mostra só os anexos de uma tela."
-   },
-   {
-    "nome": "Ordem por data",
-    "descricao": "Os mais recentes aparecem primeiro (no caso de e-mail, pela data da mensagem)."
-   }
-  ],
-  "impactos": [
-   "Os anexos são incluídos no backup completo (.zip) em Configurações e backup."
-  ],
-  "cuidados": [
-   "Esta tela só consulta. Para remover um anexo, abra o registro de origem e use a lixeira ao lado do arquivo.",
-   "Ao excluir um registro, os anexos dele também são apagados.",
-   "Anexos marcados como \"registro removido\" pertencem a um registro que não existe mais."
-  ],
-  "dica": "Arraste o e-mail de aprovação para dentro da tarefa: depois, ache tudo por aqui em segundos."
- },
- {
-  "path": "usuarios",
-  "titulo": "Usuários",
-  "grupo": "Sistema",
-  "objetivo": "Cadastra quem pode entrar no sistema e define o perfil de acesso de cada pessoa: Administrador, Gestor ou Leitura. Também define o bloqueio automático por falta de uso.",
-  "quando_usar": "Ao dar acesso a alguém novo, mudar o perfil de uma pessoa, desativar quem saiu ou trocar a própria senha.",
-  "passo_a_passo": [
-   "Abra Sistema → Usuários (a tela se chama Usuários e acesso).",
-   "Administrador: clique em Novo usuário.",
-   "Preencha Nome, Usuário (login), E-mail e Senha (mínimo de 8 caracteres).",
-   "Escolha o Perfil e, se quiser, o Colaborador vinculado. Deixe \"Usuário ativo (pode entrar)\" marcado e clique em Salvar.",
-   "Para alterar alguém, clique na linha dele na tabela.",
-   "Quem não é administrador clica em Alterar minha senha para mudar a própria senha, nome ou e-mail.",
-   "Em Bloqueio automático, escolha depois de quantos minutos sem uso o sistema sai sozinho."
-  ],
-  "recursos": [
-   {
-    "nome": "Perfis de acesso",
-    "descricao": "Administrador: tudo, inclusive usuários, backup e restauração. Gestor: cria e edita registros e anexos, sem gerenciar usuários. Leitura: consulta tudo, sem editar."
-   },
-   {
-    "nome": "Tabela de usuários",
-    "descricao": "Nome, login, e-mail, perfil, colaborador vinculado, último acesso e situação (Ativo/Inativo)."
-   },
-   {
-    "nome": "Bloqueio automático",
-    "descricao": "5, 15, 30, 60 ou 120 minutos sem uso, ou Nunca bloquear. Não vale nos aparelhos em que a pessoa marcou \"Manter conectado\"."
-   },
-   {
-    "nome": "Proteção do login",
-    "descricao": "Na versão em servidor, após 5 senhas erradas o acesso fica bloqueado por 15 minutos."
-   },
-   {
-    "nome": "Autoria dos registros",
-    "descricao": "Cada registro guarda quem criou e quem alterou por último."
-   }
-  ],
-  "impactos": [
-   "O perfil Leitura não consegue criar, editar, excluir, anexar nem importar em nenhuma tela. Ao tentar, aparece \"Seu perfil é somente leitura\".",
-   "Só o Administrador pode restaurar backup, apagar dados, carregar dados de exemplo e mudar as Ferramentas no menu.",
-   "O nome do usuário aparece em entregas de obrigações, marcações de checklist e renovações de contratos."
-  ],
-  "cuidados": [
-   "O sistema exige pelo menos um administrador ativo.",
-   "Você não pode excluir o seu próprio usuário. Ao excluir alguém, os registros criados por essa pessoa continuam no sistema.",
-   "Para quem saiu da empresa, desmarque \"Usuário ativo\" em vez de excluir: o histórico fica preservado.",
-   "O bloqueio automático é gravado no aparelho em uso e vale a partir do próximo login.",
-   "Nunca compartilhe login. Cada pessoa deve ter o seu."
-  ],
-  "dica": "Dê o perfil Leitura a quem só precisa consultar: menos risco de alteração por engano."
- },
- {
-  "path": "configuracoes",
-  "titulo": "Configurações e backup",
-  "grupo": "Sistema",
-  "objetivo": "Reúne o backup completo (dados e anexos), a restauração, os dados de exemplo, a escolha das ferramentas que aparecem no menu e a importação em massa de planilhas.",
-  "quando_usar": "Para fazer backup periódico, preparar o sistema para uso real, escolher as ferramentas da sua instalação e trazer o histórico de planilhas.",
-  "passo_a_passo": [
-   "Abra Sistema → Configurações e backup.",
-   "Em Backup, clique em Exportar backup completo (.zip) e guarde o arquivo no OneDrive ou SharePoint corporativo.",
-   "Para voltar um backup (só Administrador), clique em Restaurar backup, escolha o .zip e confirme.",
-   "Para começar o uso real (só Administrador), em Dados de exemplo clique em Apagar todos os dados. Depois cadastre centros de custo, cargos e time.",
-   "Em Ferramentas no menu (só Administrador), desmarque o que a sua instalação não usa. Use Mostrar todas para religar tudo.",
-   "Em Importação em massa, clique no ícone de download da tela desejada para baixar o modelo em Excel.",
-   "Preencha a aba Dados (uma linha por registro), clique em Importar, escolha o arquivo e confira a prévia.",
-   "Se quiser, marque \"Criar automaticamente pessoas, projetos, etiquetas etc. que ainda não existem\" e clique em Importar N registro(s).",
-   "Se algo saiu errado, clique em Desfazer importação logo em seguida."
-  ],
-  "recursos": [
-   {
-    "nome": "Backup completo",
-    "descricao": "Um .zip com todos os registros e todos os anexos. Mostra quantos registros e anexos existem e o espaço usado."
-   },
-   {
-    "nome": "Restaurar backup",
-    "descricao": "Aceita .zip (dados e anexos) ou .json (só dados; os anexos atuais são mantidos)."
-   },
-   {
-    "nome": "Dados de exemplo",
-    "descricao": "Apagar todos os dados (mantém os usuários) ou Carregar dados de exemplo, com dados fictícios para treinar."
-   },
-   {
-    "nome": "Ferramentas no menu",
-    "descricao": "Liga e desliga cada tela ou grupo inteiro para todos os usuários. Visão geral, Usuários e Configurações e backup ficam sempre visíveis."
-   },
-   {
-    "nome": "Importação em massa",
-    "descricao": "Modelo .xlsx por tela com abas Dados, Instruções e Listas. Aceita .xlsx ou .csv, mostra linhas prontas, erros e avisos antes de gravar e permite desfazer."
-   },
-   {
-    "nome": "Privacidade",
-    "descricao": "Explica onde os dados ficam guardados na sua instalação."
-   }
-  ],
-  "impactos": [
-   "Restaurar um backup substitui TODOS os dados atuais de todas as telas pelos do arquivo.",
-   "Apagar todos os dados remove registros e anexos de todas as telas (os usuários são mantidos).",
-   "Ocultar uma ferramenta no menu tira o item do menu de todos os usuários e faz as datas e os alertas dela saírem do Calendário, dos “Pontos de atenção” da Visão geral, do contador de alertas do menu e dos avisos do sino. Nada é apagado: ao marcar de novo, tudo volta.",
-   "A importação em massa grava registros na tela escolhida e pode criar pessoas, projetos e etiquetas que faltavam."
-  ],
-  "cuidados": [
-   "Antes de restaurar ou apagar tudo, exporte um backup. Não há como desfazer essas ações.",
-   "Se o backup tiver usuários, a mensagem de confirmação avisa que usuários e senhas também voltam aos do backup.",
-   "Guarde o backup em local corporativo seguro, nunca em e-mail pessoal: ele contém dados de pessoas.",
-   "Na importação, campos de referência (pessoa, projeto, centro de custo) precisam ter o nome exatamente como cadastrado. Linhas com erro não entram.",
-   "Faça backups periódicos, mesmo com o sistema no servidor."
-  ],
-  "dica": "Exporte o backup toda sexta-feira e guarde no OneDrive da empresa."
- }
+  {
+    "path": "onboarding",
+    "titulo": "Onboarding",
+    "grupo": "Desenvolvimento",
+    "objetivo": "Organiza a integração de cada novo colaborador em etapas. Cada etapa tem fase, responsável, prazo e situação. Assim nada fica esquecido desde antes do primeiro dia até os 90 dias.",
+    "quando_usar": "Sempre que alguém for contratado ou mudar para a sua área. Comece ainda na pré-admissão.",
+    "passo_a_passo": [
+      "Abra Desenvolvimento → Onboarding.",
+      "Clique em Novo.",
+      "Escolha o Novo colaborador e escreva a Etapa / tarefa (ex.: \"Criar acesso ao ERP\").",
+      "Escolha a Fase: Pré-admissão, Dia 1, Semana 1, Mês 1 ou 90 dias.",
+      "Informe o Responsável, o Prazo e, se houver, o Material / link.",
+      "Clique em Salvar. Repita para cada etapa da jornada.",
+      "Para acompanhar, use a visão Kanban e arraste o cartão entre Pendente, Em andamento e Concluída.",
+      "Use os filtros de colaborador e fase para ver a jornada de uma pessoa só."
+    ],
+    "recursos": [
+      {
+        "nome": "Visões Lista e Kanban",
+        "descricao": "A lista mostra todas as etapas. O Kanban organiza por situação e permite mudar a situação arrastando o cartão."
+      },
+      {
+        "nome": "Fases da jornada",
+        "descricao": "Pré-admissão, Dia 1, Semana 1, Mês 1 e 90 dias, para ver o que vem em cada momento."
+      },
+      {
+        "nome": "Filtro \"em aberto\"",
+        "descricao": "Por padrão a lista esconde as etapas concluídas. O contador mostra quantas estão ocultas; clique nele para ver o histórico."
+      },
+      {
+        "nome": "Barra da lista",
+        "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
+      },
+      {
+        "nome": "Formulário com anexos",
+        "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
+      },
+      {
+        "nome": "Etiquetas",
+        "descricao": "Marque etapas com etiquetas (ex.: \"Turma de março\") para agrupar temas."
+      }
+    ],
+    "impactos": [
+      "Etapas com prazo aparecem no Calendário (como \"Onboarding\") e na lista dos próximos 7 dias da Visão geral.",
+      "As etapas ficam no perfil do colaborador, na tela Time, na aba Onboarding.",
+      "Se a ferramenta Onboarding for ocultada no menu, as datas dela saem do Calendário."
+    ],
+    "cuidados": [
+      "Excluir uma etapa apaga também os anexos dela. Não há como desfazer.",
+      "Etapas concluídas somem da lista padrão, mas não são apagadas: use o filtro \"concluídas (histórico)\".",
+      "Monte uma vez a lista padrão de etapas numa planilha e use Importar para cada novo colaborador."
+    ],
+    "dica": "Cadastre a jornada antes do primeiro dia: integração bem feita começa na pré-admissão."
+  },
+  {
+    "path": "pdis",
+    "titulo": "PDIs (5W2H)",
+    "grupo": "Desenvolvimento",
+    "objetivo": "Transforma as competências a desenvolver em ações práticas no formato 5W2H: o quê, por quê, onde, quando, quem, como e quanto. Cada ação tem situação e prazo e pode ser acompanhada em Kanban e Gantt.",
+    "quando_usar": "Depois de avaliações, feedbacks ou 1:1, quando você combinar com a pessoa o que ela vai desenvolver.",
+    "passo_a_passo": [
+      "Abra Desenvolvimento → PDIs (5W2H).",
+      "Clique em Novo.",
+      "Escolha o Colaborador e, se quiser, a Competência ligada à ação.",
+      "Preencha O quê (ação), que é obrigatório, e os demais campos: Por quê, Onde, Início, Quando (prazo), Quem apoia, Como e Quanto custa.",
+      "Clique em Salvar.",
+      "Use o Kanban para mover a ação entre A fazer, Em andamento, Concluída e Cancelada.",
+      "Use o Gantt para ver as ações no tempo, agrupadas por colaborador (precisa de Início e Quando).",
+      "Filtre por colaborador ou competência para revisar o PDI de uma pessoa."
+    ],
+    "recursos": [
+      {
+        "nome": "Formato 5W2H",
+        "descricao": "Campos prontos para descrever a ação de forma completa e mensurável."
+      },
+      {
+        "nome": "Visões Lista, Kanban e Gantt",
+        "descricao": "Lista para consulta, Kanban por situação (arrastando o cartão) e Gantt com a linha do tempo por pessoa."
+      },
+      {
+        "nome": "Ligação com competências",
+        "descricao": "Cada ação pode apontar a competência do cadastro de Competências."
+      },
+      {
+        "nome": "Custo da ação",
+        "descricao": "O campo Quanto custa registra o investimento previsto."
+      },
+      {
+        "nome": "Barra da lista",
+        "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
+      },
+      {
+        "nome": "Formulário com anexos",
+        "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
+      }
+    ],
+    "impactos": [
+      "Ações com prazo aparecem no Calendário (como \"PDI\") e nos próximos 7 dias da Visão geral.",
+      "Na tela Competências, um gap pode gerar uma ação de PDI já preenchida com a pessoa, a competência e o motivo.",
+      "A Preparação da semana e o perfil da pessoa (tela Time) mostram as ações de PDI em aberto."
+    ],
+    "cuidados": [
+      "Ações Concluída ou Cancelada saem da lista padrão e do contador de ações em aberto.",
+      "Sem Início e Quando a ação não aparece no Gantt.",
+      "Excluir uma ação apaga os anexos dela e não pode ser desfeito. Prefira marcar como Cancelada para guardar o histórico."
+    ],
+    "dica": "Uma boa ação de PDI cabe numa frase com verbo, prazo e quem apoia."
+  },
+  {
+    "path": "treinamentos",
+    "titulo": "Treinamentos",
+    "grupo": "Desenvolvimento",
+    "objetivo": "Controla cursos, certificações, treinamentos obrigatórios, idiomas e formação de cada pessoa, com data de conclusão, validade e custo. Avisa o que está vencendo e compara o que cada pessoa tem com o que o cargo exige.",
+    "quando_usar": "Sempre que alguém concluir um curso ou certificação, e para vigiar validades de treinamentos obrigatórios.",
+    "passo_a_passo": [
+      "Abra Desenvolvimento → Treinamentos (a tela se chama Controle de treinamentos).",
+      "Clique em Novo.",
+      "Escolha o Colaborador e escreva o nome do Treinamento / certificação.",
+      "Escolha o Tipo e informe a Data de conclusão, a Validade e o Custo.",
+      "Cole o link do certificado ou arraste o arquivo na área de Anexos e clique em Salvar.",
+      "Veja os números no topo: Registros, Vencendo (45 dias), Vencidos e Investimento no ano.",
+      "Abra a visão Validade para ver os treinamentos em ordem de vencimento.",
+      "Abra a visão Pessoa × requisitos do cargo e clique em um requisito pendente para registrar o treinamento que falta."
+    ],
+    "recursos": [
+      {
+        "nome": "Indicadores do topo",
+        "descricao": "Total de registros, quantos vencem em até 45 dias, quantos já venceram e o custo dos treinamentos concluídos no ano atual."
+      },
+      {
+        "nome": "Visão Validade",
+        "descricao": "Lista por data de vencimento com selo Válido, Vencendo ou Vencido."
+      },
+      {
+        "nome": "Pessoa × requisitos do cargo",
+        "descricao": "Para cada pessoa ativa, compara os treinamentos cadastrados com os requisitos do cargo. Mostra ✓ (ok), ! (vencendo ou vencido), ✗ (falta) e uma barra de aderência."
+      },
+      {
+        "nome": "Lista de tipos editável",
+        "descricao": "No campo Tipo, use \"+ Nova opção…\" ou \"✎ Editar lista…\" para ajustar as opções."
+      },
+      {
+        "nome": "Barra da lista",
+        "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
+      },
+      {
+        "nome": "Formulário com anexos",
+        "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
+      }
+    ],
+    "impactos": [
+      "Validade vencida ou que vence em até 45 dias gera alerta na Visão geral e no contador do menu.",
+      "A validade aparece no Calendário como \"Vence certificação\".",
+      "A comparação usa os requisitos digitados no cargo, em Cargos e salários (um por linha).",
+      "Os treinamentos aparecem no perfil da pessoa, na tela Time."
+    ],
+    "cuidados": [
+      "A comparação com o cargo é feita pelo nome: escreva o treinamento de forma parecida com o requisito do cargo (ex.: \"CPA-20\").",
+      "Sem data de Validade, o treinamento é tratado como válido para sempre.",
+      "Excluir um registro apaga também o certificado anexado."
+    ],
+    "dica": "Cadastre os requisitos em Cargos e salários: a tela passa a mostrar sozinha quem está pendente."
+  },
+  {
+    "path": "treinamento-interno",
+    "titulo": "Treinamento interno",
+    "grupo": "Desenvolvimento",
+    "objetivo": "Organiza os treinamentos dados pelo próprio time: tema, instrutor, prazo de preparação, data, carga horária, material e anotações. Registra convidados e presentes e gera certificados para imprimir ou salvar em PDF.",
+    "quando_usar": "Quando alguém do time for ensinar um tema aos colegas, do planejamento até a entrega dos certificados.",
+    "passo_a_passo": [
+      "Abra Desenvolvimento → Treinamento interno.",
+      "Clique em Novo e preencha o Tema (obrigatório), o Instrutor (do time), o Prazo de preparação, a Data do treinamento e a Carga horária.",
+      "Marque os Convidados e coloque o link do Material. Clique em Salvar.",
+      "Acompanhe a situação (Planejado, Em preparação, Agendado, Realizado) na visão Kanban.",
+      "Depois do treinamento, na visão Presença e certificados, clique em Lista de presença e marque os Presentes.",
+      "Clique em Certificados (PDF).",
+      "Na tela de certificados, clique em Imprimir / salvar PDF e escolha \"Salvar como PDF\" em A4 paisagem."
+    ],
+    "recursos": [
+      {
+        "nome": "Visão Presença e certificados",
+        "descricao": "É a visão inicial. Mostra um cartão por treinamento com instrutor, data, carga horária e a barra de presença (presentes de convidados)."
+      },
+      {
+        "nome": "Certificados em PDF",
+        "descricao": "Gera um certificado por pessoa presente, com tema, instrutor, data e carga horária."
+      },
+      {
+        "nome": "Botão Material",
+        "descricao": "Abre o link do material direto do cartão."
+      },
+      {
+        "nome": "Visões Lista e Kanban",
+        "descricao": "Lista para consulta e Kanban para mover o treinamento entre as situações."
+      },
+      {
+        "nome": "Barra da lista",
+        "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
+      }
+    ],
+    "impactos": [
+      "O Prazo de preparação aparece no Calendário como \"Preparar treinamento\" e a data como \"Treinamento interno\".",
+      "Essas datas também entram nos próximos 7 dias da Visão geral."
+    ],
+    "cuidados": [
+      "O botão Certificados (PDF) só funciona depois de marcar pelo menos um presente.",
+      "O certificado sai com os textos \"Treinamento interno · Controladoria\" e \"Gestor da área\" fixos. Confira antes de distribuir.",
+      "Treinamentos com situação Realizado saem da lista padrão (filtro \"em aberto\")."
+    ],
+    "dica": "Marque a presença no mesmo dia: o certificado sai pronto com um clique."
+  },
+  {
+    "path": "incentive",
+    "titulo": "Incentive model",
+    "grupo": "Desenvolvimento",
+    "objetivo": "Reproduz o formulário de metas de incentivo (Incentive/KPI do SuccessFactors). Cada meta (goal) tem peso, métrica, target e régua de bônus de 50%, 100% e 150%. A tela calcula o bônus projetado de cada pessoa no ano.",
+    "quando_usar": "No início do ano para registrar as metas, e ao longo do ano para lançar o realizado e simular o bônus.",
+    "passo_a_passo": [
+      "Abra Desenvolvimento → Incentive model. A tela abre no Formulário (scorecard).",
+      "Clique em Novo (ou em + Goal dentro de um scorecard).",
+      "Escolha o Colaborador (deixe vazio para as suas próprias metas), o Ano e escreva o Goal.",
+      "Informe o Peso (%), a Metric (unidade), o Sentido (Maior é melhor ou Menor é melhor) e o Target (100% de bônus).",
+      "Se quiser, informe os pontos de 50% e 150%. Vazios, o sistema usa 80% e 120% do target.",
+      "Para sub-KPIs, preencha Sub-KPI de (goal agregador) e o peso interno.",
+      "Clique em Salvar. No scorecard, digite o Realizado direto na linha para simular o bônus.",
+      "Para metas qualitativas, sem target, informe o Bônus % manual.",
+      "Confira se o selo de pesos mostra 100% e veja o Bônus projetado no cabeçalho."
+    ],
+    "recursos": [
+      {
+        "nome": "Formulário (scorecard)",
+        "descricao": "Um quadro por pessoa e ano com Peso, Metric, 50%, 100%, 150%, Realizado, % do target, Régua, Bônus e Contribuição."
+      },
+      {
+        "nome": "Régua de bônus",
+        "descricao": "Abaixo do ponto de 50% paga 0. Entre os pontos o cálculo é linear. Acima do stretch, limita em 150%."
+      },
+      {
+        "nome": "Sub-KPIs",
+        "descricao": "Metas dentro de uma meta agregadora. O bônus da agregadora é a média ponderada dos sub-KPIs."
+      },
+      {
+        "nome": "Bônus manual",
+        "descricao": "Para metas de projeto ou qualitativas, substitui o cálculo pela régua."
+      },
+      {
+        "nome": "Link do SuccessFactors",
+        "descricao": "Botão SuccessFactors no cabeçalho do scorecard, quando o link estiver preenchido."
+      },
+      {
+        "nome": "Visões Lista e Kanban",
+        "descricao": "Além do scorecard, a lista comum e o Kanban por situação (No prazo, Atenção, Crítico, Atingida, Não atingida)."
+      }
+    ],
+    "impactos": [
+      "Um projeto (tela Projetos) pode ser marcado como \"Está no Incentive Model?\" e ligado a uma meta. O formulário do projeto mostra peso, target, realizado e bônus da meta, e o scorecard mostra o nome do projeto abaixo do goal.",
+      "Se os pesos das metas principais de uma pessoa no ano não somarem 100%, aparece um alerta na Visão geral.",
+      "O Prazo da meta vai para o Calendário como \"Goal de incentivo\".",
+      "O perfil da pessoa, na tela Time, mostra as metas do ano e o atingimento."
+    ],
+    "cuidados": [
+      "O valor digitado no Realizado do scorecard é gravado na hora, sem botão Salvar.",
+      "Excluir uma meta agregadora faz os sub-KPIs dela sumirem do scorecard (continuam na Lista) e desfaz o vínculo com os projetos ligados a ela.",
+      "Confira o Sentido: em metas \"Menor é melhor\" (ex.: dias de fechamento) a régua funciona ao contrário.",
+      "Os valores calculados são uma simulação. O valor oficial é o do sistema de RH da empresa."
+    ],
+    "dica": "Lance o realizado todo mês: o bônus projetado vira um termômetro do ano."
+  },
+  {
+    "path": "despesas",
+    "titulo": "Despesas × budget",
+    "grupo": "Controles",
+    "objetivo": "Compara o orçado (budget) com o realizado por centro de custo, conta, mês e ano. Mostra a variação, o acumulado do ano e uma projeção de fechamento. Você pode consolidar vários centros de custo de uma vez.",
+    "quando_usar": "Todo mês, depois de lançar o realizado, e no ciclo de orçamento para cadastrar o budget do ano.",
+    "passo_a_passo": [
+      "Abra Controles → Despesas × budget (a tela se chama Despesas do departamento).",
+      "Escolha o ano no seletor do topo.",
+      "Clique nos centros de custo que quer ver, ou em Todos (consolidado).",
+      "Na aba Linhas de budget, clique em Distribuir budget anual por mês, escolha centro de custo, conta e valor, e clique em Gerar 12 meses.",
+      "Na aba Lançamentos realizados, clique em Novo e preencha centro de custo, ano, mês, conta, produto/serviço e valor. Clique em Salvar.",
+      "Para trazer dados do ERP, no quadro Importar do ERP (CSV) clique em Modelo, preencha e clique em Importar.",
+      "Na aba Budget × realizado, analise o gráfico e as tabelas Por mês, Por conta (ano) e Por centro de custo (YTD).",
+      "Acompanhe os indicadores do topo: Budget FY, YTD, Variação YTD e Forecast."
+    ],
+    "recursos": [
+      {
+        "nome": "Indicadores do topo",
+        "descricao": "Budget do ano, realizado acumulado (YTD), variação contra o budget acumulado e Forecast (realizado + budget dos meses que faltam)."
+      },
+      {
+        "nome": "Aba Budget × realizado",
+        "descricao": "Gráfico mensal e tabelas com Budget, Real, Variação, % de uso e variação acumulada."
+      },
+      {
+        "nome": "Distribuir budget anual por mês",
+        "descricao": "Cria 12 linhas mensais a partir de um valor anual (divide por 12) ou mensal (repete 12 vezes)."
+      },
+      {
+        "nome": "Importar do ERP (CSV)",
+        "descricao": "Lê um arquivo com as colunas tipo, centro_custo, ano, mes, conta, descricao, fornecedor, valor, documento e po. Em tipo use \"real\" ou \"budget\"."
+      },
+      {
+        "nome": "Lançamentos realizados",
+        "descricao": "Lista dos gastos com fornecedor, quantidade, valor unitário, NF e pedido (PO). Se o Valor total ficar vazio, o sistema calcula quantidade × unitário."
+      },
+      {
+        "nome": "Contas editáveis",
+        "descricao": "No campo Conta / natureza, use \"+ Nova opção…\" ou \"✎ Editar lista…\". A lista vale para budget e realizado."
+      }
+    ],
+    "impactos": [
+      "A Visão geral mostra o consumo do budget do ano (Despesas YTD) com base nestes lançamentos.",
+      "Usa o cadastro de Centros de custo. Só os centros marcados como Ativo aparecem nos botões de seleção."
+    ],
+    "cuidados": [
+      "Em Distribuir, a opção \"Substituir linhas existentes desta conta/centro/ano\" apaga as linhas antigas antes de criar as novas.",
+      "Na importação do ERP, linhas com centro de custo não cadastrado são ignoradas, e conta desconhecida vira \"Outros\". Essa importação não tem botão de desfazer: confira o arquivo antes.",
+      "Reembolsos e contratos não entram aqui sozinhos. Lance o realizado nesta tela.",
+      "Cadastre os centros de custo antes de lançar budget ou realizado."
+    ],
+    "dica": "Olhe o Forecast todo mês: ele mostra cedo se o ano vai fechar acima do orçado."
+  },
+  {
+    "path": "centros-custo",
+    "titulo": "Centros de custo",
+    "grupo": "Controles",
+    "objetivo": "Cadastro dos centros de custo sob a sua gestão, com código, descrição, gestor responsável e empresa. É a base para budget, despesas e outras telas que pedem centro de custo.",
+    "quando_usar": "Na implantação do sistema (é o primeiro cadastro recomendado) e quando um centro de custo for criado ou desativado.",
+    "passo_a_passo": [
+      "Abra Controles → Centros de custo.",
+      "Clique em Novo.",
+      "Preencha o Código e a Descrição (obrigatórios).",
+      "Informe o Gestor responsável e a Empresa / company code.",
+      "Deixe Ativo marcado e clique em Salvar.",
+      "Quando um centro deixar de ser usado, abra-o, desmarque Ativo e salve."
+    ],
+    "recursos": [
+      {
+        "nome": "Cadastro simples",
+        "descricao": "Código, descrição, gestor, empresa e situação Ativo."
+      },
+      {
+        "nome": "Exibição código · descrição",
+        "descricao": "Nas outras telas o centro aparece como \"código · descrição\"."
+      },
+      {
+        "nome": "Cadastro rápido",
+        "descricao": "Em formulários de outras telas, o campo Centro de custo oferece \"+ Cadastrar novo…\" para criar sem sair da tela."
+      },
+      {
+        "nome": "Barra da lista",
+        "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
+      },
+      {
+        "nome": "Formulário com anexos",
+        "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
+      }
+    ],
+    "impactos": [
+      "Usado em Despesas × budget (budget e realizado), Reembolsos, Contratos e vencimentos e no cadastro do Time.",
+      "Na importação do ERP em Despesas × budget, o centro é reconhecido pelo código ou pela descrição.",
+      "Centros desmarcados como Ativo deixam de aparecer nos botões de seleção de Despesas × budget."
+    ],
+    "cuidados": [
+      "Não exclua um centro que já tem lançamentos: os registros ligados perdem a referência. Prefira desmarcar Ativo.",
+      "Mudar o código afeta a importação do ERP, que procura o centro pelo código.",
+      "Use o mesmo código do ERP para a importação funcionar sem ajustes."
+    ],
+    "dica": "Use exatamente o código do ERP: a importação de despesas fica automática."
+  },
+  {
+    "path": "fechamento",
+    "titulo": "Fechamento mensal",
+    "grupo": "Controles",
+    "objetivo": "Checklist de fechamento contábil do mês, um por competência. Os itens são organizados por grupos, como livro razão, contas a receber, inventário, contas a pagar, folha e impostos. Cada item tem responsável e data de conclusão.",
+    "quando_usar": "Em todo fechamento mensal, do primeiro ao último dia útil do processo.",
+    "passo_a_passo": [
+      "Abra Controles → Fechamento mensal.",
+      "Confira a competência no campo de mês do topo. Ela começa no mês anterior ao atual.",
+      "Em cada item, escolha o responsável na lista \"resp.\".",
+      "Marque a caixa do item quando ele for concluído. A data é preenchida sozinha.",
+      "Acompanhe o total no topo (ex.: \"12 de 40 itens\") e o placar de cada grupo.",
+      "Use os botões de competências anteriores, com o percentual concluído, para rever meses passados."
+    ],
+    "recursos": [
+      {
+        "nome": "Um checklist por competência",
+        "descricao": "Cada mês tem o seu registro. Trocar o mês abre o checklist daquela competência."
+      },
+      {
+        "nome": "Grupos de itens",
+        "descricao": "Livro razão e lançamentos, Contas a receber, Inventário e CMV, Contas a pagar, Folha e benefícios, Impostos."
+      },
+      {
+        "nome": "Responsável e data",
+        "descricao": "Cada item guarda quem é o responsável e a data em que foi marcado."
+      },
+      {
+        "nome": "Barra de progresso",
+        "descricao": "Mostra quantos itens estão prontos, no total e por grupo."
+      },
+      {
+        "nome": "Histórico",
+        "descricao": "Botões com as últimas 6 competências e o percentual de cada uma."
+      }
+    ],
+    "impactos": [
+      "A lista de responsáveis vem do cadastro do Time.",
+      "Esta tela não gera datas no Calendário nem alertas."
+    ],
+    "cuidados": [
+      "As marcações são gravadas na hora, sem botão Salvar.",
+      "Os itens do checklist são fixos. Para rotinas próprias, use Checklists recorrentes.",
+      "Confira a competência antes de marcar: é fácil marcar no mês errado."
+    ],
+    "dica": "Defina os responsáveis no primeiro dia do fechamento: cada um sabe o que é seu."
+  },
+  {
+    "path": "obrigacoes",
+    "titulo": "Agenda de obrigações",
+    "grupo": "Processos",
+    "objetivo": "Controla obrigações recorrentes: fiscais, contábeis, reporting à matriz, auditoria, trabalhistas, societárias e internas. O sistema calcula o próximo vencimento e registra a entrega de cada competência, com responsável e backup.",
+    "quando_usar": "Para montar o calendário fixo de entregas da área e marcar cada entrega feita.",
+    "passo_a_passo": [
+      "Abra Processos → Agenda de obrigações.",
+      "Clique em Novo e escreva o nome da Obrigação.",
+      "Escolha o Tipo e a Periodicidade (Mensal, Trimestral, Anual ou Eventual).",
+      "Informe o Dia do vencimento. Para anuais, escolha também o Mês (anuais). Para eventuais, informe a Data (eventual).",
+      "Escolha o Responsável e o Backup, informe o Órgão / destino e explique em Como fazer / observações. Clique em Salvar.",
+      "No quadro Próximos vencimentos, clique em ✓ Entregue quando a obrigação for entregue.",
+      "Para desfazer uma entrega, clique no mês marcado com ✓ e confirme."
+    ],
+    "recursos": [
+      {
+        "nome": "Indicadores",
+        "descricao": "Atrasadas, Vencem em 7 dias, Entregues no mês e Obrigações cadastradas."
+      },
+      {
+        "nome": "Próximos vencimentos",
+        "descricao": "Lista em ordem de data, com selo de cor, dias que faltam ou de atraso, responsável, backup e as últimas 3 entregas."
+      },
+      {
+        "nome": "Cálculo automático",
+        "descricao": "O Próximo vencimento é calculado sozinho. Se cair em sábado ou domingo, é antecipado para a sexta. Trimestrais vencem em janeiro, abril, julho e outubro."
+      },
+      {
+        "nome": "Controle por competência",
+        "descricao": "Cada entrega fica registrada com a data e quem marcou. Competências dos últimos 3 meses sem entrega aparecem como atrasadas."
+      },
+      {
+        "nome": "Tipos editáveis",
+        "descricao": "O campo Tipo aceita \"+ Nova opção…\" e \"✎ Editar lista…\"."
+      },
+      {
+        "nome": "Barra da lista",
+        "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
+      }
+    ],
+    "impactos": [
+      "O próximo vencimento de cada obrigação aparece no Calendário como \"Obrigação\" e nos próximos 7 dias da Visão geral.",
+      "As obrigações aparecem no perfil do responsável, na tela Time.",
+      "Se a ferramenta for ocultada no menu, os vencimentos saem do Calendário."
+    ],
+    "cuidados": [
+      "Feriados não são considerados. Ajuste o dia na obrigação quando necessário.",
+      "Meses anteriores à data de cadastro da obrigação não contam como atrasados.",
+      "Excluir uma obrigação apaga todo o histórico de entregas dela. Não há como desfazer.",
+      "Sempre defina um backup: ele aparece na lista e evita atraso em férias e ausências."
+    ],
+    "dica": "Clique em ✓ Entregue no dia da entrega: o próximo vencimento já aparece calculado."
+  },
+  {
+    "path": "checklists",
+    "titulo": "Checklists recorrentes",
+    "grupo": "Processos",
+    "objetivo": "Cria modelos de checklist reaproveitáveis, como reconciliações, abertura de período, auditoria e desligamento. A cada ciclo você inicia uma execução do modelo e acompanha quem marcou cada item e quando.",
+    "quando_usar": "Para rotinas que se repetem e precisam de evidência de que cada passo foi feito.",
+    "passo_a_passo": [
+      "Abra Processos → Checklists recorrentes.",
+      "Clique em Novo modelo.",
+      "Preencha o nome do Checklist, a Área / tema, a Periodicidade e o Responsável padrão.",
+      "Em Itens, escreva um item por linha e clique em Salvar.",
+      "No quadro Modelos, clique em ▶ Iniciar no modelo desejado.",
+      "Confira a Referência (preenchida pela periodicidade, ex.: \"Out/2026\") e informe um Prazo, se quiser.",
+      "Marque cada item quando for feito. O sistema grava quem marcou e a data.",
+      "Quando todos os itens forem marcados, a execução aparece como concluída."
+    ],
+    "recursos": [
+      {
+        "nome": "Modelos",
+        "descricao": "Lista de modelos com área, periodicidade e número de itens. Clique no nome para editar."
+      },
+      {
+        "nome": "Execuções",
+        "descricao": "Cada ciclo iniciado, com barra de progresso. As em aberto aparecem primeiro."
+      },
+      {
+        "nome": "Rastro de quem fez",
+        "descricao": "Cada item marcado mostra o primeiro nome de quem marcou e a data."
+      },
+      {
+        "nome": "Referência automática",
+        "descricao": "Mensal vira mês/ano, trimestral vira \"1º tri/ano\", anual vira o ano; nos demais, a data de hoje."
+      },
+      {
+        "nome": "Excluir execução",
+        "descricao": "Ícone de lixeira na execução aberta, com confirmação."
+      }
+    ],
+    "impactos": [
+      "Execuções com Prazo aparecem no Calendário como \"Checklist\" e nos próximos 7 dias da Visão geral."
+    ],
+    "cuidados": [
+      "Os itens são copiados no momento em que você clica em ▶ Iniciar. Mudar o modelo depois não altera execuções já iniciadas.",
+      "Excluir uma execução apaga as marcações dela. Não há como desfazer.",
+      "As marcações são gravadas na hora, sem botão Salvar."
+    ],
+    "dica": "Escreva itens curtos e verificáveis: \"Conciliar banco X\" é melhor que \"Ver bancos\"."
+  },
+  {
+    "path": "fluxogramas",
+    "titulo": "Fluxogramas de processo",
+    "grupo": "Processos",
+    "objetivo": "Desenha o processo com quadros de início, etapa, decisão, documento, sistema e fim, ligados por setas. Cada quadro guarda a descrição da etapa. O mesmo desenho também vira um procedimento em texto, pronto para imprimir.",
+    "quando_usar": "Para documentar como um processo funciona, treinar pessoas novas ou revisar um processo com a equipe.",
+    "passo_a_passo": [
+      "Abra Processos → Fluxogramas de processo e clique em Novo fluxograma. Ele já vem com Início, Primeira etapa e Fim.",
+      "Troque o nome do processo no campo do topo.",
+      "Para criar um quadro, clique em Início, Etapa, Decisão, Documento, Sistema / dados ou Fim na barra. Com um quadro selecionado, o novo já nasce ligado a ele.",
+      "Clique em um quadro e preencha à direita: Texto do quadro, Quem faz, Entrada, Saída, Sistema / ferramenta, Prazo / SLA e Como fazer.",
+      "Para ligar quadros, clique em ↗ Ligar, toque no quadro de origem e depois no de destino. Também dá para arrastar a bolinha azul de um quadro até outro.",
+      "Clique numa seta para escrever um texto ou usar Sim, Não, Aprovado ou Reprovado. Use ⇄ Inverter sentido se precisar.",
+      "Sem nada selecionado, preencha os Dados do processo: Área, Dono do processo, Status, Próxima revisão e Objetivo / escopo.",
+      "Troque para Procedimento (texto) para ver os passos numerados e clique em Imprimir / salvar em PDF.",
+      "Clique em ← Fluxogramas para voltar à lista."
+    ],
+    "recursos": [
+      {
+        "nome": "Seis formas",
+        "descricao": "Início, Etapa, Decisão (losango), Documento, Sistema / dados e Fim, cada uma com sua cor."
+      },
+      {
+        "nome": "Descrição de cada etapa",
+        "descricao": "Quem faz, entrada, saída, sistema, prazo/SLA e o passo a passo detalhado."
+      },
+      {
+        "nome": "Procedimento em texto",
+        "descricao": "Os quadros viram passos numerados, com os caminhos de cada decisão (ex.: \"Sim → passo 4\")."
+      },
+      {
+        "nome": "Gravação automática",
+        "descricao": "O topo mostra \"Salvando…\" e \"Salvo\". Não há botão Salvar."
+      },
+      {
+        "nome": "Desfazer, excluir e zoom",
+        "descricao": "Botão ↶ (ou Ctrl+Z) desfaz; lixeira (ou tecla Delete) apaga o item selecionado; − e + ajustam o zoom."
+      },
+      {
+        "nome": "Lista com miniaturas",
+        "descricao": "A tela inicial mostra cada fluxograma com miniatura, área, dono, status e data da última edição, com busca."
+      }
+    ],
+    "impactos": [
+      "A Próxima revisão aparece no Calendário como \"Revisão do fluxograma\" e nos próximos 7 dias da Visão geral."
+    ],
+    "cuidados": [
+      "Excluir fluxograma (no painel Dados do processo) apaga o desenho inteiro e não pode ser desfeito.",
+      "O desfazer guarda só as mudanças da sessão aberta. Ao sair do fluxograma, o histórico de desfazer se perde.",
+      "Use o Status (Rascunho, Em uso, Em revisão, Obsoleto) para deixar claro qual versão vale."
+    ],
+    "dica": "Desenhe primeiro o caminho feliz; depois acrescente as decisões e exceções."
+  },
+  {
+    "path": "solicitacoes",
+    "titulo": "Solicitações e aprovações",
+    "grupo": "Processos",
+    "objetivo": "Registra pedidos que precisam de aprovação, como compras, acessos, horas extras, folgas, viagens e treinamentos. Cada pedido segue o caminho pedido → aprovação → execução e guarda a justificativa e a decisão.",
+    "quando_usar": "Quando alguém do time pedir algo que depende de aprovação e você quiser manter o histórico da decisão.",
+    "passo_a_passo": [
+      "Abra Processos → Solicitações e aprovações.",
+      "Clique em Novo e escreva a Solicitação.",
+      "Escolha o Tipo, o Solicitante e o Aprovador.",
+      "Informe o Valor (se houver), a data em Precisa até e a Justificativa. Clique em Salvar.",
+      "O pedido nasce como Aguardando aprovação.",
+      "O aprovador abre o pedido, escreve em Decisão / comentário do aprovador e muda o Status para Aprovada ou Recusada.",
+      "Depois de executado, mude para Concluída. No Kanban, basta arrastar o cartão."
+    ],
+    "recursos": [
+      {
+        "nome": "Situações do pedido",
+        "descricao": "Rascunho, Aguardando aprovação, Aprovada, Recusada e Concluída."
+      },
+      {
+        "nome": "Visões Lista e Kanban",
+        "descricao": "O Kanban mostra o funil de pedidos e permite mudar a situação arrastando."
+      },
+      {
+        "nome": "Histórico da decisão",
+        "descricao": "Justificativa e comentário do aprovador ficam no próprio registro. O rodapé mostra quem alterou por último."
+      },
+      {
+        "nome": "Tipos editáveis",
+        "descricao": "O campo Tipo aceita \"+ Nova opção…\" e \"✎ Editar lista…\"."
+      },
+      {
+        "nome": "Barra da lista",
+        "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
+      },
+      {
+        "nome": "Formulário com anexos",
+        "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
+      }
+    ],
+    "impactos": [
+      "A data Precisa até aparece no Calendário como \"Solicitação\" e nos próximos 7 dias da Visão geral.",
+      "As solicitações aparecem no perfil do solicitante, na tela Time."
+    ],
+    "cuidados": [
+      "O sistema não envia aviso ao aprovador. Combine com ele que vai consultar esta tela.",
+      "Pedidos Aprovada, Recusada e Concluída saem da lista padrão (filtro \"em aberto\"). Use o filtro \"concluídas (histórico)\" para vê-los.",
+      "Anexe orçamentos e e-mails de aprovação no próprio pedido, como evidência."
+    ],
+    "dica": "Sem justificativa escrita não há aprovação: peça sempre o porquê no pedido."
+  },
+  {
+    "path": "reembolsos",
+    "titulo": "Reembolsos",
+    "grupo": "Processos",
+    "objetivo": "Controla despesas que precisam ser reembolsadas aos colaboradores, com comprovante anexado, centro de custo, aprovador e data de pagamento.",
+    "quando_usar": "Sempre que alguém pagar uma despesa da empresa com recurso próprio, como transporte, alimentação, hospedagem ou quilometragem.",
+    "passo_a_passo": [
+      "Abra Processos → Reembolsos.",
+      "Clique em Novo.",
+      "Escolha o Colaborador, escreva a Descrição e informe a Data da despesa e o Valor (obrigatórios).",
+      "Escolha a Categoria, o Centro de custo e o Aprovador.",
+      "Arraste a nota ou recibo para a área de Anexos e clique em Salvar. O reembolso nasce como Enviado.",
+      "Na aprovação, mude o Status para Aprovado ou Recusado.",
+      "No pagamento, mude para Pago e informe a data em Pago em."
+    ],
+    "recursos": [
+      {
+        "nome": "Situações",
+        "descricao": "Rascunho, Enviado, Aprovado, Pago e Recusado."
+      },
+      {
+        "nome": "Comprovante anexado",
+        "descricao": "O recibo ou nota fica guardado dentro do próprio reembolso."
+      },
+      {
+        "nome": "Visões Lista e Kanban",
+        "descricao": "Kanban para acompanhar o fluxo de aprovação e pagamento."
+      },
+      {
+        "nome": "Categorias editáveis",
+        "descricao": "O campo Categoria aceita \"+ Nova opção…\" e \"✎ Editar lista…\"."
+      },
+      {
+        "nome": "Barra da lista",
+        "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
+      }
+    ],
+    "impactos": [
+      "Usa o cadastro de Centros de custo.",
+      "Os reembolsos aparecem no perfil do colaborador, na tela Time.",
+      "Os reembolsos não entram sozinhos em Despesas × budget, nem geram datas no Calendário."
+    ],
+    "cuidados": [
+      "Reembolsos Aprovado, Pago e Recusado saem da lista padrão (filtro \"em aberto\"). Para ver os aprovados ainda não pagos, use o filtro de Status.",
+      "Excluir um reembolso apaga também o comprovante anexado.",
+      "Confira a política de reembolso da empresa antes de aprovar."
+    ],
+    "dica": "Sem comprovante anexado, não aprove: o anexo é a sua evidência na auditoria."
+  },
+  {
+    "path": "contratos",
+    "titulo": "Contratos e vencimentos",
+    "grupo": "Processos",
+    "objetivo": "Controla tudo o que vence: contratos, certificados digitais, domínios, assinaturas, licenças, seguros, alvarás e procurações. Mostra o que precisa de atenção, avisa com antecedência e guarda o histórico de renovações.",
+    "quando_usar": "Para cadastrar cada item com vencimento e para renovar quando a data se aproximar.",
+    "passo_a_passo": [
+      "Abra Processos → Contratos e vencimentos.",
+      "Clique em Novo e escreva o Item (ex.: \"Certificado digital e-CNPJ\").",
+      "Escolha o Tipo e informe Fornecedor / emissor, Nº do contrato e Responsável.",
+      "Informe o Vencimento (obrigatório) e em Avisar com quantos dias a antecedência (padrão 30).",
+      "Escolha Renova a cada, marque Renovação automática se for o caso, informe Valor por período e Centro de custo. Clique em Salvar.",
+      "Acompanhe o quadro Precisam de atenção: ele lista os itens dentro do prazo de aviso ou vencidos.",
+      "Quando renovar, clique em Renovar e confirme. O sistema calcula o novo vencimento e registra no histórico.",
+      "Se a data ou o valor mudaram, abra o item e ajuste depois da renovação."
+    ],
+    "recursos": [
+      {
+        "nome": "Indicadores",
+        "descricao": "Vencidos, Vencem em 30 dias (com 60 e 90 dias abaixo), Custo anual dos itens ativos e Itens ativos."
+      },
+      {
+        "nome": "Precisam de atenção",
+        "descricao": "Itens dentro do prazo de aviso de cada um, com \"faltam Xd\", \"vence hoje\" ou \"vencido há Xd\"."
+      },
+      {
+        "nome": "Botão Renovar",
+        "descricao": "Soma o período de renovação ao vencimento atual, volta o status para Vigente e grava uma linha no Histórico de renovações com data, quem renovou e valor."
+      },
+      {
+        "nome": "Custo anual",
+        "descricao": "Converte o valor por período para 12 meses e soma os itens ativos."
+      },
+      {
+        "nome": "Visões Lista e Kanban",
+        "descricao": "A lista mostra a coluna de dias que faltam. O Kanban organiza por Vigente, Em renovação, Encerrado e Cancelado."
+      },
+      {
+        "nome": "Barra da lista",
+        "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
+      }
+    ],
+    "impactos": [
+      "Itens dentro do prazo de aviso ou vencidos geram alertas na Visão geral e no contador do menu (vermelho a partir de 7 dias).",
+      "No dia do vencimento, quem ativou os avisos no sino recebe a notificação \"Vence hoje\" no computador ou celular.",
+      "O vencimento aparece no Calendário como \"Vencimento\".",
+      "Usa o cadastro de Centros de custo e de pessoas (Responsável)."
+    ],
+    "cuidados": [
+      "Itens com status Encerrado ou Cancelado param de gerar alertas e saem dos indicadores.",
+      "Se Renova a cada estiver como \"Não renova\", o botão Renovar só abre o cadastro para você ajustar a data.",
+      "O aviso do sino só aparece com o sistema aberto (mesmo minimizado). No iPhone/iPad, só com o app na tela de início.",
+      "Excluir um item apaga o histórico de renovações e os anexos. Prefira marcar como Encerrado."
+    ],
+    "dica": "Use 60 dias de aviso para contratos e 30 para certificados e domínios."
+  },
+  {
+    "path": "patrimonio",
+    "titulo": "Patrimônio",
+    "grupo": "Processos",
+    "objetivo": "Controla os bens entregues às pessoas: notebooks, monitores, celulares, tokens, certificados digitais, licenças e mobiliário. Registra com quem está, desde quando e até quando devolver ou renovar.",
+    "quando_usar": "Na entrega de um equipamento, na devolução e principalmente no desligamento de alguém.",
+    "passo_a_passo": [
+      "Abra Processos → Patrimônio (a tela se chama Controle de patrimônio).",
+      "Clique em Novo e escreva o Item.",
+      "Escolha o Tipo e informe o Nº patrimônio / plaqueta e o Nº de série / chave.",
+      "Em Com quem está, escolha a pessoa e informe a data em Entregue em.",
+      "Se houver prazo, informe Devolver / renovar até (ex.: vencimento do certificado ou da licença).",
+      "Informe o Valor e clique em Salvar.",
+      "Na devolução, mude o Status para Devolvido. Se o bem for descartado, use Baixado."
+    ],
+    "recursos": [
+      {
+        "nome": "Situações",
+        "descricao": "Em uso, Disponível, Em manutenção, Devolvido e Baixado."
+      },
+      {
+        "nome": "Visões Lista e Kanban",
+        "descricao": "Kanban para ver rapidamente o que está em uso, disponível ou em manutenção."
+      },
+      {
+        "nome": "Filtros por tipo e pessoa",
+        "descricao": "Veja tudo o que está com uma pessoa antes do desligamento."
+      },
+      {
+        "nome": "Tipos editáveis",
+        "descricao": "O campo Tipo aceita \"+ Nova opção…\" e \"✎ Editar lista…\"."
+      },
+      {
+        "nome": "Barra da lista",
+        "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
+      },
+      {
+        "nome": "Formulário com anexos",
+        "descricao": "Clique em uma linha para abrir o registro. No fim do formulário há a área de Anexos: arraste arquivos ou e-mails salvos (.msg ou .eml)."
+      }
+    ],
+    "impactos": [
+      "A data Devolver / renovar até aparece no Calendário como \"Patrimônio (devolução/renovação)\" e nos próximos 7 dias da Visão geral.",
+      "Os itens aparecem no perfil da pessoa, na tela Time."
+    ],
+    "cuidados": [
+      "Itens Devolvido e Baixado saem da lista padrão (filtro \"em aberto\").",
+      "Não exclua itens devolvidos: o histórico mostra quem usou cada bem.",
+      "Não grave senhas ou chaves secretas no campo Nº de série / chave."
+    ],
+    "dica": "No desligamento, filtre pela pessoa: a lista do que devolver fica pronta."
+  },
+  {
+    "path": "nps-interno",
+    "titulo": "NPS clientes internos",
+    "grupo": "Processos",
+    "objetivo": "Registra como as áreas atendidas (Compras, Comercial, matriz e outras) avaliam o serviço da sua área, de 0 a 10. Calcula o NPS de cada ciclo e de cada área cliente.",
+    "quando_usar": "Ao fim de cada ciclo de pesquisa com os clientes internos, por exemplo a cada semestre.",
+    "passo_a_passo": [
+      "Abra Processos → NPS clientes internos.",
+      "Faça a pergunta às áreas: \"De 0 a 10, quanto você recomendaria o serviço da Controladoria?\".",
+      "Clique em Novo para cada resposta.",
+      "Informe o Ciclo (ex.: 2026-S2), a Área cliente e a Nota (0 a 10). Os três são obrigatórios.",
+      "Copie o Comentário e informe a Data. Clique em Salvar.",
+      "Para muitas respostas, use Importar e envie a planilha preenchida.",
+      "Veja no topo o NPS do ciclo mais recente, a comparação com os ciclos anteriores e o NPS por área cliente."
+    ],
+    "recursos": [
+      {
+        "nome": "NPS do ciclo",
+        "descricao": "Mostra o NPS, o número de respostas e quantos promotores, neutros e detratores."
+      },
+      {
+        "nome": "Comparação de ciclos",
+        "descricao": "Lista os últimos 6 ciclos com o NPS de cada um."
+      },
+      {
+        "nome": "Por área cliente",
+        "descricao": "NPS de cada área no ciclo mais recente."
+      },
+      {
+        "nome": "Cores",
+        "descricao": "Verde a partir de 50, amarelo de 0 a 49, vermelho abaixo de 0."
+      },
+      {
+        "nome": "Áreas editáveis",
+        "descricao": "O campo Área cliente aceita \"+ Nova opção…\" e \"✎ Editar lista…\"."
+      },
+      {
+        "nome": "Barra da lista",
+        "descricao": "Busca por qualquer campo, filtros prontos, filtro por etiqueta, contador de registros, botão Importar (planilha) e botão CSV para abrir no Excel. Clique no título de uma coluna para ordenar."
+      }
+    ],
+    "impactos": [
+      "Esta tela não gera datas no Calendário nem alertas. Os números ficam só aqui."
+    ],
+    "cuidados": [
+      "NPS = % de notas 9 e 10 menos % de notas 0 a 6.",
+      "O ciclo \"mais recente\" é escolhido pela ordem do texto. Escreva sempre no mesmo padrão (ex.: 2026-S1, 2026-S2).",
+      "Poucas respostas deixam o NPS instável. Leia os comentários junto com o número."
+    ],
+    "dica": "Mais que o número, use os comentários dos detratores para montar o plano de melhoria."
+  },
+  {
+    "path": "biblioteca",
+    "titulo": "Biblioteca de gestão",
+    "grupo": "Conhecimento",
+    "objetivo": "Reúne referências de gestão para consulta no dia a dia. Cada conceito explica o que é, como usar e, quando existe, leva direto à tela do sistema onde ele é aplicado.",
+    "quando_usar": "Para relembrar um conceito, preparar uma conversa com o time ou descobrir qual tela do sistema ajuda em um tema.",
+    "passo_a_passo": [
+      "Abra Conhecimento → Biblioteca de gestão.",
+      "Escolha uma aba: Tabela periódica da gestão, Gestão ágil: 6 peças, Liderando um time novo ou Gestão × microgestão.",
+      "Na tabela periódica, clique em um elemento para ver o resumo e o \"Como usar\".",
+      "Se o elemento tiver o selo \"no sistema\", clique em Abrir no sistema → para ir à tela correspondente.",
+      "Na aba Gestão ágil, veja onde cada peça aparece no Gestor Eficiente."
+    ],
+    "recursos": [
+      {
+        "nome": "Tabela periódica da gestão",
+        "descricao": "Conceitos agrupados por tema, cada um com sigla, nome, resumo e forma de uso."
+      },
+      {
+        "nome": "Gestão ágil: 6 peças",
+        "descricao": "Scrum, Kanban, OKR, Design Thinking, Cultura Lean e Liderança Antifrágil, com a indicação de onde aparecem no sistema."
+      },
+      {
+        "nome": "Liderando um time novo",
+        "descricao": "Passos numerados para quem assume uma equipe."
+      },
+      {
+        "nome": "Gestão × microgestão",
+        "descricao": "Quadro comparando atitudes de controle e de confiança."
+      },
+      {
+        "nome": "Atalho para o sistema",
+        "descricao": "O botão Abrir no sistema → leva à tela onde o conceito é aplicado."
+      }
+    ],
+    "impactos": [
+      "Apenas consulta: nada que você faça aqui altera dados de outras telas."
+    ],
+    "cuidados": [
+      "O conteúdo é fixo e não pode ser editado pela tela.",
+      "Se a tela de destino estiver oculta no menu, o atalho pode levar a uma ferramenta que a sua instalação não usa."
+    ],
+    "dica": "Antes de uma reunião difícil com o time, passe cinco minutos na aba Gestão × microgestão."
+  },
+  {
+    "path": "anexos",
+    "titulo": "Anexos e e-mails",
+    "grupo": "Sistema",
+    "objetivo": "Mostra num só lugar todos os arquivos e e-mails anexados em qualquer tela do sistema. Permite buscar por assunto, remetente, nome do arquivo ou registro e abrir o registro de origem.",
+    "quando_usar": "Quando você lembra de um arquivo ou e-mail, mas não lembra em qual tarefa, projeto ou registro ele foi guardado.",
+    "passo_a_passo": [
+      "Abra Sistema → Anexos e e-mails.",
+      "Digite no campo de busca parte do assunto, do remetente ou do nome do arquivo.",
+      "Se quiser, escolha a tela de origem em \"Módulo: todos\".",
+      "Marque \"só e-mails\" para ver apenas mensagens .msg e .eml.",
+      "Clique no nome do arquivo para abri-lo.",
+      "Clique no nome do registro (ex.: \"Tarefa: …\") para abrir o registro de origem."
+    ],
+    "recursos": [
+      {
+        "nome": "Indicadores",
+        "descricao": "Total de anexos e espaço ocupado, número de e-mails e número de registros com anexo."
+      },
+      {
+        "nome": "Busca ampla",
+        "descricao": "Procura no nome do arquivo, assunto, remetente, destinatário, resumo do e-mail e nome do registro."
+      },
+      {
+        "nome": "E-mails legíveis",
+        "descricao": "E-mails anexados mostram assunto, remetente, data e um resumo do texto."
+      },
+      {
+        "nome": "Filtro por módulo",
+        "descricao": "Mostra só os anexos de uma tela."
+      },
+      {
+        "nome": "Ordem por data",
+        "descricao": "Os mais recentes aparecem primeiro (no caso de e-mail, pela data da mensagem)."
+      }
+    ],
+    "impactos": [
+      "Os anexos são incluídos no backup completo (.zip) em Configurações e backup."
+    ],
+    "cuidados": [
+      "Esta tela só consulta. Para remover um anexo, abra o registro de origem e use a lixeira ao lado do arquivo.",
+      "Ao excluir um registro, os anexos dele também são apagados.",
+      "Anexos marcados como \"registro removido\" pertencem a um registro que não existe mais."
+    ],
+    "dica": "Arraste o e-mail de aprovação para dentro da tarefa: depois, ache tudo por aqui em segundos."
+  },
+  {
+    "path": "usuarios",
+    "titulo": "Usuários",
+    "grupo": "Sistema",
+    "objetivo": "Cadastra quem pode entrar no sistema, liga cada usuário à sua pessoa do Time e define o perfil de acesso: Administrador, Gestor, Colaborador ou Leitura. Também define o bloqueio automático por falta de uso.",
+    "quando_usar": "Ao dar acesso a alguém novo, mudar o perfil de uma pessoa, desativar quem saiu ou trocar a própria senha.",
+    "passo_a_passo": [
+      "Abra Sistema → Usuários (a tela se chama Usuários e acesso).",
+      "Administrador: clique em Novo usuário.",
+      "Preencha Nome, Usuário (login), E-mail e Senha (mínimo de 8 caracteres). O login vale para a plataforma inteira: não pode repetir o de outra conta.",
+      "Escolha o Perfil e a “Pessoa do time” deste usuário. Esse vínculo é o que faz o sistema saber o que é dele (Minhas pendências, delegação, o que ele vê no plano Empresa).",
+      "Deixe \"Usuário ativo (pode entrar)\" marcado e clique em Salvar.",
+      "Para alterar alguém, clique na linha dele na tabela.",
+      "Quem não é administrador clica em Alterar minha senha para mudar a própria senha, nome ou e-mail.",
+      "Em Bloqueio automático, escolha depois de quantos minutos sem uso o sistema sai sozinho."
+    ],
+    "recursos": [
+      {
+        "nome": "Perfis de acesso",
+        "descricao": "Administrador: tudo, inclusive usuários, backup, restauração e opções da conta (e vê as telas sensíveis de RH). Gestor: cria e edita registros e anexos, sem gerenciar usuários. Colaborador: cria e edita os próprios registros e o que receber, sem ver salários e remunerações. Leitura: consulta, sem editar."
+      },
+      {
+        "nome": "Tabela de usuários",
+        "descricao": "Nome, login, e-mail, perfil, pessoa do time vinculada, último acesso e situação (Ativo/Inativo). Mostra só os usuários da sua conta."
+      },
+      {
+        "nome": "Bloqueio automático",
+        "descricao": "5, 15, 30, 60 ou 120 minutos sem uso, ou Nunca bloquear. Não vale nos aparelhos em que a pessoa marcou \"Manter conectado\"."
+      },
+      {
+        "nome": "Proteção do login",
+        "descricao": "Na versão em servidor, após 5 senhas erradas o acesso fica bloqueado por 15 minutos."
+      },
+      {
+        "nome": "Autoria dos registros",
+        "descricao": "Cada registro guarda quem criou e quem alterou por último."
+      }
+    ],
+    "impactos": [
+      "O perfil Leitura não consegue criar, editar, excluir, anexar nem importar em nenhuma tela. Ao tentar, aparece \"Seu perfil é somente leitura\".",
+      "Só o Administrador pode restaurar backup, apagar dados, carregar dados de exemplo e mudar as Ferramentas no menu.",
+      "O nome do usuário aparece em entregas de obrigações, marcações de checklist e renovações de contratos.",
+      "O perfil Colaborador não vê nem grava salário e remuneração em Time e em Cargos e salários.",
+      "Sem o vínculo com a pessoa do time, o usuário não recebe delegações nem vê o que foi compartilhado com ele."
+    ],
+    "cuidados": [
+      "O sistema exige pelo menos um administrador ativo.",
+      "Você não pode excluir o seu próprio usuário. Ao excluir alguém, os registros criados por essa pessoa continuam no sistema.",
+      "Para quem saiu da empresa, desmarque \"Usuário ativo\" em vez de excluir: o histórico fica preservado.",
+      "O bloqueio automático é gravado no aparelho em uso e vale a partir do próximo login.",
+      "Nunca compartilhe login. Cada pessoa deve ter o seu."
+    ],
+    "dica": "Ligue cada usuário à pessoa dele no Time logo no cadastro: é isso que faz a delegação, as pendências e a visão de cada um funcionarem."
+  },
+  {
+    "path": "configuracoes",
+    "titulo": "Configurações e backup",
+    "grupo": "Sistema",
+    "objetivo": "Reúne os dados da conta (nome, plano e a opção “Gestor vê tudo da equipe”), o backup completo (dados e anexos), a restauração, os dados de exemplo, a escolha das ferramentas que aparecem no menu e a importação em massa de planilhas.",
+    "quando_usar": "Para fazer backup periódico, preparar o sistema para uso real, escolher as ferramentas da sua instalação e trazer o histórico de planilhas.",
+    "passo_a_passo": [
+      "Abra Sistema → Configurações e backup.",
+      "Em Backup, clique em Exportar backup completo (.zip) e guarde o arquivo no OneDrive ou SharePoint corporativo.",
+      "Para voltar um backup (só Administrador), clique em Restaurar backup, escolha o .zip e confirme.",
+      "Para começar o uso real (só Administrador), em Dados de exemplo clique em Apagar todos os dados. Depois cadastre centros de custo, cargos e time.",
+      "Em Ferramentas no menu (só Administrador), desmarque o que a sua instalação não usa. Use Mostrar todas para religar tudo.",
+      "Em Importação em massa, clique no ícone de download da tela desejada para baixar o modelo em Excel.",
+      "Preencha a aba Dados (uma linha por registro), clique em Importar, escolha o arquivo e confira a prévia.",
+      "Se quiser, marque \"Criar automaticamente pessoas, projetos, etiquetas etc. que ainda não existem\" e clique em Importar N registro(s).",
+      "Se algo saiu errado, clique em Desfazer importação logo em seguida.",
+      "Em Conta (só Administrador), altere o nome da conta e, no plano Empresa, ligue ou desligue “Gestor vê tudo da equipe”."
+    ],
+    "recursos": [
+      {
+        "nome": "Backup completo",
+        "descricao": "Um .zip com todos os registros e todos os anexos. Mostra quantos registros e anexos existem e o espaço usado."
+      },
+      {
+        "nome": "Restaurar backup",
+        "descricao": "Aceita .zip (dados e anexos) ou .json (só dados; os anexos atuais são mantidos)."
+      },
+      {
+        "nome": "Dados de exemplo",
+        "descricao": "Apagar todos os dados (mantém os usuários) ou Carregar dados de exemplo, com dados fictícios para treinar."
+      },
+      {
+        "nome": "Ferramentas no menu",
+        "descricao": "Liga e desliga cada tela ou grupo inteiro para todos os usuários da conta. Só aparecem as ferramentas liberadas no plano da conta. Visão geral, Usuários e Configurações e backup ficam sempre visíveis."
+      },
+      {
+        "nome": "Importação em massa",
+        "descricao": "Modelo .xlsx por tela com abas Dados, Instruções e Listas. Aceita .xlsx ou .csv, mostra linhas prontas, erros e avisos antes de gravar e permite desfazer."
+      },
+      {
+        "nome": "Privacidade",
+        "descricao": "Explica onde os dados ficam guardados na sua instalação."
+      },
+      {
+        "nome": "Conta",
+        "descricao": "Nome da conta, plano (Individual ou Empresa) e, no plano Empresa, a opção “Gestor vê tudo da equipe”: o gestor imediato (definido no Time) também vê os registros pessoais dos subordinados diretos. Vem desligada."
+      }
+    ],
+    "impactos": [
+      "Restaurar um backup substitui TODOS os dados atuais de todas as telas pelos do arquivo.",
+      "Apagar todos os dados remove registros e anexos de todas as telas (os usuários são mantidos).",
+      "Ocultar uma ferramenta no menu tira o item do menu de todos os usuários e faz as datas e os alertas dela saírem do Calendário, dos “Pontos de atenção” da Visão geral, do contador de alertas do menu e dos avisos do sino. Nada é apagado: ao marcar de novo, tudo volta.",
+      "A importação em massa grava registros na tela escolhida e pode criar pessoas, projetos e etiquetas que faltavam.",
+      "Backup, restauração e “Apagar todos os dados” valem só para a sua conta: as contas de outros clientes não são tocadas."
+    ],
+    "cuidados": [
+      "Antes de restaurar ou apagar tudo, exporte um backup. Não há como desfazer essas ações.",
+      "Se o backup tiver usuários, a mensagem de confirmação avisa que usuários e senhas também voltam aos do backup.",
+      "Guarde o backup em local corporativo seguro, nunca em e-mail pessoal: ele contém dados de pessoas.",
+      "Na importação, campos de referência (pessoa, projeto, centro de custo) precisam ter o nome exatamente como cadastrado. Linhas com erro não entram.",
+      "Faça backups periódicos, mesmo com o sistema no servidor."
+    ],
+    "dica": "Exporte o backup toda sexta-feira e guarde no OneDrive da empresa."
+  },
+  {
+    "path": "plataforma",
+    "titulo": "Plataforma (contas)",
+    "grupo": "Sistema",
+    "objetivo": "Tela exclusiva do dono da plataforma: cria e administra as contas dos clientes. Cada conta tem os próprios dados, usuários e ferramentas, e uma conta nunca vê a outra.",
+    "quando_usar": "Ao vender o sistema para um novo cliente, preparar uma demonstração, mudar o plano ou as ferramentas de um cliente, ou suspender o acesso de quem deixou de pagar.",
+    "passo_a_passo": [
+      "Abra Sistema → Plataforma (contas). O item só aparece para o dono da plataforma.",
+      "Confira os indicadores: contas ativas, quantas são Empresa e Individual e o total de usuários.",
+      "Clique em Nova conta.",
+      "Preencha o Nome da conta e escolha o Plano: Empresa (equipe com delegação, cada um com a própria visão) ou Individual (um gestor organizando a própria rotina).",
+      "Preencha o Administrador da conta: nome, usuário (login), e-mail e senha inicial.",
+      "Em Ferramentas liberadas, desmarque o que o cliente não contratou (por grupo ou item a item). Use Todas ou Nenhuma para agilizar.",
+      "Clique em Criar conta e anote o código de recuperação que aparece (ele só é mostrado uma vez). Passe ao cliente o endereço do sistema, o login e a senha.",
+      "Para alterar uma conta, clique na linha dela: mude nome, plano, ferramentas, “Gestor vê tudo da equipe” ou a Situação (Ativa/Desativada)."
+    ],
+    "recursos": [
+      {
+        "nome": "Tabela de contas",
+        "descricao": "Conta, plano, quantas ferramentas estão liberadas, administrador, número de usuários e de registros, último acesso e situação."
+      },
+      {
+        "nome": "Planos Individual e Empresa",
+        "descricao": "No Individual tudo é visível para todos da conta. No Empresa cada pessoa vê o que é dela, o que foi designado a ela e o que foi compartilhado; as telas da empresa são de todos."
+      },
+      {
+        "nome": "Ferramentas liberadas",
+        "descricao": "O que fica desmarcado some do menu da conta. Visão geral, Usuários e Configurações sempre ficam. O administrador da conta pode esconder ainda mais em Configurações."
+      },
+      {
+        "nome": "Desativar conta",
+        "descricao": "Ninguém da conta consegue entrar e quem estava conectado sai; os dados ficam guardados e voltam ao reativar."
+      }
+    ],
+    "impactos": [
+      "Uma conta nova começa vazia. O administrador dela pode carregar os dados de exemplo (fictícios) em Configurações para uma demonstração.",
+      "Mudar o plano de Empresa para Individual faz todos os usuários da conta passarem a ver todos os registros.",
+      "Desmarcar uma ferramenta também tira as datas e os alertas dela do Calendário, da Visão geral e do sino daquela conta."
+    ],
+    "cuidados": [
+      "Você não pode desativar a sua própria conta.",
+      "O login do administrador não pode repetir o de nenhum usuário de qualquer conta.",
+      "Guarde o código de recuperação do administrador: sem ele, a troca de senha esquecida precisa ser feita por você."
+    ],
+    "dica": "Para mostrar o sistema a alguém, crie uma conta “Demonstração”, entre com o administrador dela e carregue os dados de exemplo: os seus dados reais ficam fora da demonstração."
+  }
 ]
