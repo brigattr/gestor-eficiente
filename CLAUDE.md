@@ -77,13 +77,15 @@
 - **ChiefDesk** é a marca-mãe (empresa/plataforma), que no futuro terá outros produtos. **Gestor Eficiente** é o produto atual: "Gestor Eficiente · uma plataforma ChiefDesk". Não renomear o sistema para ChiefDesk.
 - O grupo de menu "Saúde mental e NR-1" virou **"Clima e bem-estar"** (clima/eNPS e termômetro de humor foram para ele; o antigo "Cultura e clima" virou "Cultura"). NR-1 continua coberta, mas sem ser o foco da comunicação.
 
-## Site comercial (05/11/2026)
+## Site comercial (no ar desde 09/11/2026)
 
-- Repositório próprio: **brigattr/gestor-eficiente-site** (página estática `index.html` + `img/`, robots.txt, sitemap.xml). SEO revisado (Lighthouse 100). Falta: conectar no Cloudflare Pages, colocar em `chiefdesk.com.br` e mover o sistema para `app.chiefdesk.com.br`; depois Google Search Console + sitemap. Hoje `chiefdesk.com.br` abre o sistema (com `noindex`), então o Google não mostra nada da ChiefDesk.
+- Repositório próprio: **brigattr/gestor-eficiente-site** (página estática `index.html` + `img/`, `_headers` de segurança, robots.txt, sitemap.xml). SEO revisado (Lighthouse 100).
+- Cloudflare: projeto Pages **gestor-eficiente-site** com os domínios **chiefdesk.com.br** e **www.chiefdesk.com.br**. O sistema (projeto `chiefdeck`) agora fica em **app.chiefdesk.com.br**. Cada push no repositório do site também gera um build (conta Cloudflare compartilhada).
+- Falta: Google Search Console + sitemap; liberar os domínios no filtro web da Doehler (pedido à TI e/ou recategorização no fabricante do filtro).
 
 ## Domínio
 
-- Domínio de produção: **chiefdesk.com.br** (com *s*), DNS no Cloudflare (marlowe/rocco.ns.cloudflare.com). Projeto Pages: `chiefdeck` (`chiefdeck.pages.dev`). A zona `chiefdeck.com.br` (com *c*) no Cloudflare foi criada por engano e pode ser removida.
+- Domínio de produção: **chiefdesk.com.br** (com *s*) — site; sistema em **app.chiefdesk.com.br**, DNS no Cloudflare (marlowe/rocco.ns.cloudflare.com). Projeto Pages: `chiefdeck` (`chiefdeck.pages.dev`). A zona `chiefdeck.com.br` (com *c*) no Cloudflare foi criada por engano e pode ser removida.
 
 ## Stack
 
