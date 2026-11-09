@@ -24,6 +24,13 @@
 - 04/11/2026 13h48 — contas de clientes (Individual/Empresa) com painel Plataforma, visão por usuário (pessoal × da empresa, compartilhar, aguardando pessoa, perfil Colaborador, gestor vê equipe), calendários por usuário, etiqueta 🔒 Pessoal / 🏢 Da empresa, backlog etapas na lista. **Envio do dia 04/11 já usado**.
 - 09/11/2026 18h — manual do usuário dentro do sistema (Sistema → Manual do usuário e botão ? em cada tela), manuais atualizados (contas, visão por usuário, pendências), registro do site comercial. **Envio do dia 09/11 já usado**.
 
+## Retomar em 10/11/2026 (combinado em 09/11)
+
+- Usuário vai testar com funcionários e trazer novos ajustes (agrupar tudo num único envio do dia).
+- Google Search Console: cadastrar o domínio chiefdesk.com.br (registro TXT no DNS do Cloudflare) e enviar o sitemap.
+- FortiGuard (Doehler) bloqueia por domínio novo: usuário vai pedir reclassificação em fortiguard.com/webfilter (Information Technology) para chiefdesk.com.br e app.chiefdesk.com.br; enquanto isso, na Doehler usar chiefdeck.pages.dev. Sem chamado para a TI.
+- Antes do teste com funcionários: conta no plano Empresa, cada usuário ligado à sua pessoa do Time, perfis (Gestor/Colaborador).
+
 ## Próximos passos comerciais (anotado em 16/10/2026)
 
 - O sistema será comercializado como SaaS. Existem dois materiais de vendas (PowerPoint): o portfólio completo (estudo da equipe de vendas) e o pitch curto (para conseguir reunião). Eles **não ficam no repositório** (público); foram entregues ao usuário.
