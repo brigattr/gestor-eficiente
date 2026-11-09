@@ -22,6 +22,7 @@
 - 01/11/2026 17h — tarefas dentro dos projetos (progresso automático), importação em massa com modelo Excel por tela, horário do aviso nas tarefas, ditado por voz nas anotações, convite de reunião legível, modo TV com Sair no iPhone, menu oculto também nos Pontos de atenção/OKR, receitas do manual do usuário (docs/manual-usuario). **Envio do dia 01/11 já usado**.
 - 01/11/2026 (2º envio, com ciência do usuário) — menu lateral recolhível, imagens e fontes nas anotações, workflow de delegação (Minhas pendências, aviso de nova atribuição), backlog de e-mail. **Envios do dia 01/11 já usados**.
 - 04/11/2026 13h48 — contas de clientes (Individual/Empresa) com painel Plataforma, visão por usuário (pessoal × da empresa, compartilhar, aguardando pessoa, perfil Colaborador, gestor vê equipe), calendários por usuário, etiqueta 🔒 Pessoal / 🏢 Da empresa, backlog etapas na lista. **Envio do dia 04/11 já usado**.
+- 09/11/2026 18h — manual do usuário dentro do sistema (Sistema → Manual do usuário e botão ? em cada tela), manuais atualizados (contas, visão por usuário, pendências), registro do site comercial. **Envio do dia 09/11 já usado**.
 
 ## Próximos passos comerciais (anotado em 16/10/2026)
 
@@ -45,7 +46,7 @@
 - **Passos**: 1) fundação de contas (cadastro "Criar conta", e-mail de confirmação/recuperação, convites, painel do dono); 2) dono + visibilidade por registro e perfis Administrador da empresa / Gestor / Colaborador; 3) planos e cobrança recorrente (Asaas/Iugu); 4) backup por cliente, Termos de uso e Política de privacidade (LGPD), site com "Criar conta"; 5) VPS quando crescer. Os dados atuais do usuário viram a conta nº 1.
 - **BP Conn**: no futuro, parte deste sistema vai para um produto próprio para **escritórios contábeis** (outro nicho). Não usar a BP Conn como empresa de teste por enquanto.
 - **Feito e enviado em 04/11/2026**: contas no banco (`contas`, `conta_id` em items/files/users; a instalação antiga vira a conta `c1` e o 1º administrador vira o dono da plataforma), painel **Plataforma (contas)** (criar conta Individual/Empresa com o administrador dela, liberar ferramentas, desativar), visibilidade por registro no plano Empresa (`_dono` gravado pelo servidor; regras em `server/contas.ts` e `src/shared/visibilidade.ts`), campo "Compartilhar com", "Aguardando (pessoa do time)", perfil **Colaborador** (sem salários), opção "Gestor vê tudo da equipe" (Configurações → Conta), calendários por usuário.
-  - **Falta**: "Criar conta" pelo site com e-mail de confirmação/recuperação e convites (precisa de e-mail transacional); bloquear no servidor as ferramentas não liberadas (hoje só some do menu); manual do usuário com contas/visibilidade; Administrador vê tudo nas telas de RH sensíveis (ouvidoria, relatos, ocorrências, avaliações, holerites…) — validar se deve existir um perfil "RH" separado.
+  - **Falta**: "Criar conta" pelo site com e-mail de confirmação/recuperação e convites (precisa de e-mail transacional); bloquear no servidor as ferramentas não liberadas (hoje só some do menu); Administrador vê tudo nas telas de RH sensíveis (ouvidoria, relatos, ocorrências, avaliações, holerites…) — validar se deve existir um perfil "RH" separado.
 
 ## Melhorias pendentes (backlog)
 
