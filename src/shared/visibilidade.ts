@@ -7,6 +7,7 @@ export const PESSOAL = new Set([
   'blocos', 'secoes', 'paginas', 'desenhos', 'pastas', 'contratos', 'reembolsos', 'solicitacoes',
   'incentivos', 'pdis', 'feedbacks', 'avaliacoes', 'ocorrencias', 'checkinsBemEstar', 'relatosPsico', 'ouvidoria',
   'exames', 'holerites', 'beneficios', 'admissoes', 'ponto', 'onboarding',
+  'etiquetas', // cada usuário tem as próprias etiquetas (decidido em 10/11/2026)
 ])
 
 /** Campos que designam uma pessoa do Time para o registro (dão visibilidade a ela). */
