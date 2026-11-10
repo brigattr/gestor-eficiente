@@ -17,6 +17,7 @@ const VARIAS = ['convidados', 'compartilhado']
 /** Em que telas o próprio colaborador vê os registros dele (campo "colaborador"). */
 const COLABORADOR_VE = new Set(['ponto', 'pdis', 'onboarding', 'holerites', 'beneficios', 'exames', 'feedbacks', 'incentivos'])
 const PAPEIS = PAPEIS_PESSOA
+const NOME_PAPEL: Record<string, string> = { responsavel: 'Responsável', aprovador: 'Aprovador', backup: 'Backup', titular: 'Titular', instrutor: 'Instrutor', lider: 'Líder', aguardandoPessoa: 'Aguardando (pessoa do time)' }
 /** Campos de remuneração escondidos do perfil Colaborador. */
 const SENSIVEIS: Record<string, RegExp> = { pessoas: /salari|remunera|bonus/i, cargos: /salari|faixa|piso|teto|remunera/i }
 
@@ -30,25 +31,31 @@ export type Ctx = {
   gestorDe: Map<string, string | null>
 }
 
-/** Este usuário pode ver este registro? */
-export function podeVer(ctx: Ctx, col: string, d: Record<string, unknown>): boolean {
-  if (ctx.conta.plano !== 'empresa' || !PESSOAL.has(col)) return true
+/** Por que este usuário vê este registro (null = não vê). Usado também no diagnóstico "Ver o que ele vê". */
+export function motivo(ctx: Ctx, col: string, d: Record<string, unknown>): string | null {
+  if (ctx.conta.plano !== 'empresa') return 'plano Individual: tudo é visível na conta'
+  if (!PESSOAL.has(col)) return 'tela da empresa (todos veem)'
   const dono = d._dono
-  if (typeof dono !== 'string' || !dono) return true // registro antigo, de antes das contas
-  if (dono === ctx.userId) return true
-  if (ctx.papel === 'Administrador' && ADMIN_VE.has(col)) return true
+  if (typeof dono !== 'string' || !dono) return 'registro antigo sem dono'
+  if (dono === ctx.userId) return 'foi ele quem criou'
+  if (ctx.papel === 'Administrador' && ADMIN_VE.has(col)) return 'é Administrador (tela de RH)'
   const eu = ctx.pessoa
   if (eu) {
-    for (const k of PAPEIS) if (d[k] === eu) return true
-    if (COLABORADOR_VE.has(col) && d.colaborador === eu) return true
-    for (const k of VARIAS) if (Array.isArray(d[k]) && (d[k] as unknown[]).includes(eu)) return true
-    if (Array.isArray(d.etapas) && d.etapas.some((e) => (e as { resp?: string })?.resp === eu)) return true
+    for (const k of PAPEIS) if (d[k] === eu) return `está como ${NOME_PAPEL[k] ?? k}`
+    if (COLABORADOR_VE.has(col) && d.colaborador === eu) return 'é o colaborador do registro'
+    for (const k of VARIAS) if (Array.isArray(d[k]) && (d[k] as unknown[]).includes(eu)) return k === 'convidados' ? 'é convidado' : 'foi compartilhado com ele'
+    if (Array.isArray(d.etapas) && d.etapas.some((e) => (e as { resp?: string })?.resp === eu)) return 'é responsável por uma etapa'
     if (ctx.conta.opcoes?.gestorVeEquipe) {
       const pDono = ctx.pessoaDe.get(dono)
-      if (pDono && ctx.gestorDe.get(pDono) === eu) return true
+      if (pDono && ctx.gestorDe.get(pDono) === eu) return 'é gestor de quem criou (opção "gestor vê a equipe")'
     }
   }
-  return false
+  return null
+}
+
+/** Este usuário pode ver este registro? */
+export function podeVer(ctx: Ctx, col: string, d: Record<string, unknown>): boolean {
+  return motivo(ctx, col, d) !== null
 }
 
 /** Remove o que o perfil não deve ver (remuneração para Colaborador). */

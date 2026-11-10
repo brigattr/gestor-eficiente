@@ -5,7 +5,7 @@ import { ModulePage } from '../components/ModulePage'
 import { Chip } from '../components/ui'
 import { bulk, list, type Item } from '../data/store'
 import { api, servidor } from '../lib/api'
-import { isAdmin, canWrite } from '../lib/session'
+import { canWrite } from '../lib/session'
 import { sincronizarAgora } from '../lib/sync'
 import { camposOutlook, lerIcs, origemIcs } from '../shared/ics'
 
@@ -144,7 +144,7 @@ function CalendariosCard() {
     <div className="card stack" style={{ gap: 10 }}>
       <div className="row">
         <Icon name="calendar" />
-        <h2 className="grow">Calendários conectados</h2>
+        <h2 className="grow">Meus calendários conectados</h2>
         {servidor() && cals.length ? <Chip t={comErro ? 'bad' : 'ok'}>{comErro ? 'com erro' : cals.length === 1 ? 'conectado' : `${cals.length} conectados`}</Chip> : <Chip t="muted">nenhum conectado</Chip>}
       </div>
       {servidor() &&
@@ -163,7 +163,7 @@ function CalendariosCard() {
                   'Ainda não sincronizado.'
                 )}
               </span>
-              {isAdmin() && (
+              {canWrite() && (
                 <>
                   <button className="btn sm" onClick={() => renomear(c)}>
                     Renomear
@@ -182,7 +182,7 @@ function CalendariosCard() {
         ))}
       {servidor() && (
         <div className="row">
-          {isAdmin() && !novo && (
+          {canWrite() && !novo && (
             <button className="btn sm primary" onClick={() => (setNovo(true), setTrocando(null), setLink(''))}>
               <Icon name="plus" size={14} /> Adicionar calendário (Outlook, Google, iCloud…)
             </button>
@@ -195,7 +195,7 @@ function CalendariosCard() {
           )}
         </div>
       )}
-      {servidor() && isAdmin() && novo && formLink(conectar, 'Conectar', () => setNovo(false))}
+      {servidor() && canWrite() && novo && formLink(conectar, 'Conectar', () => setNovo(false))}
       <div className="row small muted">
         <span className="grow">
           {servidor()

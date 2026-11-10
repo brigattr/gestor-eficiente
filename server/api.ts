@@ -1,6 +1,6 @@
 /// <reference types="@cloudflare/workers-types" />
 import { camposOutlook, lerIcs, origemIcs, type OrigemCal } from '../src/shared/ics'
-import { chaveArquivo, filtrarCampos, lerConta, PESSOAL, podeVer, type Conta, type Ctx } from './contas'
+import { chaveArquivo, filtrarCampos, lerConta, motivo, PESSOAL, podeVer, type Conta, type Ctx } from './contas'
 // API do Gestor Eficiente (Cloudflare Pages Functions + D1 + R2).
 // Rotas em /api/*. Sessão por cookie HttpOnly; senhas em PBKDF2-SHA256.
 
@@ -463,6 +463,30 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
       if (!admin) throw new HttpError(403, 'Somente administradores criam usuários.')
       return await salvarUsuario(env, await body(req), null, u)
     }
+    // diagnóstico: o que um usuário da conta enxerga nas telas pessoais, e por quê (só administrador)
+    const mVisao = /^\/users\/([^/]+)\/visao$/.exec(path)
+    if (mVisao && method === 'GET') {
+      if (!admin) throw new HttpError(403, 'Somente administradores.')
+      const alvo = await env.DB.prepare('SELECT * FROM users WHERE id = ? AND conta_id = ?').bind(decodeURIComponent(mVisao[1]), ct).first<User>()
+      if (!alvo) throw new HttpError(404, 'Usuário não encontrado.')
+      const cx = await contexto(env, alvo)
+      const cols = [...PESSOAL]
+      const rows = (
+        await env.DB.prepare(`SELECT col, id, data FROM items WHERE conta_id = ? AND deleted = 0 AND col IN (${cols.map(() => '?').join(', ')})`)
+          .bind(ct, ...cols)
+          .all<{ col: string; id: string; data: string }>()
+      ).results
+      const nomes = new Map((await env.DB.prepare('SELECT id, nome FROM users WHERE conta_id = ?').bind(ct).all<{ id: string; nome: string }>()).results.map((x) => [x.id, x.nome]))
+      const itens: { col: string; id: string; titulo: string; motivo: string; dono: string }[] = []
+      for (const r of rows) {
+        const d = JSON.parse(r.data) as Record<string, unknown>
+        const mo = motivo(cx, r.col, d)
+        if (!mo) continue
+        const titulo = String(d.titulo ?? d.nome ?? d.assunto ?? d.descricao ?? d.objetivo ?? r.id).slice(0, 120)
+        itens.push({ col: r.col, id: r.id, titulo, motivo: mo, dono: typeof d._dono === 'string' ? (nomes.get(d._dono) ?? 'outro usuário') : 'sem dono' })
+      }
+      return json({ usuario: alvo.nome, papel: alvo.papel, pessoa: alvo.pessoa, plano: cx.conta.plano, gestorVeEquipe: !!cx.conta.opcoes.gestorVeEquipe, total: rows.length, itens })
+    }
     m = path.match(/^\/users\/([^/]+)$/)
     if (m) {
       const id = decodeURIComponent(m[1])
@@ -772,6 +796,12 @@ async function salvarUsuario(env: Env, b: UserIn, id: string | null, quem: User)
   if (!atual && !b.senha) throw new HttpError(400, 'Defina uma senha para o novo usuário.')
   const dup = await env.DB.prepare('SELECT id FROM users WHERE login = ? AND id <> ?').bind(login, id ?? '').first()
   if (dup) throw new HttpError(409, 'Já existe um usuário com esse login.')
+  // cada pessoa do Time só pode estar ligada a um usuário (senão um vê o que é do outro)
+  const pessoa = admin ? (b.pessoa ?? null) : (atual?.pessoa ?? null)
+  if (pessoa && pessoa !== atual?.pessoa) {
+    const outro = await env.DB.prepare('SELECT nome FROM users WHERE conta_id = ? AND pessoa = ? AND id <> ?').bind(ct, pessoa, id ?? '').first<{ nome: string }>()
+    if (outro) throw new HttpError(409, `Esta pessoa do Time já está ligada ao usuário ${outro.nome}. Cada usuário precisa da sua própria pessoa (cadastre-a em Time).`)
+  }
   const t = now()
   const salt = b.senha ? rand(16) : atual!.salt
   const hash = b.senha ? await pbkdf2(b.senha, salt) : atual!.hash
@@ -779,7 +809,7 @@ async function salvarUsuario(env: Env, b: UserIn, id: string | null, quem: User)
   await env.DB.prepare(
     'INSERT INTO users (id, login, nome, email, papel, pessoa, ativo, salt, hash, updated_at, conta_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT (id) DO UPDATE SET login = excluded.login, nome = excluded.nome, email = excluded.email, papel = excluded.papel, pessoa = excluded.pessoa, ativo = excluded.ativo, salt = excluded.salt, hash = excluded.hash, updated_at = excluded.updated_at',
   )
-    .bind(uid, login, nome, b.email ?? atual?.email ?? null, papel, admin ? (b.pessoa ?? null) : (atual?.pessoa ?? null), ativo ? 1 : 0, salt, hash, t, ct)
+    .bind(uid, login, nome, b.email ?? atual?.email ?? null, papel, pessoa, ativo ? 1 : 0, salt, hash, t, ct)
     .run()
   if (!ativo || (b.senha && id && id !== quem.id)) await env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(uid).run()
   const u = (await env.DB.prepare('SELECT * FROM users WHERE id = ?').bind(uid).first<User>())!

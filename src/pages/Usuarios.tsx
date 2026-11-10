@@ -1,12 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { confirmar, avisar } from '../components/Dialogs'
 import { Icon } from '../components/Icon'
 import { Chip, Modal, PageHead } from '../components/ui'
 import { get, useDB, type Item } from '../data/store'
 import { minutosBloqueio, removerUsuario, salvarUsuario, setMinutosBloqueio } from '../lib/auth'
-import { servidor } from '../lib/api'
+import { api, servidor } from '../lib/api'
 import { getUser, isAdmin, type Papel } from '../lib/session'
 import { label } from '../lib/format'
+import { MOD } from '../data/schema'
 
 const PAPEIS: { p: Papel; d: string }[] = [
   { p: 'Administrador', d: 'Tudo, inclusive usuários, backup e restauração' },
@@ -18,6 +19,7 @@ const PAPEIS: { p: Papel; d: string }[] = [
 export function Usuarios() {
   const db = useDB()
   const [edit, setEdit] = useState<Partial<Item> | null>(null)
+  const [visao, setVisao] = useState<Item | null>(null)
   const [lock, setLock] = useState(minutosBloqueio())
   const eu = getUser()
   const admin = isAdmin()
@@ -48,6 +50,7 @@ export function Usuarios() {
                 <th>Colaborador vinculado</th>
                 <th>Último acesso</th>
                 <th>Situação</th>
+                {admin && servidor() && <th></th>}
               </tr>
             </thead>
             <tbody>
@@ -61,9 +64,23 @@ export function Usuarios() {
                   <td>
                     <Chip t={u.papel === 'Administrador' ? 'info' : u.papel === 'Leitura' ? 'muted' : u.papel === 'Colaborador' ? 'warn' : 'ok'}>{String(u.papel)}</Chip>
                   </td>
-                  <td>{u.pessoa ? label('pessoas', get('pessoas', u.pessoa as string)) : '—'}</td>
+                  <td>
+                    {u.pessoa ? label('pessoas', get('pessoas', u.pessoa as string)) : <span className="muted">— (sem pessoa: não recebe delegações)</span>}
+                    {!!u.pessoa && users.some((o) => o.id !== u.id && o.pessoa === u.pessoa) && (
+                      <div>
+                        <Chip t="bad">ligado à mesma pessoa de outro usuário: um vê o que é do outro</Chip>
+                      </div>
+                    )}
+                  </td>
                   <td className="small muted">{u.ultimoAcesso ? new Date(String(u.ultimoAcesso)).toLocaleString('pt-BR') : '—'}</td>
                   <td>{u.ativo === false ? <Chip t="bad">Inativo</Chip> : <Chip t="ok">Ativo</Chip>}</td>
+                  {admin && servidor() && (
+                    <td>
+                      <button className="btn sm" style={{ whiteSpace: 'nowrap' }} onClick={(e) => (e.stopPropagation(), setVisao(u))} title="Mostra o que este usuário enxerga nas telas pessoais e por quê">
+                        Ver o que vê
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -106,6 +123,7 @@ export function Usuarios() {
           ? 'Usuários, senhas e sessões ficam no servidor (Cloudflare). Cada pessoa entra de qualquer computador com o próprio login; após 5 senhas erradas o acesso fica bloqueado por 15 minutos.'
           : 'Modo local: usuários e dados ficam neste navegador. Publicado no Cloudflare com o banco configurado, o cadastro passa a valer em qualquer computador.'}
       </div>
+      {visao && <VisaoUsuario u={visao} onClose={() => setVisao(null)} />}
       {edit && <UserForm u={edit} admin={admin} onClose={() => setEdit(null)} />}
     </>
   )
@@ -219,6 +237,59 @@ function UserForm({ u, admin, onClose }: { u: Partial<Item>; admin: boolean; onC
               <input type="checkbox" checked={v.ativo !== false} onChange={(e) => set('ativo', e.target.checked)} />
               <span>Usuário ativo (pode entrar)</span>
             </label>
+          </>
+        )}
+      </div>
+    </Modal>
+  )
+}
+
+type Visao = { usuario: string; papel: string; pessoa: string | null; plano: string; gestorVeEquipe: boolean; total: number; itens: { col: string; id: string; titulo: string; motivo: string; dono: string }[] }
+
+/** Diagnóstico: o que este usuário enxerga nas telas pessoais (tarefas, reuniões, projetos…) e por quê. */
+function VisaoUsuario({ u, onClose }: { u: Item; onClose: () => void }) {
+  const [v, setV] = useState<Visao | null>(null)
+  const [erro, setErro] = useState('')
+  useEffect(() => {
+    api<Visao>(`/users/${encodeURIComponent(u.id)}/visao`)
+      .then(setV)
+      .catch((e) => setErro((e as Error).message))
+  }, [u.id])
+  const tela = (col: string) => MOD[col]?.title ?? col
+  const grupos = v ? [...new Set(v.itens.map((i) => i.motivo))] : []
+  return (
+    <Modal title={`O que ${String(u.nome)} vê`} onClose={onClose} wide foot={<button className="btn primary" onClick={onClose}>Fechar</button>}>
+      <div className="stack">
+        {erro && <span className="neg">{erro}</span>}
+        {!v && !erro && <span className="muted">Carregando…</span>}
+        {v && (
+          <>
+            <span className="small">
+              Perfil <b>{v.papel}</b> · ligado à pessoa <b>{v.pessoa ? label('pessoas', get('pessoas', v.pessoa)) : '— nenhuma —'}</b> · plano <b>{v.plano === 'empresa' ? 'Empresa' : 'Individual'}</b>
+              {v.gestorVeEquipe && ' · opção “gestor vê a equipe” ligada'}
+            </span>
+            <span className="small muted">
+              Telas pessoais: {v.itens.length} de {v.total} registros visíveis para este usuário. (Telas da empresa, como mural e políticas, são de todos e não entram aqui.)
+            </span>
+            {v.plano !== 'empresa' && <Chip t="warn">No plano Individual todos os usuários veem tudo. Para separar a visão, mude o plano da conta para Empresa (Plataforma).</Chip>}
+            {grupos.map((g) => {
+              const xs = v.itens.filter((i) => i.motivo === g)
+              return (
+                <div key={g} className="stack" style={{ gap: 4 }}>
+                  <b>
+                    {g} ({xs.length})
+                  </b>
+                  {xs.slice(0, 40).map((i) => (
+                    <div key={i.col + i.id} className="small row" style={{ gap: 8 }}>
+                      <Chip t="muted">{tela(i.col)}</Chip>
+                      <span className="grow">{i.titulo}</span>
+                      <span className="muted">dono: {i.dono}</span>
+                    </div>
+                  ))}
+                  {xs.length > 40 && <span className="small muted">… e mais {xs.length - 40}</span>}
+                </div>
+              )
+            })}
           </>
         )}
       </div>
