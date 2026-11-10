@@ -36,7 +36,8 @@ export function motivo(ctx: Ctx, col: string, d: Record<string, unknown>): strin
   if (ctx.conta.plano !== 'empresa') return 'plano Individual: tudo é visível na conta'
   if (!PESSOAL.has(col)) return 'tela da empresa (todos veem)'
   const dono = d._dono
-  if (typeof dono !== 'string' || !dono) return 'registro antigo sem dono'
+  // sem dono (não deveria existir): por segurança, só administradores veem até alguém tomar posse
+  if (typeof dono !== 'string' || !dono) return ctx.papel === 'Administrador' ? 'registro sem dono (só administradores veem)' : null
   if (dono === ctx.userId) return 'foi ele quem criou'
   if (ctx.papel === 'Administrador' && ADMIN_VE.has(col)) return 'é Administrador (tela de RH)'
   const eu = ctx.pessoa

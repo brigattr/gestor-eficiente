@@ -25,6 +25,8 @@
 - 09/11/2026 18h — manual do usuário dentro do sistema (Sistema → Manual do usuário e botão ? em cada tela), manuais atualizados (contas, visão por usuário, pendências), registro do site comercial. **Envio do dia 09/11 já usado**.
 - 10/11/2026 13h56 — privacidade: registros pessoais de antes das contas (tarefas, reuniões…) passam a ter dono e deixam de aparecer para os outros usuários; anotações do site no ar e do que retomar. **Envio do dia 10/11 já usado**.
 - 10/11/2026 14h39 (2º envio, com ciência do usuário) — privacidade: arquivos da pasta principal só para quem enviou, dono garantido a cada início; Usuários com 'Ver o que vê' e bloqueio de pessoa repetida; cada usuário conecta os próprios calendários. **Envios do dia 10/11 já usados**.
+- 10/11/2026 14h45 (3º envio, autorizado pelo usuário após falha na correção anterior) — nada pessoal sem dono: correção automática não depende mais do 'dono da plataforma' (vale para todas as contas, inclui _dono vazio), registro sem dono só aparece para administradores, aviso + botão 'Tornar meus' em Usuários. **Envios do dia 10/11 já usados**.
+- **Lição (10/11)**: testar migrações com um banco igual ao de produção (sem a marca de dono da plataforma, registros de todas as telas pessoais, arquivos soltos). Teste em `scratchpad/real/teste.mjs` (fora do repositório).
 
 ## Retomar em 10/11/2026 (combinado em 09/11)
 

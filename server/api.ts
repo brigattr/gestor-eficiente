@@ -51,6 +51,40 @@ const INDICES = [
   `CREATE INDEX IF NOT EXISTS files_conta_upd ON files (conta_id, updated_at)`,
   `CREATE INDEX IF NOT EXISTS users_conta ON users (conta_id)`,
 ]
+/** Garante que nada pessoal fique sem dono: registros (_dono) e arquivos (dono) de cada conta passam a ser de
+ *  quem os criou (pelo nome) ou, se não der para saber, do responsável pela conta (dono da plataforma, senão o
+ *  primeiro administrador, senão o primeiro usuário). Roda a cada início do servidor e grava o resultado em config. */
+async function darDonoAosSemDono(db: D1Database) {
+  const cols = [...PESSOAL]
+  const responsavel = (t: string) =>
+    `COALESCE((SELECT u.id FROM users u WHERE u.conta_id = ${t}.conta_id AND u.plataforma = 1 ORDER BY u.rowid LIMIT 1),
+              (SELECT u.id FROM users u WHERE u.conta_id = ${t}.conta_id AND u.papel = 'Administrador' ORDER BY u.rowid LIMIT 1),
+              (SELECT u.id FROM users u WHERE u.conta_id = ${t}.conta_id ORDER BY u.rowid LIMIT 1))`
+  const st: Record<string, unknown> = { em: now() }
+  try {
+    const [ri, rf] = await db.batch([
+      db
+        .prepare(
+          `UPDATE items SET data = json_set(data, '$._dono', COALESCE((SELECT u.id FROM users u WHERE u.conta_id = items.conta_id AND u.nome = json_extract(items.data, '$._createdBy') ORDER BY u.rowid LIMIT 1), ${responsavel('items')})), updated_at = ?
+           WHERE (COALESCE(json_type(data, '$._dono'), '') <> 'text' OR json_extract(data, '$._dono') = '') AND col IN (${cols.map(() => '?').join(', ')}) AND ${responsavel('items')} IS NOT NULL`,
+        )
+        .bind(now(), ...cols),
+      db
+        .prepare(
+          `UPDATE files SET dono = COALESCE((SELECT u.id FROM users u WHERE u.conta_id = files.conta_id AND u.nome = files.by ORDER BY u.rowid LIMIT 1), ${responsavel('files')}), updated_at = ?
+           WHERE (dono IS NULL OR dono = '') AND ${responsavel('files')} IS NOT NULL`,
+        )
+        .bind(now()),
+    ])
+    st.itens = ri.meta?.changes ?? 0
+    st.arquivos = rf.meta?.changes ?? 0
+  } catch (e) {
+    st.erro = (e as Error).message
+    console.error('darDonoAosSemDono', e)
+  }
+  await db.prepare("INSERT OR REPLACE INTO config (key, value, updated_at) VALUES ('dono_status', ?, ?)").bind(JSON.stringify(st), now()).run().catch(() => undefined)
+}
+
 const temColuna = (db: D1Database, tab: string, col: string) =>
   db
     .prepare(`SELECT ${col} FROM ${tab} LIMIT 1`)
@@ -96,32 +130,8 @@ async function migrate(db: D1Database) {
       await db.batch([
         ...velhas.map((r) => db.prepare('UPDATE OR REPLACE config SET key = ? WHERE key = ?').bind(`u:${dono.id}:${r.key}`, r.key)),
       ])
-    // registros pessoais de antes das contas (sem dono) ficavam visíveis para todos da conta 1:
-    // passam a ser de quem os criou (pelo nome em _createdBy) ou, se não der para saber, do dono da plataforma
-    // roda a cada início do servidor (só mexe no que ainda estiver sem dono)
-    {
-      const cols = [...PESSOAL]
-      await db.batch([
-        db
-          .prepare(
-            `UPDATE items SET data = json_set(data, '$._dono', COALESCE((SELECT u.id FROM users u WHERE u.conta_id = 'c1' AND u.nome = json_extract(items.data, '$._createdBy') ORDER BY u.rowid LIMIT 1), ?)), updated_at = ?
-             WHERE conta_id = 'c1' AND json_extract(data, '$._dono') IS NULL AND col IN (${cols.map(() => '?').join(', ')})`,
-          )
-          .bind(dono.id, now(), ...cols),
-      ])
-    }
-    // arquivos sem dono: ficam com quem enviou (pelo nome) ou, se não der para saber, com o primeiro administrador da conta
-    {
-      await db.batch([
-        db.prepare(
-          `UPDATE files SET dono = COALESCE(
-             (SELECT u.id FROM users u WHERE u.conta_id = files.conta_id AND u.nome = files.by ORDER BY u.rowid LIMIT 1),
-             (SELECT u.id FROM users u WHERE u.conta_id = files.conta_id AND u.papel = 'Administrador' ORDER BY u.rowid LIMIT 1)), updated_at = ?
-           WHERE dono IS NULL`,
-        ).bind(now()),
-      ])
-    }
   }
+  await darDonoAosSemDono(db)
   migrated = true
 }
 
@@ -236,7 +246,7 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
     /** O registro como este usuário pode vê-lo (null = não pode). */
     const ver = (col: string, d: Record<string, unknown>) => (podeVer(ctx, col, d) ? filtrarCampos(ctx, col, d) : null)
     /** Arquivo solto (sem registro, ex.: pasta principal de Arquivos): no plano Empresa só quem enviou vê. */
-    const soltoVisivel = (f: { dono?: string | null }) => ctx.conta.plano !== 'empresa' || f.dono === u.id
+    const soltoVisivel = (f: { dono?: string | null }) => ctx.conta.plano !== 'empresa' || f.dono === u.id || (!f.dono && admin)
     const contaOut = () => ({ id: ctx.conta.id, nome: ctx.conta.nome, plano: ctx.conta.plano, modulos: ctx.conta.modulos, opcoes: ctx.conta.opcoes })
 
     if (path === '/logout' && method === 'POST') {
@@ -475,6 +485,28 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
       const opcoes = { ...ctx.conta.opcoes, ...(b.opcoes && typeof b.opcoes.gestorVeEquipe === 'boolean' ? { gestorVeEquipe: b.opcoes.gestorVeEquipe } : {}) }
       await env.DB.prepare('UPDATE contas SET nome = ?, opcoes = ? WHERE id = ?').bind(nome, JSON.stringify(opcoes), ct).run()
       return json({ conta: { ...contaOut(), nome, opcoes } })
+    }
+
+    // tomar posse do que estiver sem dono na conta (administrador): registros pessoais e arquivos
+    if (path === '/conta/sem-dono' && (method === 'GET' || method === 'POST')) {
+      if (!admin) throw new HttpError(403, 'Somente administradores.')
+      const cols = [...PESSOAL]
+      const filtro = `conta_id = ? AND deleted = 0 AND col IN (${cols.map(() => '?').join(', ')}) AND (COALESCE(json_type(data, '$._dono'), '') <> 'text' OR json_extract(data, '$._dono') = '')`
+      if (method === 'POST') {
+        const t = now()
+        const [ri, rf] = await env.DB.batch([
+          env.DB.prepare(`UPDATE items SET data = json_set(data, '$._dono', ?), updated_at = ? WHERE ${filtro}`).bind(u.id, t, ct, ...cols),
+          env.DB.prepare("UPDATE files SET dono = ?, updated_at = ? WHERE conta_id = ? AND (dono IS NULL OR dono = '')").bind(u.id, t, ct),
+        ])
+        return json({ ok: true, itens: ri.meta?.changes ?? 0, arquivos: rf.meta?.changes ?? 0 })
+      }
+      const [ni, nf, stt] = await env.DB.batch([
+        env.DB.prepare(`SELECT COUNT(*) AS n FROM items WHERE ${filtro}`).bind(ct, ...cols),
+        env.DB.prepare("SELECT COUNT(*) AS n FROM files WHERE conta_id = ? AND deleted = 0 AND (dono IS NULL OR dono = '')").bind(ct),
+        env.DB.prepare("SELECT value FROM config WHERE key = 'dono_status'"),
+      ])
+      const v = (stt.results[0] as { value?: string } | undefined)?.value
+      return json({ itens: (ni.results[0] as { n: number }).n, arquivos: (nf.results[0] as { n: number }).n, ultimaVerificacao: v ? JSON.parse(v) : null })
     }
 
     // ── painel da plataforma (somente o dono do sistema)

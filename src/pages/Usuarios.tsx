@@ -38,6 +38,7 @@ export function Usuarios() {
           </button>
         )}
       </PageHead>
+      {admin && servidor() && <SemDono />}
       <div className="card flush">
         <div className="table-wrap">
           <table>
@@ -294,5 +295,54 @@ function VisaoUsuario({ u, onClose }: { u: Item; onClose: () => void }) {
         )}
       </div>
     </Modal>
+  )
+}
+
+/** Aviso para o administrador: registros pessoais ou arquivos sem dono (ficam só com administradores até alguém assumir). */
+function SemDono() {
+  const [n, setN] = useState<{ itens: number; arquivos: number; ultimaVerificacao: { em: string; itens?: number; arquivos?: number; erro?: string } | null } | null>(null)
+  const [busy, setBusy] = useState(false)
+  const carregar = () => api<NonNullable<typeof n>>('/conta/sem-dono').then(setN).catch(() => setN(null))
+  useEffect(() => {
+    void carregar()
+  }, [])
+  if (!n) return null
+  const total = n.itens + n.arquivos
+  if (!total)
+    return (
+      <div className="card small" style={{ padding: '10px 14px' }}>
+        <Chip t="ok">✓ Nenhum registro sem dono</Chip> <span className="muted">Tudo o que é pessoal tem dono: cada um vê só o que é seu, o que recebeu ou o que foi compartilhado.</span>
+      </div>
+    )
+  return (
+    <div className="card stack" style={{ gap: 8, borderLeft: '4px solid var(--bad)' }}>
+      <b>
+        {n.itens} registro(s) pessoal(is) e {n.arquivos} arquivo(s) estão sem dono.
+      </b>
+      <span className="small">
+        Por segurança, enquanto estiverem sem dono só administradores veem esses itens. Se eles são seus (por exemplo, tudo o que você criou antes de existirem outros usuários), clique abaixo para torná-los seus: depois disso, só você vê, a não ser que delegue ou compartilhe.
+      </span>
+      {n.ultimaVerificacao?.erro && <span className="small neg">Última verificação automática falhou: {n.ultimaVerificacao.erro}</span>}
+      <button
+        className="btn primary"
+        style={{ justifySelf: 'start' }}
+        disabled={busy}
+        onClick={async () => {
+          if (!(await confirmar(`Tornar seus os ${n.itens} registro(s) e ${n.arquivos} arquivo(s) sem dono?`))) return
+          setBusy(true)
+          try {
+            const r = await api<{ itens: number; arquivos: number }>('/conta/sem-dono', { method: 'POST' })
+            avisar(`Pronto: ${r.itens} registro(s) e ${r.arquivos} arquivo(s) agora são seus.`)
+            await carregar()
+          } catch (e) {
+            avisar((e as Error).message)
+          } finally {
+            setBusy(false)
+          }
+        }}
+      >
+        Tornar meus
+      </button>
+    </div>
   )
 }
