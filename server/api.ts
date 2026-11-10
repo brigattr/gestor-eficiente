@@ -95,6 +95,21 @@ async function migrate(db: D1Database) {
       await db.batch([
         ...velhas.map((r) => db.prepare('UPDATE OR REPLACE config SET key = ? WHERE key = ?').bind(`u:${dono.id}:${r.key}`, r.key)),
       ])
+    // registros pessoais de antes das contas (sem dono) ficavam visíveis para todos da conta 1:
+    // passam a ser de quem os criou (pelo nome em _createdBy) ou, se não der para saber, do dono da plataforma
+    const feito = await db.prepare("SELECT 1 FROM config WHERE key = 'mig_dono_v1'").first()
+    if (!feito) {
+      const cols = [...PESSOAL]
+      await db.batch([
+        db
+          .prepare(
+            `UPDATE items SET data = json_set(data, '$._dono', COALESCE((SELECT u.id FROM users u WHERE u.conta_id = 'c1' AND u.nome = json_extract(items.data, '$._createdBy') ORDER BY u.rowid LIMIT 1), ?)), updated_at = ?
+             WHERE conta_id = 'c1' AND json_extract(data, '$._dono') IS NULL AND col IN (${cols.map(() => '?').join(', ')})`,
+          )
+          .bind(dono.id, now(), ...cols),
+        db.prepare("INSERT OR REPLACE INTO config (key, value, updated_at) VALUES ('mig_dono_v1', '1', ?)").bind(now()),
+      ])
+    }
   }
   migrated = true
 }
@@ -418,7 +433,9 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
         if (!COL.test(col) || col === 'usuarios' || !Array.isArray(rows)) continue
         for (const r of rows) {
           if (!r || typeof r.id !== 'string') continue
-          stmts.push(env.DB.prepare('INSERT INTO items (conta_id, col, id, data, updated_at, deleted) VALUES (?, ?, ?, ?, ?, 0) ON CONFLICT (conta_id, col, id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at, deleted = 0').bind(ct, col, r.id, JSON.stringify(r), t))
+          // backup antigo (sem dono): os registros pessoais ficam com quem restaurou
+          const d = PESSOAL.has(col) && !r._dono ? { ...r, _dono: u.id } : r
+          stmts.push(env.DB.prepare('INSERT INTO items (conta_id, col, id, data, updated_at, deleted) VALUES (?, ?, ?, ?, ?, 0) ON CONFLICT (conta_id, col, id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at, deleted = 0').bind(ct, col, r.id, JSON.stringify(d), t))
         }
       }
       for (let i = 0; i < stmts.length; i += 200) await env.DB.batch(stmts.slice(i, i + 200))
