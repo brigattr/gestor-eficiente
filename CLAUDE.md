@@ -23,6 +23,7 @@
 - 01/11/2026 (2º envio, com ciência do usuário) — menu lateral recolhível, imagens e fontes nas anotações, workflow de delegação (Minhas pendências, aviso de nova atribuição), backlog de e-mail. **Envios do dia 01/11 já usados**.
 - 04/11/2026 13h48 — contas de clientes (Individual/Empresa) com painel Plataforma, visão por usuário (pessoal × da empresa, compartilhar, aguardando pessoa, perfil Colaborador, gestor vê equipe), calendários por usuário, etiqueta 🔒 Pessoal / 🏢 Da empresa, backlog etapas na lista. **Envio do dia 04/11 já usado**.
 - 09/11/2026 18h — manual do usuário dentro do sistema (Sistema → Manual do usuário e botão ? em cada tela), manuais atualizados (contas, visão por usuário, pendências), registro do site comercial. **Envio do dia 09/11 já usado**.
+- 10/11/2026 13h56 — privacidade: registros pessoais de antes das contas (tarefas, reuniões…) passam a ter dono e deixam de aparecer para os outros usuários; anotações do site no ar e do que retomar. **Envio do dia 10/11 já usado**.
 
 ## Retomar em 10/11/2026 (combinado em 09/11)
 
