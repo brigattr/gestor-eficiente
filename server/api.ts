@@ -43,7 +43,7 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS items (conta_id TEXT NOT NULL DEFAULT 'c1', col TEXT NOT NULL, id TEXT NOT NULL, data TEXT NOT NULL, updated_at TEXT NOT NULL, deleted INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (conta_id, col, id))`,
   `CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, login TEXT NOT NULL UNIQUE COLLATE NOCASE, nome TEXT NOT NULL, email TEXT, papel TEXT NOT NULL, pessoa TEXT, ativo INTEGER NOT NULL DEFAULT 1, salt TEXT NOT NULL, hash TEXT NOT NULL, rec_salt TEXT, rec_hash TEXT, ultimo_acesso TEXT, falhas INTEGER NOT NULL DEFAULT 0, bloqueado_ate TEXT, updated_at TEXT, conta_id TEXT NOT NULL DEFAULT 'c1', plataforma INTEGER NOT NULL DEFAULT 0)`,
   `CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, user_id TEXT NOT NULL, expires TEXT NOT NULL, longa INTEGER NOT NULL DEFAULT 0)`,
-  `CREATE TABLE IF NOT EXISTS files (id TEXT PRIMARY KEY, col TEXT NOT NULL, item_id TEXT NOT NULL, name TEXT NOT NULL, type TEXT, size INTEGER, added TEXT, by TEXT, meta TEXT, deleted INTEGER NOT NULL DEFAULT 0, updated_at TEXT NOT NULL, conta_id TEXT NOT NULL DEFAULT 'c1')`,
+  `CREATE TABLE IF NOT EXISTS files (id TEXT PRIMARY KEY, col TEXT NOT NULL, item_id TEXT NOT NULL, name TEXT NOT NULL, type TEXT, size INTEGER, added TEXT, by TEXT, meta TEXT, deleted INTEGER NOT NULL DEFAULT 0, updated_at TEXT NOT NULL, conta_id TEXT NOT NULL DEFAULT 'c1', dono TEXT)`,
   `CREATE TABLE IF NOT EXISTS config (key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at TEXT NOT NULL)`,
 ]
 const INDICES = [
@@ -72,6 +72,7 @@ async function migrate(db: D1Database) {
   await add("ALTER TABLE users ADD COLUMN conta_id TEXT NOT NULL DEFAULT 'c1'")
   await add('ALTER TABLE users ADD COLUMN plataforma INTEGER NOT NULL DEFAULT 0')
   await add("ALTER TABLE files ADD COLUMN conta_id TEXT NOT NULL DEFAULT 'c1'")
+  await add('ALTER TABLE files ADD COLUMN dono TEXT') // quem enviou (vale para arquivos soltos, ex.: pasta principal de Arquivos)
   if (!(await temColuna(db, 'items', 'conta_id'))) {
     // a chave dos registros passa a incluir a conta: recria a tabela copiando tudo para a conta 1 (numa transação)
     await db.batch([
@@ -97,8 +98,8 @@ async function migrate(db: D1Database) {
       ])
     // registros pessoais de antes das contas (sem dono) ficavam visíveis para todos da conta 1:
     // passam a ser de quem os criou (pelo nome em _createdBy) ou, se não der para saber, do dono da plataforma
-    const feito = await db.prepare("SELECT 1 FROM config WHERE key = 'mig_dono_v1'").first()
-    if (!feito) {
+    // roda a cada início do servidor (só mexe no que ainda estiver sem dono)
+    {
       const cols = [...PESSOAL]
       await db.batch([
         db
@@ -107,7 +108,17 @@ async function migrate(db: D1Database) {
              WHERE conta_id = 'c1' AND json_extract(data, '$._dono') IS NULL AND col IN (${cols.map(() => '?').join(', ')})`,
           )
           .bind(dono.id, now(), ...cols),
-        db.prepare("INSERT OR REPLACE INTO config (key, value, updated_at) VALUES ('mig_dono_v1', '1', ?)").bind(now()),
+      ])
+    }
+    // arquivos sem dono: ficam com quem enviou (pelo nome) ou, se não der para saber, com o primeiro administrador da conta
+    {
+      await db.batch([
+        db.prepare(
+          `UPDATE files SET dono = COALESCE(
+             (SELECT u.id FROM users u WHERE u.conta_id = files.conta_id AND u.nome = files.by ORDER BY u.rowid LIMIT 1),
+             (SELECT u.id FROM users u WHERE u.conta_id = files.conta_id AND u.papel = 'Administrador' ORDER BY u.rowid LIMIT 1)), updated_at = ?
+           WHERE dono IS NULL`,
+        ).bind(now()),
       ])
     }
   }
@@ -224,6 +235,8 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
     const renov = s.renovar ? { 'set-cookie': s.renovar } : undefined
     /** O registro como este usuário pode vê-lo (null = não pode). */
     const ver = (col: string, d: Record<string, unknown>) => (podeVer(ctx, col, d) ? filtrarCampos(ctx, col, d) : null)
+    /** Arquivo solto (sem registro, ex.: pasta principal de Arquivos): no plano Empresa só quem enviou vê. */
+    const soltoVisivel = (f: { dono?: string | null }) => ctx.conta.plano !== 'empresa' || f.dono === u.id
     const contaOut = () => ({ id: ctx.conta.id, nome: ctx.conta.nome, plano: ctx.conta.plano, modulos: ctx.conta.modulos, opcoes: ctx.conta.opcoes })
 
     if (path === '/logout' && method === 'POST') {
@@ -235,18 +248,25 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
     if (path === '/data' && method === 'GET') {
       const [items, files, users] = await env.DB.batch([
         env.DB.prepare('SELECT col, id, data FROM items WHERE conta_id = ? AND deleted = 0').bind(ct),
-        env.DB.prepare('SELECT id, col, item_id, name, type, size, added, by, meta FROM files WHERE conta_id = ? AND deleted = 0').bind(ct),
+        env.DB.prepare('SELECT id, col, item_id, name, type, size, added, by, meta, dono FROM files WHERE conta_id = ? AND deleted = 0').bind(ct),
         env.DB.prepare(admin ? 'SELECT * FROM users WHERE conta_id = ? ORDER BY nome' : 'SELECT * FROM users WHERE id = ?').bind(admin ? ct : u.id),
       ])
       const db: Record<string, unknown[]> = {}
       const ocultos = new Set<string>()
+      const existem = new Set<string>()
       for (const r of items.results as { col: string; id: string; data: string }[]) {
+        existem.add(r.col + '\u0000' + r.id)
         const d = ver(r.col, JSON.parse(r.data))
         if (d) (db[r.col] ??= []).push(d)
         else ocultos.add(r.col + '\u0000' + r.id)
       }
       db.usuarios = (users.results as User[]).map(publicUser)
-      const fs = (files.results as FileRow[]).filter((f) => !ocultos.has(f.col + '\u0000' + f.item_id)).map(fileOut)
+      const fs = (files.results as FileRow[])
+        .filter((f) => {
+          const k = f.col + '\u0000' + f.item_id
+          return existem.has(k) ? !ocultos.has(k) : soltoVisivel(f)
+        })
+        .map(fileOut)
       return json({ db, files: fs, now: now(), user: sessUser(u), conta: contaOut() }, 200, renov)
     }
 
@@ -255,25 +275,30 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
       const desde = new Date(new Date(since).getTime() - 3000).toISOString() // sobreposição para não perder escritas concorrentes
       const [items, files, users] = await env.DB.batch([
         env.DB.prepare('SELECT col, id, data, deleted FROM items WHERE conta_id = ? AND updated_at > ?').bind(ct, desde),
-        env.DB.prepare('SELECT id, col, item_id, name, type, size, added, by, meta, deleted FROM files WHERE conta_id = ? AND updated_at > ?').bind(ct, desde),
+        env.DB.prepare('SELECT id, col, item_id, name, type, size, added, by, meta, dono, deleted FROM files WHERE conta_id = ? AND updated_at > ?').bind(ct, desde),
         env.DB.prepare(admin ? 'SELECT * FROM users WHERE conta_id = ? AND updated_at > ?' : 'SELECT * FROM users WHERE id = ? AND updated_at > ?').bind(admin ? ct : u.id, desde),
       ])
       const mudou = (items.results as { col: string; id: string; data: string; deleted: number }[]).map((r) => ({ col: r.col, id: r.id, data: r.deleted ? null : ver(r.col, JSON.parse(r.data)) }))
       // anexos: só os de registros visíveis; quem acabou de receber um registro recebe também os anexos dele
       const fsMud = files.results as (FileRow & { deleted: number })[]
-      const pais = new Map<string, boolean>()
+      const pais = new Map<string, boolean | 'solto'>()
       for (const r of mudou) pais.set(r.col + '\u0000' + r.id, !!r.data)
       const faltam = [...new Set(fsMud.map((f) => f.col + '\u0000' + f.item_id).filter((k) => !pais.has(k)))]
       for (const k of faltam) {
         const [col, id] = k.split('\u0000')
         const p = await env.DB.prepare('SELECT data FROM items WHERE conta_id = ? AND col = ? AND id = ? AND deleted = 0').bind(ct, col, id).first<{ data: string }>()
-        pais.set(k, !p || podeVer(ctx, col, JSON.parse(p.data)))
+        pais.set(k, p ? podeVer(ctx, col, JSON.parse(p.data)) : 'solto')
       }
-      const fsOut = fsMud.filter((f) => pais.get(f.col + '\u0000' + f.item_id) !== false).map((f) => ({ ...fileOut(f), deleted: !!f.deleted }))
+      const fsOut = fsMud
+        .filter((f) => {
+          const v = pais.get(f.col + '\u0000' + f.item_id)
+          return v === 'solto' ? soltoVisivel(f) : v !== false
+        })
+        .map((f) => ({ ...fileOut(f), deleted: !!f.deleted }))
       const novosVisiveis = mudou.filter((r) => r.data && PESSOAL.has(r.col))
       for (let i = 0; i < novosVisiveis.length; i += 40) {
         const lote = novosVisiveis.slice(i, i + 40)
-        const r = await env.DB.prepare(`SELECT id, col, item_id, name, type, size, added, by, meta FROM files WHERE conta_id = ? AND deleted = 0 AND (${lote.map(() => '(col = ? AND item_id = ?)').join(' OR ')})`)
+        const r = await env.DB.prepare(`SELECT id, col, item_id, name, type, size, added, by, meta, dono FROM files WHERE conta_id = ? AND deleted = 0 AND (${lote.map(() => '(col = ? AND item_id = ?)').join(' OR ')})`)
           .bind(ct, ...lote.flatMap((x) => [x.col, x.id]))
           .all<FileRow>()
         for (const f of r.results) if (!fsOut.some((x) => x.id === f.id)) fsOut.push({ ...fileOut(f), deleted: false })
@@ -505,10 +530,10 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
     }
 
     // ── anexos
-    /** O registro dono do anexo está visível para este usuário? (anexo solto = visível) */
-    const paiVisivel = async (col: string, itemId: string) => {
+    /** O registro dono do anexo está visível para este usuário? (anexo solto: só de quem enviou, no plano Empresa) */
+    const paiVisivel = async (col: string, itemId: string, dono: string | null | undefined = u.id) => {
       const p = await env.DB.prepare('SELECT data FROM items WHERE conta_id = ? AND col = ? AND id = ? AND deleted = 0').bind(ct, col, itemId).first<{ data: string }>()
-      return !p || podeVer(ctx, col, JSON.parse(p.data))
+      return p ? podeVer(ctx, col, JSON.parse(p.data)) : soltoVisivel({ dono })
     }
     if (path === '/files' && method === 'POST') {
       if (!escreve) throw new HttpError(403, 'Seu perfil é somente leitura.')
@@ -519,8 +544,8 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
       const size = Number(req.headers.get('content-length') ?? 0)
       if (size > MAX_FILE) throw new HttpError(413, 'Arquivo acima de 50 MB.')
       let id = (req.headers.get('x-file-id') ?? '').match(/^[a-z0-9]{6,40}$/i)?.[0] ?? rand(12)
-      const existente = await env.DB.prepare('SELECT conta_id FROM files WHERE id = ?').bind(id).first<{ conta_id: string }>()
-      if (existente && existente.conta_id !== ct) id = rand(12) // nunca sobrescreve anexo de outra conta
+      const existente = await env.DB.prepare('SELECT conta_id, dono FROM files WHERE id = ?').bind(id).first<{ conta_id: string; dono: string | null }>()
+      if (existente && (existente.conta_id !== ct || existente.dono !== u.id)) id = rand(12) // nunca sobrescreve anexo de outra conta ou de outra pessoa
       const name = decodeURIComponent(req.headers.get('x-file-name') ?? 'arquivo').slice(0, 250)
       const type = req.headers.get('content-type') ?? 'application/octet-stream'
       const meta = limparMeta(req.headers.get('x-file-meta'))
@@ -528,8 +553,8 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
       const by = req.headers.get('x-file-by') ? decodeURIComponent(req.headers.get('x-file-by')!) : u.nome
       const obj = await env.FILES.put(chaveArquivo(ct, id), req.body, { httpMetadata: { contentType: type } })
       const t = now()
-      await env.DB.prepare('INSERT INTO files (id, col, item_id, name, type, size, added, by, meta, deleted, updated_at, conta_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?) ON CONFLICT (id) DO UPDATE SET col = excluded.col, item_id = excluded.item_id, name = excluded.name, type = excluded.type, size = excluded.size, meta = excluded.meta, deleted = 0, updated_at = excluded.updated_at')
-        .bind(id, col, itemId, name, type, obj?.size ?? size, added, by, meta, t, ct)
+      await env.DB.prepare('INSERT INTO files (id, col, item_id, name, type, size, added, by, meta, deleted, updated_at, conta_id, dono) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?) ON CONFLICT (id) DO UPDATE SET col = excluded.col, item_id = excluded.item_id, name = excluded.name, type = excluded.type, size = excluded.size, meta = excluded.meta, deleted = 0, updated_at = excluded.updated_at')
+        .bind(id, col, itemId, name, type, obj?.size ?? size, added, by, meta, t, ct, u.id)
         .run()
       return json({ file: fileOut({ id, col, item_id: itemId, name, type, size: obj?.size ?? size, added, by, meta }) })
     }
@@ -545,7 +570,7 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
     if (m) {
       const id = m[1]
       const f = await env.DB.prepare('SELECT * FROM files WHERE id = ? AND conta_id = ? AND deleted = 0').bind(id, ct).first<FileRow>()
-      if (!f || !(await paiVisivel(f.col, f.item_id))) throw new HttpError(404, 'Anexo não encontrado.')
+      if (!f || !(await paiVisivel(f.col, f.item_id, f.dono))) throw new HttpError(404, 'Anexo não encontrado.')
       if (method === 'GET') {
         const obj = await env.FILES.get(chaveArquivo(ct, id))
         if (!obj) throw new HttpError(404, 'Conteúdo do anexo não encontrado.')
@@ -568,7 +593,7 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
         const itemId = b.itemId ?? f.item_id
         const name = typeof b.name === 'string' && b.name.trim() ? b.name.trim().slice(0, 250) : f.name
         if (!COL.test(col) || !itemId || itemId.length > 80) throw new HttpError(400, 'Destino inválido.')
-        if (!(await paiVisivel(col, itemId))) throw new HttpError(403, 'O destino não está compartilhado com você.')
+        if (!(await paiVisivel(col, itemId, f.dono))) throw new HttpError(403, 'O destino não está compartilhado com você.')
         await env.DB.prepare('UPDATE files SET col = ?, item_id = ?, name = ?, updated_at = ? WHERE id = ? AND conta_id = ?').bind(col, itemId, name, now(), id, ct).run()
         return json({ file: fileOut({ ...f, col, item_id: itemId, name }) })
       }
@@ -588,7 +613,7 @@ export async function handleApi(req: Request, env: Env): Promise<Response> {
   }
 }
 
-type FileRow = { id: string; col: string; item_id: string; name: string; type: string | null; size: number; added: string; by: string | null; meta: string | null }
+type FileRow = { id: string; col: string; item_id: string; name: string; type: string | null; size: number; added: string; by: string | null; meta: string | null; dono?: string | null }
 const fileOut = (f: FileRow) => ({ id: f.id, col: f.col, itemId: f.item_id, name: f.name, type: f.type ?? '', size: f.size, added: f.added, by: f.by ?? undefined, meta: lerMeta(f.meta) })
 
 /** Lê metadados gravados; um registro antigo corrompido não pode derrubar o carregamento. */
