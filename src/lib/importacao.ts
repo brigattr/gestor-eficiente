@@ -6,6 +6,8 @@ import { CORES_ETIQUETA, MOD, type Field } from '../data/schema'
 import { list, uid, type Item } from '../data/store'
 import { iso, label, parseCSV, toNumber } from './format'
 import { opcoesCampo } from './opcoes'
+import { TIPOS_ETAPA } from '../components/Etapas'
+import { etapasDe, type Etapa } from './etapas'
 
 // campos internos que não fazem sentido numa importação
 const FORA = new Set(['canceladaOutlook', 'descricaoOutlook', 'proximaGerada', 'origemRecorrencia', 'historico'])
@@ -57,6 +59,10 @@ function comoPreencher(f: Field): string {
   }
 }
 
+/** Colunas da aba Etapas (modelo de Tarefas). */
+export const COLS_ETAPA = ['Tarefa *', 'Etapa *', 'Tipo', 'Responsável', 'Prazo', 'Hora', 'Concluída']
+const TIPOS_ETAPA_NOMES = TIPOS_ETAPA.map(([n]) => n)
+
 function opcoesDoCampo(f: Field): string[] {
   if (f.type === 'select') return opcoesCampo(f)
   if (f.type === 'bool') return ['Sim', 'Não']
@@ -107,14 +113,41 @@ export function gerarModelo(col: string): Uint8Array {
       return [{ v: f.label }, { v: f.required ? 'Sim' : '' }, { v: comoPreencher(f) }, { v: obs }]
     }),
   ]
+  // tarefas: aba Etapas (uma linha por etapa, ligada à tarefa pelo título)
+  const comEtapas = col === 'tarefas'
+  const todasListas: { titulo: string; ops: string[] }[] = listas.map(({ f, ops }) => ({ titulo: f.label, ops }))
+  let abaEtapas = ''
+  if (comEtapas) {
+    const resp = m.fields.find((f) => f.key === 'responsavel')!
+    const base = todasListas.length
+    todasListas.push({ titulo: 'Tipo de etapa', ops: TIPOS_ETAPA_NOMES }, { titulo: 'Responsável (etapa)', ops: opcoesDoCampo(resp) }, { titulo: 'Concluída', ops: ['Sim', 'Não'] })
+    const v = (c: string, k: number) => `<dataValidation type="list" allowBlank="1" showErrorMessage="0" sqref="${c}2:${c}5000"><formula1>Listas!$${colRef(k)}$2:$${colRef(k)}$${Math.max(2, todasListas[k].ops.length + 1)}</formula1></dataValidation>`
+    abaEtapas = planilha(
+      [COLS_ETAPA.map((c, i) => ({ v: c, s: i < 2 ? 2 : 1 }))],
+      [40, 40, 14, 24, 14, 10, 12],
+      `<dataValidations count="3">${v('C', base)}${v('D', base + 1)}${v('G', base + 2)}</dataValidations>`,
+    )
+    instr.push(
+      [],
+      [{ v: 'Aba "Etapas" (opcional)', s: 1 }],
+      [{ v: 'Uma linha por etapa. Na coluna "Tarefa", escreva o título da tarefa exatamente como na aba Dados (ou de uma tarefa que já existe no sistema). A ordem das linhas é a ordem das etapas.' }],
+      [{ v: 'Tarefa *' }, { v: 'Sim' }, { v: 'Título da tarefa (igual ao da aba Dados ou de uma tarefa já cadastrada)' }, { v: '' }],
+      [{ v: 'Etapa *' }, { v: 'Sim' }, { v: 'O que precisa ser feito nesta etapa' }, { v: '' }],
+      [{ v: 'Tipo' }, { v: '' }, { v: 'Escolha uma das opções (lista na célula)' }, { v: TIPOS_ETAPA_NOMES.join(' · ') }],
+      [{ v: 'Responsável' }, { v: '' }, { v: 'Nome exatamente como cadastrado em Time' }, { v: '' }],
+      [{ v: 'Prazo' }, { v: '' }, { v: 'Data: dd/mm/aaaa (ex.: 31/12/2024)' }, { v: '' }],
+      [{ v: 'Hora' }, { v: '' }, { v: 'Hora: hh:mm (ex.: 18:00)' }, { v: '' }],
+      [{ v: 'Concluída' }, { v: '' }, { v: 'Sim ou Não' }, { v: '' }],
+    )
+  }
   const instrucoes = planilha(instr, [32, 12, 52, 70])
   // aba Listas (de onde saem as setinhas de escolha)
-  const maxL = Math.max(0, ...listas.map((x) => x.ops.length))
-  const lin: Cel[][] = [listas.map(({ f }) => ({ v: f.label, s: 1 }))]
-  for (let r = 0; r < maxL; r++) lin.push(listas.map(({ ops }) => ({ v: ops[r] ?? '' })))
-  const abaListas = planilha(lin, listas.map(() => 26))
+  const maxL = Math.max(0, ...todasListas.map((x) => x.ops.length))
+  const lin: Cel[][] = [todasListas.map(({ titulo }) => ({ v: titulo, s: 1 }))]
+  for (let r = 0; r < maxL; r++) lin.push(todasListas.map(({ ops }) => ({ v: ops[r] ?? '' })))
+  const abaListas = planilha(lin, todasListas.map(() => 26))
 
-  const nomes = ['Dados', 'Instruções', 'Listas']
+  const nomes = comEtapas ? ['Dados', 'Etapas', 'Instruções', 'Listas'] : ['Dados', 'Instruções', 'Listas']
   const arquivos: Record<string, Uint8Array> = {
     '[Content_Types].xml': strToU8(
       `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${nomes.map((_, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>`,
@@ -131,7 +164,7 @@ export function gerarModelo(col: string): Uint8Array {
       `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="4"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFDBEAFE"/></patternFill></fill><fill><patternFill patternType="solid"><fgColor rgb="FFFDE68A"/></patternFill></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="3"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/><xf numFmtId="0" fontId="1" fillId="3" borderId="0" xfId="0" applyFont="1" applyFill="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`,
     ),
   }
-  ;[dados, instrucoes, abaListas].forEach((x, i) => (arquivos[`xl/worksheets/sheet${i + 1}.xml`] = strToU8(x)))
+  ;(comEtapas ? [dados, abaEtapas, instrucoes, abaListas] : [dados, instrucoes, abaListas]).forEach((x, i) => (arquivos[`xl/worksheets/sheet${i + 1}.xml`] = strToU8(x)))
   return zipSync(arquivos)
 }
 
@@ -145,7 +178,7 @@ export function baixarModelo(col: string) {
 }
 
 // ───────── leitura da planilha preenchida
-export type Bruto = { cab: string[]; linhas: unknown[][] }
+export type Bruto = { cab: string[]; linhas: unknown[][]; etapas?: { cab: string[]; linhas: unknown[][] } }
 
 export async function lerPlanilha(f: File): Promise<Bruto> {
   if (/\.xlsx$/i.test(f.name)) {
@@ -153,7 +186,9 @@ export async function lerPlanilha(f: File): Promise<Bruto> {
     const sheets = await readXlsxFile(f)
     const aba = sheets.find((s) => norm(s.sheet) === 'dados') ?? sheets[0]
     const data = (aba?.data ?? []) as unknown[][]
-    return { cab: (data[0] ?? []).map((x) => String(x ?? '')), linhas: data.slice(1) }
+    const et = sheets.find((s) => norm(s.sheet) === 'etapas')
+    const de = (et?.data ?? []) as unknown[][]
+    return { cab: (data[0] ?? []).map((x) => String(x ?? '')), linhas: data.slice(1), etapas: et ? { cab: (de[0] ?? []).map((x) => String(x ?? '')), linhas: de.slice(1) } : undefined }
   }
   const rows = parseCSV(await f.text())
   return { cab: rows[0] ?? [], linhas: rows.slice(1) }
@@ -164,7 +199,9 @@ export async function lerPlanilha(f: File): Promise<Bruto> {
 const podeCriar = (ref: string) => MOD[ref]?.fields.find((f) => f.key === MOD[ref].titleField)?.type === 'text'
 export type Problema = { linha: number; nivel: 'erro' | 'aviso'; msg: string }
 export type Faltante = { ref: string; nome: string }
-export type Resultado = { itens: Item[]; problemas: Problema[]; ignoradas: string[]; mapa: { col: number; f: Field }[]; faltantes: Faltante[]; linhasComErro: number }
+/** Etapas acrescentadas a tarefas que já existiam (com as etapas de antes, para desfazer). */
+export type Atualizacao = { id: string; titulo: string; antes: Etapa[]; etapas: Etapa[] }
+export type Resultado = { itens: Item[]; problemas: Problema[]; ignoradas: string[]; mapa: { col: number; f: Field }[]; faltantes: Faltante[]; linhasComErro: number; etapas: number; atualizar: Atualizacao[] }
 
 const pad = (n: number) => String(n).padStart(2, '0')
 function excelData(n: number) {
@@ -334,7 +371,79 @@ export function converter(col: string, bruto: Bruto, criarFaltantes: boolean, lo
     else itens.push(it)
   })
   for (const f of fs) if (f.required && !mapa.some((x) => x.f.key === f.key)) problemas.unshift({ linha: 1, nivel: 'erro', msg: `A coluna obrigatória “${f.label}” não está na planilha` })
-  return { itens, problemas, ignoradas, mapa, faltantes: [...faltantes.values()], linhasComErro }
+
+  // aba Etapas (tarefas): cada linha vira uma etapa da tarefa com o mesmo título (da planilha ou já cadastrada)
+  let nEtapas = 0
+  const atualizar = new Map<string, Atualizacao>()
+  if (col === 'tarefas' && bruto.etapas?.linhas.length) {
+    const cabE = bruto.etapas.cab.map((c) => norm(String(c ?? '').replace('*', '')))
+    const ci = (nome: string) => cabE.indexOf(norm(nome))
+    const [cT, cE, cTi, cR, cP, cH, cC] = ['Tarefa', 'Etapa', 'Tipo', 'Responsável', 'Prazo', 'Hora', 'Concluída'].map(ci)
+    const prob = (n: number, nivel: 'erro' | 'aviso', msg: string) => problemas.push({ linha: n, nivel, msg: `Aba Etapas: ${msg}` })
+    if (cT < 0 || cE < 0) problemas.unshift({ linha: 1, nivel: 'erro', msg: 'Aba Etapas: faltam as colunas “Tarefa” e/ou “Etapa”' })
+    else {
+      const novas = new Map<string, Item>()
+      for (const it of itens) if (typeof it.titulo === 'string' && !novas.has(norm(it.titulo))) novas.set(norm(it.titulo), it)
+      const existentes = new Map<string, Item>()
+      for (const t of list('tarefas')) if (typeof t.titulo === 'string' && !existentes.has(norm(t.titulo))) existentes.set(norm(t.titulo), t)
+      const tipos = TIPOS_ETAPA_NOMES
+      bruto.etapas.linhas.forEach((ln, idx) => {
+        const n = idx + 2
+        if (!ln || ln.every((c) => c == null || String(c).trim() === '')) return
+        const txt = (k: number) => (k < 0 || ln[k] == null ? '' : ln[k] instanceof Date ? '' : String(ln[k]).trim())
+        const tarefa = txt(cT)
+        const texto = txt(cE)
+        if (!tarefa || !texto) return prob(n, 'erro', `${!tarefa ? 'Tarefa' : 'Etapa'} é obrigatória — linha não será importada`)
+        const e: Etapa = { id: uid(), texto, tipo: 'Etapa' }
+        const tipo = txt(cTi)
+        if (tipo) {
+          const achou = tipos.find((t) => norm(t) === norm(tipo))
+          if (achou) e.tipo = achou
+          else prob(n, 'aviso', `tipo “${tipo}” não existe — ficou “Etapa”`)
+        }
+        const resp = txt(cR)
+        if (resp) {
+          const id = idDe('pessoas', resp)
+          if (id) e.resp = id
+          else if (criarFaltantes && podeCriar('pessoas')) {
+            faltantes.set(`pessoas|${norm(resp)}`, { ref: 'pessoas', nome: resp })
+            e.resp = `__novo__pessoas|${norm(resp)}`
+          } else prob(n, 'aviso', `responsável “${resp}” não existe em Time — ficou sem responsável`)
+        }
+        if (cP >= 0 && ln[cP] != null && String(ln[cP]).trim() !== '') {
+          const d = data(ln[cP])
+          if (d) e.data = d
+          else prob(n, 'aviso', `prazo “${String(ln[cP])}” não reconhecido (use dd/mm/aaaa) — ficou em branco`)
+        }
+        if (cH >= 0 && ln[cH] != null && String(ln[cH]).trim() !== '') {
+          const h = hora(ln[cH])
+          if (h && e.data) e.hora = h
+          else if (!h) prob(n, 'aviso', `hora “${String(ln[cH])}” não reconhecida (use hh:mm) — ficou em branco`)
+        }
+        if (cC >= 0 && SIM.has(norm(ln[cC]))) {
+          e.feita = true
+          e.feitaEm = new Date().toISOString().slice(0, 10)
+        }
+        const nova = novas.get(norm(tarefa))
+        if (nova) {
+          nova.etapas = [...etapasDe(nova.etapas), e]
+          nEtapas++
+          return
+        }
+        const ex = existentes.get(norm(tarefa))
+        if (ex) {
+          const a = atualizar.get(ex.id) ?? { id: ex.id, titulo: String(ex.titulo), antes: etapasDe(ex.etapas), etapas: [...etapasDe(ex.etapas)] }
+          a.etapas.push(e)
+          atualizar.set(ex.id, a)
+          nEtapas++
+          return
+        }
+        prob(n, 'erro', `a tarefa “${tarefa}” não está na aba Dados nem cadastrada — etapa não será importada`)
+      })
+      for (const a of atualizar.values()) problemas.push({ linha: 1, nivel: 'aviso', msg: `Aba Etapas: ${a.etapas.length - a.antes.length} etapa(s) serão acrescentadas à tarefa já cadastrada “${a.titulo}”` })
+    }
+  }
+  return { itens, problemas, ignoradas, mapa, faltantes: [...faltantes.values()], linhasComErro, etapas: nEtapas, atualizar: [...atualizar.values()] }
 }
 
 /** Cria os cadastros que faltavam (pessoas, projetos, etiquetas…) e troca as referências provisórias. */
@@ -350,10 +459,13 @@ export function resolverFaltantes(res: Resultado, lote: string): { col: string; 
     porCol.set(fal.ref, [...(porCol.get(fal.ref) ?? []), it])
   }
   const troca = (v: unknown) => (typeof v === 'string' && v.startsWith('__novo__') ? (novos.get(v.slice(8))?.id ?? null) : v)
+  const trocaEtapas = (es: Etapa[]) => es.map((e) => (e.resp ? { ...e, resp: (troca(e.resp) as string | null) ?? undefined } : e))
   for (const it of res.itens)
     for (const k of Object.keys(it)) {
       const v = it[k]
-      it[k] = Array.isArray(v) ? v.map(troca).filter(Boolean) : troca(v)
+      if (k === 'etapas') it[k] = trocaEtapas(etapasDe(v))
+      else it[k] = Array.isArray(v) ? v.map(troca).filter(Boolean) : troca(v)
     }
+  for (const a of res.atualizar) a.etapas = trocaEtapas(a.etapas)
   return [...porCol.entries()].map(([col, itens]) => ({ col, itens }))
 }

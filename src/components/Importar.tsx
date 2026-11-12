@@ -9,7 +9,7 @@ import { Modal } from './ui'
 
 // Importação em massa de uma tela: baixar modelo → escolher planilha → conferir → importar (com desfazer).
 
-type Feito = { lote: string; total: number; criados: { col: string; n: number }[] }
+type Feito = { lote: string; total: number; criados: { col: string; n: number }[]; atualizados: { id: string; antes: unknown[] }[] }
 
 export function ImportarPlanilha({ col, onClose }: { col: string; onClose: () => void }) {
   const m = MOD[col]
@@ -37,13 +37,15 @@ export function ImportarPlanilha({ col, onClose }: { col: string; onClose: () =>
   }
 
   async function importar() {
-    if (!res || !res.itens.length) return
+    if (!res || (!res.itens.length && !res.atualizar.length)) return
     setBusy(true)
     try {
       const criados = resolverFaltantes(res, lote)
       for (const c of criados) await bulk(c.col, c.itens)
       for (let i = 0; i < res.itens.length; i += 400) await bulk(col, res.itens.slice(i, i + 400))
-      setFeito({ lote, total: res.itens.length, criados: criados.map((c) => ({ col: c.col, n: c.itens.length })) })
+      // etapas acrescentadas a tarefas que já existiam
+      if (res.atualizar.length) await bulk(col, res.atualizar.map((a) => ({ id: a.id, etapas: a.etapas })))
+      setFeito({ lote, total: res.itens.length, criados: criados.map((c) => ({ col: c.col, n: c.itens.length })), atualizados: res.atualizar.map((a) => ({ id: a.id, antes: a.antes })) })
     } finally {
       setBusy(false)
     }
@@ -56,6 +58,7 @@ export function ImportarPlanilha({ col, onClose }: { col: string; onClose: () =>
     try {
       await removeMany(col, list(col).filter((i) => i._importacao === feito.lote).map((i) => i.id))
       for (const c of feito.criados) await removeMany(c.col, list(c.col).filter((i) => i._importacao === feito.lote).map((i) => i.id))
+      if (feito.atualizados.length) await bulk(col, feito.atualizados.map((a) => ({ id: a.id, etapas: a.antes })))
       onClose()
     } finally {
       setBusy(false)
@@ -88,8 +91,8 @@ export function ImportarPlanilha({ col, onClose }: { col: string; onClose: () =>
             <button className="btn" onClick={onClose}>
               Cancelar
             </button>
-            <button className="btn primary" disabled={!res?.itens.length || busy} onClick={() => void importar()}>
-              {busy ? 'Importando…' : `Importar ${res?.itens.length ?? 0} registro(s)`}
+            <button className="btn primary" disabled={(!res?.itens.length && !res?.atualizar.length) || busy} onClick={() => void importar()}>
+              {busy ? 'Importando…' : `Importar ${res?.itens.length ?? 0} registro(s)${res?.etapas ? ` e ${res.etapas} etapa(s)` : ''}`}
             </button>
           </>
         )
@@ -135,6 +138,7 @@ export function ImportarPlanilha({ col, onClose }: { col: string; onClose: () =>
               <div className="imp-conf">
                 <div className="row">
                   <span className="chip ok">{res.itens.length} prontos</span>
+                  {res.etapas > 0 && <span className="chip ok">{res.etapas} etapa(s){res.atualizar.length ? ` · ${res.atualizar.length} tarefa(s) já cadastrada(s)` : ''}</span>}
                   {res.linhasComErro > 0 && <span className="chip bad">{res.linhasComErro} linha(s) com erro (não entram)</span>}
                   {avisos.length > 0 && <span className="chip warn">{avisos.length} aviso(s)</span>}
                   {res.faltantes.length > 0 && <span className="chip info">{res.faltantes.length} cadastro(s) novo(s)</span>}

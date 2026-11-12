@@ -445,7 +445,8 @@
       "Use “Importar” para trazer tarefas de uma planilha (baixe o modelo antes) e “CSV” para exportar a lista para o Excel.",
       "Para excluir, abra a tarefa e clique em “Excluir”.",
       "Se a tarefa depende do retorno de alguém do time, escolha a pessoa em “Aguardando (pessoa do time)”: ela passa a ver a tarefa em Minhas pendências, sem virar responsável. Para alguém de fora, use “Aguardando quem (externo)”.",
-      "No plano Empresa, para só mostrar a tarefa a alguém (sem delegar), escolha as pessoas em “Compartilhar com”, no fim do formulário."
+      "No plano Empresa, para só mostrar a tarefa a alguém (sem delegar), escolha as pessoas em “Compartilhar com”, no fim do formulário.",
+      "Em projetos, use os campos Dependências, Próximas ações e Impacto para registrar do que a tarefa depende, o próximo passo e o efeito de um atraso."
     ],
     "recursos": [
       {
@@ -499,6 +500,10 @@
       {
         "nome": "Compartilhar com",
         "descricao": "Dá visibilidade a outras pessoas sem mudar o responsável."
+      },
+      {
+        "nome": "Dependências, Próximas ações e Impacto",
+        "descricao": "Três campos de texto livre para acompanhar projetos: do que a tarefa depende, o que fazer a seguir e o que acontece se ela atrasar."
       }
     ],
     "impactos": [
