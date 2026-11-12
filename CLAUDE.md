@@ -26,6 +26,7 @@
 - 10/11/2026 13h56 — privacidade: registros pessoais de antes das contas (tarefas, reuniões…) passam a ter dono e deixam de aparecer para os outros usuários; anotações do site no ar e do que retomar. **Envio do dia 10/11 já usado**.
 - 10/11/2026 14h39 (2º envio, com ciência do usuário) — privacidade: arquivos da pasta principal só para quem enviou, dono garantido a cada início; Usuários com 'Ver o que vê' e bloqueio de pessoa repetida; cada usuário conecta os próprios calendários. **Envios do dia 10/11 já usados**.
 - 10/11/2026 14h45 (3º envio, autorizado pelo usuário após falha na correção anterior) — nada pessoal sem dono: correção automática não depende mais do 'dono da plataforma' (vale para todas as contas, inclui _dono vazio), registro sem dono só aparece para administradores, aviso + botão 'Tornar meus' em Usuários. **Envios do dia 10/11 já usados**.
+- 12/11/2026 11h43 — etiquetas pessoais (cada usuário tem as próprias); tarefas com Dependências, Próximas ações e Impacto; aba Etapas no modelo de importação de Tarefas. **Envio do dia 12/11 já usado**.
 - **Lição (10/11)**: testar migrações com um banco igual ao de produção (sem a marca de dono da plataforma, registros de todas as telas pessoais, arquivos soltos). Teste em `scratchpad/real/teste.mjs` (fora do repositório).
 
 ## Retomar em 10/11/2026 (combinado em 09/11)
